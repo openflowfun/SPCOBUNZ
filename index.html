@@ -7,7 +7,7 @@
 <meta name="description" content="The official home of the St. Peter's College Old Boys' Union New Zealand. Virtus et Veritas - uniting Peterites across Aotearoa since 2020." />
 <meta property="og:title" content="SPC OBU New Zealand" />
 <meta property="og:description" content="Virtus et Veritas - uniting Peterites across Aotearoa in brotherhood, legacy and community." />
-<meta property="og:image" content="public/images/LandingPageImage.JPG" />
+<meta property="og:image" content="public/images/LandingPageImage-hd.jpg" />
 <link rel="icon" href="public/images/crest.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -66,12 +66,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 @media(max-width:560px){.g2,.g3,.g4{grid-template-columns:1fr}}
 
 /* Header */
-header{position:fixed;inset:0 0 auto 0;z-index:50;padding:18px 0;transition:all .45s var(--ease)}
-header.scrolled{background:rgba(8,20,38,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,162,39,.2);padding:8px 0;box-shadow:0 8px 30px rgba(5,13,26,.35)}
+header{position:fixed;inset:0 0 auto 0;z-index:50;padding:26px 0;transition:transform .4s var(--ease),background .45s var(--ease),padding .45s var(--ease),box-shadow .45s var(--ease)}
+header.hide{transform:translateY(-100%)}
+header.scrolled{background:rgba(8,20,38,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,162,39,.2);padding:12px 0;box-shadow:0 8px 30px rgba(5,13,26,.35)}
 .hdr{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:none;padding:0 40px}
 .brand{display:flex;align-items:center;gap:12px}
-.brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px rgba(201,162,39,.5)}
-.brand b{font-family:var(--serif);font-size:18px;color:#fff;display:block;line-height:1.2}
+.brand img{width:64px;height:64px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1.5px rgba(201,162,39,.55);transition:width .45s var(--ease),height .45s var(--ease)}
+.brand b{font-family:var(--serif);font-size:22px;color:#fff;display:block;line-height:1.2}
+header.scrolled .brand img{width:52px;height:52px}
 .brand small{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,162,39,.8)}
 nav.desktop{display:flex;align-items:center;gap:26px}
 nav.desktop a{position:relative;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8);transition:color .3s}
@@ -79,12 +81,18 @@ nav.desktop a:hover,nav.desktop a.active{color:var(--gold)}
 nav.desktop a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:linear-gradient(135deg,#E3C566,#A5841C);transition:width .3s var(--ease)}
 nav.desktop a.active::after{width:100%}
 .join-btn{padding:10px 22px !important;font-size:11px !important}
-.burger{display:none;width:44px;height:44px;border:1px solid rgba(201,162,39,.4);border-radius:50%;flex-direction:column;align-items:center;justify-content:center;gap:5px;z-index:60}
+.burger{display:none;width:50px;height:50px;border:1px solid rgba(201,162,39,.4);border-radius:50%;flex-direction:column;align-items:center;justify-content:center;gap:5px;z-index:60}
 .burger span{width:20px;height:2px;background:var(--gold);transition:all .3s}
 .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 @media(max-width:1080px){nav.desktop{display:none}.burger{display:flex}}
+@media(max-width:520px){
+  .hdr{padding:0 18px}
+  .brand small{letter-spacing:.14em}
+  .hero-flow{padding:130px 18px 80px}
+  .flag-cloth{width:200px}
+}
 .mobile-menu{position:fixed;inset:0;z-index:55;background:rgba(5,13,26,.98);backdrop-filter:blur(16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .35s}
 .mobile-menu.open{opacity:1;pointer-events:auto}
 .mobile-menu a{font-family:var(--serif);font-size:26px;color:#fff;transition:color .3s}
@@ -102,8 +110,7 @@ nav.desktop a.active::after{width:100%}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
 
 /* Hero */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--navy-950);color:#fff;text-align:center}
-.hero-bg{position:absolute;inset:-12% 0;background:url('public/images/LandingPageImage.JPG') center/cover;opacity:.62;will-change:transform}
+.hero{position:relative;min-height:100vh;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#10264A 0%,#0A1930 55%,#050D1A 100%);color:#fff;text-align:center}
 
 /* Flags */
 .flags-strip{background:#fff;padding:76px 0}
@@ -112,28 +119,40 @@ nav.desktop a.active::after{width:100%}
 .flag-unfurl{position:relative;transform-origin:left center;transform:scaleX(0);opacity:0;transition:transform 1.15s cubic-bezier(.22,1,.36,1),opacity .5s ease}
 .flag-unfurl.in{transform:scaleX(1);opacity:1}
 .flag-unfurl::before{content:"";position:absolute;left:-7px;top:-18px;bottom:-18px;width:6px;background:linear-gradient(180deg,#E3C566,#C9A227,#A5841C);border-radius:3px;box-shadow:0 0 12px rgba(201,162,39,.4)}
-.flag-cloth{width:190px;max-width:42vw;aspect-ratio:5/3;border-radius:2px;overflow:hidden;box-shadow:0 16px 44px rgba(5,13,26,.2)}
-.flag-cloth svg{display:block;width:100%;height:100%;animation:flagWave 3.4s ease-in-out infinite;transform-origin:left center}
+.flag-cloth{width:260px;max-width:46vw;aspect-ratio:2/1;border-radius:2px;overflow:hidden;box-shadow:0 18px 48px rgba(5,13,26,.22)}
+.flag-cloth img{display:block;width:100%;height:100%;object-fit:cover;animation:flagWave 3.4s ease-in-out infinite;transform-origin:left center;filter:url(#flagWaveFilter) drop-shadow(0 6px 10px rgba(0,0,0,.18))}
 @keyframes flagWave{
-  0%,100%{transform:skewY(calc(-3deg + var(--scroll-tilt,0deg))) scaleY(.985)}
-  50%{transform:skewY(calc(3deg + var(--scroll-tilt,0deg))) scaleY(1.015)}
+  0%,100%{transform:skewY(calc(-0.9deg + var(--scroll-tilt,0deg))) scaleY(.996)}
+  50%{transform:skewY(calc(0.9deg + var(--scroll-tilt,0deg))) scaleY(1.004)}
 }
 .flag-label{margin-top:20px;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(10,25,48,.55)}
-.hero-tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,13,26,.42) 0%,rgba(5,13,26,.28) 35%,rgba(8,20,38,.55) 68%,var(--navy-950) 100%)}
 .hero-glow{position:absolute;left:50%;top:22%;width:900px;height:520px;transform:translateX(-50%);background:rgba(201,162,39,.09);border-radius:50%;filter:blur(90px);animation:pulse 7s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
-.hero .container{position:relative;padding-top:140px;padding-bottom:120px}
-.hero-crest{width:110px;height:110px;border-radius:50%;object-fit:cover;margin:0 auto 30px;box-shadow:0 0 0 2px rgba(201,162,39,.6),0 0 40px rgba(201,162,39,.25);animation:crestIn 1s var(--ease) both}
-@keyframes crestIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
-.hero .eyebrow{animation:up .8s var(--ease) .15s both;text-shadow:0 2px 16px rgba(5,13,26,.85)}
-.hero h1{margin-top:18px;font-family:var(--serif);font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.08;animation:up .9s var(--ease) .3s both;text-shadow:0 4px 30px rgba(5,13,26,.75)}
-.hero p.lede{margin:26px auto 0;max-width:640px;font-size:18px;color:rgba(255,255,255,.85);line-height:1.75;animation:up .9s var(--ease) .45s both;text-shadow:0 2px 16px rgba(5,13,26,.7)}
-.hero .cta{margin-top:38px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:up .9s var(--ease) .6s both}
+.hero-flow{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:clamp(30px,5.5vh,58px);max-width:1100px;margin:0 auto;padding:170px 24px 100px}
+.hero-flow .eyebrow{text-align:center;line-height:2;animation:up .8s var(--ease) .15s both;text-shadow:0 2px 16px rgba(5,13,26,.85)}
+.hero-banner{width:100%;max-width:960px;border-radius:22px;overflow:hidden;box-shadow:0 24px 70px rgba(5,13,26,.45);border:1px solid rgba(201,162,39,.25);animation:up 1s var(--ease) .35s both}
+.hero-banner img{display:block;width:100%;height:auto;will-change:transform}
+.hero h1{font-family:var(--serif);font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.08;animation:up .9s var(--ease) .55s both;text-shadow:0 4px 30px rgba(5,13,26,.75)}
+.hero p.lede{margin:26px auto 0;max-width:700px;font-size:clamp(14px,1.7vw,16px);color:rgba(255,255,255,.85);line-height:1.7;animation:up .9s var(--ease) .7s both;text-shadow:0 2px 16px rgba(5,13,26,.7)}
+.hero .cta{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:up .9s var(--ease) .85s both}
 @keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 .scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);width:28px;height:48px;border:1px solid rgba(201,162,39,.4);border-radius:999px;display:flex;justify-content:center;padding-top:8px;animation:fadeIn 1s 1.3s both}
 .scroll-cue i{width:4px;height:9px;border-radius:4px;background:var(--gold);animation:cue 1.8s ease-in-out infinite}
 @keyframes cue{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* Particles */
+.particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particle{position:absolute;bottom:-10px;width:4px;height:4px;border-radius:50%;background:var(--gold-light);opacity:0;animation:drift linear infinite}
+@keyframes drift{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:.7}90%{opacity:.4}100%{transform:translateY(-110vh) translateX(var(--dx,20px));opacity:0}}
+
+/* Shimmer */
+.shimmer{background:linear-gradient(110deg,#A5841C 20%,#E3C566 40%,#fff 50%,#E3C566 60%,#A5841C 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 5.5s linear infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-50% 0}}
+
+/* Card tilt + magnetic buttons */
+.card{transform-style:preserve-3d;will-change:transform}
+.btn{will-change:transform}
 
 /* Page hero */
 .page-hero{position:relative;overflow:hidden;padding:170px 0 90px;background:radial-gradient(ellipse at 50% 0%,#10264A 0%,#0A1930 55%,#050D1A 100%);color:#fff}
@@ -249,13 +268,22 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="flagWaveFilter" x="-15%" y="-15%" width="130%" height="130%">
+    <feTurbulence type="turbulence" baseFrequency="0.012 0.05" numOctaves="2" seed="4" result="turb">
+      <animate attributeName="baseFrequency" dur="7s" values="0.012 0.05;0.016 0.06;0.012 0.05" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+<div id="scrollBar" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#E3C566,#C9A227,#A5841C);z-index:100;transition:width .1s linear"></div>
 
 <!-- ================= HEADER ================= -->
 <header id="header">
   <div class="hdr">
     <a href="#/" class="brand">
       <img src="public/images/crest.jpg" alt="SPC OBU NZ crest" />
-      <span><b>SPC OBU <span class="gold-text">NZ</span></b><small>Virtus et Veritas</small></span>
+      <b>SPC OBU <span class="gold-text">NZ</span></b>
     </a>
     <nav class="desktop" id="navDesktop">
       <a href="#/">Home</a><a href="#/about">About</a><a href="#/committee">Committee</a>
@@ -277,14 +305,20 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 <!-- ================= HOME ================= -->
 <section class="page" data-page="home">
   <div class="hero">
-    <div class="hero-bg" id="heroBg"></div><div class="hero-tint"></div><div class="hero-glow"></div>
-    <div class="container">
+    <div class="hero-glow"></div>
+    <div class="particles" id="particles"></div>
+    <div class="hero-flow">
       <p class="eyebrow">St. Peter's College Old Boys' Union New Zealand<br />Est. 2020</p>
-      <h1>One College.<br />One Brotherhood.<br /><span class="gold-text">Across Aotearoa.</span></h1>
-      <p class="lede">Welcome to the official home of SPC OBU New Zealand - where Peterites gather to honour our legacy, celebrate friendships, and strengthen our brotherhood for generations to come.</p>
-      <div class="cta">
-        <a href="#/events" class="btn btn-gold">Upcoming Events</a>
-        <a href="#/membership" class="btn btn-outline">Become a Member</a>
+      <div class="hero-banner">
+        <img id="heroBg" src="public/images/LandingPageImage-hd.jpg" alt="St. Peter's College campus with the New Zealand and Sri Lanka flags" />
+      </div>
+      <div>
+        <h1>One College.<br />One Brotherhood.<br /><span class="gold-text shimmer">Across Aotearoa.</span></h1>
+        <p class="lede">Welcome to the official home of SPC OBU New Zealand - <br />Where Peterites gather to honour our legacy, celebrate friendships, and <br />strengthen our brotherhood for generations to come.</p>
+        <div class="cta">
+          <a href="#/events" class="btn btn-gold">Upcoming Events</a>
+          <a href="#/membership" class="btn btn-outline">Become a Member</a>
+        </div>
       </div>
     </div>
     <div class="scroll-cue"><i></i></div>
@@ -298,21 +332,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="flag-pole-wrap">
           <div class="flag-unfurl" data-flag>
             <div class="flag-cloth">
-              <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flag of New Zealand">
-                <rect width="300" height="180" fill="#00247D"/>
-                <rect width="150" height="90" fill="#fff"/>
-                <polygon points="0,0 150,90 150,72 27,0" fill="#CC142B"/>
-                <polygon points="0,90 150,0 150,18 27,90" fill="#CC142B"/>
-                <rect x="60" width="30" height="90" fill="#CC142B"/>
-                <rect y="36" width="150" height="18" fill="#CC142B"/>
-                <defs>
-                  <polygon id="nzstar" points="0,-11 2.6,-3.4 10.5,-3.4 4.1,1.3 6.5,8.9 0,4.2 -6.5,8.9 -4.1,1.3 -10.5,-3.4 -2.6,-3.4" fill="#fff" stroke="#CC142B" stroke-width="1.6"/>
-                </defs>
-                <g transform="translate(224,46) scale(1.25)"><use href="#nzstar"/></g>
-                <g transform="translate(258,92) scale(1.05)"><use href="#nzstar"/></g>
-                <g transform="translate(232,142) scale(0.85)"><use href="#nzstar"/></g>
-                <g transform="translate(196,108) scale(0.95)"><use href="#nzstar"/></g>
-              </svg>
+              <img src="public/images/Flag_New_Zealand.jpeg" alt="Flag of New Zealand" loading="lazy" />
             </div>
           </div>
           <p class="flag-label">New Zealand</p>
@@ -320,32 +340,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="flag-pole-wrap">
           <div class="flag-unfurl" data-flag>
             <div class="flag-cloth">
-              <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flag of Sri Lanka">
-                <rect width="300" height="180" fill="#FFB612"/>
-                <rect x="8" y="8" width="36" height="164" fill="#00534C"/>
-                <rect x="48" y="8" width="36" height="164" fill="#FF8F1C"/>
-                <rect x="92" y="8" width="200" height="164" fill="#8D1B3D"/>
-                <g fill="#FFB612">
-                  <path d="M104 20c6 2 10 8 8 14-6-1-11-6-13-12z"/>
-                  <path d="M280 20c-6 2-10 8-8 14 6-1 11-6 13-12z"/>
-                  <path d="M104 160c6-2 10-8 8-14-6 1-11 6-13 12z"/>
-                  <path d="M280 160c-6-2-10-8-8-14 6 1 11 6 13 12z"/>
-                </g>
-                <g fill="#FFB612" stroke="#5c0f24" stroke-width="1">
-                  <ellipse cx="185" cy="108" rx="30" ry="24"/>
-                  <circle cx="158" cy="86" r="16"/>
-                  <polygon points="148,74 154,62 160,76"/>
-                  <polygon points="168,74 174,62 178,78"/>
-                  <rect x="168" y="126" width="8" height="20" rx="3"/>
-                  <rect x="196" y="126" width="8" height="20" rx="3"/>
-                  <path d="M212 100c10-4 16 2 14 10-6 4-14 0-14-10z"/>
-                </g>
-                <g fill="#FFB612" stroke="#5c0f24" stroke-width="1">
-                  <rect x="220" y="60" width="6" height="60"/>
-                  <polygon points="217,58 229,58 223,44"/>
-                  <rect x="214" y="118" width="18" height="6"/>
-                </g>
-              </svg>
+              <img src="public/images/Flag_Sri_Lanka.jpeg" alt="Flag of Sri Lanka" loading="lazy" />
             </div>
           </div>
           <p class="flag-label">Sri Lanka</p>
@@ -357,16 +352,14 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="section">
     <div class="container split">
       <div class="reveal">
-        <h2 class="h-lg">A home away from home, <span class="gold-text">7,000 miles from Bambalapitiya</span></h2>
+        <h2 class="h-lg" style="font-size:clamp(1.05rem,5.5vw,2.15rem);white-space:nowrap">A home away from home, <br /><span class="gold-text">7,000 miles from Bambalapitiya</span></h2>
         <div class="gold-rule"></div>
         <p class="muted" style="margin-top:24px">Founded in 2020, SPC OBU New Zealand brings together old boys of St. Peter's College, Colombo 04 who now call Aotearoa home. Whether you left College last year or decades ago, this is your union - built on the friendships forged in the classrooms, playing fields and chapel of our beloved school by the sea.</p>
         <p class="muted" style="margin-top:16px">We gather to celebrate, to support one another, and to give back - to our community here in New Zealand and to the College that made us who we are.</p>
-        <a href="#/about" class="btn btn-outline-navy" style="margin-top:30px">Our Story</a>
+        <div style="margin-top:30px;text-align:center"><a href="#/about" class="btn btn-outline-navy">Our Story</a></div>
       </div>
-      <div class="reveal d2">
-        <div class="img-frame" style="background:linear-gradient(135deg,#0A1930,#050D1A);display:flex;align-items:center;justify-content:center;padding:56px">
-          <img src="public/images/crest.jpg" alt="SPC OBU New Zealand crest" style="max-height:320px;width:auto;object-fit:contain" />
-        </div>
+      <div class="reveal d2" style="display:flex;align-items:center;justify-content:center;padding:20px">
+        <img src="public/images/crest-transparent.png" alt="SPC OBU New Zealand crest" style="max-height:400px;width:auto;object-fit:contain" />
       </div>
     </div>
   </div>
@@ -401,7 +394,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="section navy-bg">
     <div class="container split">
       <div class="reveal">
-        <p class="eyebrow">Featured Event</p>
+        <p class="eyebrow">Upcoming Event</p>
         <h2 class="h-lg" style="margin-top:16px">Gala Dinner Dance 2026<br /><span class="gold-text">An evening to remember</span></h2>
         <div class="gold-rule"></div>
         <div style="margin-top:30px;display:grid;gap:16px;color:rgba(255,255,255,.8)">
@@ -472,8 +465,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <div class="reveal d2">
         <div class="img-frame"><img src="public/images/crest.jpg" alt="St. Peter's College crest" style="height:300px;width:100%;object-fit:cover" /></div>
         <div class="grid g2" style="margin-top:24px">
-          <div class="card" style="text-align:center"><b class="gold-text" style="font-family:var(--serif);font-size:38px">1922</b><p style="margin-top:6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(10,25,48,.6)">College Founded</p></div>
-          <div class="card" style="text-align:center"><b class="gold-text" style="font-family:var(--serif);font-size:38px">2020</b><p style="margin-top:6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(10,25,48,.6)">NZ Union Established</p></div>
+          <div class="card" style="text-align:center"><b class="gold-text" data-count="1922" style="font-family:var(--serif);font-size:38px">0</b><p style="margin-top:6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(10,25,48,.6)">College Founded</p></div>
+          <div class="card" style="text-align:center"><b class="gold-text" data-count="2020" style="font-family:var(--serif);font-size:38px">0</b><p style="margin-top:6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(10,25,48,.6)">NZ Union Established</p></div>
         </div>
       </div>
     </div>
@@ -613,8 +606,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="section navy-bg">
     <div class="container">
       <div class="grid g3">
-        <div class="glass stat-card reveal"><b>1933</b><p>The first Joe-Pete encounter in Colombo</p></div>
-        <div class="glass stat-card reveal d1"><b>90+</b><p>Years of the greatest schoolboy cricket rivalry</p></div>
+        <div class="glass stat-card reveal"><b data-count="1933">0</b><p>The first Joe-Pete encounter in Colombo</p></div>
+        <div class="glass stat-card reveal d1"><b data-count="90" data-suffix="+">0</b><p>Years of the greatest schoolboy cricket rivalry</p></div>
         <div class="glass stat-card reveal d2"><b>One Day</b><p>Where blue meets blue, white and gold in NZ</p></div>
       </div>
       <div class="reveal" style="margin-top:56px;text-align:center">
@@ -751,8 +744,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <h2 class="h-lg" style="margin-top:16px">Talk to the committee</h2>
         <div class="gold-rule"></div>
         <a href="mailto:spcobunz@gmail.com" class="contact-line"><span class="icon-badge">✉️</span><span><small>Email</small><b>spcobunz@gmail.com</b></span></a>
-        <a href="https://www.facebook.com/spcobunz" target="_blank" rel="noopener noreferrer" class="contact-line"><span class="icon-badge">f</span><span><small>Facebook</small><b>SPC OBU New Zealand</b></span></a>
-        <a href="https://www.instagram.com/spcobunz" target="_blank" rel="noopener noreferrer" class="contact-line"><span class="icon-badge">◎</span><span><small>Instagram</small><b>@spcobunz</b></span></a>
+        <a href="https://www.facebook.com/spcobunz" target="_blank" rel="noopener noreferrer" class="contact-line"><span class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg></span><span><small>Facebook</small><b>SPC OBU New Zealand</b></span></a>
+        <a href="https://www.instagram.com/spcobunz" target="_blank" rel="noopener noreferrer" class="contact-line"><span class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></span><span><small>Instagram</small><b>@spcobunz</b></span></a>
         <div style="margin-top:36px;border:1px solid rgba(201,162,39,.3);border-radius:18px;background:var(--navy-900);color:#fff;padding:28px">
           <p class="gold-text" style="font-family:var(--serif);font-size:18px">Based across New Zealand</p>
           <p class="muted-w" style="margin-top:8px;font-size:14px">Our members span Auckland, Wellington, Christchurch and beyond. Wherever you are in Aotearoa, you're part of the family.</p>
@@ -777,7 +770,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="top-rule"></div>
   <div class="container foot">
     <div>
-      <div class="brand"><img src="public/images/crest.jpg" alt="SPC OBU NZ crest" style="width:48px;height:48px" /><span><b>SPC OBU <span class="gold-text">New Zealand</span></b><small>Virtus et Veritas</small></span></div>
+      <div class="brand"><img src="public/images/crest.jpg" alt="SPC OBU NZ crest" style="width:52px;height:52px" /><b>SPC OBU <span class="gold-text">New Zealand</span></b></div>
       <p class="muted-w" style="margin-top:18px;max-width:300px;font-size:14px">St. Peter's College Old Boys' Union New Zealand - uniting Peterites across Aotearoa in brotherhood, legacy and service since 2020.</p>
     </div>
     <div>
@@ -793,15 +786,19 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <p class="eyebrow" style="margin-bottom:18px">Connect</p>
       <a href="mailto:spcobunz@gmail.com" style="color:rgba(255,255,255,.7);font-size:14px">spcobunz@gmail.com</a>
       <div class="soc">
-        <a href="https://www.facebook.com/spcobunz" target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a>
-        <a href="https://www.instagram.com/spcobunz" target="_blank" rel="noopener noreferrer" aria-label="Instagram">◎</a>
+        <a href="https://www.facebook.com/spcobunz" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg></a>
+        <a href="https://www.instagram.com/spcobunz" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
       </div>
       <a href="#/membership" class="btn btn-outline" style="margin-top:26px;padding:11px 24px;font-size:11px">Become a Member</a>
     </div>
   </div>
   <div class="container foot-bottom">
     <span>© <span id="year"></span> SPC OBU New Zealand. All rights reserved.</span>
-    <span class="m">Virtus et Veritas</span>
+    <span style="display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.4)">
+      Built by
+      <img src="public/images/openflow-wordmark.png" alt="Openflow" style="height:14px;width:auto;opacity:.85" />
+      <span style="color:rgba(201,162,39,.5)">- Growing brands digitally</span>
+    </span>
   </div>
 </footer>
 
@@ -870,17 +867,90 @@ function route(){
   document.getElementById("mobileMenu").classList.remove("open");
   document.getElementById("burger").classList.remove("open");
   document.body.style.overflow = "";
-  requestAnimationFrame(observeReveals);
+  requestAnimationFrame(()=>{ observeReveals(); observeCounts(); });
 }
 window.addEventListener("hashchange", route);
 
 /* ========== Header ========== */
 const header = document.getElementById("header");
+const scrollBar = document.getElementById("scrollBar");
+let lastHeaderY = window.scrollY;
 window.addEventListener("scroll", ()=>{
-  header.classList.toggle("scrolled", window.scrollY > 24);
-  const bg = document.getElementById("heroBg");
-  if(bg) bg.style.transform = `translateY(${window.scrollY*0.25}px)`;
+  const y = window.scrollY;
+  header.classList.toggle("scrolled", y > 24);
+  if(y > lastHeaderY && y > 140){
+    header.classList.add("hide");
+  } else if(y < lastHeaderY || y <= 140){
+    header.classList.remove("hide");
+  }
+  lastHeaderY = y;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  scrollBar.style.width = (max>0 ? (y/max)*100 : 0) + "%";
 }, {passive:true});
+
+/* ========== Hero particles ========== */
+(function(){
+  const box = document.getElementById("particles");
+  if(!box) return;
+  for(let i=0;i<16;i++){
+    const p = document.createElement("span");
+    p.className = "particle";
+    p.style.left = Math.random()*100+"%";
+    p.style.setProperty("--dx", (Math.random()*60-30)+"px");
+    p.style.animationDuration = (9+Math.random()*8)+"s";
+    p.style.animationDelay = (Math.random()*10)+"s";
+    p.style.width = p.style.height = (2+Math.random()*3)+"px";
+    box.appendChild(p);
+  }
+})();
+
+/* ========== Count-up stats ========== */
+const countIO = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.count, suffix = el.dataset.suffix||"";
+    const start = performance.now(), dur = 1400;
+    function step(now){
+      const p = Math.min(1,(now-start)/dur);
+      const eased = 1-Math.pow(1-p,3);
+      el.textContent = Math.round(target*eased)+suffix;
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+    countIO.unobserve(el);
+  });
+},{threshold:.6});
+function observeCounts(){
+  document.querySelectorAll(".page.active [data-count]").forEach(el=>countIO.observe(el));
+}
+
+/* ========== Card tilt ========== */
+document.addEventListener("mousemove", e=>{
+  const card = e.target.closest(".card");
+  if(!card) return;
+  const r = card.getBoundingClientRect();
+  const rx = ((e.clientY-r.top)/r.height-0.5)*-8;
+  const ry = ((e.clientX-r.left)/r.width-0.5)*8;
+  card.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+});
+document.addEventListener("mouseleave", e=>{
+  const card = e.target.closest && e.target.closest(".card");
+  if(card) card.style.transform = "";
+}, true);
+
+/* ========== Magnetic buttons ========== */
+document.addEventListener("mousemove", e=>{
+  const btn = e.target.closest(".btn-gold, .btn-outline");
+  if(!btn) return;
+  const r = btn.getBoundingClientRect();
+  const dx = (e.clientX-(r.left+r.width/2))*0.18;
+  const dy = (e.clientY-(r.top+r.height/2))*0.28;
+  btn.style.transform = `translate(${dx}px,${dy}px)`;
+});
+document.addEventListener("mouseleave", e=>{
+  const btn = e.target.closest && e.target.closest(".btn-gold, .btn-outline");
+  if(btn) btn.style.transform = "";
+}, true);
 
 const burger = document.getElementById("burger"), mobileMenu = document.getElementById("mobileMenu");
 burger.addEventListener("click", ()=>{
@@ -904,10 +974,10 @@ function observeReveals(){
   window.addEventListener("scroll", ()=>{
     const dy = window.scrollY - lastY;
     lastY = window.scrollY;
-    tilt = Math.max(-16, Math.min(16, tilt + dy*0.6));
+    tilt = Math.max(-4, Math.min(4, tilt + dy*0.15));
   }, {passive:true});
   function frame(){
-    tilt *= 0.9;
+    tilt *= 0.88;
     document.documentElement.style.setProperty("--scroll-tilt", tilt.toFixed(2)+"deg");
     requestAnimationFrame(frame);
   }
