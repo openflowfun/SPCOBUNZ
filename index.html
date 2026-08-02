@@ -94,7 +94,7 @@ nav.desktop a.active::after{width:100%}
 @media(max-width:520px){
   .hdr{padding:0 18px}
   .brand small{letter-spacing:.14em}
-  .hero-flow{padding:130px 18px 80px}
+  .hero-flow{padding:110px 18px 50px}
   .flag-cloth{width:200px}
 }
 .mobile-menu{position:fixed;inset:0;z-index:55;background:rgba(5,13,26,.98);backdrop-filter:blur(16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .35s}
@@ -132,11 +132,11 @@ nav.desktop a.active::after{width:100%}
 .flag-label{margin-top:20px;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(10,25,48,.55)}
 .hero-glow{position:absolute;left:50%;top:22%;width:900px;height:520px;transform:translateX(-50%);background:rgba(201,162,39,.09);border-radius:50%;filter:blur(90px);animation:pulse 7s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
-.hero-flow{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:clamp(30px,5.5vh,58px);max-width:1100px;margin:0 auto;padding:170px 24px 100px}
+.hero-flow{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.8vh,32px);max-width:1100px;margin:0 auto;padding:132px 24px 60px}
 .hero-flow .eyebrow{text-align:center;line-height:2;animation:up .8s var(--ease) .15s both;text-shadow:0 2px 16px rgba(5,13,26,.85)}
-.hero-banner{width:100%;max-width:960px;border-radius:22px;overflow:hidden;box-shadow:0 24px 70px rgba(5,13,26,.45);border:1px solid rgba(201,162,39,.25);animation:up 1s var(--ease) .35s both}
+.hero-banner{width:100%;max-width:740px;border-radius:22px;overflow:hidden;box-shadow:0 24px 70px rgba(5,13,26,.45);border:1px solid rgba(201,162,39,.25);animation:up 1s var(--ease) .35s both}
 .hero-banner img{display:block;width:100%;height:auto;will-change:transform}
-.hero h1{font-family:var(--serif);font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.08;animation:up .9s var(--ease) .55s both;text-shadow:0 4px 30px rgba(5,13,26,.75)}
+.hero h1{font-family:var(--serif);font-size:clamp(2.2rem,5.6vw,3.9rem);line-height:1.05;animation:up .9s var(--ease) .55s both;text-shadow:0 4px 30px rgba(5,13,26,.75)}
 .hero p.lede{margin:26px auto 0;max-width:700px;font-size:clamp(14px,1.7vw,16px);color:rgba(255,255,255,.85);line-height:1.7;animation:up .9s var(--ease) .7s both;text-shadow:0 2px 16px rgba(5,13,26,.7)}
 .hero .cta{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:up .9s var(--ease) .85s both}
 @keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
@@ -179,6 +179,11 @@ nav.desktop a.active::after{width:100%}
 .cd-unit b{display:block;font-family:var(--serif);font-size:34px;font-weight:600}
 .cd-unit.dark b{background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);-webkit-background-clip:text;background-clip:text;color:transparent}
 .cd-unit small{display:block;margin-top:4px;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.countdown.lg{gap:21px;justify-content:center}
+.countdown.lg .cd-unit{min-width:126px;padding:27px 18px;border-radius:22px}
+.countdown.lg .cd-unit b{font-size:51px}
+.countdown.lg .cd-unit small{font-size:13px}
+@media(max-width:600px){.countdown.lg .cd-unit{min-width:100px;padding:20px 14px}.countdown.lg .cd-unit b{font-size:38px}}
 
 /* Quick links */
 .icon-badge{display:flex;width:56px;height:56px;align-items:center;justify-content:center;border-radius:16px;background:var(--navy-800);color:var(--gold);transition:all .3s var(--ease)}
@@ -246,6 +251,19 @@ nav.desktop a.active::after{width:100%}
 @media(max-width:900px){.gala-r{border-left:none;border-top:1px solid rgba(201,162,39,.2)}}
 .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:7px 16px;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
 .pill i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+
+/* Event teaser video */
+.teaser{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:3/2;background:#050D1A;box-shadow:0 30px 90px rgba(5,13,26,.4);border:1px solid rgba(201,162,39,.3)}
+.teaser video{width:100%;height:100%;object-fit:contain;display:block;background:#050D1A}
+.teaser-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,13,26,.8) 0%,rgba(5,13,26,.2) 22%,transparent 42%),linear-gradient(0deg,rgba(5,13,26,.4) 0%,transparent 18%);pointer-events:none}
+.teaser-tag{position:absolute;left:0;right:0;top:0;padding:30px 40px;z-index:2}
+.teaser-tag h3{margin-top:14px;font-family:var(--serif);font-size:clamp(20px,3vw,32px);font-weight:600;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.5)}
+.teaser-tag-sep{color:var(--gold);margin:0 4px}
+.teaser-sound{position:absolute;top:24px;right:24px;z-index:3;display:flex;align-items:center;gap:9px;padding:10px 18px 10px 14px;border-radius:999px;border:1px solid rgba(201,162,39,.5);background:rgba(5,13,26,.55);backdrop-filter:blur(8px);color:#fff;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--ease);animation:teaserPulse 2.4s ease-in-out infinite}
+.teaser-sound:hover{background:var(--gold);color:var(--navy-900);border-color:transparent;animation:none}
+.teaser-sound svg{width:17px;height:17px;flex-shrink:0}
+@keyframes teaserPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,162,39,.35)}50%{box-shadow:0 0 0 10px rgba(201,162,39,0)}}
+@media(max-width:700px){.teaser{aspect-ratio:3/4}.teaser-tag{padding:22px;padding-right:130px}.teaser-sound{top:16px;right:16px;padding:9px 14px 9px 12px}.teaser-sound span{display:none}}
 .ticket{border:1px solid rgba(201,162,39,.25);border-radius:18px;padding:24px;margin-top:20px}
 .ticket .row{display:flex;justify-content:space-between;align-items:baseline}
 .ticket .row b{font-family:var(--serif);font-size:18px;font-weight:600}
@@ -258,18 +276,42 @@ nav.desktop a.active::after{width:100%}
 .dl dd{margin-top:5px;font-size:14px;font-weight:500;color:rgba(255,255,255,.9)}
 
 /* Gallery */
-.filters{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.filters{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:8px 0 36px}
 .filters button{border-radius:999px;padding:9px 20px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(10,25,48,.2);color:rgba(10,25,48,.6);transition:all .3s}
 .filters button:hover{border-color:var(--gold);color:var(--gold-dark)}
 .filters button.on{background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);color:var(--navy-900);border-color:transparent;box-shadow:0 0 40px rgba(201,162,39,.18)}
 .gal{margin-top:44px}
-.gal-item{position:relative;border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 10px 40px rgba(5,13,26,.08);aspect-ratio:4/3;width:100%;padding:0}
-.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.gal-item{position:relative;border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 10px 40px rgba(5,13,26,.08);aspect-ratio:4/3;width:100%;padding:0;background:var(--navy-900)}
+.gal-item img{width:100%;height:100%;object-fit:contain;transition:transform .7s var(--ease)}
+.gal-item.gal-logo{background:#fff}
+.gal-item.gal-logo img{padding:26px}
 .gal-item:hover img{transform:scale(1.1)}
+.gal-year{position:absolute;top:12px;left:12px;z-index:2;background:rgba(5,13,26,.65);backdrop-filter:blur(6px);color:#E3C566;font-family:var(--serif);font-weight:600;font-size:12px;letter-spacing:.04em;padding:4px 12px;border-radius:20px;border:1px solid rgba(201,162,39,.4)}
 .gal-item .cap{position:absolute;inset:0;display:flex;align-items:flex-end;padding:18px;background:linear-gradient(0deg,rgba(5,13,26,.8),transparent 60%);opacity:0;transition:opacity .3s;text-align:left}
 .gal-item:hover .cap{opacity:1}
+#galGrid.gal-grouped{display:block}
+.gal-subgroup{margin-bottom:48px}
+.gal-subgroup:last-child{margin-bottom:0}
+.gal-subtitle{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:19px;font-weight:600;color:var(--navy-800);margin-bottom:20px}
+.gal-subtitle::before{content:"";width:24px;height:2px;background:linear-gradient(90deg,#E3C566,#C9A227);flex-shrink:0}
 .gal-item .cap b{color:#fff;font-size:14px;font-weight:500;display:block}
 .gal-item .cap small{color:var(--gold);font-size:9px;letter-spacing:.25em;text-transform:uppercase}
+
+/* Gallery - All tab featured mosaic */
+.gal-featured{display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-bottom:28px}
+.gal-featured-col{display:grid;grid-template-rows:1fr 1fr;gap:16px}
+.gal-featured .gal-item{aspect-ratio:1/1}
+.gal-featured .gal-item.gal-cover{background:none}
+.gal-featured .gal-item.gal-cover img{object-fit:cover}
+.gal-featured-slide{position:relative;border-radius:20px;overflow:hidden;background:var(--navy-900);box-shadow:0 10px 40px rgba(5,13,26,.1)}
+.gal-featured-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(1.03);transition:opacity 1s ease,transform 1.4s ease;z-index:1}
+.gal-featured-slide img.active{opacity:1;transform:scale(1);z-index:2}
+.fs-badge{position:absolute;top:16px;left:16px;z-index:3;display:flex;align-items:center;gap:8px;background:rgba(5,13,26,.6);backdrop-filter:blur(6px);color:#E3C566;font-family:var(--serif);font-weight:600;font-size:12px;padding:6px 16px;border-radius:20px;border:1px solid rgba(201,162,39,.4)}
+.fs-badge i{width:6px;height:6px;border-radius:50%;background:#E3C566;animation:pulse 1.6s infinite}
+.fs-caption{position:absolute;left:16px;right:16px;bottom:16px;z-index:3;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.fs-caption b{color:#fff;font-size:13px;font-weight:500;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.fs-counter{flex-shrink:0;font-family:var(--serif);font-size:11px;color:rgba(255,255,255,.85);background:rgba(5,13,26,.55);backdrop-filter:blur(6px);padding:5px 13px;border-radius:20px;border:1px solid rgba(201,162,39,.35)}
+@media(max-width:760px){.gal-featured{grid-template-columns:1fr;gap:14px}.gal-featured-col{grid-template-columns:1fr 1fr;grid-template-rows:none}.gal-featured-slide{aspect-ratio:4/3}}
 .lightbox{position:fixed;inset:0;z-index:70;background:rgba(5,13,26,.95);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
 .lightbox.open{display:flex}
 .lightbox img{max-width:min(92vw,1100px);max-height:76vh;border-radius:18px;object-fit:contain;animation:pageIn .35s var(--ease)}
@@ -303,6 +345,14 @@ label.lbl.w{color:rgba(255,255,255,.6)}
 .check{display:flex;align-items:center;gap:12px;font-size:14px;color:rgba(255,255,255,.7);margin-top:12px}
 .check i{display:flex;width:24px;height:24px;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);color:var(--navy-900);font-style:normal;font-size:12px;font-weight:700}
 
+/* Coming soon overlay */
+.coming-soon-blur{filter:blur(4px);opacity:.4;pointer-events:none;user-select:none}
+.coming-soon-badge{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;pointer-events:none}
+.coming-soon-badge b{font-family:var(--serif);font-size:clamp(28px,4.5vw,48px);font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 8px 40px rgba(0,0,0,.4)}
+.coming-soon-sub{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.coming-soon-line{width:64px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,162,39,.6),transparent)}
+@media(max-width:700px){.coming-soon-badge{padding:0 24px}}
+
 /* Sponsors */
 .ph-logo{display:flex;height:128px;align-items:center;justify-content:center;border:2px dashed rgba(10,25,48,.15);border-radius:18px;background:rgba(255,255,255,.6);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(10,25,48,.35);transition:border-color .3s}
 .ph-logo:hover{border-color:rgba(201,162,39,.5)}
@@ -324,6 +374,17 @@ label.lbl.w{color:rgba(255,255,255,.6)}
 .jp-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:3}
 .jp-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);transition:background .3s,transform .3s;display:block}
 .jp-dots span.active{background:#C9A227;transform:scale(1.4)}
+
+.gal-slideshow{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:16/8;margin-bottom:44px;background:radial-gradient(ellipse at 50% 0%,#10264A 0%,#0A1930 60%,#050D1A 100%);box-shadow:0 20px 60px rgba(5,13,26,.25);border:1px solid rgba(201,162,39,.25)}
+.gal-slideshow .gs-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(1.04);transition:opacity 1.1s ease,transform 1.6s ease;z-index:1}
+.gal-slideshow .gs-slide.active{opacity:1;transform:scale(1);z-index:2}
+.gs-cap{position:absolute;left:0;right:0;bottom:0;padding:26px 30px;background:linear-gradient(0deg,rgba(5,13,26,.85),transparent);z-index:3}
+.gs-cap b{color:#fff;font-size:16px;font-weight:600;display:block}
+.gs-cap small{color:var(--gold);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.gs-dots{position:absolute;top:18px;right:22px;display:flex;gap:7px;z-index:3}
+.gs-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:background .3s,transform .3s;display:block}
+.gs-dots span.active{background:#C9A227;transform:scale(1.4)}
+@media(max-width:700px){.gal-slideshow{aspect-ratio:4/3}}
 .contact-line{display:flex;align-items:center;gap:20px;margin-top:26px}
 .contact-line .icon-badge{flex-shrink:0}
 .contact-line small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(10,25,48,.5)}
@@ -611,6 +672,24 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     </div>
   </div>
 
+  <div class="section" style="padding:40px 0 0">
+    <div class="container reveal">
+      <div class="teaser" id="galaTeaser">
+        <video id="galaTeaserVideo" src="public/videos/gala-teaser-2026.mp4" poster="public/videos/gala-teaser-poster.jpg" muted autoplay loop playsinline preload="metadata"></video>
+        <div class="teaser-scrim"></div>
+        <div class="teaser-tag">
+          <span class="pill"><i></i>Upcoming Event</span>
+          <h3>Gala Dinner Dance 2026 <span class="teaser-tag-sep">&middot;</span> 3rd Oct 2026</h3>
+        </div>
+        <button type="button" class="teaser-sound" id="galaTeaserSound" aria-label="Unmute video">
+          <svg class="ic-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m23 9-6 6M17 9l6 6"/></svg>
+          <svg class="ic-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+          <span id="galaTeaserSoundLabel">Tap for sound</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="section">
     <div class="container reveal">
       <div class="gala navy-bg">
@@ -619,25 +698,25 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
           <h2 class="h-lg" style="margin-top:22px">Gala Dinner <span class="gold-text">Dance 2026</span></h2>
           <p class="muted-w" style="margin-top:18px;max-width:520px">The premier evening on the SPC OBU NZ calendar. Join Peterites, families and friends for a night of fine dining, live music and dancing - celebrating the brotherhood in true Peterite style.</p>
           <dl class="dl">
-            <div><dt>Date</dt><dd>Saturday, 3rd October 2026</dd></div>
+            <div><dt>Date</dt><dd>Saturday, <br />3rd October 2026</dd></div>
             <div><dt>Venue</dt><dd>Fairway Events Centre, Auckland</dd></div>
-            <div><dt>Dress</dt><dd>Formal / Black tie</dd></div>
+            <div><dt>Dress</dt><dd>Formal / Blue tie</dd></div>
           </dl>
-          <div class="countdown" style="margin-top:34px" data-countdown="2026-10-03T19:00:00+13:00"></div>
+          <div class="countdown lg" style="margin-top:34px" data-countdown="2026-10-03T19:00:00+13:00"></div>
         </div>
         <div class="gala-r">
           <p class="eyebrow">Tickets</p>
           <div class="ticket">
             <div class="row"><b>Single Ticket</b><span class="price">$110</span></div>
             <small>Per person &middot; dinner, entertainment &amp; dancing</small>
-            <button class="btn btn-gold" data-buy="single">Buy Tickets</button>
+            <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-tickets-link>Buy Tickets</a>
           </div>
           <div class="ticket">
             <div class="row"><b>Table of 10</b><span class="price">$1,100</span></div>
             <small>Reserve a full table for your crew &amp; family</small>
-            <button class="btn btn-outline" data-buy="table">Reserve a Table</button>
+            <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-outline" data-tickets-link>Reserve a Table</a>
           </div>
-          <p style="margin-top:22px;text-align:center;font-size:11px;color:rgba(255,255,255,.4)">Secure payment via Stripe &middot; Questions? <a href="mailto:spcobunz@gmail.com" style="color:rgba(201,162,39,.7)">spcobunz@gmail.com</a></p>
+          <p style="margin-top:22px;text-align:center;font-size:11px;color:rgba(255,255,255,.4)">Tickets sold via My eTickets NZ &middot; Questions? <a href="mailto:spcobunz@gmail.com" style="color:rgba(201,162,39,.7)">spcobunz@gmail.com</a></p>
         </div>
       </div>
     </div>
@@ -651,9 +730,9 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       </div>
       <div class="grid g2" style="margin-top:52px">
         <div class="card reveal"><h3 style="margin-top:0">Joe-Pete NZ &middot; Battle of the Saints <span class="pill" style="float:right;font-size:9px">Annual</span></h3><p>The annual cricket encounter between Josephians and Peterites in New Zealand - a full day of sport, food and family fun.</p><a class="more" href="#/joe-pete">Learn more →</a></div>
-        <div class="card reveal d1"><h3 style="margin-top:0">Peterite Family Day <span class="pill" style="float:right;font-size:9px">Annual</span></h3><p>A relaxed summer get-together for Peterite families - BBQ, games and fellowship under the Kiwi sun.</p></div>
+        <div class="card reveal d1"><h3 style="margin-top:0">Annual General Meeting <span class="pill" style="float:right;font-size:9px">Yearly</span></h3><p>Members gather to reflect on the year, elect office bearers and shape the union's future.</p></div>
         <div class="card reveal d2"><h3 style="margin-top:0">College Feast Day Celebration <span class="pill" style="float:right;font-size:9px">June</span></h3><p>Marking the Feast of St. Peter with mass and fellowship, keeping our College traditions alive in NZ.</p></div>
-        <div class="card reveal d3"><h3 style="margin-top:0">Annual General Meeting <span class="pill" style="float:right;font-size:9px">Yearly</span></h3><p>Members gather to reflect on the year, elect office bearers and shape the union's future.</p></div>
+        <div class="card reveal d3"><h3 style="margin-top:0">Peterite Family Day <span class="pill" style="float:right;font-size:9px">Annual</span></h3><p>A relaxed summer get-together for Peterite families - BBQ, games and fellowship under the Kiwi sun.</p></div>
       </div>
       <p class="reveal" style="margin-top:48px;text-align:center;color:rgba(10,25,48,.6)">Photos from past events live in our <a href="#/gallery" style="color:var(--gold-dark);font-weight:600">Gallery</a>.</p>
     </div>
@@ -735,8 +814,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     </div>
   </div>
 
-  <div class="section navy-bg">
-    <div class="container split" style="align-items:start">
+  <div class="section navy-bg" style="position:relative">
+    <div class="container split coming-soon-blur" style="align-items:start">
       <div class="reveal">
         <p class="eyebrow">Join Now</p>
         <h2 class="h-lg" style="margin-top:16px">Annual membership <br /><span class="gold-text">$40 NZD</span></h2>
@@ -759,6 +838,12 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         </form>
         <p style="margin-top:16px;text-align:center;font-size:11px;color:rgba(255,255,255,.4)">Trouble joining? Email <a href="mailto:spcobunz@gmail.com" style="color:rgba(201,162,39,.7)">spcobunz@gmail.com</a></p>
       </div>
+    </div>
+    <div class="coming-soon-badge">
+      <span class="coming-soon-line"></span>
+      <b>Launching Soon</b>
+      <span class="coming-soon-sub">Online registration &amp; payment</span>
+      <span class="coming-soon-line"></span>
     </div>
   </div>
 </section>
@@ -816,6 +901,14 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="section">
     <div class="container">
       <div class="filters" id="galFilters"></div>
+      <div class="gal-featured" id="galFeatured" style="display:none">
+        <div class="gal-featured-col">
+          <div class="gal-item gal-logo" id="galFeaturedLogo"></div>
+          <div class="gal-item gal-cover" id="galFeaturedLanding"></div>
+        </div>
+        <div class="gal-featured-slide" id="galFeaturedSlide"></div>
+      </div>
+      <div class="gal-slideshow" id="galSlideshow" style="display:none"></div>
       <div class="grid g3 gal" id="galGrid"></div>
       <p class="reveal" style="margin-top:52px;text-align:center;color:rgba(10,25,48,.6)">Have photos or videos from a past event? <a href="mailto:spcobunz@gmail.com?subject=Gallery%20Submission" style="color:var(--gold-dark);font-weight:600">Share them with us</a> and we'll add them to the gallery.</p>
     </div>
@@ -948,11 +1041,13 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 
 <script>
 /* ========== CONFIG - edit here ========== */
+// Gala Dinner Dance tickets are sold externally via My eTickets NZ.
+// Update this URL if the event listing link changes.
+const TICKETS_URL = "https://www.myetickets.co.nz";
+
 // Stripe Payment Links: create at https://dashboard.stripe.com/payment-links
-// then paste the URLs below. Until set, buttons fall back to an email request.
+// then paste the URL below. Until set, the membership button falls back to an email request.
 const STRIPE_LINKS = {
-  single: "",      // Gala single ticket $110
-  table: "",       // Gala table of 10 $1,100
   membership: "",  // Annual membership $40
 };
 const EMAIL = "spcobunz@gmail.com";
@@ -978,13 +1073,55 @@ const BENEFITS = [
 ];
 
 // Gallery - add photos here (drop files into public/images/)
+// Format: ["public/images/file.jpg","Caption text","Category", showInAll(optional, default false)]
 const GALLERY = [
-  ["public/images/cover.jpg","SPC OBU NZ community gathering","Community"],
-  ["public/images/crest.jpg","The College crest","College"],
-  ["public/images/flag.webp","Flying the College flag","Joe-Pete NZ"],
-  ["public/images/gallery-1.jpg","Peterite memories","Events"],
-  ["public/images/nz-map.jpg","Peterites across Aotearoa","Community"],
+  ["public/images/crest.jpg","SPC OBU NZ logo","Logo",true],
+
+  // Committee
+  ["public/images/4.jpg","Inaugural AGM SPC OBU NZ 2020","Committee"],
+  ["public/images/5.jpg","Office Bearers 2020/21","Committee"],
+  ["public/images/13.jpg","AGM 2023","Committee"],
+  ["public/images/21.jpg","AGM 2025","Committee"],
+
+  // Dinner Dance
+  ["public/images/9.jpg","Centenary Dinner Dance 2022 - Wellington","Dinner Dance"],
+  ["public/images/17.jpg","Going Down Memory Lane 2024 - Auckland","Dinner Dance"],
+
+  // Community Events
+  ["public/images/8.jpg","Centenary Mass 2022 - Wellington","Community Events"],
+  ["public/images/16.jpg","NZ visit of Rev. Fr. Rohitha Rodrigo 2024 - Wellington & Auckland","Community Events"],
+  ["public/images/26.jpg","Christmas Celebrations 2025 - Wellington & Auckland","Community Events"],
+
+  // Joe-Pete NZ
+  ["public/images/6.jpg","First training session for Inaugural Joe-Pete NZ Encounter 2021","Joe-Pete NZ"],
+  ["public/images/7.jpg","Inaugural Encounter 2021 - Auckland","Joe-Pete NZ"],
+  ["public/images/10.jpg","2nd Encounter 2022 - Wellington","Joe-Pete NZ"],
+  ["public/images/12.jpg","3rd Encounter 2023 - Auckland","Joe-Pete NZ"],
+  ["public/images/18.jpg","4th Encounter 2024 - Wellington","Joe-Pete NZ"],
+  ["public/images/23.jpg","5th Encounter 2025 - Auckland","Joe-Pete NZ"],
+  ["public/images/24.jpg","Champions 4 Years In A Row","Joe-Pete NZ"],
+  ["public/images/28.jpg","6th Encounter 2026 - Wellington","Joe-Pete NZ"],
+
+  // Sports - grouped by event (5th field), each group already in yearly order
+  ["public/images/1.jpg","First cricket match by Old Peterites in NZ 2013","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
+  ["public/images/2.jpg","2015 Plate Champions","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
+  ["public/images/3.jpg","2018 Plate Champions","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
+  ["public/images/19.jpg","2024","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
+
+  ["public/images/11.jpg","2023","Sports",false,"Festival Of Cricket - Auckland"],
+  ["public/images/22.jpg","2025","Sports",false,"Festival Of Cricket - Auckland"],
+
+  ["public/images/14.jpg","2023 Unbeaten Champions 🏆","Sports",false,"Isipathana Rugby 7s - Auckland"],
+  ["public/images/20.jpg","2024 Plate Champions","Sports",false,"Isipathana Rugby 7s - Auckland"],
+  ["public/images/25.jpg","2025 Plate Champions","Sports",false,"Isipathana Rugby 7s - Auckland"],
+
+  ["public/images/15.jpg","2023","Sports",false,"T10 Lankan Schools Cricket League - Auckland"],
+
+  ["public/images/27.jpg","2026 - SPC won by 25 Runs 🏆","Sports",false,"Maris Stella Cricket Encounter - Auckland"],
 ];
+
+// Tiers of the gallery that get a slideshow banner above their grid
+const GALLERY_SLIDESHOW_TIERS = [];
 
 /* ========== Router ========== */
 const pages = document.querySelectorAll(".page");
@@ -1146,6 +1283,43 @@ function observeReveals(){
   }, 2000);
 })();
 
+/* ========== Event teaser video ========== */
+(function(){
+  const vid = document.getElementById("galaTeaserVideo");
+  const soundBtn = document.getElementById("galaTeaserSound");
+  if(!vid || !soundBtn) return;
+  const iconOff = soundBtn.querySelector(".ic-off");
+  const iconOn = soundBtn.querySelector(".ic-on");
+  const label = document.getElementById("galaTeaserSoundLabel");
+
+  function tryPlay(){ vid.play().catch(()=>{}); }
+
+  const teaserIO = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ tryPlay(); } else { vid.pause(); }
+    });
+  }, {threshold:0.35});
+  teaserIO.observe(vid);
+
+  soundBtn.addEventListener("click", ()=>{
+    vid.muted = !vid.muted;
+    if(!vid.muted){
+      tryPlay();
+      iconOff.style.display = "none"; iconOn.style.display = "";
+      label.textContent = "Sound on";
+    } else {
+      iconOff.style.display = ""; iconOn.style.display = "none";
+      label.textContent = "Tap for sound";
+    }
+  });
+
+  // Kick off playback the moment the Events page is opened
+  window.addEventListener("hashchange", ()=>{
+    if((location.hash||"").replace("#/","") === "events") tryPlay();
+  });
+  if((location.hash||"").replace("#/","") === "events") tryPlay();
+})();
+
 /* ========== Countdown ========== */
 const target = new Date(document.querySelector("[data-countdown]").dataset.countdown).getTime();
 function tick(){
@@ -1239,8 +1413,17 @@ document.getElementById("sponsorRoot").innerHTML =
 
 /* ========== Gallery + lightbox ========== */
 const galGrid = document.getElementById("galGrid"), galFilters = document.getElementById("galFilters");
+const galSlideshow = document.getElementById("galSlideshow");
+const galFeatured = document.getElementById("galFeatured"), galFeaturedLogo = document.getElementById("galFeaturedLogo"),
+      galFeaturedLanding = document.getElementById("galFeaturedLanding"), galFeaturedSlide = document.getElementById("galFeaturedSlide");
 let galFilter = "All", visible = [];
-const cats = ["All", ...new Set(GALLERY.map(g=>g[2]))];
+let galSlideTimer = null, galFeaturedTimer = null;
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+const cats = ["All","Committee","Dinner Dance","Community Events","Joe-Pete NZ","Sports"];
 galFilters.innerHTML = cats.map(c=>`<button data-f="${c}" class="${c==="All"?"on":""}">${c}</button>`).join("");
 galFilters.addEventListener("click", e=>{
   const b = e.target.closest("button"); if(!b) return;
@@ -1248,13 +1431,95 @@ galFilters.addEventListener("click", e=>{
   galFilters.querySelectorAll("button").forEach(x=>x.classList.toggle("on", x===b));
   renderGallery();
 });
-function renderGallery(){
-  visible = galFilter==="All" ? GALLERY : GALLERY.filter(g=>g[2]===galFilter);
-  galGrid.innerHTML = visible.map(([src,alt,cat],i)=>`
-    <button class="gal-item" data-i="${i}">
+function galYear(alt){ const m = (alt||"").match(/\b(19|20)\d{2}\b/); return m ? m[0] : ""; }
+function galItemHtml(src,alt,cat,i){
+  const yr = galYear(alt);
+  return `<button class="gal-item ${cat==="Logo"?"gal-logo":""}" data-i="${i}">
       <img src="${src}" alt="${alt}" loading="lazy" />
+      ${yr?`<span class="gal-year">${yr}</span>`:""}
       <span class="cap"><span><b>${alt}</b><small>${cat}</small></span></span>
-    </button>`).join("");
+    </button>`;
+}
+function renderGallery(){
+  clearInterval(galFeaturedTimer);
+
+  if(galFilter==="All"){
+    galFeatured.style.display = "grid";
+    const logoEntry = GALLERY.find(g=>g[2]==="Logo");
+    galFeaturedLogo.innerHTML = `<img src="${logoEntry?logoEntry[0]:"public/images/crest.jpg"}" alt="SPC OBU NZ logo" loading="lazy" />`;
+    galFeaturedLanding.innerHTML = `<img src="public/images/LandingPageImage-hd.jpg" alt="St. Peter's College, Colombo" loading="lazy" />`;
+
+    const photos = shuffleArr(GALLERY.filter(g=>g[2]!=="Logo"));
+    visible = photos;
+
+    galFeaturedSlide.innerHTML = photos.map(([src,alt],i)=>`<img class="${i===0?"active":""}" src="${src}" alt="${alt}" loading="lazy" />`).join("")
+      + `<div class="fs-badge"><i></i>All Photos</div>`
+      + `<div class="fs-caption"><b id="fsCapText">${photos[0][1]}</b><span class="fs-counter" id="fsCounter">1 / ${photos.length}</span></div>`;
+    const fsSlides = galFeaturedSlide.querySelectorAll("img");
+    const fsCap = galFeaturedSlide.querySelector("#fsCapText");
+    const fsCounter = galFeaturedSlide.querySelector("#fsCounter");
+    let fsIdx = 0;
+    galFeaturedTimer = setInterval(()=>{
+      fsSlides[fsIdx].classList.remove("active");
+      fsIdx = (fsIdx+1) % fsSlides.length;
+      fsSlides[fsIdx].classList.add("active");
+      fsCap.textContent = photos[fsIdx][1];
+      fsCounter.textContent = `${fsIdx+1} / ${photos.length}`;
+    }, 2000);
+
+    galGrid.style.display = "none";
+    galGrid.innerHTML = "";
+    galSlideshow.style.display = "none";
+    galSlideshow.innerHTML = "";
+    return;
+  }
+  galFeatured.style.display = "none";
+  galGrid.style.display = "";
+  visible = GALLERY.filter(g=>g[2]===galFilter);
+
+  if(galFilter==="Sports"){
+    galGrid.classList.add("gal-grouped");
+    const groups = [];
+    visible.forEach(([src,alt,cat,,subcat],i)=>{
+      const name = subcat || "Other";
+      let grp = groups.find(g=>g.name===name);
+      if(!grp){ grp = {name, items:[]}; groups.push(grp); }
+      grp.items.push({src,alt,cat,i});
+    });
+    galGrid.innerHTML = groups.map(g=>`
+      <div class="gal-subgroup">
+        <h3 class="gal-subtitle">${g.name}</h3>
+        <div class="grid g3 gal">
+          ${g.items.map(({src,alt,cat,i})=>galItemHtml(src,alt,cat,i)).join("")}
+        </div>
+      </div>`).join("");
+  } else {
+    galGrid.classList.remove("gal-grouped");
+    galGrid.innerHTML = visible.map(([src,alt,cat],i)=>galItemHtml(src,alt,cat,i)).join("");
+  }
+
+  clearInterval(galSlideTimer);
+  if(GALLERY_SLIDESHOW_TIERS.includes(galFilter) && visible.length){
+    galSlideshow.style.display = "block";
+    galSlideshow.innerHTML = visible.map(([src,alt],i)=>`<img class="gs-slide ${i===0?"active":""}" src="${src}" alt="${alt}" />`).join("")
+      + `<div class="gs-cap"><b id="gsCapText">${visible[0][1]}</b><small>${galFilter}</small></div>`
+      + `<div class="gs-dots">${visible.map((_,i)=>`<span class="${i===0?"active":""}"></span>`).join("")}</div>`;
+    const slides = galSlideshow.querySelectorAll(".gs-slide");
+    const dots = galSlideshow.querySelectorAll(".gs-dots span");
+    const capText = galSlideshow.querySelector("#gsCapText");
+    let idx = 0;
+    galSlideTimer = setInterval(()=>{
+      slides[idx].classList.remove("active");
+      dots[idx].classList.remove("active");
+      idx = (idx+1) % slides.length;
+      slides[idx].classList.add("active");
+      dots[idx].classList.add("active");
+      capText.textContent = visible[idx][1];
+    }, 3000);
+  } else {
+    galSlideshow.style.display = "none";
+    galSlideshow.innerHTML = "";
+  }
 }
 renderGallery();
 
@@ -1288,13 +1553,12 @@ function buy(kind, extra=""){
   const link = STRIPE_LINKS[kind];
   if(link){ window.open(link, "_blank"); return; }
   const subjects = {
-    single: "Gala Dinner Dance 2026 - Ticket Request",
-    table: "Gala Dinner Dance 2026 - Table of 10 Request",
     membership: "SPC OBU NZ Membership Application",
   };
   location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subjects[kind])}&body=${encodeURIComponent(extra || "Hi SPC OBU NZ team,\n\nI'd like to purchase - please send payment details.\n\nName:\nPhone:\nQuantity:")}`;
 }
 document.querySelectorAll("[data-buy]").forEach(b=>b.addEventListener("click", ()=>buy(b.dataset.buy)));
+document.querySelectorAll("[data-tickets-link]").forEach(a=>a.href = TICKETS_URL);
 
 document.getElementById("memberForm").addEventListener("submit", e=>{
   e.preventDefault();
