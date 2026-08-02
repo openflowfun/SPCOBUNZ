@@ -115,6 +115,12 @@ nav.desktop a.active::after{width:100%}
 
 /* Hero */
 .hero{position:relative;min-height:100vh;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#10264A 0%,#0A1930 55%,#050D1A 100%);color:#fff;text-align:center}
+.hero-crest{position:absolute;top:50%;width:clamp(260px,30vw,520px);z-index:1;pointer-events:none;opacity:.42;filter:blur(7px) drop-shadow(0 25px 60px rgba(5,13,26,.65)) drop-shadow(0 0 46px rgba(201,162,39,.1))}
+.hero-crest img{display:block;width:100%;height:auto}
+.hero-crest-l{left:0;transform:translate(-50%,-50%)}
+.hero-crest-r{right:0;transform:translate(50%,-50%)}
+@media(max-width:1100px){.hero-crest{width:clamp(190px,26vw,340px);opacity:.7}}
+@media(max-width:760px){.hero-crest{display:none}}
 
 /* Flags */
 .flags-strip{background:#fff;padding:76px 0}
@@ -140,8 +146,8 @@ nav.desktop a.active::after{width:100%}
 .hero p.lede{margin:26px auto 0;max-width:700px;font-size:clamp(14px,1.7vw,16px);color:rgba(255,255,255,.85);line-height:1.7;animation:up .9s var(--ease) .7s both;text-shadow:0 2px 16px rgba(5,13,26,.7)}
 .hero .cta{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:up .9s var(--ease) .85s both}
 @keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
-.scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);width:28px;height:48px;border:1px solid rgba(201,162,39,.4);border-radius:999px;display:flex;justify-content:center;padding-top:8px;animation:fadeIn 1s 1.3s both}
-.scroll-cue i{width:4px;height:9px;border-radius:4px;background:var(--gold);animation:cue 1.8s ease-in-out infinite}
+.scroll-cue{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:22px;height:36px;border:1px solid rgba(201,162,39,.4);border-radius:999px;display:flex;justify-content:center;padding-top:6px;animation:fadeIn 1s 1.3s both}
+.scroll-cue i{width:3px;height:7px;border-radius:4px;background:var(--gold);animation:cue 1.8s ease-in-out infinite}
 @keyframes cue{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
@@ -244,6 +250,100 @@ nav.desktop a.active::after{width:100%}
 @media(max-width:700px){.roster-list{grid-template-columns:1fr}.roster-list .rl-row:nth-child(odd){border-right:none}.roster-mini{grid-template-columns:1fr !important}.roster-row .rm-item{flex-basis:100%}}
 
 /* Gala */
+.gala-flyer{position:relative;max-width:440px;margin:0 auto;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px rgba(5,13,26,.2);border:1px solid rgba(10,25,48,.08);cursor:zoom-in}
+.gala-flyer img{display:block;width:100%;height:auto}
+.flyer-lens{position:absolute;width:190px;height:190px;border-radius:50%;border:3px solid var(--gold);box-shadow:0 0 0 4px rgba(5,13,26,.22),0 14px 34px rgba(5,13,26,.4);background-repeat:no-repeat;pointer-events:none;opacity:0;transition:opacity .2s;z-index:3}
+.gala-flyer.zooming .flyer-lens{opacity:1}
+.flyer-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;background:rgba(5,13,26,.6);backdrop-filter:blur(6px);color:#fff;font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;pointer-events:none;transition:opacity .3s;z-index:2;border:1px solid rgba(201,162,39,.4)}
+.gala-flyer.zooming .flyer-hint{opacity:0}
+@media(max-width:760px){.flyer-lens{display:none !important}}
+.flyer-modal{position:fixed;inset:0;background:rgba(5,13,26,.94);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:60px 16px 40px;overflow:auto}
+.flyer-modal.open{display:flex}
+.flyer-modal-scroll{max-width:900px;width:100%}
+.flyer-modal-scroll img{display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.flyer-modal-close{position:fixed;top:20px;right:20px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(201,162,39,.4);color:#fff;font-size:18px;line-height:1;cursor:pointer;z-index:201;transition:all .25s var(--ease)}
+.flyer-modal-close:hover{background:var(--gold);color:var(--navy-900);border-color:transparent}
+
+/* Guest admin link */
+.guest-admin-link{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(10,25,48,.4);border-bottom:1px dashed rgba(10,25,48,.25);padding-bottom:2px;transition:color .25s}
+.guest-admin-link:hover{color:var(--gold-dark);border-color:var(--gold)}
+.guest-admin-link span{color:rgba(10,25,48,.3)}
+.guest-admin-link:hover span{color:var(--gold-dark)}
+
+/* Programme overlay */
+.prog-overlay{position:fixed;inset:0;z-index:150;background:#050D1A;display:none;overflow-y:auto}
+.prog-overlay.open{display:block;animation:progIn .5s var(--ease)}
+@keyframes progIn{from{opacity:0;transform:scale(1.02)}to{opacity:1;transform:none}}
+.prog-close{position:fixed;top:22px;right:22px;z-index:5;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(201,162,39,.4);color:#fff;font-size:18px;cursor:pointer;transition:all .25s var(--ease)}
+.prog-close:hover{background:var(--gold);color:var(--navy-900);border-color:transparent;transform:rotate(90deg)}
+.prog-hero{position:relative;overflow:hidden;padding:110px 24px 40px;text-align:center;background:radial-gradient(ellipse at 50% 0%,#173766 0%,#0A1930 55%,#050D1A 100%);color:#fff}
+.prog-hero-glow{position:absolute;left:50%;top:-160px;width:900px;height:480px;transform:translateX(-50%);background:rgba(201,162,39,.1);border-radius:50%;filter:blur(100px)}
+.prog-crest{position:relative;width:clamp(120px,14vw,168px);height:auto;margin:0 auto 20px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.4))}
+.prog-title{position:relative;font-family:var(--serif);font-size:clamp(2rem,5vw,3.2rem);font-weight:600;margin-top:6px}
+.prog-date{position:relative;margin-top:14px;font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.prog-tag{position:relative;margin-top:10px;font-size:14px;color:rgba(255,255,255,.55);font-style:italic}
+.prog-nav{position:relative;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:32px}
+.prog-nav a{padding:9px 18px;border-radius:999px;border:1px solid rgba(201,162,39,.3);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);transition:all .25s}
+.prog-nav a:hover,.prog-nav a.on{background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);border-color:transparent;color:var(--navy-900)}
+.prog-body{background:var(--ivory);position:relative;z-index:1}
+.prog-body-inner{max-width:840px;margin:0 auto;padding:70px 24px 100px}
+.prog-welcome{max-width:700px;margin:0 auto 8px;text-align:center;padding:36px 28px 44px;border-bottom:1px solid rgba(10,25,48,.08)}
+.prog-welcome h3{display:block !important;text-align:center;justify-content:center}
+.prog-welcome p{font-size:14.5px;line-height:1.85;color:rgba(10,25,48,.68);margin-top:16px}
+.prog-welcome p:first-of-type{margin-top:22px}
+.prog-welcome b{color:var(--navy-900)}
+.prog-sec{margin-bottom:76px;scroll-margin-top:30px}
+.prog-sec:last-child{margin-bottom:0}
+.prog-sec h3{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:26px;font-weight:600;color:var(--navy-900)}
+.prog-num{display:flex;align-items:center;justify-content:center;width:38px;height:38px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);color:var(--navy-900);font-family:var(--serif);font-size:15px;font-weight:700}
+.prog-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:26px}
+@media(max-width:760px){.prog-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.prog-grid{grid-template-columns:1fr}}
+.prog-item{position:relative;text-align:center;padding:20px 14px;border-radius:16px;background:var(--navy-900);border:1px solid rgba(201,162,39,.2);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.prog-item:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(5,13,26,.25)}
+.prog-item b{display:block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:9px;color:#5FA8F0}
+.prog-item span{font-family:var(--serif);font-size:14px;font-weight:600;color:#fff;line-height:1.4}
+.prog-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+.prog-includes{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px;margin-top:26px}
+.prog-inc{text-align:center;padding:26px 14px;border-radius:18px;background:var(--navy-900);border:1px solid rgba(201,162,39,.2);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.prog-inc:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(5,13,26,.25)}
+.prog-inc svg{color:var(--gold)}
+.prog-inc b{display:block;margin-top:12px;font-size:12px;font-weight:600;color:#fff;line-height:1.4}
+.prog-soon{display:flex;align-items:center;gap:18px;margin-top:26px;padding:26px 28px;border-radius:18px;background:#F8F4EC;border:1px dashed rgba(201,162,39,.4)}
+.prog-soon svg{flex-shrink:0;color:var(--gold-dark)}
+.prog-soon p{font-size:13.5px;color:rgba(10,25,48,.65);line-height:1.6}
+.prog-guest-link{text-align:center;margin-top:70px;padding-top:36px;border-top:1px solid rgba(10,25,48,.08)}
+.prog-day-label{text-align:center;margin:0 0 26px}
+.prog-day-label:not(:first-child){margin-top:44px}
+.prog-day-label span{display:inline-block;padding:8px 22px;border-radius:999px;background:var(--navy-900);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.prog-timeline{position:relative;padding-left:40px;margin-top:26px}
+.prog-timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,rgba(201,162,39,.5),rgba(201,162,39,.1))}
+.prog-tl-item{position:relative;margin-bottom:22px}
+.prog-tl-item:last-child{margin-bottom:0}
+.prog-tl-dot{position:absolute;left:0;top:22px;width:11px;height:11px;border-radius:50%;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);box-shadow:0 0 0 4px var(--ivory),0 0 0 5px rgba(201,162,39,.3)}
+.prog-tl-badge{display:inline-block;margin-bottom:9px;padding:4px 13px;border-radius:20px;background:rgba(74,156,238,.14);border:1px solid rgba(74,156,238,.4);font-family:var(--serif);font-size:11px;font-weight:700;letter-spacing:.03em;color:#5FA8F0}
+.prog-tl-card{border-radius:16px;padding:16px 20px;background:var(--navy-900);border:1px solid rgba(201,162,39,.2);box-shadow:0 10px 26px rgba(5,13,26,.15);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.prog-tl-card:hover{transform:translateX(4px);box-shadow:0 14px 34px rgba(5,13,26,.3)}
+.prog-tl-card h4{font-family:var(--serif);font-size:15px;font-weight:600;color:#fff;display:flex;align-items:center;gap:9px}
+.prog-tl-card h4 svg{color:var(--gold);flex-shrink:0}
+.prog-tl-card p{margin-top:6px;font-size:12px;color:rgba(255,255,255,.55);line-height:1.6}
+.prog-tl-loc{margin-top:8px;display:flex;align-items:center;gap:5px;font-size:10.5px;color:rgba(255,255,255,.4)}
+@media(max-width:560px){.prog-timeline{padding-left:30px}.prog-tl-dot{left:-1px}}
+.prog-sponsor-tier{margin-bottom:32px}
+.prog-sponsor-tier:last-child{margin-bottom:0}
+.prog-sponsor-tier h5{text-align:center;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:16px}
+.prog-map{margin-top:22px;border-radius:16px;overflow:hidden;border:1px solid rgba(10,25,48,.08);box-shadow:0 10px 26px rgba(5,13,26,.06)}
+.prog-map iframe{display:block;width:100%;height:220px;border:0}
+@media(max-width:700px){.prog-nav{display:none}.prog-hero{padding:96px 20px 34px}}
+
+/* Guest access */
+.guest-code-input{width:100%;margin-top:20px;padding:14px 16px;border-radius:12px;border:1px solid rgba(201,162,39,.3);background:rgba(255,255,255,.05);color:#fff;font-size:15px;letter-spacing:.1em;text-align:center}
+.guest-code-input::placeholder{color:rgba(255,255,255,.35)}
+.guest-code-input:focus{outline:none;border-color:var(--gold)}
+.guest-error{display:none;margin-top:10px;font-size:12px;color:#E68A8A}
+.guest-error.show{display:block;animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.guest-stub{margin-top:22px;padding:22px;border-radius:16px;background:rgba(255,255,255,.04);border:1px dashed rgba(201,162,39,.3);color:rgba(255,255,255,.7);font-size:13px;line-height:1.7}
 .gala{border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(5,13,26,.35);display:grid;grid-template-columns:3fr 2fr}
 @media(max-width:900px){.gala{grid-template-columns:1fr}}
 .gala-l{padding:52px}
@@ -251,6 +351,46 @@ nav.desktop a.active::after{width:100%}
 @media(max-width:900px){.gala-r{border-left:none;border-top:1px solid rgba(201,162,39,.2)}}
 .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:7px 16px;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
 .pill i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+
+/* Upcoming Events Calendar */
+.cal-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:760px;margin:0 auto}
+@media(max-width:760px){.cal-grid{grid-template-columns:1fr}}
+.cal-card{background:radial-gradient(ellipse at 50% -10%,#173766 0%,#0A1930 65%,#081426 100%);border:1px solid rgba(201,162,39,.3);border-radius:24px;padding:28px 24px 24px;box-shadow:0 25px 60px rgba(5,13,26,.28);position:relative;overflow:hidden}
+.cal-card::before{content:"";position:absolute;left:50%;top:-24%;width:220px;height:220px;transform:translateX(-50%);background:radial-gradient(circle,rgba(201,162,39,.2),transparent 65%);pointer-events:none;animation:patronGlow 6s ease-in-out infinite}
+.cal-rings{display:flex;justify-content:center;gap:38px;margin-bottom:14px;position:relative;z-index:1}
+.cal-rings span{width:12px;height:12px;border-radius:50%;border:3px solid rgba(201,162,39,.55);background:#050D1A}
+.cal-head{text-align:center;position:relative;z-index:1;margin-bottom:18px}
+.cal-head b{display:block;font-family:var(--serif);font-size:22px;font-weight:600;color:#fff;margin-top:4px}
+.cal-head small{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;position:relative;z-index:1}
+.cal-dow span{text-align:center;font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.32)}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;position:relative;z-index:1}
+.cal-day{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:11.5px;color:rgba(255,255,255,.55);border-radius:9px}
+.cal-day.empty{visibility:hidden}
+.cal-day.today{box-shadow:0 0 0 1px rgba(255,255,255,.35) inset;border-radius:9px}
+.cal-day.has-event{cursor:pointer;color:#0A1930;font-weight:700;position:relative;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);box-shadow:0 0 0 3px rgba(201,162,39,.16),0 6px 16px rgba(201,162,39,.35);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.cal-day.has-event:hover{transform:scale(1.18);box-shadow:0 0 0 5px rgba(201,162,39,.26),0 8px 22px rgba(201,162,39,.5)}
+.cal-day.has-event::after{content:"";position:absolute;bottom:1px;left:50%;width:3px;height:3px;border-radius:50%;background:#fff;transform:translateX(-50%);animation:pulse 1.6s infinite}
+
+.cal-events{margin-top:56px;max-width:640px;margin-left:auto;margin-right:auto;position:relative;padding-left:28px}
+.cal-events::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,rgba(201,162,39,.55),rgba(201,162,39,.08))}
+.cal-ev-row{position:relative;margin-bottom:20px}
+.cal-ev-row:last-child{margin-bottom:0}
+.cal-ev-node{position:absolute;left:-28px;top:30px;width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);box-shadow:0 0 0 5px rgba(201,162,39,.14),0 0 16px rgba(201,162,39,.45)}
+.cal-ev-card{border-radius:20px;padding:18px 22px;background:#fff;box-shadow:0 16px 40px rgba(5,13,26,.1);border:1px solid rgba(10,25,48,.06);display:flex;align-items:center;gap:16px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.cal-ev-card:hover{transform:translateY(-4px);box-shadow:0 22px 50px rgba(5,13,26,.16)}
+.cal-ev-card.cal-flash{box-shadow:0 0 0 3px rgba(201,162,39,.55),0 22px 50px rgba(5,13,26,.18)}
+.cal-ev-date{flex-shrink:0;width:54px;text-align:center;border-radius:14px;padding:8px 0;background:linear-gradient(135deg,rgba(201,162,39,.14),rgba(201,162,39,.05));border:1px solid rgba(201,162,39,.25)}
+.cal-ev-date b{display:block;font-family:var(--serif);font-size:22px;font-weight:700;color:var(--navy-900);line-height:1}
+.cal-ev-date small{display:block;font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark);margin-top:3px}
+.cal-ev-icon{flex-shrink:0;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--navy-900);color:var(--gold)}
+.cal-ev-info{flex:1;min-width:0}
+.cal-ev-info h4{font-family:var(--serif);font-size:15.5px;font-weight:600;color:var(--navy-900)}
+.cal-ev-info p{font-size:11.5px;color:rgba(10,25,48,.55);margin-top:3px}
+.cal-ev-info .cal-tag{display:inline-block;margin-top:7px;font-size:8.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dark);border:1px solid rgba(201,162,39,.3);border-radius:20px;padding:2px 10px}
+.cal-ev-days{flex-shrink:0;text-align:center;font-size:9px;color:rgba(10,25,48,.4);letter-spacing:.04em}
+.cal-ev-days b{display:block;font-family:var(--serif);font-size:17px;color:var(--gold-dark)}
+@media(max-width:600px){.cal-ev-card{flex-wrap:wrap}.cal-ev-days{width:100%;text-align:left;padding-left:70px}}
 
 /* Event teaser video */
 .teaser{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:3/2;background:#050D1A;box-shadow:0 30px 90px rgba(5,13,26,.4);border:1px solid rgba(201,162,39,.3)}
@@ -445,6 +585,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="hero">
     <div class="hero-glow"></div>
     <div class="particles" id="particles"></div>
+    <div class="hero-crest hero-crest-l"><img src="public/images/crest-spc-cutout.png" alt="" /></div>
+    <div class="hero-crest hero-crest-r"><img src="public/images/crest-spc-cutout.png" alt="" /></div>
     <div class="hero-flow">
       <p class="eyebrow">St. Peter's College Old Boys' Union New Zealand<br />Est. 2020</p>
       <div class="hero-banner">
@@ -722,6 +864,39 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     </div>
   </div>
 
+  <div class="section" style="padding-top:0">
+    <div class="container">
+      <div class="gala-flyer reveal" id="flyerZoom">
+        <img id="flyerImg" src="public/images/Gala Dinner Dance Flyer HD.jpg" alt="SPC OBU NZ Gala Dinner Dance 2026 flyer - Saturday 3rd October 2026, Fairway Events Centre, Auckland" loading="lazy" />
+        <div class="flyer-lens" id="flyerLens"></div>
+        <div class="flyer-hint"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>Hover or tap to zoom</div>
+      </div>
+      <div class="reveal" style="text-align:center;margin-top:30px">
+        <button type="button" class="btn btn-outline" id="openProgramme">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:-3px"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2Z"/><path d="M6 17h13M9 8h6M9 11h6"/></svg>
+          Full Gala Dinner Dance Programme
+        </button>
+        <div style="margin-top:16px">
+          <button type="button" class="guest-admin-link" id="openGuestGate">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            Guest Details <span>&middot; Admin Access</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section cal-section">
+    <div class="container">
+      <div class="reveal" style="text-align:center;max-width:640px;margin:0 auto">
+        <p class="eyebrow">Mark Your Calendar</p>
+        <h2 class="h-lg" style="margin-top:16px">What's <span class="gold-text">next</span> for the Union</h2>
+        <p class="muted" style="margin-top:14px">Every upcoming date on the Peterite calendar, at a glance.</p>
+      </div>
+      <div id="eventsCalendar" style="margin-top:52px"></div>
+    </div>
+  </div>
+
   <div class="section" style="background:#fff">
     <div class="container">
       <div class="reveal" style="text-align:center">
@@ -910,7 +1085,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       </div>
       <div class="gal-slideshow" id="galSlideshow" style="display:none"></div>
       <div class="grid g3 gal" id="galGrid"></div>
-      <p class="reveal" style="margin-top:52px;text-align:center;color:rgba(10,25,48,.6)">Have photos or videos from a past event? <a href="mailto:spcobunz@gmail.com?subject=Gallery%20Submission" style="color:var(--gold-dark);font-weight:600">Share them with us</a> and we'll add them to the gallery.</p>
+      <p class="reveal" style="margin-top:52px;text-align:center;color:rgba(10,25,48,.6)">Looking for the full event album? <a href="https://www.facebook.com/profile.php?id=61592567153129" target="_blank" rel="noopener noreferrer" style="color:var(--gold-dark);font-weight:600">Contact us</a></p>
+      <p class="reveal" style="margin-top:10px;text-align:center;color:rgba(10,25,48,.6)">Have photos or videos from a past event? <a href="https://www.facebook.com/profile.php?id=61592567153129" target="_blank" rel="noopener noreferrer" style="color:var(--gold-dark);font-weight:600">Share them with us</a> and we'll add them to the gallery.</p>
     </div>
   </div>
 </section>
@@ -999,6 +1175,201 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="lb-cap"><span id="lbCap"></span><small id="lbCat"></small></div>
 </div>
 
+<!-- Flyer full-view modal -->
+<div class="flyer-modal" id="flyerModal">
+  <button type="button" class="flyer-modal-close" id="flyerModalClose" aria-label="Close">✕</button>
+  <div class="flyer-modal-scroll"><img id="flyerModalImg" src="" alt="SPC OBU NZ Gala Dinner Dance 2026 flyer - full view" /></div>
+</div>
+
+<!-- Full Gala Dinner Dance Programme -->
+<div class="prog-overlay" id="programmeOverlay">
+  <button type="button" class="prog-close" id="programmeClose" aria-label="Close">✕</button>
+  <div class="prog-hero">
+    <div class="prog-hero-glow"></div>
+    <img src="public/images/crest-spc-cutout.png" alt="" class="prog-crest" />
+    <p class="eyebrow" style="position:relative;color:var(--gold)">SPC OBU New Zealand Presents</p>
+    <h2 class="prog-title">Gala Dinner <span class="gold-text shimmer">Dance</span></h2>
+    <p class="prog-date">Saturday &middot; 3rd October 2026 &middot; 6:00 PM</p>
+    <p class="prog-tag">A night to reconnect, celebrate and create new memories.</p>
+    <nav class="prog-nav" id="progNav">
+      <a href="#prog-welcome">Welcome</a>
+      <a href="#prog-details">Details</a>
+      <a href="#prog-evening">The Evening</a>
+      <a href="#prog-run">Schedule</a>
+      <a href="#prog-menu">Menu</a>
+      <a href="#prog-entertainment">Entertainment</a>
+      <a href="#prog-sponsors">Sponsors</a>
+    </nav>
+  </div>
+
+  <div class="prog-body">
+    <div class="prog-body-inner">
+    <section class="prog-sec" id="prog-welcome" style="margin-bottom:0">
+      <div class="prog-welcome">
+        <h3 style="font-family:var(--serif);font-size:24px;font-weight:600;color:var(--navy-900)">Celebrating the <span class="gold-text">Peterite Spirit</span></h3>
+        <p>Welcome to the St Peter's College Colombo OBU New Zealand Gala Dinner Dance.<br />An <b>unforgettable evening</b> of celebration, connection and entertainment awaits.</p>
+        <p>Join fellow Peterites, family and friends for a spectacular night as we come together to celebrate the enduring spirit of our College and the friendships that continue to thrive across generations. From 6:00 PM, enjoy a warm welcome before indulging in a delicious Sri Lankan buffet dinner, with two complimentary drinks included with your ticket.</p>
+        <p>As the evening unfolds, dance the night away to the incredible sounds of <b>Frisky Business</b>, one of New Zealand's premier live party bands, followed by a DJ who will keep the dance floor alive well into the night.</p>
+        <p>Whether you're reconnecting with old classmates, catching up with lifelong friends, or creating new memories with your partner, this promises to be an evening filled with laughter, great food, live music and celebration.</p>
+        <p>Dress to impress, bring your partner, and prepare for a memorable night of elegance, nostalgia and entertainment. We can't wait to welcome you for what promises to be one of the highlights of the year.</p>
+      </div>
+    </section>
+
+    <section class="prog-sec" id="prog-details">
+      <h3><span class="prog-num">01</span>Event Details</h3>
+      <div class="prog-grid">
+        <div class="prog-item"><b>Date</b><span>Saturday, 3rd October 2026</span></div>
+        <div class="prog-item"><b>Time</b><span>6:00 PM onward</span></div>
+        <div class="prog-item"><b>Venue</b><span>Fairway Events Centre<br />Argus Place, Wairau Valley, Auckland</span></div>
+        <div class="prog-item"><b>Dress Code</b><span>Formal / Blue Tie</span></div>
+        <div class="prog-item"><b>Tickets</b><span>$110 per person<br />$1,100 table of 10</span></div>
+      </div>
+      <div class="prog-cta">
+        <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-tickets-link>Buy Tickets</a>
+        <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-outline" data-tickets-link>Reserve a Table</a>
+        <a href="#" class="btn btn-outline" id="progAddCal">+ Add to Calendar</a>
+      </div>
+      <div class="prog-map">
+        <iframe src="https://www.google.com/maps?q=Fairway+Events+Centre,+Argus+Place,+Wairau+Valley,+Auckland&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Fairway Events Centre map"></iframe>
+      </div>
+    </section>
+
+    <section class="prog-sec" id="prog-evening">
+      <h3><span class="prog-num">02</span>Your Evening Includes</h3>
+      <div class="prog-includes">
+        <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 3v3a4 4 0 0 0 8 0V3M12 13v8M8 21h8"/></svg><b>Sri Lankan Buffet Dinner</b></div>
+        <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-1 6a3 3 0 0 1-6 0L8 3Z"/><path d="M12 9v5M9 21h6M12 14v7"/></svg><b>2 Drink Tickets</b></div>
+        <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><b>Frisky Business - Live Band</b></div>
+        <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2v2ZM3 19a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2v2Z"/></svg><b>Professional DJ</b></div>
+        <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="2"/><path d="m9 8-3 3 2 2-2 5M12 22l2-6 3 2 2-4"/><path d="m11 13 2-3 3 1"/></svg><b>Dancing Until Late</b></div>
+      </div>
+    </section>
+
+    <section class="prog-sec" id="prog-run">
+      <h3><span class="prog-num">03</span>Schedule</h3>
+
+      <div class="prog-day-label"><span>Saturday 3 October 2026</span></div>
+      <div class="prog-timeline">
+        <div class="prog-tl-item">
+          <span class="prog-tl-dot"></span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">6:00 PM</span>
+            <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4M5 21V5a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"/></svg>Doors Open</h4>
+            <p>Guest arrival, registration and photography. DJ provides background music as guests find their tables and enjoy the complimentary drinks.</p>
+            <div class="prog-tl-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>Argus Place, Wairau Valley, Auckland</div>
+          </div>
+        </div>
+        <div class="prog-tl-item">
+          <span class="prog-tl-dot"></span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">6:30 PM</span><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7M4 14V6a2 2 0 0 1 2-2h3M17 14V4"/></svg>Guests Take Their Seats</h4></div>
+        </div>
+        <div class="prog-tl-item">
+          <span class="prog-tl-dot"></span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">7:00 PM</span><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>Official Welcome</h4><p>MC opens the evening.</p></div>
+        </div>
+        <div class="prog-tl-item">
+          <span class="prog-tl-dot"></span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">7:30 PM</span><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Frisky Business - Live Band</h4><p>Session 1 &middot; 90 minutes</p></div>
+        </div>
+        <div class="prog-tl-item">
+          <span class="prog-tl-dot"></span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">8:00 PM</span><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 3v3a4 4 0 0 0 8 0V3M12 13v8M8 21h8"/></svg>Sri Lankan Buffet Dinner Opens</h4><p>Dinner service continues until 10:00 PM. Guests are welcome to dine while enjoying the live entertainment.</p></div>
+        </div>
+        <div class="prog-tl-item">
+          <span class="prog-tl-dot"></span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">9:00 PM</span><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2v2ZM3 19a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2v2Z"/></svg>DJ Set, Sponsor Thanks &amp; Raffle Draw</h4></div>
+        </div>
+        <div class="prog-tl-item">
+          <span class="prog-tl-dot"></span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">9:30 PM</span><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Frisky Business - Live Band</h4><p>Session 2 &middot; 90 minutes</p></div>
+        </div>
+        <div class="prog-tl-item">
+          <span class="prog-tl-dot"></span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">11:00 PM</span><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="2"/><path d="m9 8-3 3 2 2-2 5M12 22l2-6 3 2 2-4"/><path d="m11 13 2-3 3 1"/></svg>DJ Party Set</h4><p>Dance the night away.</p></div>
+        </div>
+      </div>
+
+      <div class="prog-day-label"><span>Sunday 4 October 2026</span></div>
+      <div class="prog-timeline">
+        <div class="prog-tl-item">
+          <span class="prog-tl-dot"></span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">12:00 AM</span><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-1 6a3 3 0 0 1-6 0L8 3Z"/><path d="M12 9v5M9 21h6M12 14v7"/></svg>Last Drinks - Bar Closes</h4></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="prog-sec" id="prog-menu">
+      <h3><span class="prog-num">04</span>Menu</h3>
+      <div class="prog-soon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 3v3a4 4 0 0 0 8 0V3M12 13v8M8 21h8"/></svg>
+        <p>A Sri Lankan buffet dinner is included with every ticket, served 8:00 PM - 10:00 PM. The full dish list &amp; dietary options will be announced soon.</p>
+      </div>
+    </section>
+
+    <section class="prog-sec" id="prog-entertainment">
+      <h3><span class="prog-num">05</span>Entertainment</h3>
+      <p class="muted" style="margin-top:22px;font-size:14px;line-height:1.8"><b style="color:var(--navy-900)">Frisky Business</b>, one of New Zealand's premier live party bands, takes the stage across two 90-minute sessions, with a professional DJ carrying the dance floor before, between and after - all the way to midnight.</p>
+    </section>
+
+    <section class="prog-sec" id="prog-sponsors">
+      <h3><span class="prog-num">06</span>Our Sponsors</h3>
+      <div style="margin-top:26px">
+        <div class="prog-sponsor-tier">
+          <h5>Diamond Sponsor</h5>
+          <div class="grid g2" style="max-width:360px;margin:0 auto"><div class="ph-logo reveal">Your logo here</div></div>
+        </div>
+        <div class="prog-sponsor-tier">
+          <h5>Platinum Sponsor</h5>
+          <div class="grid g2" style="max-width:360px;margin:0 auto"><div class="ph-logo reveal">Your logo here</div></div>
+        </div>
+        <div class="prog-sponsor-tier">
+          <h5>Gold Sponsors</h5>
+          <div class="grid g2" style="max-width:460px;margin:0 auto"><div class="ph-logo reveal">Your logo here</div><div class="ph-logo reveal d1">Your logo here</div></div>
+        </div>
+        <div class="prog-sponsor-tier">
+          <h5>Silver Sponsors</h5>
+          <div class="grid g2" style="max-width:360px;margin:0 auto"><div class="ph-logo reveal">Your logo here</div></div>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:30px;font-size:12.5px;color:rgba(10,25,48,.5)">Interested in sponsoring the 2026 Gala? <a href="#" id="progBecomeSponsor" style="color:var(--gold-dark);font-weight:600">Become a Sponsor →</a></p>
+    </section>
+
+    <div class="prog-guest-link">
+      <button type="button" class="guest-admin-link" id="openGuestGate2">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        Guest Details <span>&middot; Admin Access</span>
+      </button>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- Guest access code gate -->
+<div class="form-modal" id="guestGateModal">
+  <div class="form-modal-panel" style="max-width:380px;text-align:center">
+    <button type="button" class="form-modal-close" id="guestGateClose" aria-label="Close">✕</button>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+    <p class="eyebrow" style="margin-top:16px">Committee Access Only</p>
+    <h3 class="h-md" style="margin-top:8px;color:#fff">Guest Details</h3>
+    <p class="muted-w" style="margin-top:10px;font-size:13px">Enter the access code to view guest details.</p>
+    <input type="password" id="guestCodeInput" class="guest-code-input" placeholder="Access code" autocomplete="off" />
+    <p class="guest-error" id="guestError">Incorrect code - please try again.</p>
+    <button type="button" class="btn btn-gold" id="guestSubmit" style="margin-top:18px;width:100%">Unlock</button>
+  </div>
+</div>
+
+<!-- Guest details panel (revealed after correct code) -->
+<div class="form-modal" id="guestPanelModal">
+  <div class="form-modal-panel" style="max-width:520px">
+    <button type="button" class="form-modal-close" id="guestPanelClose" aria-label="Close">✕</button>
+    <p class="eyebrow">Committee Access</p>
+    <h3 class="h-md" style="margin-top:8px;color:#fff">Guest Details</h3>
+    <div class="guest-stub">
+      <p>No guest list is connected yet.</p>
+      <p style="margin-top:8px">Once RSVP / attendee data is ready, send it through to spcobunz@gmail.com and it can be wired in here for the committee to view.</p>
+    </div>
+  </div>
+</div>
+
 <!-- Become a Sponsor modal -->
 <div class="form-modal" id="sponsorModal">
   <div class="form-modal-panel">
@@ -1054,6 +1425,9 @@ const EMAIL = "spcobunz@gmail.com";
 // Web3Forms: sign up free at https://web3forms.com using spcobunz@gmail.com,
 // then paste your Access Key below. Until set, the sponsor form falls back to a mailto link.
 const WEB3FORMS_ACCESS_KEY = "";
+
+// Code committee members enter to view Gala Dinner Dance guest details. Change any time.
+const GUEST_ACCESS_CODE = "OBU2026";
 
 const COMMITTEE = [
   { tier:"Patron", big:true, members:[["Patron","Rev. Fr. Rohitha Rodrigo","Rector of St Peter's College, Colombo 04"]] },
@@ -1216,7 +1590,7 @@ document.addEventListener("mouseleave", e=>{
 /* ========== Magnetic buttons ========== */
 document.addEventListener("mousemove", e=>{
   const btn = e.target.closest(".btn-gold, .btn-outline");
-  if(!btn) return;
+  if(!btn || btn.closest(".hero .cta")) return;
   const r = btn.getBoundingClientRect();
   const dx = (e.clientX-(r.left+r.width/2))*0.18;
   const dy = (e.clientY-(r.top+r.height/2))*0.28;
@@ -1320,6 +1694,47 @@ function observeReveals(){
   if((location.hash||"").replace("#/","") === "events") tryPlay();
 })();
 
+/* ========== Flyer magnifier + full-view ========== */
+(function(){
+  const wrap = document.getElementById("flyerZoom");
+  const img = document.getElementById("flyerImg");
+  const lens = document.getElementById("flyerLens");
+  const modal = document.getElementById("flyerModal");
+  const modalImg = document.getElementById("flyerModalImg");
+  const modalClose = document.getElementById("flyerModalClose");
+  if(!wrap || !img || !lens || !modal) return;
+  const ZOOM = 2.6;
+
+  function moveLens(clientX, clientY){
+    const r = wrap.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - r.left, r.width));
+    const y = Math.max(0, Math.min(clientY - r.top, r.height));
+    const size = lens.offsetWidth;
+    lens.style.left = (x - size/2) + "px";
+    lens.style.top = (y - size/2) + "px";
+    lens.style.backgroundImage = `url("${img.currentSrc || img.src}")`;
+    lens.style.backgroundSize = `${r.width*ZOOM}px ${r.height*ZOOM}px`;
+    lens.style.backgroundPosition = `${-(x*ZOOM - size/2)}px ${-(y*ZOOM - size/2)}px`;
+  }
+  wrap.addEventListener("mouseenter", ()=> wrap.classList.add("zooming"));
+  wrap.addEventListener("mouseleave", ()=> wrap.classList.remove("zooming"));
+  wrap.addEventListener("mousemove", e=> moveLens(e.clientX, e.clientY));
+
+  function openFlyerModal(){
+    modalImg.src = img.src;
+    modal.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeFlyerModal(){
+    modal.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  wrap.addEventListener("click", openFlyerModal);
+  modalClose.addEventListener("click", closeFlyerModal);
+  modal.addEventListener("click", e=>{ if(e.target === modal) closeFlyerModal(); });
+  document.addEventListener("keydown", e=>{ if(e.key === "Escape") closeFlyerModal(); });
+})();
+
 /* ========== Countdown ========== */
 const target = new Date(document.querySelector("[data-countdown]").dataset.countdown).getTime();
 function tick(){
@@ -1406,6 +1821,98 @@ document.getElementById("benefitsRoot").innerHTML = BENEFITS.map(([t,d],i)=>`
     <b class="gold-text" style="font-family:var(--serif);font-size:34px">${String(i+1).padStart(2,"0")}</b>
     <h3>${t}</h3><p>${d}</p>
   </div>`).join("");
+
+/* ========== Upcoming Events Calendar ========== */
+const UPCOMING_EVENTS = [
+  {date:"2026-10-03", title:"Gala Dinner Dance 2026", venue:"Fairway Events Centre, Auckland", tag:"Signature Event", icon:"gala"},
+  {date:"2026-11-04", title:"Annual General Meeting 2026", venue:"Members Meeting &middot; Auckland", tag:"Members Meeting", icon:"agm"},
+  {date:"2026-11-28", title:"Isipathana 7s Rugby", venue:"Auckland", tag:"Sports Fixture", icon:"rugby"}
+];
+const CAL_ICONS = {
+  gala: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 3h10l-1 6a4 4 0 0 1-8 0L7 3Z"/><path d="M5 5a2 2 0 0 0 2 2M19 5a2 2 0 0 1-2 2"/></svg>`,
+  agm: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>`,
+  rugby: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="6" transform="rotate(-40 12 12)"/><path d="m8 8 8 8M9.5 6.5 6.5 9.5M17.5 14.5 14.5 17.5"/></svg>`
+};
+const CAL_MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const CAL_DOW = ["Su","Mo","Tu","We","Th","Fr","Sa"];
+function renderEventsCalendar(){
+  const root = document.getElementById("eventsCalendar");
+  if(!root) return;
+  const byYM = {};
+  UPCOMING_EVENTS.forEach(ev=>{
+    const d = new Date(ev.date+"T00:00:00");
+    const key = d.getFullYear()+"-"+d.getMonth();
+    (byYM[key] = byYM[key]||[]).push(Object.assign({},ev,{d}));
+  });
+  const months = Object.keys(byYM).map(k=>{
+    const parts = k.split("-").map(Number);
+    return {y:parts[0], m:parts[1], events:byYM[k]};
+  }).sort((a,b)=> a.y-b.y || a.m-b.m);
+
+  const today = new Date();
+  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  const calCards = months.map(({y,m,events})=>{
+    const first = new Date(y,m,1);
+    const startDow = first.getDay();
+    const daysInMonth = new Date(y,m+1,0).getDate();
+    const evByDay = {};
+    events.forEach(ev=> evByDay[ev.d.getDate()] = ev);
+    const cells = [];
+    for(let i=0;i<startDow;i++) cells.push(null);
+    for(let d=1; d<=daysInMonth; d++) cells.push(d);
+    while(cells.length%7!==0) cells.push(null);
+    const isTodayMonth = today.getFullYear()===y && today.getMonth()===m;
+    const dayCells = cells.map(d=>{
+      if(d===null) return `<span class="cal-day empty"></span>`;
+      const ev = evByDay[d];
+      const isToday = isTodayMonth && today.getDate()===d;
+      if(ev) return `<span class="cal-day has-event${isToday?" today":""}" data-jump="${ev.date}" title="${ev.title}">${d}</span>`;
+      return `<span class="cal-day${isToday?" today":""}">${d}</span>`;
+    }).join("");
+    return `<div class="cal-card reveal">
+      <div class="cal-rings"><span></span><span></span></div>
+      <div class="cal-head"><small>${y}</small><b>${CAL_MONTHS[m]}</b></div>
+      <div class="cal-dow">${CAL_DOW.map(x=>`<span>${x}</span>`).join("")}</div>
+      <div class="cal-days">${dayCells}</div>
+    </div>`;
+  }).join("");
+
+  const evCards = UPCOMING_EVENTS.map(ev=>{
+    const d = new Date(ev.date+"T00:00:00");
+    const dayNum = String(d.getDate()).padStart(2,"0");
+    const monAbbr = CAL_MONTHS[d.getMonth()].slice(0,3);
+    const diffDays = Math.round((d - todayStart) / 86400000);
+    const daysHtml = diffDays>=0 ? `<div class="cal-ev-days"><b>${diffDays}</b>days to go</div>` : "";
+    return `<div class="cal-ev-row" id="calEv-${ev.date}">
+      <div class="cal-ev-node"></div>
+      <div class="cal-ev-card">
+        <div class="cal-ev-date"><b>${dayNum}</b><small>${monAbbr}</small></div>
+        <div class="cal-ev-icon">${CAL_ICONS[ev.icon]||""}</div>
+        <div class="cal-ev-info">
+          <h4>${ev.title}</h4>
+          <p>${ev.venue}</p>
+          <span class="cal-tag">${ev.tag}</span>
+        </div>
+        ${daysHtml}
+      </div>
+    </div>`;
+  }).join("");
+
+  root.innerHTML = `<div class="cal-grid">${calCards}</div><div class="cal-events">${evCards}</div>`;
+
+  root.querySelectorAll("[data-jump]").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const target = document.getElementById("calEv-"+el.dataset.jump);
+      if(!target) return;
+      target.scrollIntoView({behavior:"smooth", block:"center"});
+      const card = target.querySelector(".cal-ev-card");
+      card.classList.add("cal-flash");
+      setTimeout(()=>card.classList.remove("cal-flash"), 1000);
+    });
+  });
+}
+renderEventsCalendar();
 
 /* ========== Sponsors placeholders ========== */
 document.getElementById("sponsorRoot").innerHTML =
@@ -1573,6 +2080,120 @@ document.getElementById("contactForm").addEventListener("submit", e=>{
   location.href = `mailto:${EMAIL}?subject=${encodeURIComponent("Website enquiry from "+g("cName"))}&body=${encodeURIComponent(`Name: ${g("cName")}\nEmail: ${g("cEmail")}\n\n${g("cMsg")}`)}`;
   document.getElementById("contactNote").style.display="block";
 });
+
+/* ========== Full Gala Dinner Dance Programme ========== */
+(function(){
+  const overlay = document.getElementById("programmeOverlay");
+  const openBtn = document.getElementById("openProgramme");
+  const closeBtn = document.getElementById("programmeClose");
+  if(!overlay || !openBtn) return;
+
+  function openProg(){
+    overlay.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeProg(){
+    overlay.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  openBtn.addEventListener("click", openProg);
+  closeBtn.addEventListener("click", closeProg);
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape" && overlay.classList.contains("open")) closeProg(); });
+
+  // Smooth-scroll section nav + active-state highlight
+  const navLinks = overlay.querySelectorAll(".prog-nav a");
+  navLinks.forEach(a=>{
+    a.addEventListener("click", e=>{
+      e.preventDefault();
+      const target = overlay.querySelector(a.getAttribute("href"));
+      if(target) target.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+  });
+  const sections = overlay.querySelectorAll(".prog-sec");
+  overlay.addEventListener("scroll", ()=>{
+    let current = sections[0] && sections[0].id;
+    sections.forEach(sec=>{ if(overlay.scrollTop >= sec.offsetTop - 140) current = sec.id; });
+    navLinks.forEach(a=> a.classList.toggle("on", a.getAttribute("href") === "#"+current));
+  });
+
+  // Add the whole evening to Google Calendar (6:00 PM Sat 3 Oct - 12:00 AM Sun 4 Oct, NZDT)
+  const addCalBtn = document.getElementById("progAddCal");
+  if(addCalBtn){
+    addCalBtn.addEventListener("click", e=>{
+      e.preventDefault();
+      const start = "20261003T060000Z"; // 6:00 PM NZDT (UTC+13) = 06:00 UTC
+      const end = "20261003T110000Z";   // 12:00 AM NZDT next day = 11:00 UTC
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("SPC OBU NZ Gala Dinner Dance 2026")}&dates=${start}/${end}&details=${encodeURIComponent("A night to reconnect, celebrate and create new memories. Formal / Blue Tie.")}&location=${encodeURIComponent("Fairway Events Centre, Argus Place, Wairau Valley, Auckland")}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+  }
+
+  // Cross-link to the Become a Sponsor form
+  const becomeSponsorBtn = document.getElementById("progBecomeSponsor");
+  if(becomeSponsorBtn){
+    becomeSponsorBtn.addEventListener("click", e=>{
+      e.preventDefault();
+      closeProg();
+      const sponsorOpenBtn = document.getElementById("openSponsorModal");
+      if(sponsorOpenBtn) sponsorOpenBtn.click();
+    });
+  }
+})();
+
+/* ========== Guest Details access gate ========== */
+(function(){
+  const gateModal = document.getElementById("guestGateModal");
+  const panelModal = document.getElementById("guestPanelModal");
+  const openBtns = [document.getElementById("openGuestGate"), document.getElementById("openGuestGate2")].filter(Boolean);
+  const gateClose = document.getElementById("guestGateClose");
+  const panelClose = document.getElementById("guestPanelClose");
+  const input = document.getElementById("guestCodeInput");
+  const error = document.getElementById("guestError");
+  const submitBtn = document.getElementById("guestSubmit");
+  if(!gateModal || !panelModal || !openBtns.length) return;
+
+  function openGate(){
+    gateModal.classList.add("open");
+    document.body.style.overflow = "hidden";
+    input.value = "";
+    error.classList.remove("show");
+    setTimeout(()=>input.focus(), 150);
+  }
+  function closeGate(){
+    gateModal.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  function openPanel(){
+    closeGate();
+    panelModal.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closePanel(){
+    panelModal.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  function tryUnlock(){
+    if(input.value.trim() === GUEST_ACCESS_CODE){
+      openPanel();
+    } else {
+      error.classList.remove("show");
+      void error.offsetWidth;
+      error.classList.add("show");
+    }
+  }
+  openBtns.forEach(b=> b.addEventListener("click", openGate));
+  gateClose.addEventListener("click", closeGate);
+  panelClose.addEventListener("click", closePanel);
+  submitBtn.addEventListener("click", tryUnlock);
+  input.addEventListener("keydown", e=>{ if(e.key==="Enter") tryUnlock(); });
+  gateModal.addEventListener("click", e=>{ if(e.target===gateModal) closeGate(); });
+  panelModal.addEventListener("click", e=>{ if(e.target===panelModal) closePanel(); });
+  document.addEventListener("keydown", e=>{
+    if(e.key!=="Escape") return;
+    if(gateModal.classList.contains("open")) closeGate();
+    if(panelModal.classList.contains("open")) closePanel();
+  });
+})();
 
 /* ========== Sponsor modal ========== */
 (function(){
