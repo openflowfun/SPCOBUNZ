@@ -136,6 +136,15 @@ nav.desktop a.active::after{width:100%}
   50%{transform:skewY(calc(0.9deg + var(--scroll-tilt,0deg))) scaleY(1.004)}
 }
 .flag-label{margin-top:20px;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(10,25,48,.55)}
+.spc-flag{position:relative;transform:translateY(-14px);z-index:1}
+.spc-flag-glow{position:absolute;left:50%;top:44%;width:340px;height:340px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(201,162,39,.28) 0%,rgba(201,162,39,.1) 45%,transparent 70%);border-radius:50%;filter:blur(18px);animation:pulse 3.2s ease-in-out infinite;pointer-events:none;z-index:0}
+.spc-flag-badge{position:relative;z-index:2;display:inline-flex;align-items:center;gap:7px;margin-bottom:14px;padding:6px 16px;border-radius:999px;border:1px solid rgba(201,162,39,.5);background:linear-gradient(135deg,#10264A,#0A1930);color:var(--gold);font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;box-shadow:0 8px 22px rgba(201,162,39,.18)}
+.spc-flag-badge i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+.spc-flag .flag-unfurl{position:relative;z-index:1}
+.spc-flag .flag-cloth{width:300px;box-shadow:0 22px 60px rgba(201,162,39,.28),0 18px 48px rgba(5,13,26,.28);border-radius:3px}
+.spc-flag .flag-unfurl::before{background:linear-gradient(180deg,#E3C566,#C9A227,#A5841C);box-shadow:0 0 18px rgba(201,162,39,.65)}
+.spc-flag-label{margin-top:20px;font-size:12px;font-weight:700;letter-spacing:.16em;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media(max-width:700px){.spc-flag{transform:translateY(0);order:-1;flex-basis:100%;margin-bottom:12px}.spc-flag-glow{width:260px;height:260px}}
 .hero-glow{position:absolute;left:50%;top:22%;width:900px;height:520px;transform:translateX(-50%);background:rgba(201,162,39,.09);border-radius:50%;filter:blur(90px);animation:pulse 7s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
 .hero-flow{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.8vh,32px);max-width:1100px;margin:0 auto;padding:132px 24px 60px}
@@ -301,7 +310,7 @@ nav.desktop a.active::after{width:100%}
 @media(max-width:460px){.prog-grid{grid-template-columns:1fr}}
 .prog-item{position:relative;text-align:center;padding:20px 14px;border-radius:16px;background:var(--navy-900);border:1px solid rgba(201,162,39,.2);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
 .prog-item:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(5,13,26,.25)}
-.prog-item b{display:block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:9px;color:#5FA8F0}
+.prog-item b{display:block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:9px;color:var(--gold)}
 .prog-item span{font-family:var(--serif);font-size:14px;font-weight:600;color:#fff;line-height:1.4}
 .prog-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
 .prog-includes{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px;margin-top:26px}
@@ -321,7 +330,7 @@ nav.desktop a.active::after{width:100%}
 .prog-tl-item{position:relative;margin-bottom:22px}
 .prog-tl-item:last-child{margin-bottom:0}
 .prog-tl-dot{position:absolute;left:0;top:22px;width:11px;height:11px;border-radius:50%;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);box-shadow:0 0 0 4px var(--ivory),0 0 0 5px rgba(201,162,39,.3)}
-.prog-tl-badge{display:inline-block;margin-bottom:9px;padding:4px 13px;border-radius:20px;background:rgba(74,156,238,.14);border:1px solid rgba(74,156,238,.4);font-family:var(--serif);font-size:11px;font-weight:700;letter-spacing:.03em;color:#5FA8F0}
+.prog-tl-badge{display:inline-block;margin-bottom:9px;padding:4px 13px;border-radius:20px;background:rgba(201,162,39,.14);border:1px solid rgba(201,162,39,.4);font-family:var(--serif);font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--gold)}
 .prog-tl-card{border-radius:16px;padding:16px 20px;background:var(--navy-900);border:1px solid rgba(201,162,39,.2);box-shadow:0 10px 26px rgba(5,13,26,.15);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
 .prog-tl-card:hover{transform:translateX(4px);box-shadow:0 14px 34px rgba(5,13,26,.3)}
 .prog-tl-card h4{font-family:var(--serif);font-size:15px;font-weight:600;color:#fff;display:flex;align-items:center;gap:9px}
@@ -612,15 +621,25 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="flag-pole-wrap">
           <div class="flag-unfurl" data-flag>
             <div class="flag-cloth">
-              <img src="public/images/Flag_New_Zealand.jpeg" alt="Flag of New Zealand" loading="lazy" />
+              <img src="public/images/Flag_New_Zealand_HD.jpg" alt="Flag of New Zealand" loading="lazy" />
             </div>
           </div>
           <p class="flag-label">New Zealand</p>
         </div>
+        <div class="flag-pole-wrap spc-flag">
+          <div class="spc-flag-glow"></div>
+          <div class="spc-flag-badge"><i></i>The Union</div>
+          <div class="flag-unfurl" data-flag>
+            <div class="flag-cloth">
+              <img src="public/images/flag-HD.jpg" alt="SPC OBU New Zealand flag" loading="lazy" />
+            </div>
+          </div>
+          <p class="flag-label spc-flag-label">SPC OBU New Zealand</p>
+        </div>
         <div class="flag-pole-wrap">
           <div class="flag-unfurl" data-flag>
             <div class="flag-cloth">
-              <img src="public/images/Flag_Sri_Lanka.jpeg" alt="Flag of Sri Lanka" loading="lazy" />
+              <img src="public/images/Flag_Sri_Lanka_HD.jpg" alt="Flag of Sri Lanka" loading="lazy" />
             </div>
           </div>
           <p class="flag-label">Sri Lanka</p>
@@ -697,7 +716,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="section" style="background:#fff">
     <div class="container reveal">
       <div style="position:relative;border-radius:28px;overflow:hidden;background:var(--navy-900);color:#fff;padding:56px">
-        <div style="position:absolute;inset:0;background:url('public/images/flag.webp') center/cover;opacity:.15"></div>
+        <div style="position:absolute;inset:0;background:url('public/images/flag-HD.jpg') center/cover;opacity:.15"></div>
         <div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--navy-950),rgba(8,20,38,.9),rgba(8,20,38,.6))"></div>
         <div style="position:relative;display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap">
           <div>
@@ -773,7 +792,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 
   <div class="section" style="background:#fff">
     <div class="container split">
-      <div class="reveal"><div class="img-frame"><img src="public/images/flag.webp" alt="St. Peter's College flag" /></div></div>
+      <div class="reveal"><div class="img-frame"><img src="public/images/flag-HD.jpg" alt="St. Peter's College flag" /></div></div>
       <div class="reveal d2">
         <p class="eyebrow">One Global Family</p>
         <h2 class="h-lg" style="margin-top:16px;font-size:clamp(1.5rem,3vw,2.3rem)">Connected to the <br /><span class="gold-text">mother OBU</span> in Sri Lanka</h2>
@@ -838,7 +857,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="gala-l">
           <span class="pill"><i></i>Tickets on sale</span>
           <h2 class="h-lg" style="margin-top:22px">Gala Dinner <span class="gold-text">Dance 2026</span></h2>
-          <p class="muted-w" style="margin-top:18px;max-width:520px">The premier evening on the SPC OBU NZ calendar. Join Peterites, families and friends for a night of fine dining, live music and dancing - celebrating the brotherhood in true Peterite style.</p>
+          <p class="muted-w" style="margin-top:18px;max-width:520px">The premier event on the SPC OBU NZ calendar. Join Peterites, families and friends for a night of fine dining, live music and dancing - celebrating the brotherhood in true Peterite style.</p>
           <dl class="dl">
             <div><dt>Date</dt><dd>Saturday, <br />3rd October 2026</dd></div>
             <div><dt>Venue</dt><dd>Fairway Events Centre, Auckland</dd></div>
@@ -1189,7 +1208,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     <img src="public/images/crest-spc-cutout.png" alt="" class="prog-crest" />
     <p class="eyebrow" style="position:relative;color:var(--gold)">SPC OBU New Zealand Presents</p>
     <h2 class="prog-title">Gala Dinner <span class="gold-text shimmer">Dance</span></h2>
-    <p class="prog-date">Saturday &middot; 3rd October 2026 &middot; 6:00 PM</p>
+    <p class="prog-date">Saturday &middot; 3rd October 2026 &middot; 5:30 PM</p>
     <p class="prog-tag">A night to reconnect, celebrate and create new memories.</p>
     <nav class="prog-nav" id="progNav">
       <a href="#prog-welcome">Welcome</a>
@@ -1219,7 +1238,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <h3><span class="prog-num">01</span>Event Details</h3>
       <div class="prog-grid">
         <div class="prog-item"><b>Date</b><span>Saturday, 3rd October 2026</span></div>
-        <div class="prog-item"><b>Time</b><span>6:00 PM onward</span></div>
+        <div class="prog-item"><b>Time</b><span>5:30 PM onward</span></div>
         <div class="prog-item"><b>Venue</b><span>Fairway Events Centre<br />Argus Place, Wairau Valley, Auckland</span></div>
         <div class="prog-item"><b>Dress Code</b><span>Formal / Blue Tie</span></div>
         <div class="prog-item"><b>Tickets</b><span>$110 per person<br />$1,100 table of 10</span></div>
@@ -1252,7 +1271,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <div class="prog-timeline">
         <div class="prog-tl-item">
           <span class="prog-tl-dot"></span>
-          <div class="prog-tl-card"><span class="prog-tl-badge">6:00 PM</span>
+          <div class="prog-tl-card"><span class="prog-tl-badge">5:30 PM</span>
             <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4M5 21V5a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"/></svg>Doors Open</h4>
             <p>Guest arrival, registration and photography. DJ provides background music as guests find their tables and enjoy the complimentary drinks.</p>
             <div class="prog-tl-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>Argus Place, Wairau Valley, Auckland</div>
@@ -1431,15 +1450,15 @@ const GUEST_ACCESS_CODE = "OBU2026";
 
 const COMMITTEE = [
   { tier:"Patron", big:true, members:[["Patron","Rev. Fr. Rohitha Rodrigo","Rector of St Peter's College, Colombo 04"]] },
-  { tier:"Vice Patrons", members:[["Vice Patron","Dale Rabot"],["Vice Patron","Sriyan Senadheera"],["Vice Patron","Asoka Attapattu","Current SL OBU President"]] },
+  { tier:"Vice Patrons", members:[["Vice Patron","Dale Rabot"],["Vice Patron","Sriyan Senadheera"],["Vice Patron","Asoka Attapattu"]] },
   { tier:"Executive", members:[["President","Shohan Wimalaratne"],["Past President","Malik Lenora"],["Vice President","Kevin Alexander"],["Vice President","Dr Shahane De Costa"],["Vice President","Dinuka Silva"]] },
   { tier:"Office Bearers", members:[["Secretary","Herschelle Hendricks"],["Assistant Secretary","Collin Francke"],["Treasurer","Navin Fonseka"],["Assistant Treasurer","Vacant"],["Social Secretary","Kanishka Perera"],["Assistant Social Secretary","Ulyssess David"],["Media Secretary","Prasad De Silva"],["Assistant Media Secretary","Pradeep De Silva"],["Sports Secretary","Shevon Perera"],["Assistant Sports Secretary","Lahiru Manawadu"]] },
   { tier:"General Committee", members:["Ravi Dharmawardane","Chandana Lordan","Thilina Perera","Dinesh Fernando","Warren Hendricks","Rajan Jayathunga","Warren Pietersz","Madushan Rathnasekara","Shanil Silva","Harindra Wijesena","Mohan Herath"].map(n=>["General Committee",n]) },
 ];
 
 const BENEFITS = [
-  ["Priority Event Access","First access and member pricing for the Gala Dinner Dance, Joe-Pete NZ and all union events."],
   ["A Voice in the Union","Vote at the AGM, stand for office, and help shape the direction of SPC OBU NZ."],
+  ["First to Know","Early updates on events, college news and union announcements - straight from the committee, before anyone else."],
   ["The Peterite Network","Connect with old boys across New Zealand - professionally, socially and in times of need."],
   ["Giving Back","Your fees directly support union initiatives and charitable projects for St. Peter's College."],
   ["Family Community","Membership embraces your whole family - from family days to the wider Peterite whānau."],
@@ -1789,7 +1808,7 @@ document.getElementById("committeeRoot").innerHTML = COMMITTEE.map((g,gi)=>{
       ${rest.map(rmItem).join("")}
     </div>`;
   } else if(g.tier==="Vice Patrons"){
-    body = `<div class="roster-mini reveal">
+    body = `<div class="roster-row reveal">
       ${members.map(([role,name,note])=>`
         <div class="rm-item">
           <div class="rm-avatar">${initials(name)}</div>
@@ -2116,12 +2135,12 @@ document.getElementById("contactForm").addEventListener("submit", e=>{
     navLinks.forEach(a=> a.classList.toggle("on", a.getAttribute("href") === "#"+current));
   });
 
-  // Add the whole evening to Google Calendar (6:00 PM Sat 3 Oct - 12:00 AM Sun 4 Oct, NZDT)
+  // Add the whole evening to Google Calendar (5:30 PM Sat 3 Oct - 12:00 AM Sun 4 Oct, NZDT)
   const addCalBtn = document.getElementById("progAddCal");
   if(addCalBtn){
     addCalBtn.addEventListener("click", e=>{
       e.preventDefault();
-      const start = "20261003T060000Z"; // 6:00 PM NZDT (UTC+13) = 06:00 UTC
+      const start = "20261003T043000Z"; // 5:30 PM NZDT (UTC+13) = 04:30 UTC
       const end = "20261003T110000Z";   // 12:00 AM NZDT next day = 11:00 UTC
       const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("SPC OBU NZ Gala Dinner Dance 2026")}&dates=${start}/${end}&details=${encodeURIComponent("A night to reconnect, celebrate and create new memories. Formal / Blue Tie.")}&location=${encodeURIComponent("Fairway Events Centre, Argus Place, Wairau Valley, Auckland")}`;
       window.open(url, "_blank", "noopener,noreferrer");
