@@ -38,10 +38,19 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .h-lg{font-family:var(--serif);font-size:clamp(1.9rem,4.5vw,3rem);line-height:1.15}
 .h-md{font-family:var(--serif);font-size:clamp(1.4rem,3vw,1.9rem)}
 .gold-text{background:linear-gradient(135deg,#E3C566 0%,#C9A227 50%,#A5841C 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.blue-glow{color:#2E7BD6;text-shadow:0 0 12px rgba(46,123,214,.85),0 0 32px rgba(30,95,180,.6),0 0 60px rgba(20,70,150,.4);animation:blueGlowPulse 3.2s ease-in-out infinite}
-@keyframes blueGlowPulse{0%,100%{text-shadow:0 0 12px rgba(46,123,214,.85),0 0 32px rgba(30,95,180,.6),0 0 60px rgba(20,70,150,.4)}50%{text-shadow:0 0 18px rgba(46,123,214,1),0 0 46px rgba(30,95,180,.85),0 0 80px rgba(20,70,150,.55)}}
-.white-glow{color:#fff;text-shadow:0 0 12px rgba(255,255,255,.75),0 0 32px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25);animation:whiteGlowPulse 3.2s ease-in-out infinite}
-@keyframes whiteGlowPulse{0%,100%{text-shadow:0 0 12px rgba(255,255,255,.75),0 0 32px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}50%{text-shadow:0 0 20px rgba(255,255,255,1),0 0 48px rgba(255,255,255,.7),0 0 84px rgba(255,255,255,.4)}}
+.blue-glow{background:linear-gradient(135deg,#6FA8E8 0%,#2E7BD6 55%,#1B4F8C 100%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.01em;text-shadow:0 0 14px rgba(46,123,214,.65),0 0 34px rgba(30,95,180,.45),0 0 64px rgba(20,70,150,.3);animation:blueGlowPulse 3.8s ease-in-out infinite}
+@keyframes blueGlowPulse{0%,100%{text-shadow:0 0 14px rgba(46,123,214,.65),0 0 34px rgba(30,95,180,.45),0 0 64px rgba(20,70,150,.3)}50%{text-shadow:0 0 20px rgba(46,123,214,.85),0 0 44px rgba(30,95,180,.6),0 0 78px rgba(20,70,150,.4)}}
+.white-glow{background:linear-gradient(135deg,#ffffff 0%,#F3EFE6 55%,#E4DBC4 100%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.01em;text-shadow:0 0 14px rgba(255,255,255,.6),0 0 34px rgba(255,255,255,.38),0 0 64px rgba(255,255,255,.2);animation:whiteGlowPulse 3.8s ease-in-out infinite .15s}
+@keyframes whiteGlowPulse{0%,100%{text-shadow:0 0 14px rgba(255,255,255,.6),0 0 34px rgba(255,255,255,.38),0 0 64px rgba(255,255,255,.2)}50%{text-shadow:0 0 20px rgba(255,255,255,.85),0 0 44px rgba(255,255,255,.55),0 0 78px rgba(255,255,255,.3)}}
+@media(max-width:700px){
+  .blue-glow{animation:none;text-shadow:0 0 15px rgba(46,123,214,.7),0 0 32px rgba(30,95,180,.48),0 0 54px rgba(20,70,150,.3)}
+  .white-glow{animation:none;text-shadow:0 0 15px rgba(255,255,255,.7),0 0 32px rgba(255,255,255,.45),0 0 54px rgba(255,255,255,.24)}
+}
+@media(prefers-reduced-motion:reduce){.blue-glow,.white-glow{animation:none}}
+.hero-flourish{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:22px;animation:up .9s var(--ease) .75s both}
+.hero-flourish i{width:6px;height:6px;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);transform:rotate(45deg);flex-shrink:0}
+.hero-flourish span{height:1px;width:54px;background:linear-gradient(90deg,transparent,rgba(201,162,39,.65))}
+.hero-flourish span.r{background:linear-gradient(90deg,rgba(201,162,39,.65),transparent)}
 .gold-rule{height:1px;width:64px;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);margin-top:24px}
 .gold-rule.center{margin-left:auto;margin-right:auto}
 .navy-bg{background:radial-gradient(ellipse at 50% 0%,#10264A 0%,#0A1930 55%,#050D1A 100%);color:#fff}
@@ -603,6 +612,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       </div>
       <div>
         <h1><span class="blue-glow">One College.</span><br /><span class="white-glow">One Brotherhood.</span><br /><span class="gold-text shimmer">Across Aotearoa.</span></h1>
+        <div class="hero-flourish"><span class="l"></span><i></i><span class="r"></span></div>
         <p class="lede">Welcome to the official home of SPC OBU New Zealand - <br />Where Peterites gather to honour our legacy, celebrate friendships, and <br />strengthen our brotherhood for generations to come.</p>
         <div class="cta">
           <a href="#/events" class="btn btn-gold">Upcoming Events</a>
