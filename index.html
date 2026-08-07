@@ -263,8 +263,13 @@ nav.desktop a.active::after{width:100%}
   .story-teaser .gold-rule,.upcoming-event-split .gold-rule{margin-left:auto;margin-right:auto}
   .upcoming-event-split div[style*="display:grid"]{justify-items:center;text-align:center}
   .upcoming-event-split div[style*="display:flex"]{justify-content:center}
-  .rivalry-card > div{justify-content:center;text-align:center}
+  .rivalry-card > div{justify-content:center!important;text-align:center}
   .rivalry-card .rivalry-tags{justify-content:center}
+}
+@media(max-width:760px){
+  .foot > div:first-child{text-align:center}
+  .foot > div:first-child .brand{justify-content:center}
+  .foot > div:first-child p{margin-left:auto;margin-right:auto}
 }
 
 /* Committee */
