@@ -103,7 +103,7 @@ nav.desktop a.active::after{width:100%}
 @media(max-width:520px){
   .hdr{padding:0 18px}
   .brand small{letter-spacing:.14em}
-  .hero-flow{padding:110px 18px 50px}
+  .hero-flow{padding:110px 14px 50px}
   .flag-cloth{width:200px}
 }
 .mobile-menu{position:fixed;inset:0;z-index:55;background:rgba(5,13,26,.98);backdrop-filter:blur(16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .35s}
@@ -171,7 +171,7 @@ nav.desktop a.active::after{width:100%}
 .lede-white{background:linear-gradient(160deg,#ffffff 0%,#F9F6EE 55%,#EFE7CF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500}
 .lede-gold{background:linear-gradient(135deg,#F3D98B 0%,#E3C566 35%,#C9A227 70%,#A5841C 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lede-premium .lede-line{text-shadow:0 2px 12px rgba(3,9,20,.5)}
-@media(max-width:700px){.lede-line{letter-spacing:.005em}}
+@media(max-width:700px){.lede-line{letter-spacing:0;font-weight:500;font-size:11.5px}}
 .hero .cta{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:up .9s var(--ease) .85s both}
 @keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 .scroll-cue{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:22px;height:36px;border:1px solid rgba(201,162,39,.4);border-radius:999px;display:flex;justify-content:center;padding-top:6px;animation:fadeIn 1s 1.3s both}
@@ -258,6 +258,14 @@ nav.desktop a.active::after{width:100%}
 .rivalry-logo-frame{position:relative;z-index:1;padding:6px;border-radius:20px;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C)}
 .rivalry-logo-frame img{display:block;max-height:140px;width:auto;object-fit:contain;border-radius:15px;background:#0A1930}
 @media(max-width:700px){.rivalry-vs{display:none}.rivalry-card{padding:40px 26px}}
+@media(max-width:760px){
+  .story-teaser,.upcoming-event-split{text-align:center}
+  .story-teaser .gold-rule,.upcoming-event-split .gold-rule{margin-left:auto;margin-right:auto}
+  .upcoming-event-split div[style*="display:grid"]{justify-items:center;text-align:center}
+  .upcoming-event-split div[style*="display:flex"]{justify-content:center}
+  .rivalry-card > div{justify-content:center;text-align:center}
+  .rivalry-card .rivalry-tags{justify-content:center}
+}
 
 /* Committee */
 .mem{text-align:center}
@@ -656,7 +664,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <div>
         <h1><span class="blue-glow">One College.</span><br /><span class="white-glow">One Brotherhood.</span><br /><span class="gold-text shimmer">Across Aotearoa.</span></h1>
         <div class="hero-flourish"><span class="l"></span><i></i><span class="r"></span></div>
-        <p class="lede lede-premium"><span class="lede-line lede-white">Welcome to the official home of SPC OBU New Zealand -</span><br /><span class="lede-line lede-white">Where Peterites gather to honour our legacy, celebrate friendships, and</span><br /><span class="lede-line lede-white">strengthen our brotherhood for generations to come.</span></p>
+        <p class="lede lede-premium"><span class="lede-line lede-white">Welcome to the official home of SPC OBU New Zealand -</span><br /><span class="lede-line lede-white">Where Peterites gather to honour our legacy, celebrate friendships</span><br /><span class="lede-line lede-white">&amp; strengthen our brotherhood for generations to come.</span></p>
         <div class="cta">
           <a href="#/events" class="btn btn-gold">Upcoming Events</a>
           <a href="#/membership" class="btn btn-outline">Become a Member</a>
@@ -702,7 +710,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   </div>
 
   <div class="section">
-    <div class="container split">
+    <div class="container split story-teaser">
       <div class="reveal">
         <h2 class="h-lg" style="font-size:clamp(1.05rem,5.5vw,2.15rem);white-space:nowrap">A home away from home, <br /><span class="gold-text">7,000 miles from Bambalapitiya</span></h2>
         <div class="gold-rule"></div>
@@ -754,7 +762,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   </div>
 
   <div class="section navy-bg">
-    <div class="container split">
+    <div class="container split upcoming-event-split">
       <div class="reveal">
         <p class="eyebrow">Upcoming Event</p>
         <h2 class="h-lg" style="margin-top:16px">Gala Dinner Dance 2026<br /><span class="gold-text">An evening to remember</span></h2>
@@ -1504,7 +1512,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 /* ========== CONFIG - edit here ========== */
 // Gala Dinner Dance tickets are sold externally via My eTickets NZ.
 // Update this URL if the event listing link changes.
-const TICKETS_URL = "https://www.myetickets.co.nz";
+const TICKETS_URL = "https://myetickets.co.nz/tickets/645/details";
 
 // Stripe Payment Links: create at https://dashboard.stripe.com/payment-links
 // then paste the URL below. Until set, the membership button falls back to an email request.
