@@ -9,6 +9,8 @@
 <meta property="og:description" content="Official website of SPC OBU New Zealand - connecting Old Peterites across Aotearoa." />
 <meta property="og:image" content="public/images/crest.jpg" />
 <link rel="icon" href="public/images/crest.jpg" />
+<link rel="preload" as="image" href="public/images/crest-sm.jpg" />
+<link rel="preload" as="image" href="public/images/LandingPageImage-opt.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap" rel="stylesheet" />
@@ -38,17 +40,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .h-lg{font-family:var(--serif);font-size:clamp(1.9rem,4.5vw,3rem);line-height:1.15}
 .h-md{font-family:var(--serif);font-size:clamp(1.4rem,3vw,1.9rem)}
 .gold-text{background:linear-gradient(135deg,#E3C566 0%,#C9A227 50%,#A5841C 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.blue-glow{background:linear-gradient(100deg,#173F72 15%,#3D82D6 38%,#EAF3FF 50%,#3D82D6 62%,#173F72 85%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.02em;font-weight:600;text-shadow:0 3px 18px rgba(3,9,20,.55);animation:heroLineIn .7s var(--ease) 1.15s both,heroSweep 6.6s linear infinite}
-.white-glow{background:linear-gradient(100deg,#D8CBA3 15%,#F6F2E6 38%,#ffffff 50%,#F6F2E6 62%,#D8CBA3 85%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.02em;font-weight:600;text-shadow:0 3px 18px rgba(3,9,20,.55);animation:heroLineIn .7s var(--ease) 1.35s both,heroSweep 6.6s linear infinite 1.5s}
+.blue-glow{background:linear-gradient(100deg,#173F72 15%,#3D82D6 38%,#EAF3FF 50%,#3D82D6 62%,#173F72 85%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.02em;font-weight:600;text-shadow:0 3px 18px rgba(3,9,20,.55);animation:heroLineIn .6s var(--ease) .95s both,heroSweep 6.6s linear infinite}
+.white-glow{background:linear-gradient(100deg,#D8CBA3 15%,#F6F2E6 38%,#ffffff 50%,#F6F2E6 62%,#D8CBA3 85%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.02em;font-weight:600;text-shadow:0 3px 18px rgba(3,9,20,.55);animation:heroLineIn .6s var(--ease) 1.12s both,heroSweep 6.6s linear infinite 1.5s}
 @keyframes heroSweep{0%{background-position:260% 0}100%{background-position:-60% 0}}
 @keyframes heroLineIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .hero h1 .gold-text{letter-spacing:.02em;font-weight:600}
-.hero h1 .gold-text.shimmer{animation:heroLineIn .7s var(--ease) 1.55s both,shimmer 6.6s linear infinite 3s}
+.hero h1 .gold-text.shimmer{animation:heroLineIn .6s var(--ease) 1.29s both,shimmer 6.6s linear infinite 3s}
 @media(prefers-reduced-motion:reduce){.blue-glow,.white-glow,.hero h1 .gold-text.shimmer,.hero-crest,.hero-banner,.hero-flow .eyebrow,.hero-flourish,.hero p.lede,.hero .cta{animation:none}}
 @media(max-width:700px){
   .blue-glow,.white-glow{letter-spacing:.005em}
 }
-.hero-flourish{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:22px;animation:up .8s var(--ease) 2.3s both}
+.hero-flourish{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:22px;animation:up .7s var(--ease) 1.9s both}
 .hero-flourish i{width:6px;height:6px;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);transform:rotate(45deg);flex-shrink:0}
 .hero-flourish span{height:1px;width:54px;background:linear-gradient(90deg,transparent,rgba(201,162,39,.65))}
 .hero-flourish span.r{background:linear-gradient(90deg,rgba(201,162,39,.65),transparent)}
@@ -115,6 +117,9 @@ nav.desktop a.active::after{width:100%}
 .mobile-menu .motto{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,162,39,.6)}
 .mobile-menu-brand{font-family:var(--serif);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55)}
 .mobile-menu-close{position:absolute;top:24px;right:24px;display:flex;align-items:center;gap:8px;background:none;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:9px 18px;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);cursor:pointer}
+.mobile-menu-logo{position:absolute;top:24px;left:24px;display:flex;align-items:center;gap:10px}
+.mobile-menu-logo img{width:38px;height:38px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1.5px rgba(201,162,39,.55)}
+.mobile-menu-logo b{font-family:var(--serif);font-size:16px;color:#fff}
 .mobile-menu-close span{font-size:13px}
 
 /* Pages */
@@ -171,7 +176,7 @@ nav.desktop a.active::after{width:100%}
 .hero-banner img{display:block;width:100%;height:auto;will-change:transform}
 @keyframes bannerReveal{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
 .hero h1{font-family:var(--serif);font-size:clamp(2.2rem,5.6vw,3.9rem);line-height:1.05;text-shadow:0 4px 30px rgba(5,13,26,.75)}
-.hero p.lede{margin:26px auto 0;max-width:700px;font-size:clamp(14px,1.7vw,16px);color:rgba(255,255,255,.85);line-height:1.7;animation:up .8s var(--ease) 2.45s both;text-shadow:0 2px 16px rgba(5,13,26,.7)}
+.hero p.lede{margin:26px auto 0;max-width:700px;font-size:clamp(14px,1.7vw,16px);color:rgba(255,255,255,.85);line-height:1.7;animation:up .7s var(--ease) 2.05s both;text-shadow:0 2px 16px rgba(5,13,26,.7)}
 .lede-premium{line-height:1.85}
 .lede-line{display:inline-block;font-weight:600;letter-spacing:.015em}
 .lede-blue{background:linear-gradient(160deg,#EAF3FF 0%,#8FBCEE 35%,#3D82D6 70%,#173F72 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -179,7 +184,7 @@ nav.desktop a.active::after{width:100%}
 .lede-gold{background:linear-gradient(135deg,#F3D98B 0%,#E3C566 35%,#C9A227 70%,#A5841C 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lede-premium .lede-line{text-shadow:0 2px 12px rgba(3,9,20,.5)}
 @media(max-width:700px){.lede-line{letter-spacing:0;font-weight:500;font-size:11.5px}}
-.hero .cta{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:up .8s var(--ease) 2.65s both}
+.hero .cta{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:up .7s var(--ease) 2.25s both}
 @keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 .scroll-cue{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:22px;height:36px;border:1px solid rgba(201,162,39,.4);border-radius:999px;display:flex;justify-content:center;padding-top:6px;animation:fadeIn 1s 1.3s both}
 @media(max-width:760px){.hero{min-height:88vh}.scroll-cue{bottom:34px}}
@@ -237,6 +242,8 @@ nav.desktop a.active::after{width:100%}
 @media(max-width:760px){.ticket-note-break{display:inline}}
 .joe-pete-bond-break{display:none}
 @media(max-width:700px){.joe-pete-bond-break{display:inline}}
+.mission-mobile-break{display:none}
+@media(max-width:700px){.mission-mobile-break{display:inline}}
 @media(max-width:560px){
   .benefits-grid{grid-template-columns:repeat(3,1fr)!important;gap:10px}
   .benefits-grid .card{padding:16px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:112px}
@@ -641,7 +648,9 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 @media(max-width:760px){
   .foot{grid-template-columns:1fr 1fr;column-gap:22px;row-gap:34px;padding:48px 0}
   .foot > div:first-child{grid-column:1/-1}
-  .foot ul{grid-template-columns:auto auto;justify-content:start;gap:10px 16px}
+  .foot > div:nth-child(2),.foot > div:nth-child(3){text-align:center}
+  .foot ul{grid-template-columns:auto auto;justify-content:center;gap:10px 16px}
+  .foot .soc{justify-content:center}
 }
 .soc{display:flex;gap:12px;margin-top:18px}
 .soc a{display:flex;width:40px;height:40px;align-items:center;justify-content:center;border:1px solid rgba(201,162,39,.4);border-radius:50%;color:var(--gold);transition:all .3s}
@@ -666,7 +675,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 <header id="header">
   <div class="hdr">
     <a href="#/" class="brand">
-      <img src="public/images/crest.jpg" alt="SPC OBU NZ crest" />
+      <img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" />
       <b>SPC OBU <span class="gold-text">NZ</span></b>
     </a>
     <nav class="desktop" id="navDesktop">
@@ -679,6 +688,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   </div>
 </header>
 <div class="mobile-menu" id="mobileMenu">
+  <a href="#/" class="mobile-menu-logo"><img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" /><b>SPC OBU <span class="gold-text">NZ</span></b></a>
   <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">Close <span>✕</span></button>
   <a href="#/">Home</a><a href="#/about">Our Story</a><a href="#/committee">Committee</a>
   <a href="#/events">Events</a><a href="#/joe-pete">Joe-Pete NZ</a><a href="#/membership">Membership</a>
@@ -700,7 +710,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     <div class="hero-flow">
       <p class="eyebrow">St. Peter's College Old Boys' Union<br class="eyebrow-mobile-break" /> New Zealand<br />Est. 2020</p>
       <div class="hero-banner">
-        <img id="heroBg" src="public/images/LandingPageImage-hd.jpg" alt="St. Peter's College campus with the New Zealand and Sri Lanka flags" />
+        <img id="heroBg" src="public/images/LandingPageImage-opt.jpg" alt="St. Peter's College campus with the New Zealand and Sri Lanka flags" />
       </div>
       <div>
         <h1><span class="blue-glow">One College.</span><br /><span class="white-glow">One Brotherhood.</span><br /><span class="gold-text shimmer">Across Aotearoa.</span></h1>
@@ -898,7 +908,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     <div class="container">
       <div class="reveal" style="text-align:center;max-width:920px;margin:0 auto">
         <p class="eyebrow">Our Mission</p>
-        <h2 class="h-lg" style="margin-top:16px">To unite, celebrate and serve the <br /><span class="gold-text">Peterite community</span>&nbsp;in New Zealand</h2>
+        <h2 class="h-lg" style="margin-top:16px">To unite, celebrate and serve the <br /><span class="gold-text">Peterite community</span><br class="mission-mobile-break" />&nbsp;in New Zealand</h2>
         <p class="muted-w" style="margin-top:22px">We exist to keep old boys connected to one another and to St. Peter's College - fostering fellowship, supporting members and their families, and contributing to causes that reflect the values our College instilled in us.</p>
       </div>
       <div class="grid g4" style="margin-top:56px">
@@ -1283,7 +1293,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="top-rule"></div>
   <div class="container foot">
     <div>
-      <div class="brand"><img src="public/images/crest.jpg" alt="SPC OBU NZ crest" style="width:52px;height:52px" /><b>SPC OBU <span class="gold-text">New Zealand</span></b></div>
+      <div class="brand"><img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" style="width:52px;height:52px" /><b>SPC OBU <span class="gold-text">New Zealand</span></b></div>
       <p class="muted-w" style="margin-top:18px;max-width:340px;font-size:14px">St. Peter's College Old Boys' Union New Zealand - uniting Peterites across Aotearoa in brotherhood, legacy and service since 2020.</p>
     </div>
     <div>
@@ -2109,7 +2119,7 @@ function renderGallery(){
     galFeatured.style.display = "grid";
     const logoEntry = GALLERY.find(g=>g[2]==="Logo");
     galFeaturedLogo.innerHTML = `<img src="${logoEntry?logoEntry[0]:"public/images/crest.jpg"}" alt="SPC OBU NZ logo" loading="lazy" />`;
-    galFeaturedLanding.innerHTML = `<img src="public/images/LandingPageImage-hd.jpg" alt="St. Peter's College, Colombo" loading="lazy" />`;
+    galFeaturedLanding.innerHTML = `<img src="public/images/LandingPageImage-opt.jpg" alt="St. Peter's College, Colombo" loading="lazy" />`;
 
     const photos = shuffleArr(GALLERY.filter(g=>g[2]!=="Logo"));
     visible = photos;
