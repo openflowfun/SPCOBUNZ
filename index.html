@@ -648,6 +648,7 @@ nav.desktop a.active::after{width:100%}
 
 /* Forms */
 .input,textarea.input{width:100%;border-radius:14px;border:1px solid rgba(10,25,48,.15);background:#fff;padding:13px 16px;font-size:14px;font-family:inherit;color:var(--navy-900);outline:none;transition:all .2s}
+@media(max-width:760px){.input,textarea.input{font-size:16px}}
 .input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.25)}
 .input.dark{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff}
 .input.dark::placeholder{color:rgba(255,255,255,.3)}
@@ -743,7 +744,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <b>SPC OBU <span class="gold-text">NZ</span></b>
     </a>
     <nav class="desktop" id="navDesktop">
-      <a href="#/">Home</a><a href="#/about">Our Story</a><a href="#/committee">Committee</a>
+      <a href="#/">Home</a><a href="#/our-story">Our Story</a><a href="#/committee">Committee</a>
       <a href="#/events">Events</a><a href="#/joe-pete">Joe-Pete NZ</a><a href="#/membership">Membership</a>
       <a href="#/sponsors">Sponsors</a><a href="#/gallery">Gallery</a><a href="#/contact">Contact</a>
       <a href="#/membership" class="btn btn-gold join-btn">Join</a>
@@ -754,7 +755,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 <div class="mobile-menu" id="mobileMenu">
   <a href="#/" class="mobile-menu-logo"><img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" /><b>SPC OBU <span class="gold-text">NZ</span></b></a>
   <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">Close <span>✕</span></button>
-  <a href="#/">Home</a><a href="#/about">Our Story</a><a href="#/committee">Committee</a>
+  <a href="#/">Home</a><a href="#/our-story">Our Story</a><a href="#/committee">Committee</a>
   <a href="#/events">Events</a><a href="#/joe-pete">Joe-Pete NZ</a><a href="#/membership">Membership</a>
   <a href="#/sponsors">Sponsors</a><a href="#/gallery">Gallery</a><a href="#/contact">Contact</a>
   <div class="mobile-menu-foot">
@@ -831,7 +832,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="gold-rule"></div>
         <p class="muted" style="margin-top:24px">Founded in 2020, SPC OBU New Zealand brings together old boys of St. Peter's College, Colombo 04 who now call Aotearoa home. Whether you left College last year or decades ago, this is your union - built on the friendships forged in the classrooms, playing fields and chapel of our beloved school by the sea.</p>
         <p class="muted" style="margin-top:16px">We gather to celebrate, to support one another, and to give back - to our community here in New Zealand and to the College that made us who we are.</p>
-        <div style="margin-top:30px;text-align:center"><a href="#/about" class="btn btn-outline-navy">Our Story</a></div>
+        <div style="margin-top:30px;text-align:center"><a href="#/our-story" class="btn btn-outline-navy">Our Story</a></div>
       </div>
       <div class="reveal d2" style="display:flex;align-items:center;justify-content:center;padding:20px">
         <img src="public/images/crest-transparent.png" alt="SPC OBU New Zealand crest" style="max-height:400px;width:auto;object-fit:contain" />
@@ -938,7 +939,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 </section>
 
 <!-- ================= ABOUT ================= -->
-<section class="page" data-page="about">
+<section class="page" data-page="our-story">
   <div class="page-hero"><div class="glow"></div>
     <div class="container">
       <p class="eyebrow">About Us</p>
@@ -1387,7 +1388,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     <div>
       <p class="eyebrow" style="margin-bottom:18px">Explore</p>
       <ul>
-        <li><a href="#/about">About</a></li><li><a href="#/committee">Committee</a></li>
+        <li><a href="#/our-story">About</a></li><li><a href="#/committee">Committee</a></li>
         <li><a href="#/events">Events</a></li><li><a href="#/joe-pete">Joe-Pete NZ</a></li>
         <li><a href="#/membership">Membership</a></li><li><a href="#/sponsors">Sponsors</a></li>
         <li><a href="#/gallery">Gallery</a></li><li><a href="#/contact">Contact</a></li>
