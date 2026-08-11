@@ -422,6 +422,9 @@ body.page-programme .burger{display:none}
 .prog-overlay{background:#050D1A}
 @keyframes progIn{from{opacity:0;transform:scale(1.02)}to{opacity:1;transform:none}}
 .prog-close{position:fixed;top:22px;right:22px;z-index:5;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(201,162,39,.4);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .25s var(--ease)}
+/* Desktop header nav reaches all the way to the right edge (up to "Contact"),
+   so push the close button below it there and make it a touch smaller */
+@media(min-width:1081px){.prog-close{top:132px;right:40px;width:38px;height:38px;font-size:15px}}
 .prog-close:hover{background:var(--gold);color:var(--navy-900);border-color:transparent;transform:rotate(90deg)}
 .prog-hero{position:relative;overflow:hidden;padding:110px 24px 40px;text-align:center;background:radial-gradient(ellipse at 50% 0%,#173766 0%,#0A1930 55%,#050D1A 100%);color:#fff}
 .prog-hero-glow{position:absolute;left:50%;top:-160px;width:900px;height:480px;transform:translateX(-50%);background:rgba(201,162,39,.1);border-radius:50%;filter:blur(100px)}
@@ -906,8 +909,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
           <p>🎟️ &nbsp;$110 per person &middot; Tables of 10 available</p>
         </div>
         <div style="margin-top:34px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/events" class="btn btn-gold">Get Tickets</a>
-          <a href="/events" class="btn btn-outline">Event Details</a>
+          <a href="/events" class="btn btn-gold">Event Details</a>
         </div>
       </div>
       <div class="reveal d2" style="text-align:center">
@@ -1009,7 +1011,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <p class="eyebrow">One Global Family</p>
         <h2 class="h-lg" style="margin-top:16px;font-size:clamp(1.5rem,3vw,2.3rem)">Connected to the <br /><span class="gold-text">mother OBU</span> in Sri Lanka</h2>
         <div class="gold-rule"></div>
-        <p class="muted" style="margin-top:24px">SPC OBU New Zealand operates in close partnership with the St. Peter's College Old Boys' Union in Colombo - the mother union that has served the College for over a century. Our Patron, Rev. Fr. Rohitha Rodrigo, Rector of St. Peter's College, and Vice Patron Asoka Attapattu embody that living connection.</p>
+        <p class="muted" style="margin-top:24px">SPC OBU New Zealand operates in close partnership with the St. Peter's College Old Boys' Union in Colombo - the mother union that has served the College for over a century. Our Patron, Rev. Fr. Rohitha Rodrigo, Rector of St. Peter's College, continues to strengthen and guide that living connection.</p>
         <p class="muted" style="margin-top:16px">Together with branches across Australia, the UK, Canada and beyond, we form a global network of Peterites supporting the College and each other, wherever life has taken us.</p>
         <a href="/committee" class="btn btn-outline-navy" style="margin-top:30px">Meet Our Committee</a>
       </div>
@@ -1317,7 +1319,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       </div>
       <div class="grid g3" style="margin-top:52px">
         <div class="glass reveal" style="padding:32px;text-align:center"><div class="gold-rule center" style="margin-top:0"></div><h3 class="h-md" style="color:var(--gold-light);margin-top:18px;font-size:20px">Gold Sponsor</h3><p class="muted-w" style="margin-top:12px;font-size:14px">Premier branding across all major events, the website and event programmes.</p></div>
-        <div class="glass reveal d1" style="padding:32px;text-align:center"><div class="gold-rule center" style="margin-top:0"></div><h3 class="h-md" style="color:var(--gold-light);margin-top:18px;font-size:20px">Silver Sponsor</h3><p class="muted-w" style="margin-top:12px;font-size:14px">Prominent placement at the Gala Dinner Dance and Joe-Pete NZ.</p></div>
+        <div class="glass reveal d1" style="padding:32px;text-align:center"><div class="gold-rule center" style="margin-top:0"></div><h3 class="h-md" style="color:var(--gold-light);margin-top:18px;font-size:20px">Silver Sponsor</h3><p class="muted-w" style="margin-top:12px;font-size:14px">Prominent placement at Peterite events in NZ.</p></div>
         <div class="glass reveal d2" style="padding:32px;text-align:center"><div class="gold-rule center" style="margin-top:0"></div><h3 class="h-md" style="color:var(--gold-light);margin-top:18px;font-size:20px">Event Partner</h3><p class="muted-w" style="margin-top:12px;font-size:14px">Tailored packages supporting individual events and initiatives.</p></div>
       </div>
       <div class="reveal" style="margin-top:52px;text-align:center">
