@@ -421,7 +421,7 @@ body.page-programme .burger{display:none}
 /* Programme overlay */
 .prog-overlay{background:#050D1A}
 @keyframes progIn{from{opacity:0;transform:scale(1.02)}to{opacity:1;transform:none}}
-.prog-close{position:fixed;top:22px;right:22px;z-index:5;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(201,162,39,.4);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .25s var(--ease)}
+.prog-close{position:fixed;top:118px;right:22px;z-index:5;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(201,162,39,.4);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .25s var(--ease)}
 /* Desktop header nav reaches all the way to the right edge (up to "Contact"),
    so push the close button below it there and make it a touch smaller */
 @media(min-width:1081px){.prog-close{top:132px;right:40px;width:38px;height:38px;font-size:15px}}
@@ -448,6 +448,12 @@ body.page-programme .burger{display:none}
 .prog-store li{position:relative;padding-left:20px;font-size:13.5px;color:rgba(10,25,48,.72);line-height:1.6}
 .prog-store li::before{content:"";position:absolute;left:2px;top:8px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
 .prog-store li b{color:var(--navy-900)}
+/* Desktop only: centered, no bullet dots (mobile keeps the left-aligned bulleted list) */
+@media(min-width:761px){
+  .prog-store{text-align:center}
+  .prog-store li{padding-left:0}
+  .prog-store li::before{display:none}
+}
 .prog-sec{margin-bottom:76px;scroll-margin-top:30px}
 .prog-sec:last-child{margin-bottom:0}
 .prog-sec h3{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:26px;font-weight:600;color:var(--navy-900)}
@@ -1463,10 +1469,10 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <div class="prog-includes">
         <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 3v3a4 4 0 0 0 8 0V3M12 13v8M8 21h8"/></svg><b>Full Sri Lankan Buffet Dinner</b></div>
         <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-1 6a3 3 0 0 1-6 0L8 3Z"/><path d="M12 9v5M9 21h6M12 14v7"/></svg><b>2 Drinks - Spirits, Beer or Wine</b></div>
-        <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M12 15v6M9 21h6M8.5 8.5 5 5M15.5 8.5 19 5"/></svg><b>Prizes to Be Won</b></div>
+        <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8"/><path d="M16.5 8a2.5 2.5 0 0 0 0-5C13 3 12 8 12 8"/></svg><b>Prizes to Be Won</b></div>
         <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><b>Frisky Business - Live Band</b></div>
         <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2v2ZM3 19a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2v2Z"/></svg><b>DJ Naleen</b></div>
-        <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="2"/><path d="m9 8-3 3 2 2-2 5M12 22l2-6 3 2 2-4"/><path d="m11 13 2-3 3 1"/></svg><b>Dancing Until Late</b></div>
+        <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><path d="M12 6v6M12 8l-4-2M12 9l4-1M12 12l-3 8M12 12l4 7"/></svg><b>Dancing Until Late</b></div>
       </div>
     </section>
 
