@@ -17,10 +17,10 @@
 <meta name="description" content="The official home of the St. Peter's College Old Boys' Union New Zealand. Virtus et Veritas - uniting Peterites across Aotearoa since 2020." />
 <meta property="og:title" content="SPC OBU New Zealand" />
 <meta property="og:description" content="Official website of SPC OBU New Zealand - connecting Old Peterites across Aotearoa." />
-<meta property="og:image" content="public/images/crest.jpg" />
-<link rel="icon" href="public/images/crest.jpg" />
-<link rel="preload" as="image" href="public/images/crest-sm.jpg" />
-<link rel="preload" as="image" href="public/images/LandingPageImage-opt.jpg" />
+<meta property="og:image" content="/public/images/crest.jpg" />
+<link rel="icon" href="/public/images/crest.jpg" />
+<link rel="preload" as="image" href="/public/images/crest-sm.jpg" />
+<link rel="preload" as="image" href="/public/images/LandingPageImage-opt.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap" rel="stylesheet" />
@@ -118,6 +118,9 @@ nav.desktop a.active::after{width:100%}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 @media(max-width:1080px){nav.desktop{display:none}.burger{display:flex}}
+/* Programme page: the header burger sits under the page's own fixed close
+   button, so hide it there and leave just the logo */
+body.page-programme .burger{display:none}
 @media(max-width:520px){
   .hdr{padding:0 18px}
   .brand small{letter-spacing:.14em}
@@ -198,11 +201,12 @@ nav.desktop a.active::after{width:100%}
 .lede-white{background:linear-gradient(160deg,#ffffff 0%,#F9F6EE 55%,#EFE7CF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500}
 .lede-gold{background:linear-gradient(135deg,#F3D98B 0%,#E3C566 35%,#C9A227 70%,#A5841C 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lede-premium .lede-line{text-shadow:0 2px 12px rgba(3,9,20,.5)}
-@media(max-width:700px){.lede-line{letter-spacing:0;font-weight:500;font-size:11.5px}}
+@media(max-width:700px){.lede-line{letter-spacing:0;font-weight:500;font-size:9.5px}}
+@media(max-width:420px){.lede-line{font-size:8.5px}}
 .hero .cta{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:up .7s var(--ease) 2.25s both}
 @keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 .scroll-cue{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:22px;height:36px;border:1px solid rgba(201,162,39,.4);border-radius:999px;display:flex;justify-content:center;padding-top:6px;animation:fadeIn 1s 1.3s both}
-@media(max-width:760px){.hero{min-height:88vh}.scroll-cue{bottom:34px}}
+@media(max-width:760px){.hero{min-height:88vh}.scroll-cue{display:none}}
 .scroll-cue i{width:3px;height:7px;border-radius:4px;background:var(--gold);animation:cue 1.8s ease-in-out infinite}
 @keyframes cue{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -754,20 +758,19 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 <header id="header">
   <div class="hdr">
     <a href="/" class="brand">
-      <img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" />
+      <img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" />
       <b>SPC OBU <span class="gold-text">NZ</span></b>
     </a>
     <nav class="desktop" id="navDesktop">
       <a href="/">Home</a><a href="/our-story">Our Story</a><a href="/committee">Committee</a>
       <a href="/events">Events</a><a href="/joe-pete">Joe-Pete NZ</a><a href="/membership">Membership</a>
       <a href="/sponsors">Sponsors</a><a href="/gallery">Gallery</a><a href="/contact">Contact</a>
-      <a href="/membership" class="btn btn-gold join-btn">Join</a>
     </nav>
     <button class="burger" id="burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </header>
 <div class="mobile-menu" id="mobileMenu">
-  <a href="/" class="mobile-menu-logo"><img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" /><b>SPC OBU <span class="gold-text">NZ</span></b></a>
+  <a href="/" class="mobile-menu-logo"><img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" /><b>SPC OBU <span class="gold-text">NZ</span></b></a>
   <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">Close <span>✕</span></button>
   <a href="/">Home</a><a href="/our-story">Our Story</a><a href="/committee">Committee</a>
   <a href="/events">Events</a><a href="/joe-pete">Joe-Pete NZ</a><a href="/membership">Membership</a>
@@ -784,12 +787,12 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="hero">
     <div class="hero-glow"></div>
     <div class="particles" id="particles"></div>
-    <div class="hero-crest hero-crest-l"><img src="public/images/crest-spc-cutout.png" alt="" /></div>
-    <div class="hero-crest hero-crest-r"><img src="public/images/crest-spc-cutout.png" alt="" /></div>
+    <div class="hero-crest hero-crest-l"><img src="/public/images/crest-spc-cutout.png" alt="" /></div>
+    <div class="hero-crest hero-crest-r"><img src="/public/images/crest-spc-cutout.png" alt="" /></div>
     <div class="hero-flow">
       <p class="eyebrow">St. Peter's College Old Boys' Union<br class="eyebrow-mobile-break" /> New Zealand<br />Est. 2020</p>
       <div class="hero-banner">
-        <img id="heroBg" src="public/images/LandingPageImage-opt.jpg" alt="St. Peter's College campus with the New Zealand and Sri Lanka flags" />
+        <img id="heroBg" src="/public/images/LandingPageImage-opt.jpg" alt="St. Peter's College campus with the New Zealand and Sri Lanka flags" />
       </div>
       <div>
         <h1><span class="blue-glow">One College.</span><br /><span class="white-glow">One Brotherhood.</span><br /><span class="gold-text shimmer">Across Aotearoa.</span></h1>
@@ -812,7 +815,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="flag-pole-wrap">
           <div class="flag-unfurl" data-flag>
             <div class="flag-cloth">
-              <img src="public/images/Flag_New_Zealand_HD.jpg" alt="Flag of New Zealand" loading="lazy" />
+              <img src="/public/images/Flag_New_Zealand_HD.jpg" alt="Flag of New Zealand" loading="lazy" />
             </div>
           </div>
           <p class="flag-label">New Zealand</p>
@@ -822,7 +825,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
           <div class="spc-flag-badge"><i></i>The Union</div>
           <div class="flag-unfurl" data-flag>
             <div class="flag-cloth">
-              <img src="public/images/flag-HD.jpg" alt="SPC OBU New Zealand flag" loading="lazy" />
+              <img src="/public/images/flag-HD.jpg" alt="SPC OBU New Zealand flag" loading="lazy" />
             </div>
           </div>
           <p class="flag-label spc-flag-label">SPC OBU New Zealand</p>
@@ -830,7 +833,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="flag-pole-wrap">
           <div class="flag-unfurl" data-flag>
             <div class="flag-cloth">
-              <img src="public/images/Flag_Sri_Lanka_HD.jpg" alt="Flag of Sri Lanka" loading="lazy" />
+              <img src="/public/images/Flag_Sri_Lanka_HD.jpg" alt="Flag of Sri Lanka" loading="lazy" />
             </div>
           </div>
           <p class="flag-label">Sri Lanka</p>
@@ -849,7 +852,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div style="margin-top:30px;text-align:center"><a href="/our-story" class="btn btn-outline-navy">Our Story</a></div>
       </div>
       <div class="reveal d2" style="display:flex;align-items:center;justify-content:center;padding:20px">
-        <img src="public/images/crest-transparent.png" alt="SPC OBU New Zealand crest" style="max-height:400px;width:auto;object-fit:contain" />
+        <img src="/public/images/crest-transparent.png" alt="SPC OBU New Zealand crest" style="max-height:400px;width:auto;object-fit:contain" />
       </div>
     </div>
   </div>
@@ -933,7 +936,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
           <div style="display:flex;flex-direction:column;align-items:center;gap:16px;flex-shrink:0">
             <div class="rivalry-logo-wrap">
               <span class="rivalry-logo-glow"></span>
-              <div class="rivalry-logo-frame"><img src="public/images/Joe-Pete_Logo.jpg" alt="Joe-Pete NZ logo" /></div>
+              <div class="rivalry-logo-frame"><img src="/public/images/Joe-Pete_Logo.jpg" alt="Joe-Pete NZ logo" /></div>
             </div>
             <a href="/joe-pete" class="btn btn-gold" style="font-size:10px;padding:11px 22px">Explore Joe-Pete NZ</a>
           </div>
@@ -974,7 +977,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <p class="muted" style="margin-top:16px">Today, we proudly stand alongside our mother OBU in Sri Lanka and sister branches worldwide - one global brotherhood, united by the blue, white and gold.</p>
       </div>
       <div class="reveal d2">
-        <div class="img-frame" style="background:#fff;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;padding:22px"><img src="public/images/crest-transparent.png" alt="St. Peter's College crest" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" /></div>
+        <div class="img-frame" style="background:#fff;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;padding:22px"><img src="/public/images/crest-transparent.png" alt="St. Peter's College crest" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" /></div>
         <div class="grid g2" style="margin-top:20px">
           <div class="card" style="text-align:center;padding:18px"><b class="gold-text" data-count="1922" style="font-family:var(--serif);font-size:28px">0</b><p style="margin-top:5px;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(10,25,48,.6)">College Founded</p></div>
           <div class="card" style="text-align:center;padding:18px"><b class="gold-text" data-count="2020" style="font-family:var(--serif);font-size:28px">0</b><p style="margin-top:5px;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(10,25,48,.6)">NZ Union Established</p></div>
@@ -1001,7 +1004,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 
   <div class="section" style="background:#fff">
     <div class="container split global-family-split">
-      <div class="reveal"><div class="img-frame"><img src="public/images/flag-HD.jpg" alt="St. Peter's College flag" /></div></div>
+      <div class="reveal"><div class="img-frame"><img src="/public/images/flag-HD.jpg" alt="St. Peter's College flag" /></div></div>
       <div class="reveal d2">
         <p class="eyebrow">One Global Family</p>
         <h2 class="h-lg" style="margin-top:16px;font-size:clamp(1.5rem,3vw,2.3rem)">Connected to the <br /><span class="gold-text">mother OBU</span> in Sri Lanka</h2>
@@ -1045,7 +1048,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="section" style="padding:40px 0 0">
     <div class="container reveal">
       <div class="teaser" id="galaTeaser">
-        <video id="galaTeaserVideo" src="public/videos/gala-teaser-2026.mp4" poster="public/videos/gala-teaser-poster.jpg" muted autoplay loop playsinline preload="metadata"></video>
+        <video id="galaTeaserVideo" src="/public/videos/gala-teaser-2026.mp4" poster="/public/videos/gala-teaser-poster.jpg" muted autoplay loop playsinline preload="metadata"></video>
         <div class="teaser-scrim"></div>
         <div class="teaser-tag">
           <span class="pill"><i></i>Upcoming Event</span>
@@ -1095,7 +1098,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="section" style="padding-top:0">
     <div class="container">
       <div class="gala-flyer reveal" id="flyerZoom">
-        <img id="flyerImg" src="public/images/Gala Dinner Dance 2026 Flyer.jpg" alt="SPC OBU NZ Gala Dinner Dance 2026 flyer - Saturday 3rd October 2026, Fairway Events Centre, Auckland" loading="lazy" />
+        <img id="flyerImg" src="/public/images/Gala Dinner Dance 2026 Flyer.jpg" alt="SPC OBU NZ Gala Dinner Dance 2026 flyer - Saturday 3rd October 2026, Fairway Events Centre, Auckland" loading="lazy" />
         <div class="flyer-lens" id="flyerLens"></div>
       </div>
       <div class="flyer-hint reveal"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>Hover or tap to zoom</div>
@@ -1176,7 +1179,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <p class="muted-w">The historic rivalry between St. Joseph's College and St. Peter's College - reborn under southern skies.</p>
         <div class="gold-rule"></div>
       </div>
-      <img src="public/images/Joe-Pete_Logo.jpg" alt="Joe-Pete NZ logo" class="page-hero-logo" />
+      <img src="/public/images/Joe-Pete_Logo.jpg" alt="Joe-Pete NZ logo" class="page-hero-logo" />
     </div>
   </div>
 
@@ -1192,12 +1195,12 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       </div>
       <div class="reveal d2">
         <div class="img-frame joe-slideshow" id="jpSlideshow">
-          <img src="public/images/2021.jpg" alt="Joe-Pete NZ 2021" class="jp-slide active" data-year="2021" />
-          <img src="public/images/2022.jpg" alt="Joe-Pete NZ 2022" class="jp-slide" data-year="2022" />
-          <img src="public/images/2023.jpg" alt="Joe-Pete NZ 2023" class="jp-slide" data-year="2023" />
-          <img src="public/images/2024.jpg" alt="Joe-Pete NZ 2024" class="jp-slide" data-year="2024" />
-          <img src="public/images/2025.jpg" alt="Joe-Pete NZ 2025" class="jp-slide" data-year="2025" />
-          <img src="public/images/2026.jpg" alt="Joe-Pete NZ 2026" class="jp-slide" data-year="2026" />
+          <img src="/public/images/2021.jpg" alt="Joe-Pete NZ 2021" class="jp-slide active" data-year="2021" />
+          <img src="/public/images/2022.jpg" alt="Joe-Pete NZ 2022" class="jp-slide" data-year="2022" />
+          <img src="/public/images/2023.jpg" alt="Joe-Pete NZ 2023" class="jp-slide" data-year="2023" />
+          <img src="/public/images/2024.jpg" alt="Joe-Pete NZ 2024" class="jp-slide" data-year="2024" />
+          <img src="/public/images/2025.jpg" alt="Joe-Pete NZ 2025" class="jp-slide" data-year="2025" />
+          <img src="/public/images/2026.jpg" alt="Joe-Pete NZ 2026" class="jp-slide" data-year="2026" />
           <div class="jp-year-badge" id="jpYearBadge">2021</div>
           <div class="jp-dots" id="jpDots"></div>
         </div>
@@ -1394,7 +1397,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <a href="/events" class="prog-close" id="programmeClose" aria-label="Back to Events">✕</a>
   <div class="prog-hero">
     <div class="prog-hero-glow"></div>
-    <img src="public/images/crest-spc-cutout.png" alt="" class="prog-crest" />
+    <img src="/public/images/crest-spc-cutout.png" alt="" class="prog-crest" />
     <p class="eyebrow" style="position:relative;color:var(--gold)">SPC OBU New Zealand Presents</p>
     <h2 class="prog-title">Gala Dinner <span class="gold-text shimmer">Dance</span></h2>
     <p class="prog-date">Saturday &middot; 3rd October 2026 &middot; 5:30 PM</p>
@@ -1600,7 +1603,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="top-rule"></div>
   <div class="container foot">
     <div>
-      <div class="brand"><img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" style="width:52px;height:52px" /><b>SPC OBU <span class="gold-text">New Zealand</span></b></div>
+      <div class="brand"><img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" style="width:52px;height:52px" /><b>SPC OBU <span class="gold-text">New Zealand</span></b></div>
       <p class="muted-w" style="margin-top:18px;max-width:340px;font-size:14px">St. Peter's College Old Boys' Union New Zealand - uniting Peterites across Aotearoa in brotherhood, legacy and service since 2020.</p>
     </div>
     <div>
@@ -1625,7 +1628,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     <span>© <span id="year"></span> SPC OBU New Zealand. All rights reserved.</span>
     <a href="https://openflow.fun" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.4);transition:opacity .3s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">
       Digitally powered by
-      <img src="public/images/openflow-wordmark.png" alt="Openflow" style="height:21px;width:auto;opacity:.85" />
+      <img src="/public/images/openflow-wordmark.png" alt="Openflow" style="height:21px;width:auto;opacity:.85" />
     </a>
   </div>
 </footer>
@@ -1720,52 +1723,52 @@ const BENEFITS = [
   ["Global Recognition","Be part of the worldwide network of official St. Peter's College OBU branches."],
 ];
 
-// Gallery - add photos here (drop files into public/images/)
-// Format: ["public/images/file.jpg","Caption text","Category", showInAll(optional, default false)]
+// Gallery - add photos here (drop files into /public/images/)
+// Format: ["/public/images/file.jpg","Caption text","Category", showInAll(optional, default false)]
 const GALLERY = [
-  ["public/images/crest.jpg","SPC OBU NZ logo","Logo",true],
+  ["/public/images/crest.jpg","SPC OBU NZ logo","Logo",true],
 
   // Committee
-  ["public/images/4.jpg","Inaugural AGM SPC OBU NZ 2020","Committee"],
-  ["public/images/5.jpg","Office Bearers 2020/21","Committee"],
-  ["public/images/13.jpg","AGM 2023","Committee"],
-  ["public/images/21.jpg","AGM 2025","Committee"],
+  ["/public/images/4.jpg","Inaugural AGM SPC OBU NZ 2020","Committee"],
+  ["/public/images/5.jpg","Office Bearers 2020/21","Committee"],
+  ["/public/images/13.jpg","AGM 2023","Committee"],
+  ["/public/images/21.jpg","AGM 2025","Committee"],
 
   // Dinner Dance
-  ["public/images/9.jpg","Centenary Dinner Dance 2022 - Wellington","Dinner Dance"],
-  ["public/images/17.jpg","Going Down Memory Lane 2024 - Auckland","Dinner Dance"],
+  ["/public/images/9.jpg","Centenary Dinner Dance 2022 - Wellington","Dinner Dance"],
+  ["/public/images/17.jpg","Going Down Memory Lane 2024 - Auckland","Dinner Dance"],
 
   // Community Events
-  ["public/images/8.jpg","Centenary Mass 2022 - Wellington","Community Events"],
-  ["public/images/16.jpg","NZ visit of Rev. Fr. Rohitha Rodrigo 2024 - Wellington & Auckland","Community Events"],
-  ["public/images/26.jpg","Christmas Celebrations 2025 - Wellington & Auckland","Community Events"],
+  ["/public/images/8.jpg","Centenary Mass 2022 - Wellington","Community Events"],
+  ["/public/images/16.jpg","NZ visit of Rev. Fr. Rohitha Rodrigo 2024 - Wellington & Auckland","Community Events"],
+  ["/public/images/26.jpg","Christmas Celebrations 2025 - Wellington & Auckland","Community Events"],
 
   // Joe-Pete NZ
-  ["public/images/6.jpg","First training session for Inaugural Joe-Pete NZ Encounter 2021","Joe-Pete NZ"],
-  ["public/images/7.jpg","Inaugural Encounter 2021 - Auckland","Joe-Pete NZ"],
-  ["public/images/10.jpg","2nd Encounter 2022 - Wellington","Joe-Pete NZ"],
-  ["public/images/12.jpg","3rd Encounter 2023 - Auckland","Joe-Pete NZ"],
-  ["public/images/18.jpg","4th Encounter 2024 - Wellington","Joe-Pete NZ"],
-  ["public/images/23.jpg","5th Encounter 2025 - Auckland","Joe-Pete NZ"],
-  ["public/images/24.jpg","Champions 4 Years In A Row","Joe-Pete NZ"],
-  ["public/images/28.jpg","6th Encounter 2026 - Wellington","Joe-Pete NZ"],
+  ["/public/images/6.jpg","First training session for Inaugural Joe-Pete NZ Encounter 2021","Joe-Pete NZ"],
+  ["/public/images/7.jpg","Inaugural Encounter 2021 - Auckland","Joe-Pete NZ"],
+  ["/public/images/10.jpg","2nd Encounter 2022 - Wellington","Joe-Pete NZ"],
+  ["/public/images/12.jpg","3rd Encounter 2023 - Auckland","Joe-Pete NZ"],
+  ["/public/images/18.jpg","4th Encounter 2024 - Wellington","Joe-Pete NZ"],
+  ["/public/images/23.jpg","5th Encounter 2025 - Auckland","Joe-Pete NZ"],
+  ["/public/images/24.jpg","Champions 4 Years In A Row","Joe-Pete NZ"],
+  ["/public/images/28.jpg","6th Encounter 2026 - Wellington","Joe-Pete NZ"],
 
   // Sports - grouped by event (5th field), each group already in yearly order
-  ["public/images/1.jpg","First cricket match by Old Peterites in NZ 2013","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
-  ["public/images/2.jpg","2015 Plate Champions","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
-  ["public/images/3.jpg","2018 Plate Champions","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
-  ["public/images/19.jpg","2024","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
+  ["/public/images/1.jpg","First cricket match by Old Peterites in NZ 2013","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
+  ["/public/images/2.jpg","2015 Plate Champions","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
+  ["/public/images/3.jpg","2018 Plate Champions","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
+  ["/public/images/19.jpg","2024","Sports",false,"SLDA 6-a-Side Cricket - Wellington"],
 
-  ["public/images/11.jpg","2023","Sports",false,"Festival Of Cricket - Auckland"],
-  ["public/images/22.jpg","2025","Sports",false,"Festival Of Cricket - Auckland"],
+  ["/public/images/11.jpg","2023","Sports",false,"Festival Of Cricket - Auckland"],
+  ["/public/images/22.jpg","2025","Sports",false,"Festival Of Cricket - Auckland"],
 
-  ["public/images/14.jpg","2023 Unbeaten Champions 🏆","Sports",false,"Isipathana Rugby 7s - Auckland"],
-  ["public/images/20.jpg","2024 Plate Champions","Sports",false,"Isipathana Rugby 7s - Auckland"],
-  ["public/images/25.jpg","2025 Plate Champions","Sports",false,"Isipathana Rugby 7s - Auckland"],
+  ["/public/images/14.jpg","2023 Unbeaten Champions 🏆","Sports",false,"Isipathana Rugby 7s - Auckland"],
+  ["/public/images/20.jpg","2024 Plate Champions","Sports",false,"Isipathana Rugby 7s - Auckland"],
+  ["/public/images/25.jpg","2025 Plate Champions","Sports",false,"Isipathana Rugby 7s - Auckland"],
 
-  ["public/images/15.jpg","2023","Sports",false,"T10 Lankan Schools Cricket League - Auckland"],
+  ["/public/images/15.jpg","2023","Sports",false,"T10 Lankan Schools Cricket League - Auckland"],
 
-  ["public/images/27.jpg","2026 - SPC won by 25 Runs 🏆","Sports",false,"Maris Stella Cricket Encounter - Auckland"],
+  ["/public/images/27.jpg","2026 - SPC won by 25 Runs 🏆","Sports",false,"Maris Stella Cricket Encounter - Auckland"],
 ];
 
 // Tiers of the gallery that get a slideshow banner above their grid
@@ -1786,6 +1789,7 @@ function route(){
     if(on) found = true;
   });
   if(!found){ pages.forEach(p=>p.classList.toggle("active", p.dataset.page==="home")); }
+  document.body.classList.toggle("page-programme", path === "events/Gala-Dinner-Dance-2026-Full-Programme");
   document.querySelectorAll("nav.desktop a, .mobile-menu a").forEach(a=>{
     const href = a.getAttribute("href") || "";
     const hrefPath = href === "/" ? "home" : href.replace(/^\//,"");
@@ -2253,8 +2257,8 @@ function renderGallery(){
   if(galFilter==="All"){
     galFeatured.style.display = "grid";
     const logoEntry = GALLERY.find(g=>g[2]==="Logo");
-    galFeaturedLogo.innerHTML = `<img src="${logoEntry?logoEntry[0]:"public/images/crest.jpg"}" alt="SPC OBU NZ logo" loading="lazy" />`;
-    galFeaturedLanding.innerHTML = `<img src="public/images/LandingPageImage-opt.jpg" alt="St. Peter's College, Colombo" loading="lazy" />`;
+    galFeaturedLogo.innerHTML = `<img src="${logoEntry?logoEntry[0]:"/public/images/crest.jpg"}" alt="SPC OBU NZ logo" loading="lazy" />`;
+    galFeaturedLanding.innerHTML = `<img src="/public/images/LandingPageImage-opt.jpg" alt="St. Peter's College, Colombo" loading="lazy" />`;
 
     const photos = shuffleArr(GALLERY.filter(g=>g[2]!=="Logo"));
     visible = photos;
@@ -2596,6 +2600,17 @@ document.getElementById("contactForm").addEventListener("submit", async e=>{
 
 /* ========== Init ========== */
 document.getElementById("year").textContent = new Date().getFullYear();
+// A real browser refresh (F5 / reload button) always lands on the homepage.
+// Direct visits, bookmarks and shared/QR links (e.g. the Programme page) are
+// unaffected - those are navigation type "navigate", not "reload".
+(function(){
+  var navEntry = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+  var isReload = navEntry ? navEntry.type === "reload" :
+    (performance.navigation && performance.navigation.type === 1);
+  if(isReload && location.pathname !== "/"){
+    history.replaceState(null, null, "/");
+  }
+})();
 route();
 </script>
 </body>
