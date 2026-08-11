@@ -165,8 +165,12 @@ body.page-programme .burger{display:none}
 .flags-strip{background:#fff;padding:76px 0}
 .flags-row{display:flex;align-items:flex-end;justify-content:center;gap:70px;margin-top:48px;flex-wrap:wrap}
 .flag-pole-wrap{display:flex;flex-direction:column;align-items:center}
-.flag-unfurl{position:relative;transform-origin:left center;transform:scaleX(0);opacity:0;transition:transform 1.15s cubic-bezier(.22,1,.36,1),opacity .5s ease}
-.flag-unfurl.in{transform:scaleX(1);opacity:1}
+.flag-unfurl{position:relative;opacity:0;transition:opacity .6s ease}
+.flag-unfurl.in{opacity:1}
+@media(min-width:761px){
+  .flag-unfurl{transform-origin:left center;transform:scaleX(0);transition:transform 1.15s cubic-bezier(.22,1,.36,1),opacity .5s ease}
+  .flag-unfurl.in{transform:scaleX(1)}
+}
 .flag-unfurl::before{content:"";position:absolute;left:-7px;top:-18px;bottom:-18px;width:6px;background:linear-gradient(180deg,#E3C566,#C9A227,#A5841C);border-radius:3px;box-shadow:0 0 12px rgba(201,162,39,.4)}
 .flag-cloth{width:260px;max-width:46vw;aspect-ratio:2/1;border-radius:2px;overflow:hidden;box-shadow:0 18px 48px rgba(5,13,26,.22)}
 .flag-cloth img{display:block;width:100%;height:100%;object-fit:cover;animation:flagWave 3.4s ease-in-out infinite;transform-origin:left center;filter:url(#flagWaveFilter) drop-shadow(0 6px 10px rgba(0,0,0,.18))}
