@@ -44,8 +44,8 @@ body{font-family:var(--sans);background:var(--ivory);color:var(--navy-800);-webk
 ::-webkit-scrollbar-track{background:var(--navy-900)}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:8px}
 img{max-width:100%;display:block}
-a{text-decoration:none;color:inherit}
-button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{text-decoration:none;color:inherit;touch-action:manipulation}
+button{font-family:inherit;cursor:pointer;border:none;background:none;touch-action:manipulation}
 
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 .section{padding:96px 0}
@@ -466,7 +466,11 @@ body.page-programme .burger{display:none}
 .prog-item b{display:block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:9px;color:var(--gold)}
 .prog-item span{font-family:var(--serif);font-size:14px;font-weight:600;color:#fff;line-height:1.4}
 .prog-cta{display:flex;gap:14px;flex-wrap:nowrap;margin-top:28px}
-@media(max-width:640px){.prog-cta{flex-wrap:wrap}}
+@media(max-width:640px){
+  .prog-cta{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex-wrap:wrap}
+  .prog-cta a{width:100%;text-align:center}
+  .prog-cta #progAddCal{grid-column:1 / -1;width:auto;max-width:240px;margin:0 auto}
+}
 .prog-includes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
 @media(max-width:700px){.prog-includes{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:420px){.prog-includes{grid-template-columns:1fr}}
@@ -536,6 +540,10 @@ body.page-programme .burger{display:none}
 .ph-bronze img{max-width:82%;max-height:60%;object-fit:contain}
 .prog-map{margin-top:22px;border-radius:16px;overflow:hidden;border:1px solid rgba(10,25,48,.08);box-shadow:0 10px 26px rgba(5,13,26,.06)}
 .prog-map iframe{display:block;width:100%;height:220px;border:0}
+/* Google Maps is its own document and doesn't scale cleanly with the page's
+   mobile zoom below - cancel that zoom back out just for the map so it
+   renders (and fills its box) at its real size */
+@media(max-width:760px){.prog-map{zoom:125%}}
 @media(max-width:700px){.prog-nav{display:none}.prog-hero{padding:96px 20px 34px}}
 .gala{border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(5,13,26,.35);display:grid;grid-template-columns:3fr 2fr}
 @media(max-width:900px){.gala{grid-template-columns:1fr}}
