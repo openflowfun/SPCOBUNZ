@@ -35,6 +35,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{font-family:var(--sans);background:var(--ivory);color:var(--navy-800);-webkit-font-smoothing:antialiased;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* Mobile-only: scale the entire site down to 80% (desktop/tablet untouched) */
+@media(max-width:760px){
+  html{zoom:80%}
+}
 ::selection{background:var(--gold);color:var(--navy-900)}
 ::-webkit-scrollbar{width:10px}
 ::-webkit-scrollbar-track{background:var(--navy-900)}
@@ -657,7 +661,8 @@ nav.desktop a.active::after{width:100%}
 
 /* Forms */
 .input,textarea.input{width:100%;border-radius:14px;border:1px solid rgba(10,25,48,.15);background:#fff;padding:13px 16px;font-size:14px;font-family:inherit;color:var(--navy-900);outline:none;transition:all .2s}
-@media(max-width:760px){.input,textarea.input{font-size:16px}}
+/* 20px here renders at ~16px on screen once the 80% mobile zoom above is applied - keeps iOS from auto-zooming in on focus */
+@media(max-width:760px){.input,textarea.input{font-size:20px}}
 .input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.25)}
 .input.dark{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff}
 .input.dark::placeholder{color:rgba(255,255,255,.3)}
@@ -1570,7 +1575,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="prog-sponsor-tier tier-bronze">
           <h5>Bronze Sponsors</h5>
           <div class="spon-grid spon-bronze">
-            <div class="ph-logo ph-bronze"><img src="public/images/gri-education-logo.jpg" alt="GRI Education" loading="lazy" /></div>
+            <div class="ph-logo ph-bronze">Your Logo Here</div>
             <div class="ph-logo ph-bronze">Your Logo Here</div>
             <div class="ph-logo ph-bronze">Your Logo Here</div>
             <div class="ph-logo ph-bronze">Your Logo Here</div>
