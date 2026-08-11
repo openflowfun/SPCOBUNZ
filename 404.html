@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SPC OBU New Zealand</title>
+<script>
+  // GitHub Pages has no server-side rewrites, so a direct visit or refresh on
+  // a clean path (e.g. /events or /events/Gala-Dinner-Dance-2026-Full-Programme)
+  // returns this 404 page instead of index.html. Save the intended path and
+  // bounce to the real app at "/", where index.html restores it via
+  // history.replaceState (see its <head>). Works for any path depth.
+  sessionStorage.redirect = location.pathname + location.search + location.hash;
+  location.replace(location.origin + "/");
+</script>
+</head>
+<body></body>
+</html>

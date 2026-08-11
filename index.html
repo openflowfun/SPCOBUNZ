@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>
+  // Restore the real path after a GitHub Pages 404 redirect (see 404.html)
+  (function(){
+    var redirect = sessionStorage.redirect;
+    delete sessionStorage.redirect;
+    if(redirect && redirect !== location.pathname + location.search + location.hash){
+      history.replaceState(null, null, redirect);
+    }
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SPC OBU New Zealand</title>
 <meta name="description" content="The official home of the St. Peter's College Old Boys' Union New Zealand. Virtus et Veritas - uniting Peterites across Aotearoa since 2020." />
@@ -379,7 +389,7 @@ nav.desktop a.active::after{width:100%}
 .flyer-hint{width:max-content;margin:22px auto 0;display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;background:var(--navy-900);color:#fff;font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(201,162,39,.4)}
 
 /* Full Programme CTA card */
-.prog-open-cta{position:relative;display:flex;align-items:center;gap:20px;width:100%;max-width:640px;margin:0 auto;padding:24px 28px;border-radius:20px;background:linear-gradient(135deg,var(--navy-900) 0%,var(--navy-800) 100%);border:1px solid rgba(201,162,39,.35);box-shadow:0 20px 50px rgba(5,13,26,.25),0 0 0 1px rgba(201,162,39,.08);cursor:pointer;overflow:hidden;text-align:left;appearance:none;-webkit-appearance:none;font:inherit;transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
+.prog-open-cta{position:relative;display:flex;align-items:center;gap:20px;width:100%;max-width:640px;margin:0 auto;padding:24px 28px;border-radius:20px;background:linear-gradient(135deg,var(--navy-900) 0%,var(--navy-800) 100%);border:1px solid rgba(201,162,39,.35);box-shadow:0 20px 50px rgba(5,13,26,.25),0 0 0 1px rgba(201,162,39,.08);cursor:pointer;overflow:hidden;text-align:left;appearance:none;-webkit-appearance:none;font:inherit;text-decoration:none;transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
 .prog-open-cta::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(201,162,39,.18) 45%,rgba(255,255,255,.12) 50%,rgba(201,162,39,.18) 55%,transparent 70%);background-size:220% 100%;animation:shimmer 3.2s linear infinite;pointer-events:none}
 .prog-open-cta::after{content:"";position:absolute;inset:0;border-radius:20px;box-shadow:0 0 0 0 rgba(201,162,39,.35);animation:progPulse 2.6s ease-out infinite;pointer-events:none}
 @keyframes progPulse{0%{box-shadow:0 0 0 0 rgba(201,162,39,.3)}70%{box-shadow:0 0 0 14px rgba(201,162,39,0)}100%{box-shadow:0 0 0 0 rgba(201,162,39,0)}}
@@ -401,10 +411,9 @@ nav.desktop a.active::after{width:100%}
 .flyer-modal-close:hover{background:var(--gold);color:var(--navy-900);border-color:transparent}
 
 /* Programme overlay */
-.prog-overlay{position:fixed;inset:0;z-index:150;background:#050D1A;display:none;overflow-y:auto}
-.prog-overlay.open{display:block;animation:progIn .5s var(--ease)}
+.prog-overlay{background:#050D1A}
 @keyframes progIn{from{opacity:0;transform:scale(1.02)}to{opacity:1;transform:none}}
-.prog-close{position:fixed;top:22px;right:22px;z-index:5;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(201,162,39,.4);color:#fff;font-size:18px;cursor:pointer;transition:all .25s var(--ease)}
+.prog-close{position:fixed;top:22px;right:22px;z-index:5;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(201,162,39,.4);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .25s var(--ease)}
 .prog-close:hover{background:var(--gold);color:var(--navy-900);border-color:transparent;transform:rotate(90deg)}
 .prog-hero{position:relative;overflow:hidden;padding:110px 24px 40px;text-align:center;background:radial-gradient(ellipse at 50% 0%,#173766 0%,#0A1930 55%,#050D1A 100%);color:#fff}
 .prog-hero-glow{position:absolute;left:50%;top:-160px;width:900px;height:480px;transform:translateX(-50%);background:rgba(201,162,39,.1);border-radius:50%;filter:blur(100px)}
@@ -739,25 +748,25 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 <!-- ================= HEADER ================= -->
 <header id="header">
   <div class="hdr">
-    <a href="#/" class="brand">
+    <a href="/" class="brand">
       <img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" />
       <b>SPC OBU <span class="gold-text">NZ</span></b>
     </a>
     <nav class="desktop" id="navDesktop">
-      <a href="#/">Home</a><a href="#/our-story">Our Story</a><a href="#/committee">Committee</a>
-      <a href="#/events">Events</a><a href="#/joe-pete">Joe-Pete NZ</a><a href="#/membership">Membership</a>
-      <a href="#/sponsors">Sponsors</a><a href="#/gallery">Gallery</a><a href="#/contact">Contact</a>
-      <a href="#/membership" class="btn btn-gold join-btn">Join</a>
+      <a href="/">Home</a><a href="/our-story">Our Story</a><a href="/committee">Committee</a>
+      <a href="/events">Events</a><a href="/joe-pete">Joe-Pete NZ</a><a href="/membership">Membership</a>
+      <a href="/sponsors">Sponsors</a><a href="/gallery">Gallery</a><a href="/contact">Contact</a>
+      <a href="/membership" class="btn btn-gold join-btn">Join</a>
     </nav>
     <button class="burger" id="burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </header>
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#/" class="mobile-menu-logo"><img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" /><b>SPC OBU <span class="gold-text">NZ</span></b></a>
+  <a href="/" class="mobile-menu-logo"><img src="public/images/crest-sm.jpg" alt="SPC OBU NZ crest" /><b>SPC OBU <span class="gold-text">NZ</span></b></a>
   <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">Close <span>✕</span></button>
-  <a href="#/">Home</a><a href="#/our-story">Our Story</a><a href="#/committee">Committee</a>
-  <a href="#/events">Events</a><a href="#/joe-pete">Joe-Pete NZ</a><a href="#/membership">Membership</a>
-  <a href="#/sponsors">Sponsors</a><a href="#/gallery">Gallery</a><a href="#/contact">Contact</a>
+  <a href="/">Home</a><a href="/our-story">Our Story</a><a href="/committee">Committee</a>
+  <a href="/events">Events</a><a href="/joe-pete">Joe-Pete NZ</a><a href="/membership">Membership</a>
+  <a href="/sponsors">Sponsors</a><a href="/gallery">Gallery</a><a href="/contact">Contact</a>
   <div class="mobile-menu-foot">
     <span class="motto">Virtus et Veritas</span>
     <span class="mobile-menu-brand">SPC OBU - New Zealand</span>
@@ -782,8 +791,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="hero-flourish"><span class="l"></span><i></i><span class="r"></span></div>
         <p class="lede lede-premium"><span class="lede-line lede-white">Welcome to the official home of SPC OBU New Zealand -</span><br /><span class="lede-line lede-white">Where Peterites gather to honour our legacy, celebrate friendships</span><br /><span class="lede-line lede-white">&amp; strengthen our brotherhood for generations to come.</span></p>
         <div class="cta">
-          <a href="#/events" class="btn btn-gold">Upcoming Events</a>
-          <a href="#/membership" class="btn btn-outline">Become a Member</a>
+          <a href="/events" class="btn btn-gold">Upcoming Events</a>
+          <a href="/membership" class="btn btn-outline">Become a Member</a>
         </div>
       </div>
     </div>
@@ -832,7 +841,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="gold-rule"></div>
         <p class="muted" style="margin-top:24px">Founded in 2020, SPC OBU New Zealand brings together old boys of St. Peter's College, Colombo 04 who now call Aotearoa home. Whether you left College last year or decades ago, this is your union - built on the friendships forged in the classrooms, playing fields and chapel of our beloved school by the sea.</p>
         <p class="muted" style="margin-top:16px">We gather to celebrate, to support one another, and to give back - to our community here in New Zealand and to the College that made us who we are.</p>
-        <div style="margin-top:30px;text-align:center"><a href="#/our-story" class="btn btn-outline-navy">Our Story</a></div>
+        <div style="margin-top:30px;text-align:center"><a href="/our-story" class="btn btn-outline-navy">Our Story</a></div>
       </div>
       <div class="reveal d2" style="display:flex;align-items:center;justify-content:center;padding:20px">
         <img src="public/images/crest-transparent.png" alt="SPC OBU New Zealand crest" style="max-height:400px;width:auto;object-fit:contain" />
@@ -847,19 +856,19 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <h2 class="h-lg" style="margin-top:16px">Everything Peterite, in one place</h2>
       </div>
       <div class="grid g4 explore-grid" style="margin-top:52px">
-        <a href="#/events" class="card reveal">
+        <a href="/events" class="card reveal">
           <span class="icon-badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke-linecap="round"/></svg></span>
           <h3>Upcoming Events</h3><p>From the Gala Dinner Dance to family days - see what's next on the Peterite calendar.</p><span class="more">Discover →</span>
         </a>
-        <a href="#/membership" class="card reveal d1">
+        <a href="/membership" class="card reveal d1">
           <span class="icon-badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4a3.5 3.5 0 0 1 0 7M15.5 13.6A6.5 6.5 0 0 1 21.5 20" stroke-linecap="round"/></svg></span>
           <h3>Membership</h3><p>Join the brotherhood. Support the union and enjoy exclusive member benefits.</p><span class="more">Discover →</span>
         </a>
-        <a href="#/joe-pete" class="card reveal d2">
+        <a href="/joe-pete" class="card reveal d2">
           <span class="icon-badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2.4 4.8 5.3.8-3.8 3.8.9 5.3-4.8-2.5-4.8 2.5.9-5.3L4.3 8.6l5.3-.8L12 3z" stroke-linejoin="round"/></svg></span>
           <h3>Joe-Pete NZ</h3><p>The Battle of the Saints lives on in New Zealand. Relive the greatest rivalry.</p><span class="more">Discover →</span>
         </a>
-        <a href="#/committee" class="card reveal d3">
+        <a href="/committee" class="card reveal d3">
           <span class="icon-badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l8 4v5c0 5-3.4 8-8 9-4.6-1-8-4-8-9V7l8-4z" stroke-linejoin="round"/></svg></span>
           <h3>Committee</h3><p>Meet the office bearers guiding SPC OBU NZ through 2025/26.</p><span class="more">Discover →</span>
         </a>
@@ -873,7 +882,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <span class="icon-badge" id="explorePopupIcon"></span>
       <h3 id="explorePopupTitle"></h3>
       <p id="explorePopupDesc"></p>
-      <a href="#/" class="more" id="explorePopupLink">Discover →</a>
+      <a href="/" class="more" id="explorePopupLink">Discover →</a>
     </div>
   </div>
 
@@ -889,8 +898,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
           <p>🎟️ &nbsp;$110 per person &middot; Tables of 10 available</p>
         </div>
         <div style="margin-top:34px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="#/events" class="btn btn-gold">Get Tickets</a>
-          <a href="#/events" class="btn btn-outline">Event Details</a>
+          <a href="/events" class="btn btn-gold">Get Tickets</a>
+          <a href="/events" class="btn btn-outline">Event Details</a>
         </div>
       </div>
       <div class="reveal d2" style="text-align:center">
@@ -921,7 +930,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
               <span class="rivalry-logo-glow"></span>
               <div class="rivalry-logo-frame"><img src="public/images/Joe-Pete_Logo.jpg" alt="Joe-Pete NZ logo" /></div>
             </div>
-            <a href="#/joe-pete" class="btn btn-gold" style="font-size:10px;padding:11px 22px">Explore Joe-Pete NZ</a>
+            <a href="/joe-pete" class="btn btn-gold" style="font-size:10px;padding:11px 22px">Explore Joe-Pete NZ</a>
           </div>
         </div>
       </div>
@@ -933,7 +942,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <p class="eyebrow">Join Us</p>
       <h2 class="h-lg" style="margin-top:16px">Once a Peterite, <span class="gold-text">Always a Peterite</span></h2>
       <p class="muted" style="margin:24px auto 0;max-width:620px">Your membership strengthens the union, funds our events and charitable causes, and keeps the Peterite spirit alive in New Zealand.</p>
-      <a href="#/membership" class="btn btn-gold" style="margin-top:36px">Become a Member</a>
+      <a href="/membership" class="btn btn-gold" style="margin-top:36px">Become a Member</a>
     </div>
   </div>
 </section>
@@ -994,7 +1003,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="gold-rule"></div>
         <p class="muted" style="margin-top:24px">SPC OBU New Zealand operates in close partnership with the St. Peter's College Old Boys' Union in Colombo - the mother union that has served the College for over a century. Our Patron, Rev. Fr. Rohitha Rodrigo, Rector of St. Peter's College, and Vice Patron Asoka Attapattu embody that living connection.</p>
         <p class="muted" style="margin-top:16px">Together with branches across Australia, the UK, Canada and beyond, we form a global network of Peterites supporting the College and each other, wherever life has taken us.</p>
-        <a href="#/committee" class="btn btn-outline-navy" style="margin-top:30px">Meet Our Committee</a>
+        <a href="/committee" class="btn btn-outline-navy" style="margin-top:30px">Meet Our Committee</a>
       </div>
     </div>
   </div>
@@ -1086,7 +1095,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       </div>
       <div class="flyer-hint reveal"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>Hover or tap to zoom</div>
       <div class="reveal" style="margin-top:34px">
-        <button type="button" class="prog-open-cta" id="openProgramme">
+        <a href="/events/Gala-Dinner-Dance-2026-Full-Programme" class="prog-open-cta" id="openProgramme">
           <span class="prog-cta-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2Z"/><path d="M6 17h13M9 8h6M9 11h6"/></svg>
           </span>
@@ -1097,7 +1106,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
           <span class="prog-cta-arrow">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </span>
-        </button>
+        </a>
       </div>
       <div class="reveal" style="margin-top:16px;display:grid;gap:16px;max-width:640px;margin-left:auto;margin-right:auto">
         <div class="evt-info-card">
@@ -1142,12 +1151,12 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <h2 class="h-lg" style="margin-top:16px">A calendar full of tradition</h2>
       </div>
       <div class="grid g2" style="margin-top:52px">
-        <div class="card reveal"><h3 style="margin-top:0">Joe-Pete NZ &middot; Battle of the Saints <span class="pill" style="float:right;font-size:9px">Annual</span></h3><p>The annual cricket encounter between Josephians and Peterites in New Zealand - a full day of sport, food and family fun.</p><a class="more" href="#/joe-pete">Learn more →</a></div>
+        <div class="card reveal"><h3 style="margin-top:0">Joe-Pete NZ &middot; Battle of the Saints <span class="pill" style="float:right;font-size:9px">Annual</span></h3><p>The annual cricket encounter between Josephians and Peterites in New Zealand - a full day of sport, food and family fun.</p><a class="more" href="/joe-pete">Learn more →</a></div>
         <div class="card reveal d1"><h3 style="margin-top:0">Annual General Meeting <span class="pill" style="float:right;font-size:9px">Yearly</span></h3><p>Members gather to reflect on the year, elect office bearers and shape the union's future.</p></div>
         <div class="card reveal d2"><h3 style="margin-top:0">College Feast Day Celebration <span class="pill" style="float:right;font-size:9px">June</span></h3><p>Marking the Feast of St. Peter with mass and fellowship, keeping our College traditions alive in NZ.</p></div>
         <div class="card reveal d3"><h3 style="margin-top:0">Peterite Family Day <span class="pill" style="float:right;font-size:9px">Annual</span></h3><p>A relaxed summer get-together for Peterite families - BBQ, games and fellowship under the Kiwi sun.</p></div>
       </div>
-      <p class="reveal" style="margin-top:48px;text-align:center;color:rgba(10,25,48,.6)">Photos from past events live in our <a href="#/gallery" style="color:var(--gold-dark);font-weight:600">Gallery</a>.</p>
+      <p class="reveal" style="margin-top:48px;text-align:center;color:rgba(10,25,48,.6)">Photos from past events live in our <a href="/gallery" style="color:var(--gold-dark);font-weight:600">Gallery</a>.</p>
     </div>
   </div>
 </section>
@@ -1388,10 +1397,10 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     <div>
       <p class="eyebrow" style="margin-bottom:18px">Explore</p>
       <ul>
-        <li><a href="#/our-story">About</a></li><li><a href="#/committee">Committee</a></li>
-        <li><a href="#/events">Events</a></li><li><a href="#/joe-pete">Joe-Pete NZ</a></li>
-        <li><a href="#/membership">Membership</a></li><li><a href="#/sponsors">Sponsors</a></li>
-        <li><a href="#/gallery">Gallery</a></li><li><a href="#/contact">Contact</a></li>
+        <li><a href="/our-story">About</a></li><li><a href="/committee">Committee</a></li>
+        <li><a href="/events">Events</a></li><li><a href="/joe-pete">Joe-Pete NZ</a></li>
+        <li><a href="/membership">Membership</a></li><li><a href="/sponsors">Sponsors</a></li>
+        <li><a href="/gallery">Gallery</a></li><li><a href="/contact">Contact</a></li>
       </ul>
     </div>
     <div>
@@ -1428,8 +1437,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 </div>
 
 <!-- Full Gala Dinner Dance Programme -->
-<div class="prog-overlay" id="programmeOverlay">
-  <button type="button" class="prog-close" id="programmeClose" aria-label="Close">✕</button>
+<div class="page prog-overlay" id="programmeOverlay" data-page="events/Gala-Dinner-Dance-2026-Full-Programme">
+  <a href="/events" class="prog-close" id="programmeClose" aria-label="Back to Events">✕</a>
   <div class="prog-hero">
     <div class="prog-hero-glow"></div>
     <img src="public/images/crest-spc-cutout.png" alt="" class="prog-crest" />
@@ -1759,26 +1768,44 @@ const GALLERY_SLIDESHOW_TIERS = [];
 
 /* ========== Router ========== */
 const pages = document.querySelectorAll(".page");
+function currentPath(){
+  const p = location.pathname.replace(/index\.html$/,"").replace(/\/+$/,"");
+  return p === "" ? "home" : p.replace(/^\//,"");
+}
 function route(){
-  const hash = (location.hash || "#/").replace("#/","") || "home";
+  const path = currentPath();
   let found = false;
   pages.forEach(p=>{
-    const on = p.dataset.page === hash;
+    const on = p.dataset.page === path;
     p.classList.toggle("active", on);
     if(on) found = true;
   });
   if(!found){ pages.forEach(p=>p.classList.toggle("active", p.dataset.page==="home")); }
   document.querySelectorAll("nav.desktop a, .mobile-menu a").forEach(a=>{
-    a.classList.toggle("active", a.getAttribute("href") === (location.hash||"#/") ||
-      (a.getAttribute("href")==="#/" && (location.hash===""||location.hash==="#/")));
+    const href = a.getAttribute("href") || "";
+    const hrefPath = href === "/" ? "home" : href.replace(/^\//,"");
+    a.classList.toggle("active", hrefPath === path);
   });
   window.scrollTo({top:0,behavior:"instant"});
   document.getElementById("mobileMenu").classList.remove("open");
   document.getElementById("burger").classList.remove("open");
   document.body.style.overflow = "";
   requestAnimationFrame(()=>{ observeReveals(); observeCounts(); });
+  window.dispatchEvent(new Event("routechange"));
 }
-window.addEventListener("hashchange", route);
+function navigateTo(href){
+  if(location.pathname !== href){ history.pushState({}, "", href); }
+  route();
+}
+document.addEventListener("click", e=>{
+  const a = e.target.closest("a");
+  if(!a) return;
+  const href = a.getAttribute("href");
+  if(!href || href.charAt(0) !== "/" || a.target === "_blank" || a.hasAttribute("download")) return;
+  e.preventDefault();
+  navigateTo(href);
+});
+window.addEventListener("popstate", route);
 
 /* ========== Header ========== */
 const header = document.getElementById("header");
@@ -1956,10 +1983,10 @@ function observeReveals(){
   });
 
   // Kick off playback the moment the Events page is opened
-  window.addEventListener("hashchange", ()=>{
-    if((location.hash||"").replace("#/","") === "events") tryPlay();
+  window.addEventListener("routechange", ()=>{
+    if(currentPath() === "events") tryPlay();
   });
-  if((location.hash||"").replace("#/","") === "events") tryPlay();
+  if(currentPath() === "events") tryPlay();
 })();
 
 /* ========== Flyer magnifier + full-view ========== */
@@ -2391,20 +2418,7 @@ document.getElementById("contactForm").addEventListener("submit", async e=>{
 (function(){
   const overlay = document.getElementById("programmeOverlay");
   const openBtn = document.getElementById("openProgramme");
-  const closeBtn = document.getElementById("programmeClose");
   if(!overlay || !openBtn) return;
-
-  function openProg(){
-    overlay.classList.add("open");
-    document.body.style.overflow = "hidden";
-  }
-  function closeProg(){
-    overlay.classList.remove("open");
-    document.body.style.overflow = "";
-  }
-  openBtn.addEventListener("click", openProg);
-  closeBtn.addEventListener("click", closeProg);
-  document.addEventListener("keydown", e=>{ if(e.key==="Escape" && overlay.classList.contains("open")) closeProg(); });
 
   // Smooth-scroll section nav + active-state highlight
   const navLinks = overlay.querySelectorAll(".prog-nav a");
@@ -2416,11 +2430,14 @@ document.getElementById("contactForm").addEventListener("submit", async e=>{
     });
   });
   const sections = overlay.querySelectorAll(".prog-sec");
-  overlay.addEventListener("scroll", ()=>{
+  function updateProgNav(){
+    if(!overlay.classList.contains("active")) return;
     let current = sections[0] && sections[0].id;
-    sections.forEach(sec=>{ if(overlay.scrollTop >= sec.offsetTop - 140) current = sec.id; });
+    sections.forEach(sec=>{ if(window.scrollY >= sec.offsetTop - 140) current = sec.id; });
     navLinks.forEach(a=> a.classList.toggle("on", a.getAttribute("href") === "#"+current));
-  });
+  }
+  window.addEventListener("scroll", updateProgNav);
+  window.addEventListener("routechange", updateProgNav);
 
   // Add the whole evening to Google Calendar (5:30 PM Sat 3 Oct - 12:00 AM Sun 4 Oct, NZDT)
   const addCalBtn = document.getElementById("progAddCal");
@@ -2439,7 +2456,6 @@ document.getElementById("contactForm").addEventListener("submit", async e=>{
   if(becomeSponsorBtn){
     becomeSponsorBtn.addEventListener("click", e=>{
       e.preventDefault();
-      closeProg();
       const sponsorOpenBtn = document.getElementById("openSponsorModal");
       if(sponsorOpenBtn) sponsorOpenBtn.click();
     });
