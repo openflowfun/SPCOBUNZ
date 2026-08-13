@@ -208,8 +208,8 @@ body.page-programme .burger{display:none}
 .lede-white{background:linear-gradient(160deg,#ffffff 0%,#F9F6EE 55%,#EFE7CF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500}
 .lede-gold{background:linear-gradient(135deg,#F3D98B 0%,#E3C566 35%,#C9A227 70%,#A5841C 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lede-premium .lede-line{text-shadow:0 2px 12px rgba(3,9,20,.5)}
-@media(max-width:700px){.lede-line{letter-spacing:0;font-weight:500;font-size:9.5px}}
-@media(max-width:420px){.lede-line{font-size:8.5px}}
+@media(max-width:700px){.lede-line{letter-spacing:0;font-weight:500;font-size:11.9px}}
+@media(max-width:420px){.lede-line{font-size:10.6px}}
 .hero .cta{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:up .7s var(--ease) 2.25s both}
 @keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 .scroll-cue{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:22px;height:36px;border:1px solid rgba(201,162,39,.4);border-radius:999px;display:flex;justify-content:center;padding-top:6px;animation:fadeIn 1s 1.3s both}
@@ -432,6 +432,13 @@ body.page-programme .burger{display:none}
 /* Desktop header nav reaches all the way to the right edge (up to "Contact"),
    so push the close button below it there and make it a touch smaller */
 @media(min-width:1081px){.prog-close{top:132px;right:40px;width:38px;height:38px;font-size:15px}}
+.prog-buy-desktop,.prog-buy-mobile{display:none}
+@media(min-width:1081px){
+  .prog-buy-desktop{position:fixed;display:inline-flex;top:126px;right:88px;z-index:5;padding:10px 24px;font-size:10.5px}
+}
+@media(max-width:1080px){
+  .prog-buy-mobile{position:fixed;display:inline-flex;top:38px;right:20px;z-index:56;padding:8px 18px;font-size:9.5px}
+}
 .prog-close:hover{background:var(--gold);color:var(--navy-900);border-color:transparent;transform:rotate(90deg)}
 .prog-hero{position:relative;overflow:hidden;padding:110px 24px 40px;text-align:center;background:radial-gradient(ellipse at 50% 0%,#173766 0%,#0A1930 55%,#050D1A 100%);color:#fff}
 .prog-hero-glow{position:absolute;left:50%;top:-160px;width:900px;height:480px;transform:translateX(-50%);background:rgba(201,162,39,.1);border-radius:50%;filter:blur(100px)}
@@ -1425,6 +1432,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 <!-- Full Gala Dinner Dance Programme -->
 <div class="page prog-overlay" id="programmeOverlay" data-page="events/Gala-Dinner-Dance-2026-Full-Programme">
   <a href="/events" class="prog-close" id="programmeClose" aria-label="Back to Events">✕</a>
+  <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold prog-buy-desktop" data-tickets-link>Buy Tickets</a>
+  <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold prog-buy-mobile" data-tickets-link>Buy Tickets</a>
   <div class="prog-hero">
     <div class="prog-hero-glow"></div>
     <img src="/public/images/crest-spc-cutout.png" alt="" class="prog-crest" />
