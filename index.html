@@ -437,8 +437,9 @@ body.page-programme .burger{display:none}
   .prog-buy-desktop{position:fixed;display:inline-flex;align-items:center;justify-content:center;top:132px;right:88px;height:38px;z-index:5;padding:0 22px;font-size:10.5px}
 }
 @media(max-width:1080px){
-  .prog-buy-mobile{position:fixed;display:inline-flex;top:38px;right:20px;z-index:56;padding:8px 18px;font-size:9.5px}
+  .prog-buy-mobile{position:fixed;display:inline-flex;top:58px;transform:translateY(-50%);right:20px;z-index:56;padding:8px 18px;font-size:9.5px;transition:top .45s var(--ease),padding .3s var(--ease),font-size .3s var(--ease)}
 }
+header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.5px}
 .prog-close:hover{background:var(--gold);color:var(--navy-900);border-color:transparent;transform:rotate(90deg)}
 .prog-hero{position:relative;overflow:hidden;padding:110px 24px 40px;text-align:center;background:radial-gradient(ellipse at 50% 0%,#173766 0%,#0A1930 55%,#050D1A 100%);color:#fff}
 .prog-hero-glow{position:absolute;left:50%;top:-160px;width:900px;height:480px;transform:translateX(-50%);background:rgba(201,162,39,.1);border-radius:50%;filter:blur(100px)}
@@ -522,6 +523,9 @@ body.page-programme .burger{display:none}
   .prog-tl-time b{font-size:13px}
   .prog-tl-time small{font-size:7px}
   .prog-tl-node{left:44px;top:20px;width:11px;height:11px}
+}
+@media(max-width:760px){
+  .prog-day-label span{background:linear-gradient(160deg,#1B3A6B 0%,#10264A 100%)}
 }
 .prog-sponsor-tier{margin-bottom:40px}
 .prog-sponsor-tier:last-child{margin-bottom:0}
@@ -1486,7 +1490,6 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
             <li>Dress code: Ladies after-five, Gents formal</li>
           </ul>
         </div>
-        <p>Dress to impress, bring your partner, and prepare for a memorable night of elegance, nostalgia and entertainment. We can't wait to welcome you for what promises to be one of the highlights of the year.</p>
       </div>
     </section>
 
