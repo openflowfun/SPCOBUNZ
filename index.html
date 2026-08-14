@@ -489,7 +489,7 @@ body.page-programme .burger{display:none}
 .prog-includes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
 @media(max-width:700px){.prog-includes{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:420px){.prog-includes{grid-template-columns:1fr}}
-.prog-inc{text-align:center;padding:26px 14px;border-radius:18px;background:var(--navy-900);border:1px solid rgba(201,162,39,.2);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.prog-inc{text-align:center;padding:26px 14px;border-radius:18px;background:linear-gradient(160deg,#1B3A6B 0%,#10264A 100%);border:1px solid rgba(201,162,39,.28);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
 .prog-inc:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(5,13,26,.25)}
 .prog-inc svg{color:var(--gold)}
 .prog-inc b{display:block;margin-top:12px;font-size:12px;font-weight:600;color:#fff;line-height:1.4}
@@ -509,7 +509,7 @@ body.page-programme .burger{display:none}
 .prog-tl-node{position:absolute;left:76px;top:19px;width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#F3DFA0,var(--gold) 55%,var(--gold-dark) 100%);box-shadow:0 0 0 4px var(--ivory)}
 .prog-tl-node::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1.5px solid rgba(201,162,39,.45);animation:tlPulse 2.8s ease-out infinite}
 @keyframes tlPulse{0%{transform:scale(.55);opacity:.85}100%{transform:scale(2.1);opacity:0}}
-.prog-tl-card{border-radius:16px;padding:16px 20px;background:var(--navy-900);border:1px solid rgba(201,162,39,.2);box-shadow:0 10px 26px rgba(5,13,26,.15);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.prog-tl-card{border-radius:16px;padding:16px 20px;background:linear-gradient(160deg,#1B3A6B 0%,#10264A 100%);border:1px solid rgba(201,162,39,.28);box-shadow:0 10px 26px rgba(5,13,26,.15);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
 .prog-tl-card:hover{transform:translateX(4px);box-shadow:0 14px 34px rgba(5,13,26,.3)}
 .prog-tl-card h4{font-family:var(--serif);font-size:15px;font-weight:600;color:#fff;display:flex;align-items:center;gap:9px}
 .prog-tl-card h4 svg{color:var(--gold);flex-shrink:0}
@@ -1612,14 +1612,6 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
             <div class="ph-logo ph-platinum">Your Logo Here</div>
           </div>
         </div>
-        <div class="prog-sponsor-tier tier-gold">
-          <h5>Gold Sponsors</h5>
-          <div class="spon-grid spon-gold">
-            <div class="ph-logo ph-gold">Your Logo Here</div>
-            <div class="ph-logo ph-gold">Your Logo Here</div>
-            <div class="ph-logo ph-gold">Your Logo Here</div>
-          </div>
-        </div>
         <div class="prog-sponsor-tier tier-silver">
           <h5>Silver Sponsors</h5>
           <div class="spon-grid spon-silver">
@@ -1643,7 +1635,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
           </div>
         </div>
       </div>
-      <p style="text-align:center;margin-top:30px;font-size:12.5px;color:rgba(10,25,48,.5)">Interested in sponsoring the 2026 Gala? <a href="#" id="progBecomeSponsor" style="color:var(--gold-dark);font-weight:600">Become a Sponsor →</a></p>
+      <p style="text-align:center;margin-top:30px;font-size:12.5px;color:rgba(10,25,48,.5)">Interested in sponsoring the 2026 Gala?</p>
+      <p style="text-align:center;margin-top:8px"><a href="#" id="progBecomeSponsor" style="color:var(--gold-dark);font-weight:600;font-size:12.5px">Become a Sponsor →</a></p>
     </section>
     </div>
   </div>
