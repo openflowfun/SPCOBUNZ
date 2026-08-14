@@ -499,7 +499,7 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
 .prog-soon p{font-size:13.5px;color:rgba(10,25,48,.65);line-height:1.6}
 .prog-day-label{text-align:center;margin:0 0 26px}
 .prog-day-label:not(:first-child){margin-top:44px}
-.prog-day-label span{display:inline-block;padding:8px 22px;border-radius:999px;background:var(--navy-900);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.prog-day-label span{display:inline-block;padding:8px 22px;border-radius:999px;background:linear-gradient(160deg,#1B3A6B 0%,#10264A 100%);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
 .prog-timeline{position:relative;margin-top:30px}
 .prog-timeline::before{content:"";position:absolute;left:82px;top:4px;bottom:4px;width:2px;background:linear-gradient(180deg,rgba(201,162,39,.6),rgba(201,162,39,.35) 60%,rgba(201,162,39,.08))}
 .prog-tl-item{position:relative;padding-left:112px;margin-bottom:24px}
@@ -524,9 +524,6 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
   .prog-tl-time small{font-size:7px}
   .prog-tl-node{left:44px;top:20px;width:11px;height:11px}
 }
-@media(max-width:760px){
-  .prog-day-label span{background:linear-gradient(160deg,#1B3A6B 0%,#10264A 100%)}
-}
 .prog-sponsor-tier{margin-bottom:40px}
 .prog-sponsor-tier:last-child{margin-bottom:0}
 .prog-sponsor-tier h5{text-align:center;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px}
@@ -545,6 +542,10 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
 .spon-bronze{max-width:640px;grid-template-columns:repeat(3,1fr)}
 @media(max-width:640px){.spon-gold,.spon-silver,.spon-bronze{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:420px){.spon-gold,.spon-silver,.spon-bronze{grid-template-columns:1fr}}
+@media(max-width:760px){
+  .spon-silver{grid-template-columns:repeat(3,1fr);gap:10px}
+  .spon-bronze{grid-template-columns:repeat(3,1fr);gap:10px}
+}
 .ph-diamond{position:relative;height:210px;border-radius:26px;border:2px dashed rgba(201,162,39,.5);background:radial-gradient(ellipse at 50% 30%,rgba(201,162,39,.16),rgba(255,255,255,.75) 70%);box-shadow:0 0 0 1px rgba(201,162,39,.15),0 30px 60px rgba(201,162,39,.14);font-size:12px;letter-spacing:.18em;color:var(--gold-dark);overflow:hidden}
 .ph-diamond::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(201,162,39,.28) 48%,rgba(255,255,255,.6) 50%,rgba(201,162,39,.28) 52%,transparent 70%);background-size:220% 100%;animation:shimmer 4s linear infinite;pointer-events:none}
 .ph-diamond::after{content:"";position:absolute;inset:10px;border:1px solid rgba(201,162,39,.25);border-radius:18px;pointer-events:none}
