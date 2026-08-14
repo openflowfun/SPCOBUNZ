@@ -15,9 +15,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SPC OBU New Zealand</title>
 <meta name="description" content="The official home of the St. Peter's College Old Boys' Union New Zealand. Virtus et Veritas - uniting Peterites across Aotearoa since 2020." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://spcobunz.com/" />
 <meta property="og:title" content="SPC OBU New Zealand" />
 <meta property="og:description" content="Official website of SPC OBU New Zealand - connecting Old Peterites across Aotearoa." />
-<meta property="og:image" content="/public/images/crest.jpg" />
+<meta property="og:image" content="https://spcobunz.com/public/images/crest.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SPC OBU New Zealand" />
+<meta name="twitter:description" content="Official website of SPC OBU New Zealand - connecting Old Peterites across Aotearoa." />
+<meta name="twitter:image" content="https://spcobunz.com/public/images/crest.jpg" />
 <link rel="icon" href="/public/images/crest.jpg" />
 <link rel="preload" as="image" href="/public/images/crest-sm.jpg" />
 <link rel="preload" as="image" href="/public/images/LandingPageImage-opt.jpg" />
@@ -1103,7 +1109,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         </button>
       </div>
       <div class="reveal" style="margin-top:48px">
-        <a href="/events/Gala-Dinner-Dance-2026-Full-Programme" class="prog-open-cta">
+        <a href="/events/gala-dinner-dance-2026" class="prog-open-cta">
           <span class="prog-cta-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2Z"/><path d="M6 17h13M9 8h6M9 11h6"/></svg>
           </span>
@@ -1159,7 +1165,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       </div>
       <div class="flyer-hint reveal"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>Hover or tap to zoom</div>
       <div class="reveal" style="margin-top:34px">
-        <a href="/events/Gala-Dinner-Dance-2026-Full-Programme" class="prog-open-cta" id="openProgramme">
+        <a href="/events/gala-dinner-dance-2026" class="prog-open-cta" id="openProgramme">
           <span class="prog-cta-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2Z"/><path d="M6 17h13M9 8h6M9 11h6"/></svg>
           </span>
@@ -1450,7 +1456,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   </div>
 </section>
 <!-- Full Gala Dinner Dance Programme -->
-<div class="page prog-overlay" id="programmeOverlay" data-page="events/Gala-Dinner-Dance-2026-Full-Programme">
+<div class="page prog-overlay" id="programmeOverlay" data-page="events/gala-dinner-dance-2026">
   <a href="/events" class="prog-close" id="programmeClose" aria-label="Back to Events">✕</a>
   <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold prog-buy-desktop" data-tickets-link>Buy Tickets</a>
   <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold prog-buy-mobile" data-tickets-link>Buy Tickets</a>
@@ -1839,7 +1845,7 @@ function route(){
     if(on) found = true;
   });
   if(!found){ pages.forEach(p=>p.classList.toggle("active", p.dataset.page==="home")); }
-  document.body.classList.toggle("page-programme", path === "events/Gala-Dinner-Dance-2026-Full-Programme");
+  document.body.classList.toggle("page-programme", path === "events/gala-dinner-dance-2026");
   document.querySelectorAll("nav.desktop a, .mobile-menu a").forEach(a=>{
     const href = a.getAttribute("href") || "";
     const hrefPath = href === "/" ? "home" : href.replace(/^\//,"");
