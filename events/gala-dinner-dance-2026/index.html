@@ -2,6 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1T0LLCG4XS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  // send_page_view:false - this site is a client-side-routed single page app,
+  // so pageviews are tracked manually on each virtual navigation (see the
+  // "routechange" listener further down) instead of relying on gtag's
+  // one-shot automatic pageview, which would only fire once per real load.
+  gtag('config', 'G-1T0LLCG4XS', { send_page_view: false });
+</script>
 <script>
   // Restore the real path after a GitHub Pages 404 redirect (see 404.html)
   (function(){
@@ -1904,6 +1916,18 @@ document.addEventListener("click", e=>{
   navigateTo(href);
 });
 window.addEventListener("popstate", route);
+
+/* Google Analytics: fire one page_view per virtual route (initial load
+   included, since route() dispatches "routechange" on first paint too) */
+window.addEventListener("routechange", function(){
+  if(typeof gtag === "function"){
+    gtag("event", "page_view", {
+      page_path: location.pathname,
+      page_title: document.title,
+      page_location: location.href
+    });
+  }
+});
 
 /* ========== Header ========== */
 const header = document.getElementById("header");
