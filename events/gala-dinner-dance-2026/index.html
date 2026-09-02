@@ -552,16 +552,20 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
   .prog-tl-time small{font-size:7px}
   .prog-tl-node{left:44px;top:20px;width:11px;height:11px}
 }
-.prog-sponsor-tier{margin-bottom:40px}
+.prog-sponsor-tier{margin-bottom:32px;border-radius:22px;padding:34px 22px 38px}
 .prog-sponsor-tier:last-child{margin-bottom:0}
-.prog-sponsor-tier h5{text-align:center;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px}
-.tier-sub{text-align:center;font-size:11px;color:rgba(10,25,48,.4);margin-bottom:18px;font-style:italic}
-.tier-diamond h5{display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;letter-spacing:.24em;color:var(--gold-dark);margin-bottom:8px}
-.tier-diamond h5::before,.tier-diamond h5::after{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.prog-sponsor-tier h5{text-align:center;font-size:15px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px}
+.tier-sub{text-align:center;font-size:13px;color:rgba(10,25,48,.45);margin-bottom:22px;font-style:italic}
+.tier-diamond h5{display:flex;align-items:center;justify-content:center;gap:14px;font-size:20px;letter-spacing:.2em;color:var(--gold-dark);margin-bottom:12px}
+.tier-diamond h5::before,.tier-diamond h5::after{content:"";width:44px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 .tier-diamond h5::after{background:linear-gradient(90deg,var(--gold),transparent)}
 .tier-platinum h5{color:#7A8896}
 .tier-silver h5{color:#8A95A1}
 .tier-bronze h5{color:#A9764A}
+.tier-diamond{background:linear-gradient(180deg,rgba(201,162,39,.08),rgba(201,162,39,.02));border:1px solid rgba(201,162,39,.16)}
+.tier-platinum{background:linear-gradient(180deg,rgba(100,116,139,.08),rgba(100,116,139,.02));border:1px solid rgba(100,116,139,.16)}
+.tier-gold{background:linear-gradient(180deg,rgba(201,162,39,.06),rgba(201,162,39,.015));border:1px solid rgba(201,162,39,.14)}
+.tier-bronze{background:linear-gradient(180deg,rgba(176,124,74,.08),rgba(176,124,74,.02));border:1px solid rgba(176,124,74,.16)}
 .prog-credits{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;padding-top:34px;border-top:1px solid rgba(10,25,48,.08)}
 .prog-credit-col{position:relative;text-align:center;padding:30px 28px;border-radius:18px;background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(248,246,241,.75));border:1px solid rgba(201,162,39,.22);box-shadow:0 10px 28px rgba(10,25,48,.06);overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease);display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
 .prog-credit-col::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.7;z-index:2}
@@ -603,6 +607,9 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
 .ph-bronze{position:relative;height:86px;border-radius:12px;border:2px solid rgba(176,124,74,.7);background:linear-gradient(135deg,rgba(176,124,74,.34),rgba(252,235,214,.65));box-shadow:0 0 0 1px rgba(176,124,74,.16),0 10px 22px rgba(176,124,74,.18);color:#A9764A;font-size:9px;padding:8px;overflow:hidden}
 .ph-bronze img{max-width:85%;max-height:85%;object-fit:contain;position:relative}
 .ph-logo.ph-bronze{border:none;background:none;box-shadow:none;border-radius:0;height:140px}
+.spon-bronze-wide{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:22px;max-width:760px;margin:26px auto 0}
+.ph-logo.ph-bronze-wide{height:110px;display:flex;align-items:center;justify-content:center;border:none;background:none;box-shadow:none;border-radius:0}
+.ph-bronze-wide img{height:100%;width:auto;max-width:260px;object-fit:contain}
 .prog-map{margin-top:22px;border-radius:16px;overflow:hidden;border:1px solid rgba(10,25,48,.08);box-shadow:0 10px 26px rgba(5,13,26,.06)}
 .prog-map iframe{display:block;width:100%;height:220px;border:0}
 /* Google Maps is its own document and doesn't scale cleanly with the page's
@@ -1677,16 +1684,18 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="prog-sponsor-tier tier-bronze">
           <h5>Bronze Sponsors</h5>
           <div class="spon-grid spon-bronze">
-            <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-WorkX.jpg" alt="The Worx Real Estate" loading="lazy" decoding="async" /></div>
             <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-Taprobane Finance Logo.png" alt="Taprobane Finance" loading="lazy" decoding="async" /></div>
             <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-Spyne Doctors.JPG" alt="SpyneDoctors New Zealand" loading="lazy" decoding="async" /></div>
             <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-Ceylonika.JPG" alt="Ceylonika" loading="lazy" decoding="async" /></div>
             <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-Salon-Sagi.jpg" alt="Salon Sagi" loading="lazy" decoding="async" /></div>
-            <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-Dream-Team-Plumbing.jpg" alt="Dream Team Plumbing and Gas Fitting" loading="lazy" decoding="async" /></div>
             <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-Dilmah.jpg" alt="Dilmah" loading="lazy" decoding="async" /></div>
-            <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-GRI-Education.jpg" alt="GRI Education" loading="lazy" decoding="async" /></div>
-            <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-Altitude.png" alt="Altitude" loading="lazy" decoding="async" /></div>
-            <div class="ph-logo ph-bronze"><img src="/public/images/5. Bronze-Kokonati.jpg" alt="Kokonati" loading="lazy" decoding="async" /></div>
+          </div>
+          <div class="spon-grid spon-bronze-wide">
+            <div class="ph-logo ph-bronze-wide"><img src="/public/images/5. Bronze-WorkX.jpg" alt="The Worx Real Estate" loading="lazy" decoding="async" /></div>
+            <div class="ph-logo ph-bronze-wide"><img src="/public/images/5. Bronze-Dream-Team-Plumbing.jpg" alt="Dream Team Plumbing and Gas Fitting" loading="lazy" decoding="async" /></div>
+            <div class="ph-logo ph-bronze-wide"><img src="/public/images/5. Bronze-GRI-Education.jpg" alt="GRI Education" loading="lazy" decoding="async" /></div>
+            <div class="ph-logo ph-bronze-wide"><img src="/public/images/5. Bronze-Altitude.png" alt="Altitude" loading="lazy" decoding="async" /></div>
+            <div class="ph-logo ph-bronze-wide"><img src="/public/images/5. Bronze-Kokonati.jpg" alt="Kokonati" loading="lazy" decoding="async" /></div>
           </div>
         </div>
         <div class="prog-credits">
