@@ -15,6 +15,11 @@
   gtag('config', 'G-9KJWYKCJ69', { send_page_view: false });
 </script>
 <script>
+  // Take manual control of scroll position on every load. Left on "auto",
+  // the browser restores the old scroll offset on refresh on its own,
+  // which can silently override route()'s scrollTo(0,0) below and leave a
+  // refreshed page scrolled to wherever it was before instead of the top.
+  if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
   // Restore the real path after a GitHub Pages 404 redirect (see 404.html)
   (function(){
     var redirect = sessionStorage.redirect;
@@ -681,7 +686,7 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
 .teaser-tag-mobile{display:none}
 @media(max-width:700px){
   .teaser-tag-desktop{display:none}
-  .teaser-tag-mobile{display:block;text-align:center}
+  .teaser-tag-mobile{display:block;text-align:left}
 }
 .teaser-sound{position:absolute;top:24px;right:24px;z-index:3;display:flex;align-items:center;gap:9px;padding:10px 18px 10px 14px;border-radius:999px;border:1px solid rgba(201,162,39,.5);background:rgba(5,13,26,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--ease);animation:teaserPulse 2.4s ease-in-out infinite}
 .teaser-sound:hover{background:var(--gold);color:var(--navy-900);border-color:transparent;animation:none}
@@ -2147,18 +2152,25 @@ function observeReveals(){
 
 /* ========== Flag flutter on scroll ========== */
 (function(){
-  let lastY = window.scrollY, tilt = 0;
+  let lastY = window.scrollY, tilt = 0, ticking = false;
+  function frame(){
+    tilt *= 0.88;
+    document.documentElement.style.setProperty("--scroll-tilt", tilt.toFixed(2)+"deg");
+    if(Math.abs(tilt) > 0.01){
+      requestAnimationFrame(frame);
+    } else {
+      tilt = 0;
+      ticking = false;
+    }
+  }
+  // Only run the rAF loop while there's actually tilt to animate out, instead
+  // of forever - this was ticking on every frame for the whole page lifetime.
   window.addEventListener("scroll", ()=>{
     const dy = window.scrollY - lastY;
     lastY = window.scrollY;
     tilt = Math.max(-4, Math.min(4, tilt + dy*0.15));
+    if(!ticking){ ticking = true; requestAnimationFrame(frame); }
   }, {passive:true});
-  function frame(){
-    tilt *= 0.88;
-    document.documentElement.style.setProperty("--scroll-tilt", tilt.toFixed(2)+"deg");
-    requestAnimationFrame(frame);
-  }
-  frame();
 })();
 
 /* ========== Joe-Pete year slideshow ========== */
