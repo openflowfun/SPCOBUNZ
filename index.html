@@ -499,9 +499,8 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
 .prog-sec h3{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:26px;font-weight:600;color:var(--navy-900)}
 .prog-num{display:flex;align-items:center;justify-content:center;width:38px;height:38px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,#E3C566,#C9A227,#A5841C);color:var(--navy-900);font-family:var(--serif);font-size:15px;font-weight:700}
 .prog-ent-photo{display:block;max-width:100%;max-height:260px;width:auto;height:auto;margin:22px auto 0;border-radius:16px;box-shadow:0 10px 28px rgba(10,25,48,.12);object-fit:contain}
-.prog-food-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
-.prog-food-grid img{width:100%;height:200px;display:block;object-fit:cover;border-radius:14px;box-shadow:0 10px 28px rgba(10,25,48,.12)}
-@media(max-width:640px){.prog-food-grid{grid-template-columns:1fr;gap:14px}.prog-food-grid img{height:220px}}
+.prog-food-grid{margin-top:22px;display:flex;justify-content:center}
+.prog-food-grid img{display:block;max-width:100%;max-height:380px;width:auto;height:auto;border-radius:14px;box-shadow:0 10px 28px rgba(10,25,48,.12);object-fit:contain}
 .prog-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:26px}
 @media(max-width:760px){.prog-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:460px){.prog-grid{grid-template-columns:1fr}}
@@ -1536,6 +1535,19 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="prog-body">
     <div class="prog-body-inner">
     <section class="prog-sec" id="prog-welcome" style="margin-bottom:0">
+      <div class="teaser" id="galaTeaserProg" style="margin-bottom:28px">
+        <video id="galaTeaserVideoProg" src="/public/videos/gala-teaser-2026.mp4" poster="/public/videos/gala-teaser-poster.jpg" muted autoplay loop playsinline preload="metadata"></video>
+        <div class="teaser-scrim"></div>
+        <div class="teaser-tag">
+          <span class="pill"><i></i>Upcoming Event</span>
+          <h3>Gala Dinner Dance 2026 <span class="teaser-tag-sep">&middot;</span> 3rd Oct 2026</h3>
+        </div>
+        <button type="button" class="teaser-sound" id="galaTeaserSoundProg" aria-label="Unmute video">
+          <svg class="ic-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m23 9-6 6M17 9l6 6"/></svg>
+          <svg class="ic-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+          <span id="galaTeaserSoundLabelProg">Tap for sound</span>
+        </button>
+      </div>
       <div class="prog-welcome">
         <h3 style="font-family:var(--serif);font-size:24px;font-weight:600;color:var(--navy-900)">Celebrating the <br class="prog-welcome-break" /><span class="gold-text">Peterite Spirit</span></h3>
         <p>Welcome to the <b>Gala Dinner Dance 2026</b> - an unforgettable evening of celebration, connection and entertainment awaits. Presented by the St Peter's College Colombo Old Boys Union - New Zealand.</p>
@@ -1556,7 +1568,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     </section>
 
     <section class="prog-sec" id="prog-details">
-      <h3><span class="prog-num">01</span>Event Details</h3>
+      <h3>Event Details</h3>
       <div class="prog-grid">
         <div class="prog-item"><b>Date</b><span>Saturday, 3rd October 2026</span></div>
         <div class="prog-item"><b>Time</b><span>5:30 PM onward</span></div>
@@ -1575,7 +1587,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     </section>
 
     <section class="prog-sec" id="prog-evening">
-      <h3><span class="prog-num">02</span>Your Evening Includes</h3>
+      <h3><span class="prog-num">01</span>Your Evening Includes</h3>
       <div class="prog-includes">
         <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 3v3a4 4 0 0 0 8 0V3M12 13v8M8 21h8"/></svg><b>Full Sri Lankan Buffet Dinner</b></div>
         <div class="prog-inc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-1 6a3 3 0 0 1-6 0L8 3Z"/><path d="M12 9v5M9 21h6M12 14v7"/></svg><b>2 Drinks - Spirits, Beer or Wine</b></div>
@@ -1587,7 +1599,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     </section>
 
     <section class="prog-sec" id="prog-run">
-      <h3><span class="prog-num">03</span>Schedule</h3>
+      <h3><span class="prog-num">02</span>Schedule</h3>
 
       <div class="prog-day-label"><span>Saturday 3 October 2026</span></div>
       <div class="prog-timeline">
@@ -1648,20 +1660,18 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     </section>
 
     <section class="prog-sec" id="prog-menu">
-      <h3><span class="prog-num">04</span>Menu</h3>
+      <h3><span class="prog-num">03</span>Menu</h3>
       <div class="prog-soon">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 3v3a4 4 0 0 0 8 0V3M12 13v8M8 21h8"/></svg>
         <p>A Sri Lankan buffet dinner is included with every ticket, served 8:00 PM - 10:00 PM. The full dish list &amp; dietary options will be announced soon.</p>
       </div>
       <div class="prog-food-grid">
         <img src="/public/images/food1.jpg" alt="Sri Lankan buffet spread" loading="lazy" decoding="async" />
-        <img src="/public/images/food2.jpg" alt="Sri Lankan buffet spread" loading="lazy" decoding="async" />
-        <img src="/public/images/food3.JPG" alt="Sri Lankan buffet spread" loading="lazy" decoding="async" />
       </div>
     </section>
 
     <section class="prog-sec" id="prog-entertainment">
-      <h3><span class="prog-num">05</span>Entertainment</h3>
+      <h3><span class="prog-num">04</span>Entertainment</h3>
       <p class="muted" style="margin-top:22px;font-size:14px;line-height:1.8"><b style="color:var(--navy-900)">Frisky Business</b>, one of New Zealand's premier live party bands, takes the stage across two 90-minute sessions.</p>
       <img src="/public/images/FriskyBusiness.jpg" alt="Frisky Business" class="prog-ent-photo" loading="lazy" decoding="async" />
       <p class="muted" style="margin-top:22px;font-size:14px;line-height:1.8"><b style="color:var(--navy-900)">DJ Naleen</b> carrying the dance floor before, between and after - all the way to midnight.</p>
@@ -1670,7 +1680,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
     </section>
 
     <section class="prog-sec" id="prog-sponsors">
-      <h3><span class="prog-num">06</span>Our Sponsors</h3>
+      <h3><span class="prog-num">05</span>Our Sponsors</h3>
       <div style="margin-top:26px">
         <div class="prog-sponsor-tier tier-diamond">
           <h5>Diamond Sponsor</h5>
@@ -2223,6 +2233,42 @@ function observeReveals(){
     if(currentPath() === "events") tryPlay();
   });
   if(currentPath() === "events") tryPlay();
+})();
+
+/* ========== Event teaser video (Programme page copy) ========== */
+(function(){
+  const vid = document.getElementById("galaTeaserVideoProg");
+  const soundBtn = document.getElementById("galaTeaserSoundProg");
+  if(!vid || !soundBtn) return;
+  const iconOff = soundBtn.querySelector(".ic-off");
+  const iconOn = soundBtn.querySelector(".ic-on");
+  const label = document.getElementById("galaTeaserSoundLabelProg");
+
+  function tryPlay(){ vid.play().catch(()=>{}); }
+
+  const teaserIO = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ tryPlay(); } else { vid.pause(); }
+    });
+  }, {threshold:0.35});
+  teaserIO.observe(vid);
+
+  soundBtn.addEventListener("click", ()=>{
+    vid.muted = !vid.muted;
+    if(!vid.muted){
+      tryPlay();
+      iconOff.style.display = "none"; iconOn.style.display = "";
+      label.textContent = "Sound on";
+    } else {
+      iconOff.style.display = ""; iconOn.style.display = "none";
+      label.textContent = "Tap for sound";
+    }
+  });
+
+  window.addEventListener("routechange", ()=>{
+    if(currentPath() === "events/gala-dinner-dance-2026") tryPlay();
+  });
+  if(currentPath() === "events/gala-dinner-dance-2026") tryPlay();
 })();
 
 /* ========== Flyer magnifier + full-view ========== */
