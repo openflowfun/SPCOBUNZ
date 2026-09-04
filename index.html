@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1T0LLCG4XS"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9KJWYKCJ69"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -12,7 +12,7 @@
   // so pageviews are tracked manually on each virtual navigation (see the
   // "routechange" listener further down) instead of relying on gtag's
   // one-shot automatic pageview, which would only fire once per real load.
-  gtag('config', 'G-1T0LLCG4XS', { send_page_view: false });
+  gtag('config', 'G-9KJWYKCJ69', { send_page_view: false });
 </script>
 <script>
   // Restore the real path after a GitHub Pages 404 redirect (see 404.html)
@@ -1955,6 +1955,86 @@ window.addEventListener("routechange", function(){
   }
 });
 
+/* ========== Engagement tracking: clicks, sponsor logos, section views, scroll depth ========== */
+(function(){
+  function track(name, params){
+    if(typeof gtag === "function") gtag("event", name, params || {});
+  }
+
+  /* Ticket CTAs, sponsor logos, and any other outbound link */
+  document.addEventListener("click", function(e){
+    const a = e.target.closest("a");
+    if(!a) return;
+
+    if(a.hasAttribute("data-tickets-link")){
+      track("select_ticket_cta", {
+        cta_label: (a.textContent || "").trim(),
+        page_path: location.pathname
+      });
+      return;
+    }
+
+    const sponsorLogo = a.closest(".ph-logo");
+    if(sponsorLogo){
+      const img = a.querySelector("img");
+      const tierMatch = sponsorLogo.className.match(/ph-(diamond|platinum|gold|silver|bronze-wide|bronze)/);
+      track("sponsor_click", {
+        sponsor_name: img ? (img.alt || "unknown") : (a.textContent || "").trim(),
+        sponsor_tier: tierMatch ? tierMatch[1] : "unknown",
+        link_url: a.href
+      });
+      return;
+    }
+
+    const href = a.getAttribute("href") || "";
+    const isExternal = a.target === "_blank" || /^https?:\/\//i.test(href) || href.indexOf("mailto:") === 0 || href.indexOf("tel:") === 0;
+    if(isExternal){
+      track("outbound_click", {
+        link_url: a.href,
+        link_text: (a.textContent || "").trim().slice(0, 100)
+      });
+    }
+  });
+
+  /* Programme section engagement - which parts of the event programme get read */
+  const seenSections = new Set();
+  function watchSections(){
+    const sections = document.querySelectorAll(".prog-sec[id]");
+    if(!sections.length || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting && !seenSections.has(entry.target.id)){
+          seenSections.add(entry.target.id);
+          const heading = entry.target.querySelector("h3");
+          track("section_view", {
+            section_id: entry.target.id,
+            section_name: heading ? heading.textContent.trim() : entry.target.id
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+    sections.forEach(function(s){ io.observe(s); });
+  }
+  window.addEventListener("routechange", function(){ seenSections.clear(); watchSections(); });
+
+  /* Scroll depth per page (resets on each virtual route change) */
+  const scrollMarks = [25, 50, 75, 90];
+  let hitMarks = new Set();
+  function checkScrollDepth(){
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if(max <= 0) return;
+    const pct = (window.scrollY / max) * 100;
+    scrollMarks.forEach(function(mark){
+      if(pct >= mark && !hitMarks.has(mark)){
+        hitMarks.add(mark);
+        track("scroll_depth", { percent: mark, page_path: location.pathname });
+      }
+    });
+  }
+  window.addEventListener("scroll", checkScrollDepth, { passive: true });
+  window.addEventListener("routechange", function(){ hitMarks = new Set(); });
+})();
+
 /* ========== Header ========== */
 const header = document.getElementById("header");
 const scrollBar = document.getElementById("scrollBar");
@@ -2634,6 +2714,7 @@ document.getElementById("contactForm").addEventListener("submit", async e=>{
     document.body.style.overflow = "";
   }
   openBtn.addEventListener("click", openModal);
+  openBtn.addEventListener("click", ()=>{ if(typeof gtag === "function") gtag("event","sponsor_modal_open",{page_path: location.pathname}); });
   closeBtn.addEventListener("click", closeModal);
   closeSuccessBtn.addEventListener("click", ()=>{ closeModal(); header.style.display=""; form.style.display=""; successPanel.style.display="none"; form.reset(); otherWrap.style.display="none"; });
   modal.addEventListener("click", e=>{ if(e.target===modal) closeModal(); });
@@ -2650,6 +2731,7 @@ document.getElementById("contactForm").addEventListener("submit", async e=>{
 
     if(!WEB3FORMS_ACCESS_KEY){
       const body = `First Name: ${g("spFirst")}\nSurname: ${g("spLast")}\nCompany: ${g("spCompany")||"-"}\nEmail: ${g("spEmail")}\nPhone: ${g("spPhone")}\nEvent: ${eventChoice}${eventChoice==="Other"?"\nDetails: "+g("spOther"):""}`;
+      if(typeof gtag === "function") gtag("event","generate_lead",{lead_type:"sponsorship_enquiry_mailto", event_choice: eventChoice});
       location.href = `mailto:${EMAIL}?subject=${encodeURIComponent("Sponsorship Enquiry - "+g("spFirst")+" "+g("spLast"))}&body=${encodeURIComponent(body)}`;
       return;
     }
@@ -2678,6 +2760,7 @@ document.getElementById("contactForm").addEventListener("submit", async e=>{
         header.style.display = "none";
         form.style.display = "none";
         successPanel.style.display = "block";
+        if(typeof gtag === "function") gtag("event","generate_lead",{lead_type:"sponsorship_enquiry", event_choice: eventChoice});
       } else {
         throw new Error(data.message || "Submission failed");
       }
