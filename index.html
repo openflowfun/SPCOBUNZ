@@ -2865,14 +2865,16 @@ document.getElementById("contactForm").addEventListener("submit", async e=>{
 
 /* ========== Init ========== */
 document.getElementById("year").textContent = new Date().getFullYear();
-// A real browser refresh (F5 / reload button) always lands on the homepage.
-// Direct visits, bookmarks and shared/QR links (e.g. the Programme page) are
-// unaffected - those are navigation type "navigate", not "reload".
+// A real browser refresh (F5 / reload button) lands on the homepage, except
+// on the Gala Dinner Dance programme page - that one is a real bookmarked/
+// shared URL, so a refresh there just stays put (scrolled back to top).
+// Direct visits, bookmarks and shared/QR links are unaffected either way -
+// those are navigation type "navigate", not "reload".
 (function(){
   var navEntry = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
   var isReload = navEntry ? navEntry.type === "reload" :
     (performance.navigation && performance.navigation.type === 1);
-  if(isReload && location.pathname !== "/"){
+  if(isReload && location.pathname !== "/" && currentPath() !== "events/gala-dinner-dance-2026"){
     history.replaceState(null, null, "/");
   }
 })();
