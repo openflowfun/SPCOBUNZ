@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Souvenir Booklet (Preview) — SPC OBU NZ Gala Dinner Dance 2026</title>
 <meta name="robots" content="noindex, nofollow, noarchive" />
 <meta name="description" content="Private preview of the SPC OBU NZ Gala Dinner Dance 2026 souvenir booklet." />
@@ -24,6 +24,7 @@
   --ease:cubic-bezier(.22,1,.36,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100vh;height:100dvh;overflow:hidden;overscroll-behavior:none}
 html{background:var(--navy-950)}
 body{
   font-family:var(--sans);
@@ -32,7 +33,6 @@ body{
     radial-gradient(ellipse 900px 700px at 90% 110%, rgba(201,162,39,.08), transparent 60%),
     var(--navy-950);
   color:#fff;
-  min-height:100vh;
   -webkit-font-smoothing:antialiased;
   display:flex;
   flex-direction:column;
@@ -41,153 +41,167 @@ body{
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* Pill */
-.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:7px 16px;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-.pill i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:5px 13px;font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);flex-shrink:0}
+.pill i{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@media (max-width:640px){.pill{display:none}}
 
 /* Header */
 .sv-header{
-  position:sticky; top:0; z-index:40;
+  flex:0 0 auto; z-index:40;
   display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:16px clamp(16px,4vw,48px);
+  padding:12px clamp(16px,4vw,40px);
   background:rgba(5,13,26,.72);
   backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(201,162,39,.15);
 }
-.sv-header .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;flex-shrink:0}
-.sv-header .brand img{width:34px;height:34px;border-radius:50%;object-fit:cover;display:block}
-.sv-header .brand b{font-family:var(--serif);font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.sv-header .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#fff;flex-shrink:0}
+.sv-header .brand img{width:30px;height:30px;border-radius:50%;object-fit:cover;display:block}
+.sv-header .brand b{font-family:var(--serif);font-size:14px;letter-spacing:.02em;white-space:nowrap}
 .sv-back{
   display:inline-flex;align-items:center;gap:6px;
   font-size:12px;font-weight:600;letter-spacing:.05em;
   color:var(--ivory);opacity:.8;text-decoration:none;
-  padding:8px 14px;border:1px solid rgba(255,255,255,.15);border-radius:999px;
+  padding:7px 13px;border:1px solid rgba(255,255,255,.15);border-radius:999px;
   transition:all .25s var(--ease); flex-shrink:0;
 }
 .sv-back:hover{opacity:1;border-color:var(--gold);color:var(--gold-light);background:rgba(201,162,39,.08)}
 .sv-back svg{width:14px;height:14px;flex-shrink:0}
-@media (max-width:600px){.sv-back span{display:none}.sv-back{padding:9px}}
-
-/* Hero */
-.sv-hero{text-align:center;padding:clamp(36px,7vw,64px) 20px clamp(18px,4vw,28px)}
-.sv-hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(30px,6vw,54px);color:var(--ivory);letter-spacing:-.01em;line-height:1.1;margin-top:16px}
-.sv-hero h1 em{font-style:italic;color:var(--gold-light)}
-.sv-hero p{margin-top:12px;font-size:clamp(13px,1.6vw,16px);color:rgba(248,246,241,.65);font-weight:300;letter-spacing:.02em}
-.sv-hero-note{margin-top:10px;font-size:11px;color:rgba(248,246,241,.35);letter-spacing:.03em}
+@media (max-width:600px){.sv-back span{display:none}.sv-back{padding:8px}}
 
 /* Stage */
-.sv-stage-wrap{flex:1;display:flex;flex-direction:column;align-items:center;padding:0 16px clamp(36px,6vw,72px)}
+.sv-stage-wrap{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;padding:10px clamp(10px,2vw,24px)}
 .sv-stage{
-  position:relative; width:100%; max-width:1400px; border-radius:20px;
+  position:relative; width:100%; max-width:1400px; height:100%; border-radius:18px;
   background:linear-gradient(180deg, rgba(15,36,71,.5), rgba(8,20,38,.5));
   border:1px solid rgba(201,162,39,.18);
-  box-shadow:0 40px 100px -20px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
-  padding:clamp(14px,3vw,34px);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+  padding:clamp(10px,2vw,22px);
   overflow:hidden;
+  display:flex; flex-direction:column;
+  margin:0 auto;
 }
 .sv-stage:fullscreen,.sv-stage.is-fullscreen,.sv-stage:-webkit-full-screen{
   max-width:100vw;width:100vw;height:100vh;border-radius:0;
-  display:flex;flex-direction:column;justify-content:center;background:var(--navy-950);
+  background:var(--navy-950);
 }
-.sv-stage:fullscreen .sv-book-wrap,.sv-stage.is-fullscreen .sv-book-wrap,.sv-stage:-webkit-full-screen .sv-book-wrap{flex:1;min-height:0}
 .sv-glow{position:absolute;inset:-40%;background:radial-gradient(circle at 50% 30%, rgba(201,162,39,.12), transparent 55%);pointer-events:none;z-index:0}
 
 /* Toolbar */
-.sv-toolbar{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
-.sv-toolbar-title{font-family:var(--serif);font-size:15px;color:var(--gold-light);letter-spacing:.02em}
+.sv-toolbar{position:relative;z-index:2;flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.sv-toolbar-title{font-family:var(--serif);font-size:clamp(14px,1.8vw,18px);color:var(--gold-light);letter-spacing:.02em}
+.sv-toolbar-title b{color:var(--ivory);font-weight:600}
 .sv-tools{display:flex;gap:8px;flex-wrap:wrap}
 .sv-tool-btn{
   display:inline-flex;align-items:center;gap:6px;
   background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); color:var(--ivory);
-  padding:9px 14px;border-radius:10px;font-size:12px;font-weight:600;letter-spacing:.03em;
+  padding:8px 13px;border-radius:10px;font-size:12px;font-weight:600;letter-spacing:.03em;
   cursor:pointer;transition:all .25s var(--ease);font-family:var(--sans);
 }
 .sv-tool-btn svg{width:15px;height:15px;flex-shrink:0}
 .sv-tool-btn:hover{background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.4);color:var(--gold-light);transform:translateY(-1px)}
 .sv-tool-btn.primary{background:var(--gold);border-color:var(--gold);color:var(--navy-950)}
 .sv-tool-btn.primary:hover{background:var(--gold-light);border-color:var(--gold-light)}
-@media (max-width:640px){.sv-tool-btn span{display:none}.sv-tool-btn{padding:10px}}
+@media (max-width:640px){.sv-tool-btn span{display:none}.sv-tool-btn{padding:9px}}
 
-/* Book */
-.sv-book-wrap{position:relative;z-index:2;display:flex;justify-content:center;align-items:center;min-height:380px;perspective:2400px}
+/* Book area */
+.sv-book-wrap{position:relative;z-index:2;flex:1 1 auto;min-height:0;display:flex;justify-content:center;align-items:center;perspective:2400px}
 #souvenirBook{margin:0 auto;touch-action:pan-y;position:relative;z-index:2}
 #souvenirBook .page{background:#fff}
 #souvenirBook .page img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
 
 .sv-backdrop{
   position:absolute; inset:-12% -6%; z-index:0; pointer-events:none;
+  background-image:url('/public/images/souvenir/thumbs/01.jpg');
   background-size:cover; background-position:center 18%;
   filter:blur(44px) brightness(.5) saturate(1.2);
   transform:scale(1.18); border-radius:24px;
   opacity:0; animation:sv-fade-in .8s .05s var(--ease) forwards;
 }
 .sv-rest-shadow{
-  position:absolute; z-index:1; left:50%; bottom:6%; transform:translateX(-50%);
-  width:min(70%,520px); height:36px; border-radius:50%;
+  position:absolute; z-index:1; left:50%; bottom:4%; transform:translateX(-50%);
+  width:min(70%,520px); height:32px; border-radius:50%;
   background:radial-gradient(ellipse at center, rgba(0,0,0,.5), transparent 72%);
   pointer-events:none; filter:blur(2px);
 }
 @keyframes sv-fade-in{to{opacity:.6}}
 
-.sv-poster{
-  position:absolute; z-index:4; top:50%; left:50%; transform:translate(-50%,-50%);
-  width:min(58%, 380px); border-radius:5px; overflow:hidden;
-  box-shadow:0 34px 80px -12px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.07);
-  transition:opacity .55s var(--ease), transform .55s var(--ease);
+/* Cover (standalone, click-to-open) */
+.sv-cover{
+  position:absolute; inset:0; z-index:5;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+  cursor:pointer; padding:4px;
+  transition:opacity .5s var(--ease), transform .5s var(--ease);
 }
-.sv-poster img{display:block;width:100%;height:auto}
-.sv-poster.is-leaving{opacity:0;transform:translate(-50%,-50%) scale(.96);pointer-events:none}
-.sv-poster-caption{
-  position:absolute; left:0; right:0; bottom:0; padding:10px 0 12px;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  background:linear-gradient(0deg, rgba(0,0,0,.65), transparent);
-  font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:rgba(248,246,241,.85);
+.sv-cover.is-hidden{opacity:0;transform:scale(.96);pointer-events:none}
+.sv-cover-frame{position:relative;flex:0 0 auto;margin:0 auto}
+.sv-cover-frame img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
+  border-radius:4px;
+  box-shadow:
+    0 30px 70px -14px rgba(0,0,0,.75),
+    4px 4px 0 0 rgba(255,255,255,.85),
+    7px 7px 0 0 rgba(222,222,222,.55),
+    10px 10px 0 0 rgba(200,200,200,.35);
 }
-.sv-spinner-sm{width:11px;height:11px;border-radius:50%;border:2px solid rgba(248,246,241,.3);border-top-color:var(--gold);animation:sv-spin .8s linear infinite;display:inline-block}
-@keyframes sv-spin{to{transform:rotate(360deg)}}
+.sv-cover-frame .lqip{filter:blur(2px);opacity:1;transition:opacity .4s var(--ease)}
+.sv-cover-frame .hires{opacity:0;transition:opacity .5s var(--ease)}
+.sv-cover-frame .hires.is-loaded{opacity:1}
+.sv-open-btn{
+  display:inline-flex;align-items:center;gap:8px;flex:0 0 auto;
+  background:var(--gold); color:var(--navy-950); font-weight:700; font-size:13px;
+  padding:11px 20px; border-radius:999px; border:none; cursor:pointer;
+  letter-spacing:.03em; box-shadow:0 10px 26px -8px rgba(201,162,39,.55);
+  animation:sv-pulse-btn 2.4s ease-in-out infinite;
+  font-family:var(--sans);
+}
+.sv-open-btn:disabled{animation:none;cursor:default}
+.sv-open-btn svg{width:15px;height:15px}
+@keyframes sv-pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
 
-.sv-hint{text-align:center;margin-top:16px;font-size:11px;color:rgba(248,246,241,.4);letter-spacing:.08em;text-transform:uppercase}
+.sv-hint{flex:0 0 auto;text-align:center;margin-top:8px;font-size:11px;color:rgba(248,246,241,.4);letter-spacing:.08em;text-transform:uppercase}
+@media (max-height:680px){.sv-hint{display:none}}
 
 .sv-arrow{
-  position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+  position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;
   background:rgba(5,13,26,.6);border:1px solid rgba(201,162,39,.3);color:var(--gold-light);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:6;
   transition:all .25s var(--ease);backdrop-filter:blur(6px);
 }
 .sv-arrow:hover{background:rgba(201,162,39,.2);border-color:var(--gold);transform:translateY(-50%) scale(1.06)}
-.sv-arrow.prev{left:clamp(2px,1vw,14px)}
-.sv-arrow.next{right:clamp(2px,1vw,14px)}
-.sv-arrow svg{width:18px;height:18px}
-@media (max-width:768px){.sv-arrow{width:36px;height:36px}.sv-arrow svg{width:15px;height:15px}}
+.sv-arrow.prev{left:clamp(2px,1vw,10px)}
+.sv-arrow.next{right:clamp(2px,1vw,10px)}
+.sv-arrow svg{width:17px;height:17px}
+@media (max-width:768px){.sv-arrow{width:34px;height:34px}.sv-arrow svg{width:14px;height:14px}}
 
 /* Thumbnails strip */
-.sv-thumbs{position:relative;z-index:2;display:flex;gap:10px;overflow-x:auto;padding:16px 4px 4px;margin-top:8px;scrollbar-width:thin;scrollbar-color:var(--gold-dark) transparent}
+.sv-thumbs{position:relative;z-index:2;flex:0 0 auto;display:flex;gap:9px;overflow-x:auto;padding:10px 4px 2px;scrollbar-width:thin;scrollbar-color:var(--gold-dark) transparent}
 .sv-thumbs.is-hidden{display:none}
-.sv-thumbs::-webkit-scrollbar{height:6px}
+.sv-thumbs::-webkit-scrollbar{height:5px}
 .sv-thumbs::-webkit-scrollbar-thumb{background:rgba(201,162,39,.4);border-radius:3px}
-.sv-thumb{flex:0 0 auto;width:64px;height:90px;border-radius:6px;overflow:hidden;border:2px solid rgba(255,255,255,.1);cursor:pointer;opacity:.55;transition:all .25s var(--ease);position:relative;background:#0a1930;padding:0}
+.sv-thumb{flex:0 0 auto;width:52px;height:74px;border-radius:5px;overflow:hidden;border:2px solid rgba(255,255,255,.1);cursor:pointer;opacity:.55;transition:all .25s var(--ease);position:relative;background:#0a1930;padding:0}
 .sv-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .sv-thumb:hover{opacity:.85;border-color:rgba(201,162,39,.5)}
 .sv-thumb.active{opacity:1;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.15)}
-.sv-thumb .num{position:absolute;bottom:2px;right:3px;font-size:9px;color:#fff;background:rgba(0,0,0,.6);padding:1px 4px;border-radius:3px}
+.sv-thumb .num{position:absolute;bottom:2px;right:3px;font-size:8px;color:#fff;background:rgba(0,0,0,.6);padding:1px 3px;border-radius:3px}
 
 /* Controls */
-.sv-controls{position:relative;z-index:2;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08)}
-.sv-controls-nav{display:flex;align-items:center;gap:12px;flex:1;min-width:220px}
+.sv-controls{position:relative;z-index:2;flex:0 0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.sv-controls-nav{display:flex;align-items:center;gap:10px;flex:1;min-width:200px}
 .sv-nav-btn{
-  width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
   color:var(--ivory);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s var(--ease);flex-shrink:0;
 }
 .sv-nav-btn:hover{background:rgba(201,162,39,.16);border-color:var(--gold);color:var(--gold-light)}
 .sv-nav-btn:disabled{opacity:.25;cursor:default;pointer-events:none}
-.sv-nav-btn svg{width:15px;height:15px}
-.sv-slider-wrap{flex:1;display:flex;align-items:center;gap:12px;min-width:120px}
+.sv-nav-btn svg{width:14px;height:14px}
+.sv-slider-wrap{flex:1;display:flex;align-items:center;gap:12px;min-width:100px}
 .sv-slider{flex:1;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:rgba(255,255,255,.14);outline:none;cursor:pointer}
-.sv-slider::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--navy-950);box-shadow:0 0 0 1px rgba(201,162,39,.5)}
-.sv-slider::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--navy-950)}
-.sv-page-label{font-size:12px;font-weight:600;color:var(--ivory);opacity:.75;white-space:nowrap;min-width:56px;text-align:right;font-variant-numeric:tabular-nums}
-.sv-download{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy-950);font-weight:700;font-size:13px;padding:11px 20px;border-radius:10px;text-decoration:none;transition:all .25s var(--ease);flex-shrink:0}
+.sv-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--navy-950);box-shadow:0 0 0 1px rgba(201,162,39,.5)}
+.sv-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--navy-950)}
+.sv-page-label{font-size:12px;font-weight:600;color:var(--ivory);opacity:.75;white-space:nowrap;min-width:52px;text-align:right;font-variant-numeric:tabular-nums}
+.sv-download{display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:var(--navy-950);font-weight:700;font-size:12px;padding:9px 17px;border-radius:10px;text-decoration:none;transition:all .25s var(--ease);flex-shrink:0}
 .sv-download:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(201,162,39,.5)}
-.sv-download svg{width:15px;height:15px}
+.sv-download svg{width:14px;height:14px}
 @media (max-width:640px){.sv-controls{flex-direction:column;align-items:stretch}.sv-controls-nav{width:100%}.sv-download{justify-content:center}}
 
 /* Zoom overlay */
@@ -203,15 +217,12 @@ body{
 @media (max-width:600px){.sv-zoom-nav{width:38px;height:38px}.sv-zoom-close{width:36px;height:36px;top:12px;right:12px}}
 
 /* Toast */
-.sv-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-800);border:1px solid rgba(201,162,39,.3);color:var(--ivory);font-size:13px;padding:12px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:300}
+.sv-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-800);border:1px solid rgba(201,162,39,.3);color:var(--ivory);font-size:13px;padding:12px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:300}
 .sv-toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* Footer */
-.sv-footer{text-align:center;padding:20px 20px 32px;font-size:11px;color:rgba(248,246,241,.35);letter-spacing:.05em}
 
 /* Mobile header/toolbar tweaks */
 @media (max-width:600px){
-  .sv-header{padding:12px 16px}
+  .sv-header{padding:10px 14px}
   .sv-header .brand b{font-size:13px}
   .sv-toolbar{justify-content:center}
   .sv-toolbar-title{width:100%;text-align:center;margin-bottom:2px}
@@ -225,25 +236,19 @@ body{
     <img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" />
     <b>SPC OBU <span class="gold-text">NZ</span></b>
   </a>
+  <span class="pill"><i></i>Private Preview</span>
   <a href="/events/gala-dinner-dance-2026" class="sv-back">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     <span>Back to Gala Dinner Dance</span>
   </a>
 </header>
 
-<section class="sv-hero">
-  <span class="pill"><i></i>Private Preview</span>
-  <h1>Souvenir <em>Booklet</em></h1>
-  <p>Gala Dinner Dance &middot; Saturday, 3 October 2026</p>
-  <p class="sv-hero-note">This page is unlisted — not linked from the public site.</p>
-</section>
-
 <div class="sv-stage-wrap">
   <div class="sv-stage" id="svStage">
     <div class="sv-glow"></div>
 
     <div class="sv-toolbar">
-      <span class="sv-toolbar-title">15-Page Keepsake Booklet</span>
+      <span class="sv-toolbar-title"><b>Souvenir Booklet</b> — Gala Dinner Dance 2026</span>
       <div class="sv-tools">
         <button type="button" class="sv-tool-btn" id="svThumbsBtn" aria-pressed="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -265,26 +270,31 @@ body{
     </div>
 
     <div class="sv-book-wrap" id="svBookWrap">
-      <div class="sv-backdrop" id="svBackdrop" style="background-image:url('/public/images/souvenir/thumbs/01.jpg')"></div>
+      <div class="sv-backdrop" id="svBackdrop"></div>
       <div class="sv-rest-shadow"></div>
 
-      <div class="sv-poster" id="svPoster">
-        <img src="/public/images/souvenir/thumbs/01.jpg" alt="Souvenir booklet cover" />
-        <div class="sv-poster-caption">
-          <span class="sv-spinner-sm"></span>
-          <span>Opening the booklet&hellip;</span>
+      <div class="sv-book-shell is-hidden" id="svBookShell"></div>
+
+      <div class="sv-cover" id="svCover">
+        <div class="sv-cover-frame" id="svCoverFrame">
+          <img class="lqip" src="/public/images/souvenir/thumbs/01.jpg" alt="" aria-hidden="true" />
+          <img class="hires" id="svCoverHires" src="/public/images/souvenir/hi-01.jpg" alt="Souvenir booklet cover" />
         </div>
+        <button type="button" class="sv-open-btn" id="svOpenBtn">
+          <span>Open Booklet</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
       </div>
 
-      <button type="button" class="sv-arrow prev" id="svArrowPrev" style="display:none" aria-label="Previous page">
+      <button type="button" class="sv-arrow prev" id="svArrowPrev" aria-label="Previous page">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <button type="button" class="sv-arrow next" id="svArrowNext" style="display:none" aria-label="Next page">
+      <button type="button" class="sv-arrow next" id="svArrowNext" aria-label="Next page">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
 
-    <p class="sv-hint" id="svHint">Drag a corner, swipe, or use the arrows to turn pages</p>
+    <p class="sv-hint" id="svHint">Click the cover to open — drag a corner, swipe, or use the arrows to turn pages</p>
 
     <div class="sv-thumbs is-hidden" id="svThumbs"></div>
 
@@ -301,7 +311,7 @@ body{
         </button>
         <span class="sv-page-label" id="svPageLabel">1 / 15</span>
       </div>
-      <a href="/public/souvenir/SPC-OBU-NZ-Gala-Dinner-Dance-2026-web.pdf" class="sv-download" id="svDownloadBtn" download>
+      <a href="/public/souvenir/SPC-OBU-NZ-Gala-Dinner-Dance-2026-hd.pdf" class="sv-download" id="svDownloadBtn" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
         Download PDF
       </a>
@@ -310,15 +320,11 @@ body{
     <noscript>
       <div style="text-align:center;padding:40px 10px;color:#fff">
         <p style="margin-bottom:16px">Enable JavaScript to view the interactive booklet, or download the PDF directly.</p>
-        <a href="/public/souvenir/SPC-OBU-NZ-Gala-Dinner-Dance-2026-web.pdf" style="color:#C9A227">Download the Souvenir PDF</a>
+        <a href="/public/souvenir/SPC-OBU-NZ-Gala-Dinner-Dance-2026-hd.pdf" style="color:#C9A227">Download the Souvenir PDF</a>
       </div>
     </noscript>
   </div>
 </div>
-
-<footer class="sv-footer">
-  <p>SPC OBU NZ &middot; Gala Dinner Dance 2026 &middot; Private preview link, not indexed for search.</p>
-</footer>
 
 <div class="sv-zoom-overlay" id="svZoomOverlay">
   <button type="button" class="sv-zoom-close" id="svZoomClose" aria-label="Close zoom">
@@ -347,29 +353,36 @@ body{
   function pad(n){ return n < 10 ? '0' + n : '' + n; }
   function hiresUrl(n){ return HIRES_PATH + HIRES_PREFIX + pad(n) + '.jpg'; }
 
-  var bookWrap    = document.getElementById('svBookWrap');
-  var posterEl    = document.getElementById('svPoster');
-  var hintEl      = document.getElementById('svHint');
-  var arrowPrev   = document.getElementById('svArrowPrev');
-  var arrowNext   = document.getElementById('svArrowNext');
-  var prevBtn     = document.getElementById('svPrevBtn');
-  var nextBtn     = document.getElementById('svNextBtn');
-  var slider      = document.getElementById('svSlider');
-  var pageLabel   = document.getElementById('svPageLabel');
-  var thumbsEl    = document.getElementById('svThumbs');
-  var thumbsBtn   = document.getElementById('svThumbsBtn');
-  var zoomBtn     = document.getElementById('svZoomBtn');
-  var shareBtn    = document.getElementById('svShareBtn');
-  var fsBtn       = document.getElementById('svFullscreenBtn');
-  var zoomOverlay = document.getElementById('svZoomOverlay');
-  var zoomImg     = document.getElementById('svZoomImg');
-  var zoomClose   = document.getElementById('svZoomClose');
-  var zoomPrev    = document.getElementById('svZoomPrev');
-  var zoomNext    = document.getElementById('svZoomNext');
-  var toast       = document.getElementById('svToast');
-  var stage       = document.getElementById('svStage');
+  var bookWrap     = document.getElementById('svBookWrap');
+  var bookShell    = document.getElementById('svBookShell');
+  var coverEl      = document.getElementById('svCover');
+  var coverFrame   = document.getElementById('svCoverFrame');
+  var coverHires   = document.getElementById('svCoverHires');
+  var openBtn      = document.getElementById('svOpenBtn');
+  var hintEl       = document.getElementById('svHint');
+  var arrowPrev    = document.getElementById('svArrowPrev');
+  var arrowNext    = document.getElementById('svArrowNext');
+  var prevBtn      = document.getElementById('svPrevBtn');
+  var nextBtn      = document.getElementById('svNextBtn');
+  var slider       = document.getElementById('svSlider');
+  var pageLabel    = document.getElementById('svPageLabel');
+  var thumbsEl     = document.getElementById('svThumbs');
+  var thumbsBtn    = document.getElementById('svThumbsBtn');
+  var zoomBtn      = document.getElementById('svZoomBtn');
+  var shareBtn     = document.getElementById('svShareBtn');
+  var fsBtn        = document.getElementById('svFullscreenBtn');
+  var zoomOverlay  = document.getElementById('svZoomOverlay');
+  var zoomImg      = document.getElementById('svZoomImg');
+  var zoomClose    = document.getElementById('svZoomClose');
+  var zoomPrev     = document.getElementById('svZoomPrev');
+  var zoomNext     = document.getElementById('svZoomNext');
+  var toast        = document.getElementById('svToast');
+  var stage        = document.getElementById('svStage');
 
   var pageFlip = null;
+  var pageFlipReady = false;
+  var showingCover = true;
+  var currentVisual = 1;
   var toastTimer = null;
 
   function showToast(msg){
@@ -379,6 +392,7 @@ body{
     toastTimer = setTimeout(function(){ toast.classList.remove('is-visible'); }, 2400);
   }
 
+  /* ---------- Thumbnails ---------- */
   function buildThumbs(){
     var frag = document.createDocumentFragment();
     for (var i = 1; i <= TOTAL_PAGES; i++){
@@ -386,7 +400,7 @@ body{
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'sv-thumb';
-        btn.setAttribute('data-page', pageNum - 1);
+        btn.setAttribute('data-page', pageNum);
         btn.setAttribute('aria-label', 'Go to page ' + pageNum);
         var img = document.createElement('img');
         img.src = THUMB_PATH + pad(pageNum) + '.jpg';
@@ -397,110 +411,181 @@ body{
         num.textContent = pageNum;
         btn.appendChild(img);
         btn.appendChild(num);
-        btn.addEventListener('click', function(){
-          if (pageFlip) pageFlip.turnToPage(pageNum - 1);
-        });
+        btn.addEventListener('click', function(){ goToVisual(pageNum); });
         frag.appendChild(btn);
       })(i);
     }
     thumbsEl.appendChild(frag);
   }
 
-  function updateActiveThumb(index){
+  function updateActiveThumb(visual){
     var thumbs = thumbsEl.querySelectorAll('.sv-thumb');
     for (var i = 0; i < thumbs.length; i++){
-      thumbs[i].classList.toggle('active', i === index);
+      thumbs[i].classList.toggle('active', (i + 1) === visual);
     }
-    var active = thumbs[index];
+    var active = thumbs[visual - 1];
     if (active && !thumbsEl.classList.contains('is-hidden')){
       active.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
     }
   }
 
-  function updateUI(index){
-    var current = index + 1;
-    pageLabel.textContent = current + ' / ' + TOTAL_PAGES;
-    slider.value = index;
-    prevBtn.disabled = index <= 0;
-    nextBtn.disabled = index >= TOTAL_PAGES - 1;
-    arrowPrev.style.visibility = index <= 0 ? 'hidden' : 'visible';
-    arrowNext.style.visibility = index >= TOTAL_PAGES - 1 ? 'hidden' : 'visible';
-    updateActiveThumb(index);
+  /* ---------- Shared UI state ---------- */
+  function updateUI(visual){
+    currentVisual = visual;
+    pageLabel.textContent = visual + ' / ' + TOTAL_PAGES;
+    slider.value = visual - 1;
+    prevBtn.disabled = visual <= 1;
+    nextBtn.disabled = visual >= TOTAL_PAGES;
+    arrowPrev.style.visibility = visual <= 1 ? 'hidden' : 'visible';
+    arrowNext.style.visibility = visual >= TOTAL_PAGES ? 'hidden' : 'visible';
+    updateActiveThumb(visual);
   }
 
-  function revealBook(){
-    if (posterEl.classList.contains('is-leaving')) return;
-    posterEl.classList.add('is-leaving');
-    setTimeout(function(){ posterEl.style.display = 'none'; }, 600);
-    arrowPrev.style.display = 'flex';
-    arrowNext.style.display = 'flex';
-    updateUI(pageFlip ? pageFlip.getCurrentPageIndex() : 0);
+  /* ---------- Sizing (shared by cover + book, aware of spread vs single) ---------- */
+  function computeMaxDims(singlePage, capOverride){
+    var w = bookWrap.clientWidth || 900;
+    var h = bookWrap.clientHeight || 600;
+    var availW = Math.max(180, w - 20);
+    var availH = Math.max(180, h - 16);
+    var wFromH = availH * (600 / 848);
+    var widthBudget = singlePage ? availW : availW / 2;
+    var maxW = Math.min(widthBudget, wFromH);
+    var cap = capOverride || (singlePage ? (window.innerWidth < 760 ? 380 : 600) : 640);
+    maxW = Math.min(maxW, cap);
+    return { maxW: Math.round(maxW), maxH: Math.round(maxW * (848 / 600)) };
   }
 
-  function buildBook(){
-    var wrapWidth = bookWrap.clientWidth || 900;
-    var maxW = window.innerWidth < 760 ? Math.min(420, wrapWidth - 20) : Math.min(680, wrapWidth - 32);
-    var maxH = Math.round(maxW * (848 / 600));
+  function applyCoverSize(){
+    var d = computeMaxDims(true);
+    coverFrame.style.width = d.maxW + 'px';
+    coverFrame.style.height = d.maxH + 'px';
+  }
+
+  /* ---------- Cover <-> Book ---------- */
+  function showCoverView(){
+    showingCover = true;
+    coverEl.classList.remove('is-hidden');
+    bookShell.classList.add('is-hidden');
+    updateUI(1);
+  }
+
+  function openBookAt(visual){
+    if (window.__svLibFailed) return;
+    if (!pageFlipReady){
+      openBtn.textContent = 'Loading…';
+      var waitTimer = setInterval(function(){
+        if (pageFlipReady){
+          clearInterval(waitTimer);
+          openBtn.innerHTML = '<span>Open Booklet</span>';
+          openBookAt(visual);
+        }
+      }, 150);
+      setTimeout(function(){ clearInterval(waitTimer); }, 6000);
+      return;
+    }
+    showingCover = false;
+    coverEl.classList.add('is-hidden');
+    bookShell.classList.remove('is-hidden');
+    var internal = Math.max(0, visual - 2);
+    if (pageFlip) pageFlip.turnToPage(internal);
+    updateUI(visual);
+  }
+
+  function goToVisual(v){
+    v = Math.max(1, Math.min(TOTAL_PAGES, v));
+    if (v === 1) showCoverView(); else openBookAt(v);
+  }
+
+  function goPrev(){
+    if (showingCover) return;
+    if (pageFlip && pageFlip.getCurrentPageIndex() === 0){ showCoverView(); }
+    else if (pageFlip){ pageFlip.flipPrev(); }
+  }
+  function goNext(){
+    if (showingCover){ openBookAt(2); return; }
+    if (pageFlip){ pageFlip.flipNext(); }
+  }
+
+  /* ---------- Book build / rebuild (for fullscreen + resize) ---------- */
+  function destroyBook(){
+    if (pageFlip){
+      try { pageFlip.destroy(); } catch(e){}
+      pageFlip = null;
+    }
+    bookShell.innerHTML = '';
+  }
+
+  function buildBook(startInternal){
+    destroyBook();
+    var portrait = window.innerWidth < 760;
+    var dims = computeMaxDims(portrait);
 
     var bookEl = document.createElement('div');
     bookEl.id = 'souvenirBook';
-    bookWrap.appendChild(bookEl);
+    bookShell.appendChild(bookEl);
 
     pageFlip = new St.PageFlip(bookEl, {
       width: 600,
       height: 848,
       size: 'stretch',
-      minWidth: 240,
-      maxWidth: maxW,
-      minHeight: 340,
-      maxHeight: maxH,
+      minWidth: 220,
+      maxWidth: dims.maxW,
+      minHeight: 310,
+      maxHeight: dims.maxH,
       maxShadowOpacity: 0.5,
-      showCover: true,
+      showCover: false,
       mobileScrollSupport: true,
       useMouseEvents: true,
-      flippingTime: 600,
-      usePortrait: true
+      flippingTime: 500,
+      usePortrait: portrait,
+      startPage: startInternal || 0
     });
 
     var pages = [];
-    for (var i = 1; i <= TOTAL_PAGES; i++){
-      pages.push(hiresUrl(i));
-    }
-
+    for (var i = 2; i <= TOTAL_PAGES; i++){ pages.push(hiresUrl(i)); }
     pageFlip.loadFromImages(pages);
 
-    // Prioritise the cover so it's the first thing to finish loading
     setTimeout(function(){
       var imgs = bookEl.querySelectorAll('img');
       for (var k = 0; k < imgs.length; k++){
         imgs[k].decoding = 'async';
-        if ('fetchPriority' in imgs[k]) {
-          imgs[k].fetchPriority = (k < 2) ? 'high' : 'low';
-        }
+        if ('fetchPriority' in imgs[k]) imgs[k].fetchPriority = (k < 2) ? 'high' : 'low';
       }
     }, 0);
 
-    pageFlip.on('init', revealBook);
-    pageFlip.on('flip', function(e){ updateUI(e.data); });
+    pageFlip.on('flip', function(e){
+      if (!showingCover) updateUI(e.data + 2);
+    });
 
-    // Safety net in case the 'init' event doesn't fire as expected
-    setTimeout(revealBook, 2500);
+    pageFlipReady = true;
+  }
+
+  function rebuild(){
+    applyCoverSize();
+    if (!pageFlipReady) return;
+    var keepInternal = showingCover ? 0 : Math.max(0, currentVisual - 2);
+    buildBook(keepInternal);
+  }
+
+  var resizeTimer;
+  function scheduleRebuild(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(rebuild, 220);
   }
 
   function onLibError(){
-    var caption = posterEl.querySelector('.sv-poster-caption');
-    if (caption){ caption.innerHTML = '<span>Interactive viewer unavailable — download the PDF below</span>'; }
-    hintEl.style.display = 'none';
+    openBtn.innerHTML = '<span>Viewer unavailable</span>';
+    openBtn.disabled = true;
+    hintEl.textContent = 'Interactive viewer unavailable — please use Download PDF below.';
   }
 
-  // Nav wiring
-  prevBtn.addEventListener('click', function(){ if (pageFlip) pageFlip.flipPrev(); });
-  nextBtn.addEventListener('click', function(){ if (pageFlip) pageFlip.flipNext(); });
-  arrowPrev.addEventListener('click', function(){ if (pageFlip) pageFlip.flipPrev(); });
-  arrowNext.addEventListener('click', function(){ if (pageFlip) pageFlip.flipNext(); });
-  slider.addEventListener('input', function(){
-    if (pageFlip) pageFlip.turnToPage(parseInt(slider.value, 10));
-  });
+  /* ---------- Wiring ---------- */
+  coverEl.addEventListener('click', function(){ goNext(); });
+  prevBtn.addEventListener('click', goPrev);
+  nextBtn.addEventListener('click', goNext);
+  arrowPrev.addEventListener('click', goPrev);
+  arrowNext.addEventListener('click', goNext);
+  slider.addEventListener('input', function(){ goToVisual(parseInt(slider.value, 10) + 1); });
 
   document.addEventListener('keydown', function(e){
     if (zoomOverlay.classList.contains('is-open')){
@@ -509,33 +594,30 @@ body{
       if (e.key === 'ArrowRight') stepZoom(1);
       return;
     }
-    if (e.key === 'ArrowLeft' && pageFlip) pageFlip.flipPrev();
-    if (e.key === 'ArrowRight' && pageFlip) pageFlip.flipNext();
+    if (e.key === 'ArrowLeft') goPrev();
+    if (e.key === 'ArrowRight') goNext();
   });
 
-  // Thumbnails toggle
   thumbsBtn.addEventListener('click', function(){
     var hidden = thumbsEl.classList.toggle('is-hidden');
     thumbsBtn.setAttribute('aria-pressed', hidden ? 'false' : 'true');
     thumbsBtn.classList.toggle('primary', !hidden);
-    if (!hidden && pageFlip) updateActiveThumb(pageFlip.getCurrentPageIndex());
+    if (!hidden) updateActiveThumb(currentVisual);
   });
 
-  // Zoom
+  /* ---------- Zoom ---------- */
   function openZoom(){
-    if (!pageFlip) return;
-    var idx = pageFlip.getCurrentPageIndex();
-    zoomImg.src = hiresUrl(idx + 1);
-    zoomImg.setAttribute('data-index', idx);
+    zoomImg.src = hiresUrl(currentVisual);
+    zoomImg.setAttribute('data-index', currentVisual);
     zoomOverlay.classList.add('is-open');
   }
   function closeZoom(){ zoomOverlay.classList.remove('is-open'); }
   function stepZoom(dir){
-    var idx = parseInt(zoomImg.getAttribute('data-index'), 10) || 0;
-    idx = Math.max(0, Math.min(TOTAL_PAGES - 1, idx + dir));
-    zoomImg.src = hiresUrl(idx + 1);
-    zoomImg.setAttribute('data-index', idx);
-    if (pageFlip) pageFlip.turnToPage(idx);
+    var v = parseInt(zoomImg.getAttribute('data-index'), 10) || 1;
+    v = Math.max(1, Math.min(TOTAL_PAGES, v + dir));
+    zoomImg.src = hiresUrl(v);
+    zoomImg.setAttribute('data-index', v);
+    goToVisual(v);
   }
   zoomBtn.addEventListener('click', openZoom);
   zoomClose.addEventListener('click', closeZoom);
@@ -543,7 +625,7 @@ body{
   zoomPrev.addEventListener('click', function(){ stepZoom(-1); });
   zoomNext.addEventListener('click', function(){ stepZoom(1); });
 
-  // Share
+  /* ---------- Share ---------- */
   shareBtn.addEventListener('click', function(){
     var url = window.location.href;
     if (navigator.share){
@@ -559,9 +641,9 @@ body{
     }
   });
 
-  // Fullscreen
+  /* ---------- Fullscreen ---------- */
   fsBtn.addEventListener('click', function(){
-    if (!document.fullscreenElement){
+    if (!document.fullscreenElement && !document.webkitFullscreenElement){
       (stage.requestFullscreen || stage.webkitRequestFullscreen || function(){}).call(stage);
     } else {
       (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
@@ -569,14 +651,30 @@ body{
   });
   document.addEventListener('fullscreenchange', function(){
     stage.classList.toggle('is-fullscreen', !!document.fullscreenElement);
+    scheduleRebuild();
   });
+  document.addEventListener('webkitfullscreenchange', function(){
+    stage.classList.toggle('is-fullscreen', !!document.webkitFullscreenElement);
+    scheduleRebuild();
+  });
+  window.addEventListener('resize', scheduleRebuild);
 
-  // Init
+  /* ---------- Init ---------- */
   buildThumbs();
+  applyCoverSize();
+  showCoverView();
+
+  function revealCoverHires(){
+    coverHires.classList.add('is-loaded');
+    var lqip = coverFrame.querySelector('.lqip');
+    if (lqip) lqip.style.opacity = '0';
+  }
+  coverHires.addEventListener('load', revealCoverHires);
+  if (coverHires.complete && coverHires.naturalWidth > 0) revealCoverHires();
 
   function start(){
     if (!window.__svLibFailed && window.St && window.St.PageFlip){
-      buildBook();
+      buildBook(0);
     } else {
       onLibError();
     }
