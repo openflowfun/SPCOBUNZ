@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Souvenir Booklet (Preview) — SPC OBU NZ Gala Dinner Dance 2026</title>
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="description" content="Private preview of the SPC OBU NZ Gala Dinner Dance 2026 souvenir booklet." />
+<link rel="icon" href="/public/images/favicon-32x32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="/public/images/favicon-16x16.png" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png" />
+<link rel="preload" as="image" href="/public/images/crest-sm.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --navy-950:#050D1A; --navy-900:#081426; --navy-800:#0A1930; --navy-700:#0F2447;
+  --gold:#C9A227; --gold-light:#E3C566; --gold-dark:#A5841C;
+  --ivory:#F8F6F1;
+  --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--navy-950)}
+body{
+  font-family:var(--sans);
+  background:
+    radial-gradient(ellipse 900px 600px at 15% -10%, rgba(201,162,39,.10), transparent 60%),
+    radial-gradient(ellipse 900px 700px at 90% 110%, rgba(201,162,39,.08), transparent 60%),
+    var(--navy-950);
+  color:#fff;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  display:flex;
+  flex-direction:column;
+}
+.gold-text{color:var(--gold)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* Pill */
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:7px 16px;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.pill i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+
+/* Header */
+.sv-header{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:16px clamp(16px,4vw,48px);
+  background:rgba(5,13,26,.72);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,162,39,.15);
+}
+.sv-header .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;flex-shrink:0}
+.sv-header .brand img{width:34px;height:34px;border-radius:50%;object-fit:cover;display:block}
+.sv-header .brand b{font-family:var(--serif);font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.sv-back{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;letter-spacing:.05em;
+  color:var(--ivory);opacity:.8;text-decoration:none;
+  padding:8px 14px;border:1px solid rgba(255,255,255,.15);border-radius:999px;
+  transition:all .25s var(--ease); flex-shrink:0;
+}
+.sv-back:hover{opacity:1;border-color:var(--gold);color:var(--gold-light);background:rgba(201,162,39,.08)}
+.sv-back svg{width:14px;height:14px;flex-shrink:0}
+@media (max-width:600px){.sv-back span{display:none}.sv-back{padding:9px}}
+
+/* Hero */
+.sv-hero{text-align:center;padding:clamp(36px,7vw,64px) 20px clamp(18px,4vw,28px)}
+.sv-hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(30px,6vw,54px);color:var(--ivory);letter-spacing:-.01em;line-height:1.1;margin-top:16px}
+.sv-hero h1 em{font-style:italic;color:var(--gold-light)}
+.sv-hero p{margin-top:12px;font-size:clamp(13px,1.6vw,16px);color:rgba(248,246,241,.65);font-weight:300;letter-spacing:.02em}
+.sv-hero-note{margin-top:10px;font-size:11px;color:rgba(248,246,241,.35);letter-spacing:.03em}
+
+/* Stage */
+.sv-stage-wrap{flex:1;display:flex;flex-direction:column;align-items:center;padding:0 16px clamp(36px,6vw,72px)}
+.sv-stage{
+  position:relative; width:100%; max-width:1400px; border-radius:20px;
+  background:linear-gradient(180deg, rgba(15,36,71,.5), rgba(8,20,38,.5));
+  border:1px solid rgba(201,162,39,.18);
+  box-shadow:0 40px 100px -20px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+  padding:clamp(14px,3vw,34px);
+  overflow:hidden;
+}
+.sv-stage:fullscreen,.sv-stage.is-fullscreen,.sv-stage:-webkit-full-screen{
+  max-width:100vw;width:100vw;height:100vh;border-radius:0;
+  display:flex;flex-direction:column;justify-content:center;background:var(--navy-950);
+}
+.sv-stage:fullscreen .sv-book-wrap,.sv-stage.is-fullscreen .sv-book-wrap,.sv-stage:-webkit-full-screen .sv-book-wrap{flex:1;min-height:0}
+.sv-glow{position:absolute;inset:-40%;background:radial-gradient(circle at 50% 30%, rgba(201,162,39,.12), transparent 55%);pointer-events:none;z-index:0}
+
+/* Toolbar */
+.sv-toolbar{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.sv-toolbar-title{font-family:var(--serif);font-size:15px;color:var(--gold-light);letter-spacing:.02em}
+.sv-tools{display:flex;gap:8px;flex-wrap:wrap}
+.sv-tool-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); color:var(--ivory);
+  padding:9px 14px;border-radius:10px;font-size:12px;font-weight:600;letter-spacing:.03em;
+  cursor:pointer;transition:all .25s var(--ease);font-family:var(--sans);
+}
+.sv-tool-btn svg{width:15px;height:15px;flex-shrink:0}
+.sv-tool-btn:hover{background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.4);color:var(--gold-light);transform:translateY(-1px)}
+.sv-tool-btn.primary{background:var(--gold);border-color:var(--gold);color:var(--navy-950)}
+.sv-tool-btn.primary:hover{background:var(--gold-light);border-color:var(--gold-light)}
+@media (max-width:640px){.sv-tool-btn span{display:none}.sv-tool-btn{padding:10px}}
+
+/* Book */
+.sv-book-wrap{position:relative;z-index:2;display:flex;justify-content:center;align-items:center;min-height:320px;perspective:2400px}
+#souvenirBook{margin:0 auto;touch-action:pan-y}
+#souvenirBook .page{background:#fff}
+#souvenirBook .page img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.sv-loading{display:flex;flex-direction:column;align-items:center;gap:14px;color:rgba(248,246,241,.6);font-size:13px;letter-spacing:.05em;padding:80px 0}
+.sv-spinner{width:34px;height:34px;border-radius:50%;border:2px solid rgba(201,162,39,.2);border-top-color:var(--gold);animation:sv-spin .8s linear infinite}
+@keyframes sv-spin{to{transform:rotate(360deg)}}
+.sv-hint{text-align:center;margin-top:16px;font-size:11px;color:rgba(248,246,241,.4);letter-spacing:.08em;text-transform:uppercase}
+
+.sv-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+  background:rgba(5,13,26,.6);border:1px solid rgba(201,162,39,.3);color:var(--gold-light);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;
+  transition:all .25s var(--ease);backdrop-filter:blur(6px);
+}
+.sv-arrow:hover{background:rgba(201,162,39,.2);border-color:var(--gold);transform:translateY(-50%) scale(1.06)}
+.sv-arrow.prev{left:clamp(2px,1vw,14px)}
+.sv-arrow.next{right:clamp(2px,1vw,14px)}
+.sv-arrow svg{width:18px;height:18px}
+@media (max-width:768px){.sv-arrow{width:36px;height:36px}.sv-arrow svg{width:15px;height:15px}}
+
+/* Thumbnails strip */
+.sv-thumbs{position:relative;z-index:2;display:flex;gap:10px;overflow-x:auto;padding:16px 4px 4px;margin-top:8px;scrollbar-width:thin;scrollbar-color:var(--gold-dark) transparent}
+.sv-thumbs.is-hidden{display:none}
+.sv-thumbs::-webkit-scrollbar{height:6px}
+.sv-thumbs::-webkit-scrollbar-thumb{background:rgba(201,162,39,.4);border-radius:3px}
+.sv-thumb{flex:0 0 auto;width:64px;height:90px;border-radius:6px;overflow:hidden;border:2px solid rgba(255,255,255,.1);cursor:pointer;opacity:.55;transition:all .25s var(--ease);position:relative;background:#0a1930;padding:0}
+.sv-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.sv-thumb:hover{opacity:.85;border-color:rgba(201,162,39,.5)}
+.sv-thumb.active{opacity:1;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.15)}
+.sv-thumb .num{position:absolute;bottom:2px;right:3px;font-size:9px;color:#fff;background:rgba(0,0,0,.6);padding:1px 4px;border-radius:3px}
+
+/* Controls */
+.sv-controls{position:relative;z-index:2;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08)}
+.sv-controls-nav{display:flex;align-items:center;gap:12px;flex:1;min-width:220px}
+.sv-nav-btn{
+  width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  color:var(--ivory);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s var(--ease);flex-shrink:0;
+}
+.sv-nav-btn:hover{background:rgba(201,162,39,.16);border-color:var(--gold);color:var(--gold-light)}
+.sv-nav-btn:disabled{opacity:.25;cursor:default;pointer-events:none}
+.sv-nav-btn svg{width:15px;height:15px}
+.sv-slider-wrap{flex:1;display:flex;align-items:center;gap:12px;min-width:120px}
+.sv-slider{flex:1;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:rgba(255,255,255,.14);outline:none;cursor:pointer}
+.sv-slider::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--navy-950);box-shadow:0 0 0 1px rgba(201,162,39,.5)}
+.sv-slider::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--navy-950)}
+.sv-page-label{font-size:12px;font-weight:600;color:var(--ivory);opacity:.75;white-space:nowrap;min-width:56px;text-align:right;font-variant-numeric:tabular-nums}
+.sv-download{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy-950);font-weight:700;font-size:13px;padding:11px 20px;border-radius:10px;text-decoration:none;transition:all .25s var(--ease);flex-shrink:0}
+.sv-download:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(201,162,39,.5)}
+.sv-download svg{width:15px;height:15px}
+@media (max-width:640px){.sv-controls{flex-direction:column;align-items:stretch}.sv-controls-nav{width:100%}.sv-download{justify-content:center}}
+
+/* Zoom overlay */
+.sv-zoom-overlay{position:fixed;inset:0;background:rgba(2,6,14,.94);z-index:200;display:none;align-items:center;justify-content:center;padding:40px 20px;backdrop-filter:blur(6px)}
+.sv-zoom-overlay.is-open{display:flex}
+.sv-zoom-overlay img{max-width:min(92vw, 2200px);max-height:88vh;width:auto;border-radius:6px;box-shadow:0 30px 80px rgba(0,0,0,.6);object-fit:contain}
+.sv-zoom-close{position:absolute;top:20px;right:20px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sv-zoom-close:hover{background:rgba(201,162,39,.2);border-color:var(--gold)}
+.sv-zoom-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sv-zoom-nav:hover{background:rgba(201,162,39,.2);border-color:var(--gold)}
+.sv-zoom-nav.prev{left:20px}
+.sv-zoom-nav.next{right:20px}
+@media (max-width:600px){.sv-zoom-nav{width:38px;height:38px}.sv-zoom-close{width:36px;height:36px;top:12px;right:12px}}
+
+/* Toast */
+.sv-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-800);border:1px solid rgba(201,162,39,.3);color:var(--ivory);font-size:13px;padding:12px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:300}
+.sv-toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Footer */
+.sv-footer{text-align:center;padding:20px 20px 32px;font-size:11px;color:rgba(248,246,241,.35);letter-spacing:.05em}
+
+/* Mobile header/toolbar tweaks */
+@media (max-width:600px){
+  .sv-header{padding:12px 16px}
+  .sv-header .brand b{font-size:13px}
+  .sv-toolbar{justify-content:center}
+  .sv-toolbar-title{width:100%;text-align:center;margin-bottom:2px}
+}
+</style>
+</head>
+<body>
+
+<header class="sv-header">
+  <a href="/" class="brand">
+    <img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" />
+    <b>SPC OBU <span class="gold-text">NZ</span></b>
+  </a>
+  <a href="/events/gala-dinner-dance-2026" class="sv-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span>Back to Gala Dinner Dance</span>
+  </a>
+</header>
+
+<section class="sv-hero">
+  <span class="pill"><i></i>Private Preview</span>
+  <h1>Souvenir <em>Booklet</em></h1>
+  <p>Gala Dinner Dance &middot; Saturday, 3 October 2026</p>
+  <p class="sv-hero-note">This page is unlisted — not linked from the public site.</p>
+</section>
+
+<div class="sv-stage-wrap">
+  <div class="sv-stage" id="svStage">
+    <div class="sv-glow"></div>
+
+    <div class="sv-toolbar">
+      <span class="sv-toolbar-title">15-Page Keepsake Booklet</span>
+      <div class="sv-tools">
+        <button type="button" class="sv-tool-btn" id="svThumbsBtn" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Thumbnails</span>
+        </button>
+        <button type="button" class="sv-tool-btn" id="svZoomBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
+          <span>Zoom</span>
+        </button>
+        <button type="button" class="sv-tool-btn" id="svShareBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+          <span>Share</span>
+        </button>
+        <button type="button" class="sv-tool-btn" id="svFullscreenBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/></svg>
+          <span>Fullscreen</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="sv-book-wrap" id="svBookWrap">
+      <div class="sv-loading" id="svLoading">
+        <div class="sv-spinner"></div>
+        <span>Opening the booklet&hellip;</span>
+      </div>
+      <button type="button" class="sv-arrow prev" id="svArrowPrev" style="display:none" aria-label="Previous page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button type="button" class="sv-arrow next" id="svArrowNext" style="display:none" aria-label="Next page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+    <p class="sv-hint" id="svHint">Drag a corner, swipe, or use the arrows to turn pages</p>
+
+    <div class="sv-thumbs is-hidden" id="svThumbs"></div>
+
+    <div class="sv-controls">
+      <div class="sv-controls-nav">
+        <button type="button" class="sv-nav-btn" id="svPrevBtn" aria-label="Previous page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="sv-slider-wrap">
+          <input type="range" class="sv-slider" id="svSlider" min="0" max="14" value="0" step="1" aria-label="Page slider" />
+        </div>
+        <button type="button" class="sv-nav-btn" id="svNextBtn" aria-label="Next page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <span class="sv-page-label" id="svPageLabel">1 / 15</span>
+      </div>
+      <a href="/public/souvenir/SPC-OBU-NZ-Gala-Dinner-Dance-2026-web.pdf" class="sv-download" id="svDownloadBtn" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+    <noscript>
+      <div style="text-align:center;padding:40px 10px;color:#fff">
+        <p style="margin-bottom:16px">Enable JavaScript to view the interactive booklet, or download the PDF directly.</p>
+        <a href="/public/souvenir/SPC-OBU-NZ-Gala-Dinner-Dance-2026-web.pdf" style="color:#C9A227">Download the Souvenir PDF</a>
+      </div>
+    </noscript>
+  </div>
+</div>
+
+<footer class="sv-footer">
+  <p>SPC OBU NZ &middot; Gala Dinner Dance 2026 &middot; Private preview link, not indexed for search.</p>
+</footer>
+
+<div class="sv-zoom-overlay" id="svZoomOverlay">
+  <button type="button" class="sv-zoom-close" id="svZoomClose" aria-label="Close zoom">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <button type="button" class="sv-zoom-nav prev" id="svZoomPrev" aria-label="Previous page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <img id="svZoomImg" src="" alt="Zoomed booklet page" />
+  <button type="button" class="sv-zoom-nav next" id="svZoomNext" aria-label="Next page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
+
+<div class="sv-toast" id="svToast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js" onerror="window.__svLibFailed=true"></script>
+<script>
+(function(){
+  'use strict';
+  var TOTAL_PAGES = 15;
+  var HIRES_PATH = '/public/images/souvenir/hires/';
+  var THUMB_PATH = '/public/images/souvenir/thumbs/';
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  var bookWrap    = document.getElementById('svBookWrap');
+  var loadingEl   = document.getElementById('svLoading');
+  var hintEl      = document.getElementById('svHint');
+  var arrowPrev   = document.getElementById('svArrowPrev');
+  var arrowNext   = document.getElementById('svArrowNext');
+  var prevBtn     = document.getElementById('svPrevBtn');
+  var nextBtn     = document.getElementById('svNextBtn');
+  var slider      = document.getElementById('svSlider');
+  var pageLabel   = document.getElementById('svPageLabel');
+  var thumbsEl    = document.getElementById('svThumbs');
+  var thumbsBtn   = document.getElementById('svThumbsBtn');
+  var zoomBtn     = document.getElementById('svZoomBtn');
+  var shareBtn    = document.getElementById('svShareBtn');
+  var fsBtn       = document.getElementById('svFullscreenBtn');
+  var zoomOverlay = document.getElementById('svZoomOverlay');
+  var zoomImg     = document.getElementById('svZoomImg');
+  var zoomClose   = document.getElementById('svZoomClose');
+  var zoomPrev    = document.getElementById('svZoomPrev');
+  var zoomNext    = document.getElementById('svZoomNext');
+  var toast       = document.getElementById('svToast');
+  var stage       = document.getElementById('svStage');
+
+  var pageFlip = null;
+  var toastTimer = null;
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('is-visible'); }, 2400);
+  }
+
+  function buildThumbs(){
+    var frag = document.createDocumentFragment();
+    for (var i = 1; i <= TOTAL_PAGES; i++){
+      (function(pageNum){
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'sv-thumb';
+        btn.setAttribute('data-page', pageNum - 1);
+        btn.setAttribute('aria-label', 'Go to page ' + pageNum);
+        var img = document.createElement('img');
+        img.src = THUMB_PATH + pad(pageNum) + '.jpg';
+        img.alt = 'Page ' + pageNum + ' thumbnail';
+        img.loading = 'lazy';
+        var num = document.createElement('span');
+        num.className = 'num';
+        num.textContent = pageNum;
+        btn.appendChild(img);
+        btn.appendChild(num);
+        btn.addEventListener('click', function(){
+          if (pageFlip) pageFlip.turnToPage(pageNum - 1);
+        });
+        frag.appendChild(btn);
+      })(i);
+    }
+    thumbsEl.appendChild(frag);
+  }
+
+  function updateActiveThumb(index){
+    var thumbs = thumbsEl.querySelectorAll('.sv-thumb');
+    for (var i = 0; i < thumbs.length; i++){
+      thumbs[i].classList.toggle('active', i === index);
+    }
+    var active = thumbs[index];
+    if (active && !thumbsEl.classList.contains('is-hidden')){
+      active.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+    }
+  }
+
+  function updateUI(index){
+    var current = index + 1;
+    pageLabel.textContent = current + ' / ' + TOTAL_PAGES;
+    slider.value = index;
+    prevBtn.disabled = index <= 0;
+    nextBtn.disabled = index >= TOTAL_PAGES - 1;
+    arrowPrev.style.visibility = index <= 0 ? 'hidden' : 'visible';
+    arrowNext.style.visibility = index >= TOTAL_PAGES - 1 ? 'hidden' : 'visible';
+    updateActiveThumb(index);
+  }
+
+  function revealBook(){
+    if (loadingEl.style.display === 'none') return;
+    loadingEl.style.display = 'none';
+    arrowPrev.style.display = 'flex';
+    arrowNext.style.display = 'flex';
+    updateUI(pageFlip ? pageFlip.getCurrentPageIndex() : 0);
+  }
+
+  function buildBook(){
+    var wrapWidth = bookWrap.clientWidth || 900;
+    var maxW = Math.min(1200, Math.round((wrapWidth - 40) / 2) || 600);
+    if (window.innerWidth < 760) maxW = Math.min(560, wrapWidth - 20);
+
+    var bookEl = document.createElement('div');
+    bookEl.id = 'souvenirBook';
+    bookWrap.appendChild(bookEl);
+
+    pageFlip = new St.PageFlip(bookEl, {
+      width: 600,
+      height: 848,
+      size: 'stretch',
+      minWidth: 280,
+      maxWidth: maxW,
+      minHeight: 396,
+      maxHeight: Math.round(maxW * (848 / 600)),
+      maxShadowOpacity: 0.5,
+      showCover: true,
+      mobileScrollSupport: true,
+      useMouseEvents: true,
+      flippingTime: 700,
+      usePortrait: window.innerWidth < 760
+    });
+
+    var pages = [];
+    for (var i = 1; i <= TOTAL_PAGES; i++){
+      pages.push(HIRES_PATH + pad(i) + '.jpg');
+    }
+
+    pageFlip.loadFromImages(pages);
+
+    pageFlip.on('init', revealBook);
+    pageFlip.on('flip', function(e){ updateUI(e.data); });
+
+    // Safety net in case the 'init' event doesn't fire as expected
+    setTimeout(revealBook, 2500);
+  }
+
+  function onLibError(){
+    loadingEl.innerHTML = '<p style="max-width:360px;text-align:center;line-height:1.6">The interactive viewer couldn\'t load. You can still download the full booklet below.</p>';
+    hintEl.style.display = 'none';
+  }
+
+  // Nav wiring
+  prevBtn.addEventListener('click', function(){ if (pageFlip) pageFlip.flipPrev(); });
+  nextBtn.addEventListener('click', function(){ if (pageFlip) pageFlip.flipNext(); });
+  arrowPrev.addEventListener('click', function(){ if (pageFlip) pageFlip.flipPrev(); });
+  arrowNext.addEventListener('click', function(){ if (pageFlip) pageFlip.flipNext(); });
+  slider.addEventListener('input', function(){
+    if (pageFlip) pageFlip.turnToPage(parseInt(slider.value, 10));
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (zoomOverlay.classList.contains('is-open')){
+      if (e.key === 'Escape') closeZoom();
+      if (e.key === 'ArrowLeft') stepZoom(-1);
+      if (e.key === 'ArrowRight') stepZoom(1);
+      return;
+    }
+    if (e.key === 'ArrowLeft' && pageFlip) pageFlip.flipPrev();
+    if (e.key === 'ArrowRight' && pageFlip) pageFlip.flipNext();
+  });
+
+  // Thumbnails toggle
+  thumbsBtn.addEventListener('click', function(){
+    var hidden = thumbsEl.classList.toggle('is-hidden');
+    thumbsBtn.setAttribute('aria-pressed', hidden ? 'false' : 'true');
+    thumbsBtn.classList.toggle('primary', !hidden);
+    if (!hidden && pageFlip) updateActiveThumb(pageFlip.getCurrentPageIndex());
+  });
+
+  // Zoom
+  function openZoom(){
+    if (!pageFlip) return;
+    var idx = pageFlip.getCurrentPageIndex();
+    zoomImg.src = HIRES_PATH + pad(idx + 1) + '.jpg';
+    zoomImg.setAttribute('data-index', idx);
+    zoomOverlay.classList.add('is-open');
+  }
+  function closeZoom(){ zoomOverlay.classList.remove('is-open'); }
+  function stepZoom(dir){
+    var idx = parseInt(zoomImg.getAttribute('data-index'), 10) || 0;
+    idx = Math.max(0, Math.min(TOTAL_PAGES - 1, idx + dir));
+    zoomImg.src = HIRES_PATH + pad(idx + 1) + '.jpg';
+    zoomImg.setAttribute('data-index', idx);
+    if (pageFlip) pageFlip.turnToPage(idx);
+  }
+  zoomBtn.addEventListener('click', openZoom);
+  zoomClose.addEventListener('click', closeZoom);
+  zoomOverlay.addEventListener('click', function(e){ if (e.target === zoomOverlay) closeZoom(); });
+  zoomPrev.addEventListener('click', function(){ stepZoom(-1); });
+  zoomNext.addEventListener('click', function(){ stepZoom(1); });
+
+  // Share
+  shareBtn.addEventListener('click', function(){
+    var url = window.location.href;
+    if (navigator.share){
+      navigator.share({ title: 'SPC OBU NZ — Gala Dinner Dance 2026 Souvenir Booklet', url: url }).catch(function(){});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function(){
+        showToast('Link copied to clipboard');
+      }).catch(function(){
+        showToast('Copy failed — copy the address bar link instead');
+      });
+    } else {
+      showToast('Copy this link from your address bar to share');
+    }
+  });
+
+  // Fullscreen
+  fsBtn.addEventListener('click', function(){
+    if (!document.fullscreenElement){
+      (stage.requestFullscreen || stage.webkitRequestFullscreen || function(){}).call(stage);
+    } else {
+      (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
+    }
+  });
+  document.addEventListener('fullscreenchange', function(){
+    stage.classList.toggle('is-fullscreen', !!document.fullscreenElement);
+  });
+
+  // Init
+  buildThumbs();
+
+  function start(){
+    if (!window.__svLibFailed && window.St && window.St.PageFlip){
+      buildBook();
+    } else {
+      onLibError();
+    }
+  }
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive'){
+    setTimeout(start, 0);
+  } else {
+    document.addEventListener('DOMContentLoaded', start);
+  }
+})();
+</script>
+</body>
+</html>
