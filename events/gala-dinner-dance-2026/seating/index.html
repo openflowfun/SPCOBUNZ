@@ -260,6 +260,11 @@ body.sp-locked .sp-lock-overlay{display:flex}
 .sp-stepper-btn:hover{background:var(--gold-light);border-color:var(--gold-dark)}
 #spSeatsVal{font-family:var(--serif);font-size:16px;min-width:18px;text-align:center}
 .sp-cap-stepper .hint{font-size:10.5px;color:#8a7f60;margin-left:auto}
+.sp-shape-toggle{display:flex;align-items:center;gap:8px;margin-bottom:16px;padding:10px 12px;background:rgba(0,0,0,.035);border-radius:10px}
+.sp-shape-toggle > span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b6350}
+.sp-shape-btn{border:1px solid var(--cream-line);background:#fff;color:#6b6350;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;cursor:pointer;font-family:var(--sans)}
+.sp-shape-btn:hover{border-color:var(--gold-dark)}
+.sp-shape-btn.is-active{background:var(--gold);border-color:var(--gold-dark);color:#3a2c05}
 .sp-seat-row{display:grid;grid-template-columns:22px 1.15fr 1fr 92px;gap:7px;align-items:center;margin-bottom:8px}
 .sp-seat-num{font-size:11px;font-weight:700;color:#8a7f60;text-align:center}
 .sp-seat-row input,.sp-seat-row select{
@@ -274,7 +279,8 @@ body.sp-locked .sp-lock-overlay{display:flex}
 .sp-modal-notes label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b6350;margin-bottom:6px}
 .sp-modal-notes textarea{width:100%;min-height:60px;border:1px solid var(--cream-line);background:#fff;border-radius:8px;padding:10px;font-family:var(--sans);font-size:13px;resize:vertical}
 .sp-modal-notes textarea:focus{outline:none;border-color:var(--gold-dark);box-shadow:0 0 0 2px rgba(201,162,39,.2)}
-.sp-modal-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--cream-line)}
+.sp-modal-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--cream-line);flex-wrap:wrap}
+.sp-modal-foot-left{display:flex;gap:8px;flex-wrap:wrap}
 .sp-modal-foot .sp-btn{color:var(--ink);border-color:var(--cream-line);background:#fff}
 .sp-modal-foot .sp-btn:hover{background:#f5efe0;border-color:var(--gold-dark);color:#4a3a05}
 .sp-modal-foot .sp-btn.danger{color:#a03d3d;border-color:#e3c9c9}
@@ -390,6 +396,10 @@ body.sp-locked .sp-lock-overlay{display:flex}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
     Reset Layout
   </button>
+  <button type="button" class="sp-btn" id="spAddTableBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+    Add Table
+  </button>
   <button type="button" class="sp-btn gold" id="spSaveBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></svg>
     Save
@@ -493,6 +503,11 @@ body.sp-locked .sp-lock-overlay{display:flex}
         <button type="button" class="sp-stepper-btn" id="spSeatsInc" aria-label="Increase seats">+</button>
         <span class="hint">6–12 seats</span>
       </div>
+      <div class="sp-shape-toggle">
+        <span>Shape</span>
+        <button type="button" class="sp-shape-btn" id="spShapeRoundBtn">Round</button>
+        <button type="button" class="sp-shape-btn" id="spShapeRectBtn">Rectangular</button>
+      </div>
       <div id="spSeatRows"></div>
       <div class="sp-modal-notes">
         <label>Table notes (dietary, host, sponsor, committee, etc.)</label>
@@ -500,7 +515,10 @@ body.sp-locked .sp-lock-overlay{display:flex}
       </div>
     </div>
     <div class="sp-modal-foot">
-      <button type="button" class="sp-btn danger" id="spResetTableBtn">Reset Table</button>
+      <div class="sp-modal-foot-left">
+        <button type="button" class="sp-btn danger" id="spDeleteTableBtn">Delete Table</button>
+        <button type="button" class="sp-btn danger" id="spResetTableBtn">Reset Table</button>
+      </div>
       <button type="button" class="sp-btn gold" id="spDoneBtn">Done</button>
     </div>
   </div>
@@ -523,23 +541,20 @@ body.sp-locked .sp-lock-overlay{display:flex}
     {id:4,shape:'round',seats:10,x:11,y:83.1},
 
     {id:5,shape:'round',seats:10,x:64,y:25.4},
-    {id:6,shape:'round',seats:10,x:64,y:38.5},
-    {id:7,shape:'round',seats:9, x:64,y:51.5},
-    {id:8,shape:'round',seats:9, x:64,y:64.6},
 
-    {id:9, shape:'rect',seats:8,x:28,y:50},
-    {id:10,shape:'rect',seats:8,x:46,y:50},
+    {id:6, shape:'rect',seats:8,x:28,y:50},
+    {id:7, shape:'rect',seats:8,x:46,y:50},
 
-    {id:11,shape:'rect', seats:8,x:28,y:63.8},
-    {id:12,shape:'round',seats:8,x:46,y:63.8},
+    {id:8, shape:'round',seats:9,x:62,y:54},
+    {id:9, shape:'round',seats:9,x:80,y:54},
 
-    {id:13,shape:'round',seats:8, x:20,y:76.9},
-    {id:14,shape:'rect', seats:8, x:46,y:76.9},
-    {id:15,shape:'round',seats:10,x:60,y:76.9},
+    {id:10,shape:'rect', seats:8,x:28,y:63.8},
+    {id:11,shape:'round',seats:8,x:46,y:63.8},
 
-    {id:16,shape:'rect', seats:8, x:30,y:90.8},
-    {id:17,shape:'round',seats:10,x:46,y:90.8},
-    {id:18,shape:'round',seats:10,x:60,y:90.8}
+    {id:12,shape:'round',seats:8, x:58,y:78},
+
+    {id:13,shape:'rect', seats:8, x:32,y:88},
+    {id:14,shape:'round',seats:10,x:52,y:88}
   ];
 
   // Room zones — stage, dance floor, walkways, bar, kitchen, etc. x/y/w/h are
@@ -587,6 +602,16 @@ body.sp-locked .sp-lock-overlay{display:flex}
     for (var i=0;i<DEFAULT_TABLES.length;i++){ if (DEFAULT_TABLES[i].id===id) return DEFAULT_TABLES[i]; }
     return null;
   }
+  // Active tables are whatever's in meta.tableOrder (persisted) — starts as
+  // the factory layout, but grows/shrinks as tables are added or deleted.
+  function getActiveTableIds(){
+    return meta.tableOrder.slice().sort(function(a,b){ return a-b; });
+  }
+  function nextTableId(){
+    var ids = meta.tableOrder;
+    if (!ids.length) return 1;
+    return Math.max.apply(null, ids) + 1;
+  }
   function getZoneDefault(id){
     for (var i=0;i<DEFAULT_ZONES.length;i++){ if (DEFAULT_ZONES[i].id===id) return DEFAULT_ZONES[i]; }
     return null;
@@ -613,32 +638,36 @@ body.sp-locked .sp-lock-overlay{display:flex}
         state = parsed.tables || {};
         meta = parsed.meta || { band:6 };
         zoneState = parsed.zones || {};
-        return;
+      } else {
+        var oldRaw = localStorage.getItem(OLD_STORAGE_KEY);
+        if (oldRaw){
+          var oldState = JSON.parse(oldRaw);
+          state = {};
+          Object.keys(oldState).forEach(function(idKey){
+            var dt = getDefault(Number(idKey));
+            if (!dt) return;
+            var o = oldState[idKey] || {};
+            var names = o.names || new Array(dt.seats).fill('');
+            state[idKey] = {
+              shape: dt.shape,
+              names: names,
+              notes: o.notes || new Array(names.length).fill(''),
+              tags: new Array(names.length).fill(''),
+              tableNotes: o.tableNotes || '',
+              tableName: '',
+              x: dt.x, y: dt.y, seats: dt.seats
+            };
+          });
+          meta = { band: 6 };
+          zoneState = {};
+        } else {
+          state = {}; meta = { band: 6 }; zoneState = {};
+        }
       }
-      var oldRaw = localStorage.getItem(OLD_STORAGE_KEY);
-      if (oldRaw){
-        var oldState = JSON.parse(oldRaw);
-        state = {};
-        Object.keys(oldState).forEach(function(idKey){
-          var dt = getDefault(Number(idKey));
-          if (!dt) return;
-          var o = oldState[idKey] || {};
-          var names = o.names || new Array(dt.seats).fill('');
-          state[idKey] = {
-            names: names,
-            notes: o.notes || new Array(names.length).fill(''),
-            tags: new Array(names.length).fill(''),
-            tableNotes: o.tableNotes || '',
-            tableName: '',
-            x: dt.x, y: dt.y, seats: dt.seats
-          };
-        });
-        meta = { band: 6 };
-        zoneState = {};
-        return;
-      }
-      state = {}; meta = { band: 6 }; zoneState = {};
     } catch(e){ state = {}; meta = { band: 6 }; zoneState = {}; }
+    if (!meta.tableOrder || !meta.tableOrder.length){
+      meta.tableOrder = DEFAULT_TABLES.map(function(dt){ return dt.id; });
+    }
   }
   function saveState(){
     try {
@@ -648,17 +677,20 @@ body.sp-locked .sp-lock-overlay{display:flex}
   }
 
   function getTableState(id){
-    var dt = getDefault(id);
+    var dt = getDefault(id); // null for tables added after the original layout
     if (!state[id]){
+      var baseSeats = dt ? dt.seats : 8;
       state[id] = {
-        names: new Array(dt.seats).fill(''), notes: new Array(dt.seats).fill(''), tags: new Array(dt.seats).fill(''),
-        tableNotes: '', tableName: '', x: dt.x, y: dt.y, seats: dt.seats
+        shape: dt ? dt.shape : 'round',
+        names: new Array(baseSeats).fill(''), notes: new Array(baseSeats).fill(''), tags: new Array(baseSeats).fill(''),
+        tableNotes: '', tableName: '', x: dt ? dt.x : 50, y: dt ? dt.y : 50, seats: baseSeats
       };
     }
     var ts = state[id];
-    if (ts.seats == null) ts.seats = dt.seats;
-    if (ts.x == null) ts.x = dt.x;
-    if (ts.y == null) ts.y = dt.y;
+    if (ts.shape !== 'round' && ts.shape !== 'rect') ts.shape = dt ? dt.shape : 'round';
+    if (ts.seats == null) ts.seats = dt ? dt.seats : 8;
+    if (ts.x == null) ts.x = dt ? dt.x : 50;
+    if (ts.y == null) ts.y = dt ? dt.y : 50;
     if (ts.tableName == null) ts.tableName = '';
     if (!ts.names) ts.names = new Array(ts.seats).fill('');
     if (!ts.notes) ts.notes = new Array(ts.seats).fill('');
@@ -680,7 +712,7 @@ body.sp-locked .sp-lock-overlay{display:flex}
   }
   function seatedTotal(){
     var n = 0;
-    DEFAULT_TABLES.forEach(function(dt){ n += tableFilledCount(dt.id); });
+    getActiveTableIds().forEach(function(id){ n += tableFilledCount(id); });
     return n;
   }
   function blockedByCap(){
@@ -700,11 +732,10 @@ body.sp-locked .sp-lock-overlay{display:flex}
     return { w:w, h:54*scale };
   }
   function resizeTableTile(id){
-    var dt = getDefault(id);
     var ts = getTableState(id);
     var el = tableEls[id];
     if (!el) return;
-    var dims = tableDims(dt.shape, ts.seats);
+    var dims = tableDims(ts.shape, ts.seats);
     el.style.width = dims.w + 'px';
     el.style.height = dims.h + 'px';
   }
@@ -774,13 +805,13 @@ body.sp-locked .sp-lock-overlay{display:flex}
 
   function avoidOverlap(id, x, y){
     var floorRect = floorEl.getBoundingClientRect();
-    var dtSelf = getDefault(id);
-    var dimsSelf = tableDims(dtSelf.shape, getTableState(id).seats);
+    var tsSelf = getTableState(id);
+    var dimsSelf = tableDims(tsSelf.shape, tsSelf.seats);
     var selfR = Math.max(dimsSelf.w, dimsSelf.h) / 2;
-    DEFAULT_TABLES.forEach(function(dt){
-      if (dt.id === id) return;
-      var ots = getTableState(dt.id);
-      var oDims = tableDims(dt.shape, ots.seats);
+    getActiveTableIds().forEach(function(oid){
+      if (oid === id) return;
+      var ots = getTableState(oid);
+      var oDims = tableDims(ots.shape, ots.seats);
       var oR = Math.max(oDims.w, oDims.h) / 2;
       var dxPct = x - ots.x, dyPct = y - ots.y;
       var dxPx = dxPct / 100 * floorRect.width, dyPx = dyPct / 100 * floorRect.height;
@@ -798,19 +829,22 @@ body.sp-locked .sp-lock-overlay{display:flex}
     return { x:x, y:y };
   }
 
+  function createTableEl(id){
+    var ts = getTableState(id);
+    var el = document.createElement('div');
+    el.className = 'sp-table shape-' + ts.shape;
+    el.style.left = ts.x + '%';
+    el.style.top = ts.y + '%';
+    el.innerHTML = '<span class="t-num">' + id + '</span><span class="t-name">' + escapeHtml(ts.tableName || '') + '</span><span class="t-seats">' + ts.seats + ' seats</span>';
+    floorEl.appendChild(el);
+    tableEls[id] = el;
+    resizeTableTile(id);
+    attachDrag(id, el);
+    return el;
+  }
+
   function buildFloorTables(){
-    DEFAULT_TABLES.forEach(function(dt){
-      var ts = getTableState(dt.id);
-      var el = document.createElement('div');
-      el.className = 'sp-table shape-' + dt.shape;
-      el.style.left = ts.x + '%';
-      el.style.top = ts.y + '%';
-      el.innerHTML = '<span class="t-num">' + dt.id + '</span><span class="t-name">' + escapeHtml(ts.tableName || '') + '</span><span class="t-seats">' + ts.seats + ' seats</span>';
-      floorEl.appendChild(el);
-      tableEls[dt.id] = el;
-      resizeTableTile(dt.id);
-      attachDrag(dt.id, el);
-    });
+    getActiveTableIds().forEach(function(id){ createTableEl(id); });
   }
 
   /* ---------- Zones: move + resize the full map (stage, dance floor,
@@ -947,7 +981,7 @@ body.sp-locked .sp-lock-overlay{display:flex}
     if (nameEl) nameEl.textContent = ts.tableName || '';
   }
 
-  function refreshAllTiles(){ DEFAULT_TABLES.forEach(function(dt){ refreshTableTile(dt.id); }); }
+  function refreshAllTiles(){ getActiveTableIds().forEach(function(id){ refreshTableTile(id); }); }
 
   var lastIsMobile = isMobileView();
   var resizeTimer = null;
@@ -957,7 +991,7 @@ body.sp-locked .sp-lock-overlay{display:flex}
       var nowMobile = isMobileView();
       if (nowMobile !== lastIsMobile){
         lastIsMobile = nowMobile;
-        DEFAULT_TABLES.forEach(function(dt){ resizeTableTile(dt.id); });
+        getActiveTableIds().forEach(function(id){ resizeTableTile(id); });
       }
     }, 150);
   });
@@ -966,31 +1000,32 @@ body.sp-locked .sp-lock-overlay{display:flex}
   var tableListEl = document.getElementById('spTableList');
   function renderTableList(){
     tableListEl.innerHTML = '';
-    DEFAULT_TABLES.forEach(function(dt){
-      var ts = getTableState(dt.id);
-      var status = tableStatus(dt.id);
-      var filled = tableFilledCount(dt.id);
+    getActiveTableIds().forEach(function(id){
+      var ts = getTableState(id);
+      var status = tableStatus(id);
+      var filled = tableFilledCount(id);
       var row = document.createElement('div');
       row.className = 'sp-tl-item';
       row.innerHTML =
         '<span class="sp-tl-dot ' + status + '"></span>' +
-        '<span class="sp-tl-name">Table ' + dt.id + (ts.tableName ? ' — ' + escapeHtml(ts.tableName) : '') +
-          '<small>' + (dt.shape==='round'?'Round':'Rectangular') + ' · ' + ts.seats + ' seats</small></span>' +
+        '<span class="sp-tl-name">Table ' + id + (ts.tableName ? ' — ' + escapeHtml(ts.tableName) : '') +
+          '<small>' + (ts.shape==='round'?'Round':'Rectangular') + ' · ' + ts.seats + ' seats</small></span>' +
         '<span class="sp-tl-count">' + filled + '/' + ts.seats + '</span>';
-      row.addEventListener('click', function(){ openModal(dt.id); });
+      row.addEventListener('click', function(){ openModal(id); });
       tableListEl.appendChild(row);
     });
   }
 
   function renderSummary(){
+    var ids = getActiveTableIds();
     var totalSeats = 0, filledSeats = 0, fullTables = 0;
-    DEFAULT_TABLES.forEach(function(dt){
-      var ts = getTableState(dt.id);
+    ids.forEach(function(id){
+      var ts = getTableState(id);
       totalSeats += ts.seats;
-      filledSeats += tableFilledCount(dt.id);
-      if (tableStatus(dt.id)==='full') fullTables++;
+      filledSeats += tableFilledCount(id);
+      if (tableStatus(id)==='full') fullTables++;
     });
-    document.getElementById('spSumTables').textContent = DEFAULT_TABLES.length;
+    document.getElementById('spSumTables').textContent = ids.length;
     document.getElementById('spSumSeats').textContent = totalSeats;
     document.getElementById('spSumFilled').textContent = filledSeats;
     document.getElementById('spSumFull').textContent = fullTables;
@@ -1033,11 +1068,13 @@ body.sp-locked .sp-lock-overlay{display:flex}
   });
 
   document.getElementById('spResetLayoutBtn').addEventListener('click', function(){
-    if (!confirm('Reset all tables AND room zones (stage, dance floor, ground, bar, foyer, kitchen, walkways, etc.) to their original floor plan layout? Guest names and notes will be kept.')) return;
-    DEFAULT_TABLES.forEach(function(dt){
-      var ts = getTableState(dt.id);
+    if (!confirm('Reset all original tables AND room zones (stage, dance floor, ground, bar, foyer, kitchen, walkways, etc.) to their starting floor plan positions? Guest names and notes will be kept. Tables you’ve added since won’t move (they have no original position).')) return;
+    getActiveTableIds().forEach(function(id){
+      var dt = getDefault(id);
+      if (!dt) return; // added table — no original position to reset to
+      var ts = getTableState(id);
       ts.x = dt.x; ts.y = dt.y;
-      var el = tableEls[dt.id];
+      var el = tableEls[id];
       if (el){ el.style.left = dt.x + '%'; el.style.top = dt.y + '%'; }
     });
     DEFAULT_ZONES.forEach(function(dz){
@@ -1048,6 +1085,31 @@ body.sp-locked .sp-lock-overlay{display:flex}
     });
     saveState();
     showToast('Layout reset to original positions');
+  });
+
+  document.getElementById('spAddTableBtn').addEventListener('click', function(){
+    var newId = nextTableId();
+    var addedCount = meta.tableOrder.filter(function(id){ return !getDefault(id); }).length;
+    var offset = (addedCount % 6) * 4;
+    var x = Math.min(88, 18 + offset);
+    var y = Math.min(92, 10 + offset);
+    meta.tableOrder.push(newId);
+    state[newId] = {
+      shape: 'round', seats: 8,
+      names: new Array(8).fill(''), notes: new Array(8).fill(''), tags: new Array(8).fill(''),
+      tableNotes: '', tableName: '', x: x, y: y
+    };
+    createTableEl(newId);
+    if (!editLayoutMode){
+      editLayoutMode = true;
+      floorEl.classList.add('is-edit-mode');
+      editLayoutBtn.classList.add('is-active');
+      editLayoutLbl.textContent = 'Editing Layout — On';
+      hintEl.textContent = 'Drag tables or any room zone (stage, dance floor, ground, bar, foyer…) to move it · drag a zone’s corner handle to resize · light snap keeps things tidy · click a table without dragging to assign seats';
+    }
+    refreshAll();
+    saveState();
+    showToast('Table ' + newId + ' added — drag it into place, then click it to set seats');
   });
 
   /* ---------- Room capacity: band input ---------- */
@@ -1160,8 +1222,7 @@ body.sp-locked .sp-lock-overlay{display:flex}
     ts.seats = newSeats;
     resizeTableTile(id);
     seatsValEl.textContent = newSeats;
-    var dt = getDefault(id);
-    modalSub.textContent = (dt.shape==='round'?'Round':'Rectangular') + ' · ' + newSeats + ' seats';
+    modalSub.textContent = (ts.shape==='round'?'Round':'Rectangular') + ' · ' + newSeats + ' seats';
     renderSeatRows(id);
     updateModalStatus();
     refreshAll();
@@ -1176,15 +1237,44 @@ body.sp-locked .sp-lock-overlay{display:flex}
     changeCapacity(currentTableId, getTableState(currentTableId).seats + 1);
   });
 
+  var shapeRoundBtn = document.getElementById('spShapeRoundBtn');
+  var shapeRectBtn = document.getElementById('spShapeRectBtn');
+  function syncShapeButtons(){
+    if (!currentTableId) return;
+    var ts = getTableState(currentTableId);
+    shapeRoundBtn.classList.toggle('is-active', ts.shape === 'round');
+    shapeRectBtn.classList.toggle('is-active', ts.shape === 'rect');
+  }
+  function setTableShape(id, shape){
+    var ts = getTableState(id);
+    if (ts.shape === shape) return;
+    ts.shape = shape;
+    resizeTableTile(id);
+    var el = tableEls[id];
+    if (el) el.className = 'sp-table shape-' + shape + ' status-' + tableStatus(id);
+    modalSub.textContent = (shape==='round'?'Round':'Rectangular') + ' · ' + ts.seats + ' seats';
+    saveStateDebounced();
+  }
+  shapeRoundBtn.addEventListener('click', function(){
+    if (!currentTableId) return;
+    setTableShape(currentTableId, 'round');
+    syncShapeButtons();
+  });
+  shapeRectBtn.addEventListener('click', function(){
+    if (!currentTableId) return;
+    setTableShape(currentTableId, 'rect');
+    syncShapeButtons();
+  });
+
   function openModal(id){
     currentTableId = id;
-    var dt = getDefault(id);
     var ts = getTableState(id);
     modalTitle.textContent = 'Table ' + id + (ts.tableName ? ' — ' + ts.tableName : '');
-    modalSub.textContent = (dt.shape==='round'?'Round':'Rectangular') + ' · ' + ts.seats + ' seats';
+    modalSub.textContent = (ts.shape==='round'?'Round':'Rectangular') + ' · ' + ts.seats + ' seats';
     seatsValEl.textContent = ts.seats;
     tableNameEl.value = ts.tableName || '';
     tableNotesEl.value = ts.tableNotes || '';
+    syncShapeButtons();
 
     renderSeatRows(id);
 
@@ -1221,6 +1311,28 @@ body.sp-locked .sp-lock-overlay{display:flex}
   overlay.addEventListener('click', function(e){ if (e.target===overlay) closeModal(); });
   document.addEventListener('keydown', function(e){ if (e.key==='Escape' && overlay.classList.contains('is-open')) closeModal(); });
 
+  document.getElementById('spDeleteTableBtn').addEventListener('click', function(){
+    if (!currentTableId) return;
+    var id = currentTableId;
+    var ts = getTableState(id);
+    var filled = tableFilledCount(id);
+    var msg = 'Delete Table ' + id + (ts.tableName ? ' ("' + ts.tableName + '")' : '') + ' entirely?' +
+      (filled ? ' ' + filled + ' guest name(s) at this table will be lost.' : '') +
+      ' This cannot be undone.';
+    if (!confirm(msg)) return;
+    var idx = meta.tableOrder.indexOf(id);
+    if (idx !== -1) meta.tableOrder.splice(idx, 1);
+    delete state[id];
+    var el = tableEls[id];
+    if (el && el.parentNode) el.parentNode.removeChild(el);
+    delete tableEls[id];
+    overlay.classList.remove('is-open');
+    currentTableId = null;
+    refreshAll();
+    saveState();
+    showToast('Table ' + id + ' deleted');
+  });
+
   document.getElementById('spResetTableBtn').addEventListener('click', function(){
     if (!currentTableId) return;
     if (!confirm('Reset Table ' + currentTableId + '? This clears all names and notes for this table.')) return;
@@ -1237,8 +1349,8 @@ body.sp-locked .sp-lock-overlay{display:flex}
 
   document.getElementById('spResetAllBtn').addEventListener('click', function(){
     if (!confirm('Reset ALL tables? This clears every guest name and note across the whole plan. This cannot be undone.')) return;
-    DEFAULT_TABLES.forEach(function(dt){
-      var ts = getTableState(dt.id);
+    getActiveTableIds().forEach(function(id){
+      var ts = getTableState(id);
       ts.names = new Array(ts.seats).fill('');
       ts.notes = new Array(ts.seats).fill('');
       ts.tags = new Array(ts.seats).fill('');
@@ -1285,14 +1397,14 @@ body.sp-locked .sp-lock-overlay{display:flex}
 
   function runSearch(q){
     q = q.trim().toLowerCase();
-    DEFAULT_TABLES.forEach(function(dt){ tableEls[dt.id].classList.remove('is-match'); });
+    getActiveTableIds().forEach(function(id){ tableEls[id].classList.remove('is-match'); });
     if (!q){ searchResults.classList.remove('is-open'); searchResults.innerHTML=''; return; }
     var matches = [];
-    DEFAULT_TABLES.forEach(function(dt){
-      var ts = getTableState(dt.id);
+    getActiveTableIds().forEach(function(id){
+      var ts = getTableState(id);
       ts.names.forEach(function(name, idx){
         if (name && name.toLowerCase().indexOf(q) !== -1){
-          matches.push({ tableId:dt.id, seat:idx+1, name:name });
+          matches.push({ tableId:id, seat:idx+1, name:name });
         }
       });
     });
@@ -1330,11 +1442,11 @@ body.sp-locked .sp-lock-overlay{display:flex}
   /* ---------- Export CSV ---------- */
   document.getElementById('spExportBtn').addEventListener('click', function(){
     var rows = [['Table','Table Name','Shape','Seats at Table','Seat #','Guest Name','Seat Notes','Tag','Table Notes']];
-    DEFAULT_TABLES.forEach(function(dt){
-      var ts = getTableState(dt.id);
+    getActiveTableIds().forEach(function(id){
+      var ts = getTableState(id);
       for (var i=0;i<ts.seats;i++){
         rows.push([
-          dt.id, ts.tableName || '', (dt.shape==='round'?'Round':'Rectangular'), ts.seats, i+1,
+          id, ts.tableName || '', (ts.shape==='round'?'Round':'Rectangular'), ts.seats, i+1,
           ts.names[i] || '', ts.notes[i] || '', ts.tags[i] || '', i===0 ? (ts.tableNotes||'') : ''
         ]);
       }
@@ -1370,13 +1482,13 @@ body.sp-locked .sp-lock-overlay{display:flex}
     });
 
     var tablesHtml = '';
-    DEFAULT_TABLES.forEach(function(dt){
-      var ts = getTableState(dt.id);
-      var dims = tableDims(dt.shape, ts.seats);
-      var status = tableStatus(dt.id);
-      var filled = tableFilledCount(dt.id);
-      tablesHtml += '<div class="sp-pm-table shape-' + dt.shape + ' status-' + status + '" style="left:' + ts.x + '%;top:' + ts.y + '%;width:' + dims.w + 'px;height:' + dims.h + 'px;">' +
-        '<span class="pm-num">' + dt.id + '</span>' +
+    getActiveTableIds().forEach(function(id){
+      var ts = getTableState(id);
+      var dims = tableDims(ts.shape, ts.seats);
+      var status = tableStatus(id);
+      var filled = tableFilledCount(id);
+      tablesHtml += '<div class="sp-pm-table shape-' + ts.shape + ' status-' + status + '" style="left:' + ts.x + '%;top:' + ts.y + '%;width:' + dims.w + 'px;height:' + dims.h + 'px;">' +
+        '<span class="pm-num">' + id + '</span>' +
         (ts.tableName ? '<span class="pm-name">' + escapeHtml(ts.tableName) + '</span>' : '') +
         '<span class="pm-count">' + filled + '/' + ts.seats + '</span>' +
         '</div>';
@@ -1393,22 +1505,23 @@ body.sp-locked .sp-lock-overlay{display:flex}
   /* ---------- Print sheet (map page + roster) ---------- */
   var printSheet = document.getElementById('spPrintSheet');
   function buildPrintSheet(){
+    var ids = getActiveTableIds();
     var totalSeats = 0, filledSeats = 0;
-    DEFAULT_TABLES.forEach(function(dt){ var ts=getTableState(dt.id); totalSeats += ts.seats; filledSeats += tableFilledCount(dt.id); });
+    ids.forEach(function(id){ var ts=getTableState(id); totalSeats += ts.seats; filledSeats += tableFilledCount(id); });
     var seated = seatedTotal(), band = meta.band || 0;
     var printDate = new Date().toLocaleDateString();
 
     var mapPage = '<h1>SPC OBU NZ — Gala Dinner Dance 2026</h1>' +
-      '<div class="meta">Floor Plan · ' + DEFAULT_TABLES.length + ' tables · Room: ' + seated + ' seated + ' + band + ' band = ' + (seated+band) + ' / ' + ROOM_CAP + ' · Printed ' + printDate + '</div>' +
+      '<div class="meta">Floor Plan · ' + ids.length + ' tables · Room: ' + seated + ' seated + ' + band + ' band = ' + (seated+band) + ' / ' + ROOM_CAP + ' · Printed ' + printDate + '</div>' +
       buildPrintMapHtml() +
       '<div class="sp-print-pagebreak"></div>';
 
     var rosterHtml = '<h1>SPC OBU NZ — Gala Dinner Dance 2026</h1>' +
-      '<div class="meta">Seating Roster · ' + DEFAULT_TABLES.length + ' tables · ' + filledSeats + ' / ' + totalSeats + ' seats assigned · Printed ' + printDate + '</div>';
-    DEFAULT_TABLES.forEach(function(dt){
-      var ts = getTableState(dt.id);
-      rosterHtml += '<div class="sp-print-table"><h3>Table ' + dt.id + (ts.tableName ? ' — ' + escapeHtml(ts.tableName) : '') + ' — ' +
-        (dt.shape==='round'?'Round':'Rectangular') + ', ' + ts.seats + ' seats' +
+      '<div class="meta">Seating Roster · ' + ids.length + ' tables · ' + filledSeats + ' / ' + totalSeats + ' seats assigned · Printed ' + printDate + '</div>';
+    ids.forEach(function(id){
+      var ts = getTableState(id);
+      rosterHtml += '<div class="sp-print-table"><h3>Table ' + id + (ts.tableName ? ' — ' + escapeHtml(ts.tableName) : '') + ' — ' +
+        (ts.shape==='round'?'Round':'Rectangular') + ', ' + ts.seats + ' seats' +
         (ts.tableNotes ? ' — ' + escapeHtml(ts.tableNotes) : '') + '</h3><ol>';
       for (var i=0;i<ts.seats;i++){
         var name = ts.names[i];
