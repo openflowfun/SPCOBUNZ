@@ -12,6 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap" rel="stylesheet" />
+<!-- Shared committee sync (optional). Loaded but does nothing until FIREBASE_CONFIG
+     below is filled in with real values — see the comment next to it. -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js" integrity="sha384-yuGdyIzzYtOBlBG6JOWn+Ey9kpq7HocusNuxEGyyohr1eEyXpeEyehIIXC/hznw4" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js" integrity="sha384-M6AmjBRXEjkdGzRN1Y94xtkmblFbYBSLkqzyZ8rPvpRM2c48nhjIRFXVvUM/VATL" crossorigin="anonymous"></script>
 <style>
 :root{
   --navy-950:#050D1A; --navy-900:#081426; --navy-800:#0A1930; --navy-700:#0F2447;
@@ -105,6 +109,11 @@ body.sp-locked .sp-lock-overlay{display:flex}
 .sp-save-indicator{font-size:11px;color:rgba(248,246,241,.45);letter-spacing:.03em;display:flex;align-items:center;gap:5px}
 .sp-save-indicator svg{width:12px;height:12px;color:var(--gold)}
 
+.sp-sync-banner{display:none;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;padding:10px 16px;background:#2E5FA3;color:#fff;font-size:12.5px;font-weight:600;text-align:center}
+.sp-sync-banner.is-visible{display:flex}
+.sp-sync-banner button{background:#fff;color:#2E5FA3;border:none;border-radius:999px;padding:6px 14px;font-size:11.5px;font-weight:700;cursor:pointer}
+.sp-sync-banner button:hover{background:var(--gold-light)}
+
 /* Layout */
 .sp-layout{display:flex;gap:16px;align-items:flex-start;padding:16px clamp(14px,3vw,32px) 40px;max-width:1680px;margin:0 auto}
 .sp-main{flex:1;min-width:0}
@@ -192,6 +201,26 @@ body.sp-locked .sp-lock-overlay{display:flex}
   pointer-events:auto; z-index:6; box-shadow:0 2px 6px rgba(0,0,0,.35);
 }
 .sp-floor.is-edit-mode .sp-zone-resize{display:block}
+.sp-zone-rotate{
+  display:none; position:absolute; top:-20px; left:50%; margin-left:-8px; width:16px; height:16px;
+  background:#3F7A57; border:2px solid #fff; border-radius:50%; cursor:grab;
+  pointer-events:auto; z-index:6; box-shadow:0 2px 6px rgba(0,0,0,.35);
+}
+.sp-floor.is-edit-mode .sp-zone-rotate{display:block}
+.sp-zone-rotate:active{cursor:grabbing}
+.sp-zone-delete{
+  display:none; position:absolute; top:-6px; left:-6px; width:16px; height:16px; line-height:14px;
+  background:var(--danger); border:2px solid #fff; border-radius:50%; cursor:pointer; color:#fff;
+  font-size:11px; font-weight:800; text-align:center; pointer-events:auto; z-index:6;
+  box-shadow:0 2px 6px rgba(0,0,0,.35);
+}
+.sp-floor.is-edit-mode .sp-zone-delete{display:flex;align-items:center;justify-content:center}
+.sp-zone.custom-path{
+  background:repeating-linear-gradient(135deg,#8FCB7E,#8FCB7E 8px,#7ABE66 8px,#7ABE66 16px);
+  opacity:.55; border-radius:4px;
+}
+.sp-btn:disabled{opacity:.4;cursor:not-allowed}
+.sp-btn:disabled:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:var(--ivory)}
 
 .sp-hint{text-align:center;margin-top:12px;font-size:11px;color:rgba(248,246,241,.4);letter-spacing:.05em}
 
@@ -386,7 +415,7 @@ body.sp-locked .sp-lock-overlay{display:flex}
   <div class="sp-toolbar-spacer"></div>
   <span class="sp-save-indicator" id="spSaveIndicator">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-    Saved to this browser
+    <span id="spSaveIndicatorText">Saved to this browser only</span>
   </span>
   <button type="button" class="sp-btn" id="spEditLayoutBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>
@@ -399,6 +428,14 @@ body.sp-locked .sp-lock-overlay{display:flex}
   <button type="button" class="sp-btn" id="spAddTableBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
     Add Table
+  </button>
+  <button type="button" class="sp-btn" id="spAddPathBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c4-8 12-8 16-14M20 6h-4V2"/></svg>
+    Add Footpath
+  </button>
+  <button type="button" class="sp-btn" id="spUndoBtn" disabled>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5M4 9h11a5 5 0 0 1 0 10h-1"/></svg>
+    Undo
   </button>
   <button type="button" class="sp-btn gold" id="spSaveBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></svg>
@@ -416,6 +453,11 @@ body.sp-locked .sp-lock-overlay{display:flex}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
     Reset All
   </button>
+</div>
+
+<div class="sp-sync-banner" id="spSyncBanner">
+  <span>A teammate just saved a newer version of this plan.</span>
+  <button type="button" id="spSyncReloadBtn">Reload now</button>
 </div>
 
 <div class="sp-layout">
@@ -534,6 +576,53 @@ body.sp-locked .sp-lock-overlay{display:flex}
 
   var ROOM_CAP = 142;
 
+  /* ---------- Shared committee sync (optional) ----------
+     Fill in your Firebase project's config below (Firebase console → Project
+     settings → General → "Your apps" → SDK setup and config → "Config").
+     Until every "PASTE_" placeholder is replaced, the tool works exactly as
+     before — saved only to this browser. Once filled in, Save also pushes to
+     this shared database, and every committee member's page picks up the
+     latest saved version. Uses one fixed path in your Realtime Database, so
+     no accounts or logins are needed beyond opening this page. */
+  var FIREBASE_CONFIG = {
+    apiKey: "AIzaSyD-VkSQ1EhT5c6r68w_d4jgpmvBU7WlTWk",
+    authDomain: "spcobunz-gala-seating.firebaseapp.com",
+    databaseURL: "https://spcobunz-gala-seating-default-rtdb.firebaseio.com",
+    projectId: "spcobunz-gala-seating"
+  };
+  var FIREBASE_PATH = 'gala2026Seating/current';
+  var fbEnabled = false;
+  var fbRef = null;
+  var lastKnownSavedAt = null;
+
+  function isFirebaseConfigured(){
+    return FIREBASE_CONFIG.apiKey.indexOf('PASTE_') !== 0;
+  }
+  function initFirebaseSync(){
+    if (!isFirebaseConfigured()) return;
+    if (typeof firebase === 'undefined') return;
+    try {
+      firebase.initializeApp(FIREBASE_CONFIG);
+      fbRef = firebase.database().ref(FIREBASE_PATH);
+      fbEnabled = true;
+    } catch(e){ fbEnabled = false; fbRef = null; }
+  }
+  function updateSyncIndicator(){
+    var el = document.getElementById('spSaveIndicatorText');
+    if (el) el.textContent = fbEnabled ? 'Synced with committee' : 'Saved to this browser only';
+  }
+  function startRemoteListener(){
+    if (!fbEnabled || !fbRef) return;
+    fbRef.on('value', function(snap){
+      var data = snap.val();
+      if (!data || !data.savedAt) return;
+      if (data.savedAt === lastKnownSavedAt) return; // our own save echoing back
+      lastKnownSavedAt = data.savedAt;
+      var banner = document.getElementById('spSyncBanner');
+      if (banner) banner.classList.add('is-visible');
+    });
+  }
+
   var DEFAULT_TABLES = [
     {id:1,shape:'round',seats:10,x:11,y:25.4},
     {id:2,shape:'round',seats:8, x:11,y:43.1},
@@ -617,17 +706,25 @@ body.sp-locked .sp-lock-overlay{display:flex}
     return null;
   }
   function getZoneState(id){
-    var dz = getZoneDefault(id);
-    if (!dz) return null;
+    var dz = getZoneDefault(id); // null for custom (user-added) footpaths
     if (!zoneState[id]){
-      zoneState[id] = { x:dz.x, y:dz.y, w:dz.w, h:dz.h };
+      zoneState[id] = dz
+        ? { x:dz.x, y:dz.y, w:dz.w, h:dz.h, rotation:0 }
+        : { x:40, y:70, w:20, h:4.5, rotation:0 };
     }
     var zs = zoneState[id];
-    if (zs.x == null) zs.x = dz.x;
-    if (zs.y == null) zs.y = dz.y;
-    if (zs.w == null) zs.w = dz.w;
-    if (zs.h == null) zs.h = dz.h;
+    if (zs.x == null) zs.x = dz ? dz.x : 40;
+    if (zs.y == null) zs.y = dz ? dz.y : 70;
+    if (zs.w == null) zs.w = dz ? dz.w : 20;
+    if (zs.h == null) zs.h = dz ? dz.h : 4.5;
+    if (zs.rotation == null) zs.rotation = 0;
     return zs;
+  }
+  function getActivePathIds(){ return meta.pathOrder.slice(); }
+  function nextPathId(){
+    var nums = meta.pathOrder.map(function(id){ return parseInt(String(id).replace('path-',''),10) || 0; });
+    var max = nums.length ? Math.max.apply(null, nums) : 0;
+    return 'path-' + (max + 1);
   }
 
   function loadState(){
@@ -668,12 +765,20 @@ body.sp-locked .sp-lock-overlay{display:flex}
     if (!meta.tableOrder || !meta.tableOrder.length){
       meta.tableOrder = DEFAULT_TABLES.map(function(dt){ return dt.id; });
     }
+    if (!meta.pathOrder) meta.pathOrder = [];
   }
   function saveState(){
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ meta: meta, tables: state, zones: zoneState }));
       flashSaved();
     } catch(e){ /* storage unavailable — fail silently */ }
+    if (fbEnabled && fbRef){
+      var savedAt = Date.now();
+      lastKnownSavedAt = savedAt; // so our own write doesn't trigger the "teammate saved" banner
+      try {
+        fbRef.set({ meta: meta, tables: state, zones: zoneState, savedAt: savedAt });
+      } catch(e){ /* shared save failed — local copy above still succeeded */ }
+    }
   }
 
   function getTableState(id){
@@ -783,12 +888,13 @@ body.sp-locked .sp-lock-overlay{display:flex}
       dragging = false;
       el.classList.remove('is-dragging');
       if (moved){
-        var ts = getTableState(id);
         var fx = parseFloat(el.getAttribute('data-drag-x'));
         var fy = parseFloat(el.getAttribute('data-drag-y'));
+        el.removeAttribute('data-drag-x'); el.removeAttribute('data-drag-y');
+        pushUndoSnapshot();
+        var ts = getTableState(id);
         ts.x = isNaN(fx) ? ts.x : fx;
         ts.y = isNaN(fy) ? ts.y : fy;
-        el.removeAttribute('data-drag-x'); el.removeAttribute('data-drag-y');
         saveStateDebounced();
       } else if (editLayoutMode){
         openModal(id);
@@ -847,16 +953,23 @@ body.sp-locked .sp-lock-overlay{display:flex}
     getActiveTableIds().forEach(function(id){ createTableEl(id); });
   }
 
-  /* ---------- Zones: move + resize the full map (stage, dance floor,
-     walkways/"ground", bar, foyer, kitchen, entrance, etc.) in Edit Layout ---------- */
+  /* ---------- Zones: move, resize + rotate the full map (stage, dance floor,
+     walkways/"ground", bar, foyer, kitchen, entrance, etc.) in Edit Layout,
+     plus user-added footpath sections that can be deleted. ---------- */
   var zoneEls = {};
+  var pathEls = {};
+
+  function applyZoneTransform(id, el){
+    var zs = getZoneState(id);
+    el.style.transform = zs.rotation ? 'rotate(' + zs.rotation + 'deg)' : '';
+  }
 
   function attachZoneDrag(id, el){
     var dragging = false, moved = false, startX = 0, startY = 0, startLeft = 0, startTop = 0, floorRect = null;
 
     el.addEventListener('pointerdown', function(e){
       if (!editLayoutMode) return;
-      if (e.target.classList && e.target.classList.contains('sp-zone-resize')) return;
+      if (e.target.classList && (e.target.classList.contains('sp-zone-resize') || e.target.classList.contains('sp-zone-rotate') || e.target.classList.contains('sp-zone-delete'))) return;
       e.preventDefault(); e.stopPropagation();
       dragging = true; moved = false;
       floorRect = floorEl.getBoundingClientRect();
@@ -890,12 +1003,13 @@ body.sp-locked .sp-lock-overlay{display:flex}
       dragging = false;
       el.classList.remove('is-dragging');
       if (moved){
-        var zs = getZoneState(id);
         var fx = parseFloat(el.getAttribute('data-drag-x'));
         var fy = parseFloat(el.getAttribute('data-drag-y'));
+        el.removeAttribute('data-drag-x'); el.removeAttribute('data-drag-y');
+        pushUndoSnapshot();
+        var zs = getZoneState(id);
         zs.x = isNaN(fx) ? zs.x : fx;
         zs.y = isNaN(fy) ? zs.y : fy;
-        el.removeAttribute('data-drag-x'); el.removeAttribute('data-drag-y');
         saveStateDebounced();
       }
     }
@@ -903,7 +1017,7 @@ body.sp-locked .sp-lock-overlay{display:flex}
     el.addEventListener('pointercancel', endDrag);
   }
 
-  function attachZoneResize(id, handle){
+  function attachZoneResize(id, handle, el){
     var resizing = false, startX = 0, startY = 0, startW = 0, startH = 0, floorRect = null;
 
     handle.addEventListener('pointerdown', function(e){
@@ -927,9 +1041,8 @@ body.sp-locked .sp-lock-overlay{display:flex}
       newH = Math.max(1.5, Math.min(100 - zs.y, newH));
       newW = Math.round(newW * 2) / 2;
       newH = Math.round(newH * 2) / 2;
-      var zoneEl = zoneEls[id];
-      zoneEl.style.width = newW + '%';
-      zoneEl.style.height = newH + '%';
+      el.style.width = newW + '%';
+      el.style.height = newH + '%';
       handle.setAttribute('data-w', newW);
       handle.setAttribute('data-h', newH);
     });
@@ -937,16 +1050,114 @@ body.sp-locked .sp-lock-overlay{display:flex}
     function endResize(){
       if (!resizing) return;
       resizing = false;
-      var zs = getZoneState(id);
       var fw = parseFloat(handle.getAttribute('data-w'));
       var fh = parseFloat(handle.getAttribute('data-h'));
-      if (!isNaN(fw)) zs.w = fw;
-      if (!isNaN(fh)) zs.h = fh;
       handle.removeAttribute('data-w'); handle.removeAttribute('data-h');
-      saveStateDebounced();
+      if (!isNaN(fw) || !isNaN(fh)){
+        pushUndoSnapshot();
+        var zs = getZoneState(id);
+        if (!isNaN(fw)) zs.w = fw;
+        if (!isNaN(fh)) zs.h = fh;
+        saveStateDebounced();
+      }
     }
     handle.addEventListener('pointerup', endResize);
     handle.addEventListener('pointercancel', endResize);
+  }
+
+  function attachZoneRotate(id, handle, el){
+    var rotating = false;
+
+    handle.addEventListener('pointerdown', function(e){
+      if (!editLayoutMode) return;
+      e.preventDefault(); e.stopPropagation();
+      rotating = true;
+      try { handle.setPointerCapture(e.pointerId); } catch(err){}
+    });
+
+    handle.addEventListener('pointermove', function(e){
+      if (!rotating) return;
+      var rect = el.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      var angleDeg = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI + 90;
+      angleDeg = Math.round(angleDeg / 15) * 15;   // snap every 15°
+      angleDeg = ((angleDeg % 360) + 360) % 360;
+      el.style.transform = 'rotate(' + angleDeg + 'deg)';
+      handle.setAttribute('data-rot', angleDeg);
+    });
+
+    function endRotate(){
+      if (!rotating) return;
+      rotating = false;
+      var fr = parseFloat(handle.getAttribute('data-rot'));
+      handle.removeAttribute('data-rot');
+      if (!isNaN(fr)){
+        pushUndoSnapshot();
+        var zs = getZoneState(id);
+        zs.rotation = fr;
+        saveStateDebounced();
+      }
+    }
+    handle.addEventListener('pointerup', endRotate);
+    handle.addEventListener('pointercancel', endRotate);
+  }
+
+  function setupZoneHandles(id, el, deletable){
+    var resizeHandle = document.createElement('span');
+    resizeHandle.className = 'sp-zone-resize';
+    resizeHandle.setAttribute('aria-label', 'Resize');
+    el.appendChild(resizeHandle);
+    attachZoneResize(id, resizeHandle, el);
+
+    var rotateHandle = document.createElement('span');
+    rotateHandle.className = 'sp-zone-rotate';
+    rotateHandle.setAttribute('aria-label', 'Rotate');
+    el.appendChild(rotateHandle);
+    attachZoneRotate(id, rotateHandle, el);
+
+    attachZoneDrag(id, el);
+
+    if (deletable){
+      var delHandle = document.createElement('span');
+      delHandle.className = 'sp-zone-delete';
+      delHandle.setAttribute('aria-label', 'Delete footpath');
+      delHandle.textContent = '×';
+      delHandle.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
+      delHandle.addEventListener('click', function(e){
+        e.stopPropagation();
+        if (!editLayoutMode) return;
+        if (!confirm('Remove this footpath section?')) return;
+        pushUndoSnapshot();
+        var idx = meta.pathOrder.indexOf(id);
+        if (idx !== -1) meta.pathOrder.splice(idx, 1);
+        delete zoneState[id];
+        if (el.parentNode) el.parentNode.removeChild(el);
+        delete pathEls[id];
+        updateUndoBtn();
+        saveState();
+        showToast('Footpath removed');
+      });
+      el.appendChild(delHandle);
+    }
+  }
+
+  function createPathEl(id){
+    var zs = getZoneState(id);
+    var el = document.createElement('div');
+    el.className = 'sp-zone custom-path';
+    el.style.left = zs.x + '%';
+    el.style.top = zs.y + '%';
+    el.style.width = zs.w + '%';
+    el.style.height = zs.h + '%';
+    applyZoneTransform(id, el);
+    floorEl.appendChild(el);
+    pathEls[id] = el;
+    setupZoneHandles(id, el, true);
+    return el;
+  }
+
+  function buildCustomPaths(){
+    getActivePathIds().forEach(function(id){ createPathEl(id); });
   }
 
   function buildZoneEditing(){
@@ -959,13 +1170,10 @@ body.sp-locked .sp-lock-overlay{display:flex}
       el.style.top = zs.y + '%';
       el.style.width = zs.w + '%';
       el.style.height = zs.h + '%';
-      var handle = document.createElement('span');
-      handle.className = 'sp-zone-resize';
-      handle.setAttribute('aria-label', 'Resize');
-      el.appendChild(handle);
-      attachZoneDrag(dz.id, el);
-      attachZoneResize(dz.id, handle);
+      applyZoneTransform(dz.id, el);
+      setupZoneHandles(dz.id, el, false);
     });
+    buildCustomPaths();
   }
 
   function refreshTableTile(id){
@@ -1063,12 +1271,22 @@ body.sp-locked .sp-lock-overlay{display:flex}
     editLayoutBtn.classList.toggle('is-active', editLayoutMode);
     editLayoutLbl.textContent = editLayoutMode ? 'Editing Layout — On' : 'Edit Layout';
     hintEl.textContent = editLayoutMode
-      ? 'Drag tables or any room zone (stage, dance floor, ground, bar, foyer…) to move it · drag a zone’s corner handle to resize · light snap keeps things tidy · click a table without dragging to assign seats'
+      ? 'Drag tables or any room zone (stage, dance floor, ground, bar, foyer…) to move it · drag a zone’s corner handle to resize, the top handle to rotate · light snap keeps things tidy · click a table without dragging to assign seats'
       : 'Click any table to assign seats · toggle Edit Layout to drag tables and room zones · green hatched paths are walkways — kept clear';
   });
 
+  function enableEditLayoutMode(){
+    if (editLayoutMode) return;
+    editLayoutMode = true;
+    floorEl.classList.add('is-edit-mode');
+    editLayoutBtn.classList.add('is-active');
+    editLayoutLbl.textContent = 'Editing Layout — On';
+    hintEl.textContent = 'Drag tables or any room zone (stage, dance floor, ground, bar, foyer…) to move it · drag a zone’s corner handle to resize, the top handle to rotate · light snap keeps things tidy · click a table without dragging to assign seats';
+  }
+
   document.getElementById('spResetLayoutBtn').addEventListener('click', function(){
-    if (!confirm('Reset all original tables AND room zones (stage, dance floor, ground, bar, foyer, kitchen, walkways, etc.) to their starting floor plan positions? Guest names and notes will be kept. Tables you’ve added since won’t move (they have no original position).')) return;
+    if (!confirm('Reset all original tables AND room zones (stage, dance floor, ground, bar, foyer, kitchen, walkways, etc.) to their starting floor plan positions? Guest names and notes will be kept. Tables and footpaths you’ve added since won’t move (they have no original position).')) return;
+    pushUndoSnapshot();
     getActiveTableIds().forEach(function(id){
       var dt = getDefault(id);
       if (!dt) return; // added table — no original position to reset to
@@ -1079,15 +1297,20 @@ body.sp-locked .sp-lock-overlay{display:flex}
     });
     DEFAULT_ZONES.forEach(function(dz){
       var zs = getZoneState(dz.id);
-      zs.x = dz.x; zs.y = dz.y; zs.w = dz.w; zs.h = dz.h;
+      zs.x = dz.x; zs.y = dz.y; zs.w = dz.w; zs.h = dz.h; zs.rotation = 0;
       var el = zoneEls[dz.id];
-      if (el){ el.style.left = dz.x + '%'; el.style.top = dz.y + '%'; el.style.width = dz.w + '%'; el.style.height = dz.h + '%'; }
+      if (el){
+        el.style.left = dz.x + '%'; el.style.top = dz.y + '%'; el.style.width = dz.w + '%'; el.style.height = dz.h + '%';
+        el.style.transform = '';
+      }
     });
+    updateUndoBtn();
     saveState();
     showToast('Layout reset to original positions');
   });
 
   document.getElementById('spAddTableBtn').addEventListener('click', function(){
+    pushUndoSnapshot();
     var newId = nextTableId();
     var addedCount = meta.tableOrder.filter(function(id){ return !getDefault(id); }).length;
     var offset = (addedCount % 6) * 4;
@@ -1100,16 +1323,80 @@ body.sp-locked .sp-lock-overlay{display:flex}
       tableNotes: '', tableName: '', x: x, y: y
     };
     createTableEl(newId);
-    if (!editLayoutMode){
-      editLayoutMode = true;
-      floorEl.classList.add('is-edit-mode');
-      editLayoutBtn.classList.add('is-active');
-      editLayoutLbl.textContent = 'Editing Layout — On';
-      hintEl.textContent = 'Drag tables or any room zone (stage, dance floor, ground, bar, foyer…) to move it · drag a zone’s corner handle to resize · light snap keeps things tidy · click a table without dragging to assign seats';
-    }
+    enableEditLayoutMode();
+    updateUndoBtn();
     refreshAll();
     saveState();
     showToast('Table ' + newId + ' added — drag it into place, then click it to set seats');
+  });
+
+  document.getElementById('spAddPathBtn').addEventListener('click', function(){
+    pushUndoSnapshot();
+    var newId = nextPathId();
+    var count = meta.pathOrder.length;
+    var offset = (count % 5) * 6;
+    var x = Math.min(70, 15 + offset);
+    var y = Math.min(90, 68 + (count % 3) * 4);
+    meta.pathOrder.push(newId);
+    zoneState[newId] = { x: x, y: y, w: 20, h: 4.5, rotation: 0 };
+    createPathEl(newId);
+    enableEditLayoutMode();
+    updateUndoBtn();
+    saveState();
+    showToast('Footpath added — drag, resize (corner) or rotate (top handle), then Save');
+  });
+
+  /* ---------- Undo: layout movements (table/zone drag, resize, rotate,
+     add/delete table, add/delete footpath, reset layout) ---------- */
+  var undoStack = [];
+  var UNDO_LIMIT = 30;
+  var undoBtn = document.getElementById('spUndoBtn');
+  function pushUndoSnapshot(){
+    try {
+      undoStack.push(JSON.stringify({ tables: state, zones: zoneState, meta: meta }));
+      if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+    } catch(e){ /* ignore */ }
+    updateUndoBtn();
+  }
+  function updateUndoBtn(){
+    if (undoBtn) undoBtn.disabled = undoStack.length === 0;
+  }
+  function rebuildFromState(){
+    Object.keys(tableEls).forEach(function(id){
+      var el = tableEls[id];
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    });
+    tableEls = {};
+    buildFloorTables();
+
+    DEFAULT_ZONES.forEach(function(dz){
+      var el = zoneEls[dz.id];
+      if (!el) return;
+      var zs = getZoneState(dz.id);
+      el.style.left = zs.x + '%'; el.style.top = zs.y + '%'; el.style.width = zs.w + '%'; el.style.height = zs.h + '%';
+      applyZoneTransform(dz.id, el);
+    });
+
+    Object.keys(pathEls).forEach(function(id){
+      var el = pathEls[id];
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    });
+    pathEls = {};
+    buildCustomPaths();
+
+    bandInput.value = (meta.band != null) ? meta.band : 6;
+    refreshAll();
+  }
+  undoBtn.addEventListener('click', function(){
+    if (!undoStack.length){ showToast('Nothing to undo'); return; }
+    var snap = JSON.parse(undoStack.pop());
+    state = snap.tables || {};
+    zoneState = snap.zones || {};
+    meta = snap.meta || meta;
+    rebuildFromState();
+    updateUndoBtn();
+    saveState();
+    showToast('Undid last layout change');
   });
 
   /* ---------- Room capacity: band input ---------- */
@@ -1318,8 +1605,9 @@ body.sp-locked .sp-lock-overlay{display:flex}
     var filled = tableFilledCount(id);
     var msg = 'Delete Table ' + id + (ts.tableName ? ' ("' + ts.tableName + '")' : '') + ' entirely?' +
       (filled ? ' ' + filled + ' guest name(s) at this table will be lost.' : '') +
-      ' This cannot be undone.';
+      ' You can Undo this from the toolbar right after.';
     if (!confirm(msg)) return;
+    pushUndoSnapshot();
     var idx = meta.tableOrder.indexOf(id);
     if (idx !== -1) meta.tableOrder.splice(idx, 1);
     delete state[id];
@@ -1328,6 +1616,7 @@ body.sp-locked .sp-lock-overlay{display:flex}
     delete tableEls[id];
     overlay.classList.remove('is-open');
     currentTableId = null;
+    updateUndoBtn();
     refreshAll();
     saveState();
     showToast('Table ' + id + ' deleted');
@@ -1477,8 +1766,14 @@ body.sp-locked .sp-lock-overlay{display:flex}
     var zonesHtml = '';
     DEFAULT_ZONES.forEach(function(dz){
       var zs = getZoneState(dz.id);
-      zonesHtml += '<div class="sp-zone ' + dz.id + '" style="left:' + zs.x + '%;top:' + zs.y + '%;width:' + zs.w + '%;height:' + zs.h + '%;">' +
+      var rot = zs.rotation ? ('transform:rotate(' + zs.rotation + 'deg);') : '';
+      zonesHtml += '<div class="sp-zone ' + dz.id + '" style="left:' + zs.x + '%;top:' + zs.y + '%;width:' + zs.w + '%;height:' + zs.h + '%;' + rot + '">' +
         (ZONE_LABEL_HTML[dz.id] || '') + '</div>';
+    });
+    getActivePathIds().forEach(function(id){
+      var zs = getZoneState(id);
+      var rot = zs.rotation ? ('transform:rotate(' + zs.rotation + 'deg);') : '';
+      zonesHtml += '<div class="sp-zone custom-path" style="left:' + zs.x + '%;top:' + zs.y + '%;width:' + zs.w + '%;height:' + zs.h + '%;' + rot + '"></div>';
     });
 
     var tablesHtml = '';
@@ -1543,15 +1838,56 @@ body.sp-locked .sp-lock-overlay{display:flex}
 
   /* ---------- App init (gated by password lock) ---------- */
   var appInitialized = false;
-  function initApp(){
-    if (appInitialized) return;
-    appInitialized = true;
-    loadState();
+  function renderApp(){
     buildZoneEditing();
     buildFloorTables();
     bandInput.value = (meta.band != null) ? meta.band : 6;
     refreshAll();
+    updateSyncIndicator();
   }
+  function initApp(){
+    if (appInitialized) return;
+    appInitialized = true;
+    loadState();              // local copy first, so there's never a blank screen
+    initFirebaseSync();
+    if (!fbEnabled){
+      renderApp();
+      return;
+    }
+    var settled = false;
+    var fallbackTimer = setTimeout(function(){
+      if (settled) return;
+      settled = true;
+      renderApp();             // network too slow — proceed with the local copy
+      startRemoteListener();
+    }, 4000);
+    fbRef.once('value').then(function(snap){
+      if (settled) return;
+      settled = true;
+      clearTimeout(fallbackTimer);
+      var data = snap.val();
+      if (data && data.savedAt){
+        state = data.tables || {};
+        zoneState = data.zones || {};
+        meta = data.meta || meta;
+        if (!meta.tableOrder || !meta.tableOrder.length){ meta.tableOrder = DEFAULT_TABLES.map(function(dt){ return dt.id; }); }
+        if (!meta.pathOrder) meta.pathOrder = [];
+        lastKnownSavedAt = data.savedAt;
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ meta: meta, tables: state, zones: zoneState })); } catch(e){}
+      }
+      renderApp();
+      startRemoteListener();
+    }).catch(function(){
+      if (settled) return;
+      settled = true;
+      clearTimeout(fallbackTimer);
+      renderApp();              // shared save unreachable — proceed with the local copy
+      updateSyncIndicator();
+    });
+  }
+
+  var syncReloadBtn = document.getElementById('spSyncReloadBtn');
+  if (syncReloadBtn) syncReloadBtn.addEventListener('click', function(){ location.reload(); });
 
   /* ---------- Lock screen ---------- */
   var AUTH_KEY = 'spc-obu-gala2026-auth-v1';
