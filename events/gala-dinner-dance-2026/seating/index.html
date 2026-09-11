@@ -35,10 +35,11 @@ body.sp-locked .sp-app{display:none}
 .sp-lock-overlay{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 15%,var(--navy-800),var(--navy-950));padding:20px}
 body.sp-locked .sp-lock-overlay{display:flex}
 .sp-lock-card{width:100%;max-width:360px;background:var(--navy-900);border:1px solid rgba(201,162,39,.25);border-radius:16px;padding:34px 28px;text-align:center;box-shadow:0 40px 90px rgba(0,0,0,.55)}
-.sp-lock-crest{width:52px;height:52px;border-radius:50%;object-fit:cover;margin-bottom:14px}
+.sp-lock-brand{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.sp-lock-crest{width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0}
 .sp-lock-card h1{font-family:var(--serif);font-size:20px;color:var(--gold-light);margin-bottom:8px}
 .sp-lock-card p{font-size:12.5px;color:rgba(248,246,241,.6);margin-bottom:18px;line-height:1.5}
-.sp-lock-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:5px 12px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.sp-lock-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:5px 12px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
 #spLockForm{display:flex;gap:8px}
 #spLockPassword{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:9px;padding:11px 13px;font-size:14px;letter-spacing:.04em;font-family:var(--sans)}
 #spLockPassword:focus{outline:none;border-color:var(--gold)}
@@ -325,8 +326,10 @@ body.sp-locked .sp-lock-overlay{display:flex}
 
 <div class="sp-lock-overlay" id="spLockOverlay">
   <div class="sp-lock-card">
-    <img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" class="sp-lock-crest" />
-    <span class="sp-lock-badge">Private — Committee Only</span>
+    <div class="sp-lock-brand">
+      <img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" class="sp-lock-crest" />
+      <span class="sp-lock-badge">Private — Committee Only</span>
+    </div>
     <h1>Seating Planner</h1>
     <p>Gala Dinner Dance 2026 — enter the committee password to continue.</p>
     <form id="spLockForm" autocomplete="off">
