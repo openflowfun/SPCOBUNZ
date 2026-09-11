@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Seating Planner (Private) — SPC OBU NZ Gala Dinner Dance 2026</title>
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="description" content="Internal committee tool — not public." />
+<link rel="icon" href="/public/images/favicon-32x32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="/public/images/favicon-16x16.png" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --navy-950:#050D1A; --navy-900:#081426; --navy-800:#0A1930; --navy-700:#0F2447;
+  --gold:#C9A227; --gold-light:#E3C566; --gold-dark:#A5841C;
+  --ivory:#F8F6F1; --cream:#F3EEDF; --cream-line:#E2D9BE;
+  --ink:#241C0F;
+  --ok:#3F7A57; --warn:#B8791C;
+  --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--navy-950)}
+body{
+  font-family:var(--sans); background:var(--navy-950); color:#fff;
+  min-height:100vh; -webkit-font-smoothing:antialiased;
+}
+.gold-text{color:var(--gold)}
+
+/* Header */
+.sp-header{
+  position:sticky; top:0; z-index:60;
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  padding:12px clamp(14px,3vw,32px);
+  background:rgba(5,13,26,.9); backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(201,162,39,.18);
+}
+.sp-header .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#fff}
+.sp-header .brand img{width:30px;height:30px;border-radius:50%;object-fit:cover}
+.sp-header .brand b{font-family:var(--serif);font-size:14px}
+.sp-title{display:flex;flex-direction:column;line-height:1.25}
+.sp-title b{font-family:var(--serif);font-size:16px;color:var(--gold-light)}
+.sp-title span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(248,246,241,.5)}
+.sp-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:5px 12px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.sp-badge i{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:sp-pulse 1.6s infinite}
+@keyframes sp-pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.sp-back{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ivory);opacity:.8;text-decoration:none;padding:7px 13px;border:1px solid rgba(255,255,255,.15);border-radius:999px;transition:all .2s var(--ease)}
+.sp-back:hover{opacity:1;border-color:var(--gold);color:var(--gold-light)}
+.sp-back svg{width:14px;height:14px}
+
+/* Toolbar */
+.sp-toolbar{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:10px clamp(14px,3vw,32px);
+  background:var(--navy-900); border-bottom:1px solid rgba(201,162,39,.12);
+}
+.sp-search-wrap{position:relative;flex:1;min-width:220px;max-width:360px}
+.sp-search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:rgba(248,246,241,.4)}
+.sp-search{
+  width:100%; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); color:#fff;
+  border-radius:9px; padding:9px 12px 9px 32px; font-size:13px; font-family:var(--sans);
+}
+.sp-search:focus{outline:none;border-color:var(--gold)}
+.sp-search-results{
+  position:absolute; top:calc(100% + 6px); left:0; right:0; background:var(--navy-800);
+  border:1px solid rgba(201,162,39,.3); border-radius:10px; max-height:260px; overflow-y:auto;
+  box-shadow:0 20px 50px rgba(0,0,0,.5); z-index:80; display:none;
+}
+.sp-search-results.is-open{display:block}
+.sp-search-result{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;font-size:12.5px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.06)}
+.sp-search-result:last-child{border-bottom:none}
+.sp-search-result:hover{background:rgba(201,162,39,.12)}
+.sp-search-result b{color:var(--gold-light);font-weight:600}
+.sp-search-empty{padding:14px 12px;font-size:12px;color:rgba(248,246,241,.5);text-align:center}
+.sp-toolbar-spacer{flex:1}
+.sp-btn{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  color:var(--ivory);padding:8px 14px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans);
+  transition:all .2s var(--ease); text-decoration:none;
+}
+.sp-btn svg{width:14px;height:14px}
+.sp-btn:hover{background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.4);color:var(--gold-light)}
+.sp-btn.gold{background:var(--gold);border-color:var(--gold);color:var(--navy-950)}
+.sp-btn.gold:hover{background:var(--gold-light);border-color:var(--gold-light)}
+.sp-btn.danger:hover{background:rgba(200,70,70,.16);border-color:rgba(200,70,70,.5);color:#e58888}
+.sp-save-indicator{font-size:11px;color:rgba(248,246,241,.45);letter-spacing:.03em;display:flex;align-items:center;gap:5px}
+.sp-save-indicator svg{width:12px;height:12px;color:var(--gold)}
+
+/* Layout */
+.sp-layout{display:flex;gap:16px;align-items:flex-start;padding:16px clamp(14px,3vw,32px) 40px;max-width:1680px;margin:0 auto}
+.sp-main{flex:1;min-width:0}
+.sp-sidebar{width:300px;flex-shrink:0;position:sticky;top:118px}
+
+/* Floor panel */
+.sp-floor-panel{
+  background:linear-gradient(180deg,var(--navy-800),var(--navy-900));
+  border:1px solid rgba(201,162,39,.18); border-radius:16px; padding:18px;
+  box-shadow:0 30px 70px -20px rgba(0,0,0,.6);
+}
+.sp-floor-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:11px;color:rgba(248,246,241,.6)}
+.sp-floor-legend span{display:inline-flex;align-items:center;gap:6px}
+.sp-legend-dot{width:11px;height:11px;border-radius:4px;display:inline-block}
+.sp-legend-dot.empty{background:var(--cream);border:1.5px dashed var(--navy-700)}
+.sp-legend-dot.partial{background:var(--gold-light)}
+.sp-legend-dot.full{background:var(--gold);box-shadow:0 0 0 2px rgba(201,162,39,.3)}
+
+.sp-floor-outer{perspective:2200px}
+.sp-floor{
+  position:relative; width:100%; aspect-ratio:1000/1300; max-width:760px; margin:0 auto;
+  background:var(--cream); border-radius:10px; overflow:hidden;
+  box-shadow:0 40px 60px -20px rgba(0,0,0,.55), 0 0 0 1px var(--cream-line);
+  transform:rotateX(14deg); transform-style:preserve-3d; transform-origin:center top;
+}
+.sp-zone{position:absolute; border-radius:6px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--sans); pointer-events:none}
+.sp-zone-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.sp-zone.backdrop{left:4%;top:1.5%;width:64%;height:3.6%;background:#2E5FA3;border-radius:4px}
+.sp-zone.stage{left:4%;top:5.6%;width:64%;height:14%;background:#E8C13A;border:1px solid #C9A227}
+.sp-zone.stage .sp-zone-label{color:#3a2c05}
+.sp-zone.dancefloor{left:4%;top:20%;width:64%;height:22.5%;background:#C23A6B;background:linear-gradient(135deg,#C23A6B,#9E2E58)}
+.sp-zone.dancefloor .sp-zone-label{color:#fff}
+.sp-zone.entrance{left:72%;top:0%;width:15%;height:6.5%;background:#B9A6E0;border-radius:0 0 6px 6px}
+.sp-zone.entrance .sp-zone-label{color:#2c2140;font-size:9px}
+.sp-zone.foyer-circ{left:72%;top:0%;width:26%;height:43%;background:#8FCB7E;opacity:.85}
+.sp-zone.foyer-walk2{left:60%;top:43%;width:38%;height:9%;background:#8FCB7E;opacity:.85}
+.sp-zone.bar{left:88%;top:16.5%;width:11%;height:12.5%;background:#E07A5F;border-radius:6px}
+.sp-zone.bar .sp-zone-label{color:#3a1409;font-size:10px}
+.sp-zone.foyer-label{left:88%;top:32%;width:11%;height:11%;background:#B9A6E0;border-radius:6px}
+.sp-zone.foyer-label .sp-zone-label{color:#2c2140;font-size:9px}
+.sp-zone.kitchen{left:76%;top:75%;width:24%;height:25%;background:transparent;border:2px dashed #9aa0ab}
+.sp-zone.kitchen .sp-zone-label{color:#5a6270;writing-mode:vertical-rl}
+.sp-zone.walk-h{left:2%;top:66%;width:76%;height:5.5%;background:repeating-linear-gradient(135deg,#8FCB7E,#8FCB7E 8px,#7ABE66 8px,#7ABE66 16px);opacity:.55;border-radius:4px}
+.sp-zone.walk-v{left:39%;top:50%;width:3%;height:46%;background:repeating-linear-gradient(135deg,#8FCB7E,#8FCB7E 8px,#7ABE66 8px,#7ABE66 16px);opacity:.55}
+.sp-zone.walk-b{left:2%;top:96%;width:76%;height:3.2%;background:repeating-linear-gradient(135deg,#8FCB7E,#8FCB7E 8px,#7ABE66 8px,#7ABE66 16px);opacity:.55;border-radius:4px}
+.sp-zone.fire-exit{left:0%;top:0%;width:7%;height:2.2%;background:none;justify-content:flex-start}
+.sp-zone.fire-exit .sp-zone-label{color:#7a1f1f;font-size:7px;font-weight:800}
+.sp-zone.sliding-door{left:2%;top:98.6%;width:76%;height:1.4%;background:repeating-linear-gradient(90deg,#5a6270,#5a6270 6px,transparent 6px,transparent 12px)}
+
+.sp-table{
+  position:absolute; transform:translate(-50%,-50%) translateZ(8px);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:var(--cream); border:2px dashed var(--navy-700); color:var(--ink);
+  cursor:pointer; transition:all .2s var(--ease); box-shadow:0 6px 14px -4px rgba(0,0,0,.35);
+  font-family:var(--sans); z-index:3;
+}
+.sp-table:hover{transform:translate(-50%,-50%) translateZ(14px) scale(1.05); box-shadow:0 12px 22px -6px rgba(0,0,0,.45)}
+.sp-table.shape-round{border-radius:50%}
+.sp-table.shape-rect{border-radius:9px}
+.sp-table.size-8.shape-round{width:70px;height:70px}
+.sp-table.size-9.shape-round{width:76px;height:76px}
+.sp-table.size-10.shape-round{width:82px;height:82px}
+.sp-table.shape-rect{width:100px;height:54px}
+.sp-table .t-num{font-weight:800;font-size:14px;line-height:1.1}
+.sp-table .t-seats{font-size:9px;font-weight:700;opacity:.75;letter-spacing:.03em}
+.sp-table.status-partial{background:var(--gold-light);border-style:solid;border-color:var(--gold-dark)}
+.sp-table.status-full{background:var(--gold);border-style:solid;border-color:var(--gold-dark);box-shadow:0 0 0 3px rgba(201,162,39,.22),0 6px 14px -4px rgba(0,0,0,.35)}
+.sp-table.status-full .t-num{color:#3a2c05}
+.sp-table.is-match{outline:3px solid #2E5FA3;outline-offset:2px}
+
+.sp-hint{text-align:center;margin-top:12px;font-size:11px;color:rgba(248,246,241,.4);letter-spacing:.05em}
+
+/* Sidebar */
+.sp-panel{background:var(--navy-800);border:1px solid rgba(201,162,39,.16);border-radius:14px;padding:16px;margin-bottom:14px}
+.sp-panel h3{font-family:var(--serif);font-size:14px;color:var(--gold-light);margin-bottom:10px;letter-spacing:.02em}
+.sp-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sp-summary-item{background:rgba(255,255,255,.04);border-radius:9px;padding:10px}
+.sp-summary-item b{display:block;font-size:20px;font-family:var(--serif);color:var(--ivory)}
+.sp-summary-item span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:rgba(248,246,241,.5)}
+.sp-table-list{max-height:520px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.sp-table-list::-webkit-scrollbar{width:6px}
+.sp-table-list::-webkit-scrollbar-thumb{background:rgba(201,162,39,.35);border-radius:3px}
+.sp-tl-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;background:rgba(255,255,255,.03);cursor:pointer;transition:background .2s var(--ease)}
+.sp-tl-item:hover{background:rgba(201,162,39,.12)}
+.sp-tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.sp-tl-dot.empty{background:var(--cream);border:1.5px dashed rgba(255,255,255,.4)}
+.sp-tl-dot.partial{background:var(--gold-light)}
+.sp-tl-dot.full{background:var(--gold)}
+.sp-tl-name{flex:1;font-size:12.5px;font-weight:600}
+.sp-tl-name small{display:block;font-size:10px;font-weight:400;color:rgba(248,246,241,.45)}
+.sp-tl-count{font-size:11px;color:rgba(248,246,241,.6);font-variant-numeric:tabular-nums}
+
+/* Modal */
+.sp-modal-overlay{position:fixed;inset:0;background:rgba(2,6,14,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.sp-modal-overlay.is-open{display:flex}
+.sp-modal{background:var(--cream);color:var(--ink);border-radius:16px;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;box-shadow:0 40px 90px rgba(0,0,0,.5)}
+.sp-modal-head{position:sticky;top:0;background:var(--cream);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px;border-bottom:1px solid var(--cream-line);z-index:2}
+.sp-modal-head h2{font-family:var(--serif);font-size:20px}
+.sp-modal-head .sub{font-size:11px;color:#6b6350;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.sp-modal-status{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.sp-modal-status.empty{background:#e7e0c9;color:#6b6350}
+.sp-modal-status.partial{background:var(--gold-light);color:#4a3a05}
+.sp-modal-status.full{background:var(--gold);color:#3a2c05}
+.sp-modal-close{width:32px;height:32px;border-radius:50%;border:none;background:rgba(0,0,0,.06);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sp-modal-close:hover{background:rgba(0,0,0,.12)}
+.sp-modal-close svg{width:16px;height:16px}
+.sp-modal-body{padding:18px 22px}
+.sp-seat-row{display:grid;grid-template-columns:26px 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.sp-seat-num{font-size:11px;font-weight:700;color:#8a7f60;text-align:center}
+.sp-seat-row input{
+  width:100%; border:1px solid var(--cream-line); background:#fff; border-radius:8px;
+  padding:8px 10px; font-size:13px; font-family:var(--sans); color:var(--ink);
+}
+.sp-seat-row input:focus{outline:none;border-color:var(--gold-dark);box-shadow:0 0 0 2px rgba(201,162,39,.2)}
+.sp-seat-row input.name{font-weight:600}
+.sp-seat-row input.notes{font-size:12px;color:#6b6350}
+.sp-modal-notes{margin-top:6px}
+.sp-modal-notes label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b6350;margin-bottom:6px}
+.sp-modal-notes textarea{width:100%;min-height:60px;border:1px solid var(--cream-line);background:#fff;border-radius:8px;padding:10px;font-family:var(--sans);font-size:13px;resize:vertical}
+.sp-modal-notes textarea:focus{outline:none;border-color:var(--gold-dark);box-shadow:0 0 0 2px rgba(201,162,39,.2)}
+.sp-modal-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--cream-line)}
+.sp-modal-foot .sp-btn{color:var(--ink);border-color:var(--cream-line);background:#fff}
+.sp-modal-foot .sp-btn:hover{background:#f5efe0;border-color:var(--gold-dark);color:#4a3a05}
+.sp-modal-foot .sp-btn.danger{color:#a03d3d;border-color:#e3c9c9}
+.sp-modal-foot .sp-btn.danger:hover{background:#fbeaea;border-color:#d98f8f}
+
+.sp-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-800);border:1px solid rgba(201,162,39,.3);color:var(--ivory);font-size:13px;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:300}
+.sp-toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.sp-print-sheet{display:none}
+
+@media (max-width:1100px){
+  .sp-layout{flex-direction:column}
+  .sp-sidebar{width:100%;position:static}
+}
+@media print{
+  .sp-header,.sp-toolbar,.sp-layout .sp-main,.sp-sidebar,.sp-modal-overlay,.sp-toast{display:none !important}
+  .sp-print-sheet{display:block !important;background:#fff;color:#000;padding:20px;font-family:var(--sans)}
+  .sp-print-sheet h1{font-family:var(--serif);font-size:22px;margin-bottom:4px}
+  .sp-print-sheet .meta{font-size:12px;color:#555;margin-bottom:18px}
+  .sp-print-table{break-inside:avoid;margin-bottom:16px;border:1px solid #ccc;border-radius:8px;padding:10px 14px}
+  .sp-print-table h3{font-size:14px;margin-bottom:6px}
+  .sp-print-table ol{margin-left:18px;font-size:12.5px;line-height:1.6}
+  .sp-print-table .empty-seat{color:#999}
+}
+</style>
+</head>
+<body>
+
+<header class="sp-header">
+  <a href="/" class="brand">
+    <img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" />
+    <b>SPC OBU <span class="gold-text">NZ</span></b>
+  </a>
+  <div class="sp-title">
+    <b>Seating Planner</b>
+    <span>Gala Dinner Dance · 3 Oct 2026</span>
+  </div>
+  <span class="sp-badge"><i></i>Private — Committee Only</span>
+  <a href="/events/gala-dinner-dance-2026" class="sp-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span>Back to Event</span>
+  </a>
+</header>
+
+<div class="sp-toolbar">
+  <div class="sp-search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" class="sp-search" id="spSearch" placeholder="Search guest name…" autocomplete="off" />
+    <div class="sp-search-results" id="spSearchResults"></div>
+  </div>
+  <div class="sp-toolbar-spacer"></div>
+  <span class="sp-save-indicator" id="spSaveIndicator">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    Saved to this browser
+  </span>
+  <button type="button" class="sp-btn" id="spExportBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+    Export CSV
+  </button>
+  <button type="button" class="sp-btn" id="spPrintBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+    Print
+  </button>
+  <button type="button" class="sp-btn danger" id="spResetAllBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
+    Reset All
+  </button>
+</div>
+
+<div class="sp-layout">
+  <main class="sp-main">
+    <div class="sp-floor-panel">
+      <div class="sp-floor-legend">
+        <span><i class="sp-legend-dot empty"></i>Empty</span>
+        <span><i class="sp-legend-dot partial"></i>Partially filled</span>
+        <span><i class="sp-legend-dot full"></i>Full</span>
+      </div>
+      <div class="sp-floor-outer">
+        <div class="sp-floor" id="spFloor">
+          <div class="sp-zone fire-exit"><span class="sp-zone-label">FIRE EXIT</span></div>
+          <div class="sp-zone backdrop"><span class="sp-zone-label" style="color:#fff">BACKDROP</span></div>
+          <div class="sp-zone stage"><span class="sp-zone-label">STAGE — BAND / LECTERN / DJ</span></div>
+          <div class="sp-zone dancefloor"><span class="sp-zone-label">DANCE FLOOR</span></div>
+          <div class="sp-zone entrance"><span class="sp-zone-label">ENTRANCE</span></div>
+          <div class="sp-zone foyer-circ"></div>
+          <div class="sp-zone foyer-walk2"></div>
+          <div class="sp-zone bar"><span class="sp-zone-label">BAR</span></div>
+          <div class="sp-zone foyer-label"><span class="sp-zone-label">FOYER</span></div>
+          <div class="sp-zone kitchen"><span class="sp-zone-label">KITCHEN</span></div>
+          <div class="sp-zone walk-h"></div>
+          <div class="sp-zone walk-v"></div>
+          <div class="sp-zone walk-b"></div>
+          <div class="sp-zone sliding-door"></div>
+          <!-- tables injected by JS -->
+        </div>
+      </div>
+      <p class="sp-hint">Click any table to assign seats · green hatched paths are walkways — kept clear</p>
+    </div>
+  </main>
+
+  <aside class="sp-sidebar">
+    <div class="sp-panel">
+      <h3>Overview</h3>
+      <div class="sp-summary-grid">
+        <div class="sp-summary-item"><b id="spSumTables">–</b><span>Tables</span></div>
+        <div class="sp-summary-item"><b id="spSumSeats">–</b><span>Total Seats</span></div>
+        <div class="sp-summary-item"><b id="spSumFilled">–</b><span>Seats Filled</span></div>
+        <div class="sp-summary-item"><b id="spSumFull">–</b><span>Tables Full</span></div>
+      </div>
+    </div>
+    <div class="sp-panel">
+      <h3>All Tables</h3>
+      <div class="sp-table-list" id="spTableList"></div>
+    </div>
+  </aside>
+</div>
+
+<div class="sp-print-sheet" id="spPrintSheet"></div>
+
+<!-- Modal -->
+<div class="sp-modal-overlay" id="spModalOverlay">
+  <div class="sp-modal" id="spModal">
+    <div class="sp-modal-head">
+      <div>
+        <h2 id="spModalTitle">Table</h2>
+        <div class="sub" id="spModalSub">Round · 8 seats</div>
+      </div>
+      <span class="sp-modal-status" id="spModalStatus">Empty</span>
+      <button type="button" class="sp-modal-close" id="spModalClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="sp-modal-body">
+      <div id="spSeatRows"></div>
+      <div class="sp-modal-notes">
+        <label>Table notes (dietary, host, sponsor, committee, etc.)</label>
+        <textarea id="spTableNotes" placeholder="e.g. Host table — 2x vegetarian, 1x gluten-free"></textarea>
+      </div>
+    </div>
+    <div class="sp-modal-foot">
+      <button type="button" class="sp-btn danger" id="spResetTableBtn">Reset Table</button>
+      <button type="button" class="sp-btn gold" id="spDoneBtn">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="sp-toast" id="spToast"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  var TABLES = [
+    {id:1,shape:'round',seats:10,x:11,y:25.4},
+    {id:2,shape:'round',seats:8, x:11,y:43.1},
+    {id:3,shape:'round',seats:8, x:11,y:65.4},
+    {id:4,shape:'round',seats:10,x:11,y:83.1},
+
+    {id:5,shape:'round',seats:10,x:64,y:25.4},
+    {id:6,shape:'round',seats:10,x:64,y:38.5},
+    {id:7,shape:'round',seats:9, x:64,y:51.5},
+    {id:8,shape:'round',seats:9, x:64,y:64.6},
+
+    {id:9, shape:'rect',seats:8,x:28,y:50},
+    {id:10,shape:'rect',seats:8,x:46,y:50},
+
+    {id:11,shape:'rect', seats:8,x:28,y:63.8},
+    {id:12,shape:'round',seats:8,x:46,y:63.8},
+
+    {id:13,shape:'round',seats:8, x:20,y:76.9},
+    {id:14,shape:'rect', seats:8, x:46,y:76.9},
+    {id:15,shape:'round',seats:10,x:60,y:76.9},
+
+    {id:16,shape:'rect', seats:8, x:30,y:90.8},
+    {id:17,shape:'round',seats:10,x:46,y:90.8},
+    {id:18,shape:'round',seats:10,x:60,y:90.8}
+  ];
+
+  var STORAGE_KEY = 'spc-obu-gala2026-seating-v1';
+  var state = {};
+
+  function loadState(){
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      state = raw ? JSON.parse(raw) : {};
+    } catch(e){ state = {}; }
+  }
+  function saveState(){
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      flashSaved();
+    } catch(e){ /* storage unavailable — fail silently */ }
+  }
+
+  function getTable(id){
+    for (var i=0;i<TABLES.length;i++){ if (TABLES[i].id===id) return TABLES[i]; }
+    return null;
+  }
+  function getTableState(id){
+    var t = getTable(id);
+    if (!state[id]){
+      state[id] = { names: new Array(t.seats).fill(''), notes: new Array(t.seats).fill(''), tableNotes:'' };
+    }
+    // migrate/pad if seat count mismatched (defensive)
+    if (state[id].names.length < t.seats){
+      while (state[id].names.length < t.seats){ state[id].names.push(''); state[id].notes.push(''); }
+    }
+    return state[id];
+  }
+  function tableStatus(id){
+    var t = getTable(id);
+    var ts = getTableState(id);
+    var filled = ts.names.filter(function(n){ return n.trim().length>0; }).length;
+    if (filled===0) return 'empty';
+    if (filled>=t.seats) return 'full';
+    return 'partial';
+  }
+  function tableFilledCount(id){
+    return getTableState(id).names.filter(function(n){ return n.trim().length>0; }).length;
+  }
+
+  /* ---------- Render floor ---------- */
+  var floorEl = document.getElementById('spFloor');
+  var tableEls = {};
+
+  function buildFloorTables(){
+    TABLES.forEach(function(t){
+      var el = document.createElement('div');
+      el.className = 'sp-table shape-' + t.shape + ' size-' + t.seats;
+      el.style.left = t.x + '%';
+      el.style.top = t.y + '%';
+      el.innerHTML = '<span class="t-num">' + t.id + '</span><span class="t-seats">' + t.seats + ' seats</span>';
+      el.addEventListener('click', function(){ openModal(t.id); });
+      floorEl.appendChild(el);
+      tableEls[t.id] = el;
+    });
+  }
+
+  function refreshTableTile(id){
+    var el = tableEls[id];
+    if (!el) return;
+    var status = tableStatus(id);
+    el.classList.remove('status-empty','status-partial','status-full');
+    el.classList.add('status-' + status);
+    var filled = tableFilledCount(id);
+    var t = getTable(id);
+    el.querySelector('.t-seats').textContent = filled + '/' + t.seats;
+  }
+
+  function refreshAllTiles(){ TABLES.forEach(function(t){ refreshTableTile(t.id); }); }
+
+  /* ---------- Sidebar ---------- */
+  var tableListEl = document.getElementById('spTableList');
+  function renderTableList(){
+    tableListEl.innerHTML = '';
+    TABLES.forEach(function(t){
+      var status = tableStatus(t.id);
+      var filled = tableFilledCount(t.id);
+      var row = document.createElement('div');
+      row.className = 'sp-tl-item';
+      row.innerHTML =
+        '<span class="sp-tl-dot ' + status + '"></span>' +
+        '<span class="sp-tl-name">Table ' + t.id + '<small>' + (t.shape==='round'?'Round':'Rectangular') + ' · ' + t.seats + ' seats</small></span>' +
+        '<span class="sp-tl-count">' + filled + '/' + t.seats + '</span>';
+      row.addEventListener('click', function(){ openModal(t.id); });
+      tableListEl.appendChild(row);
+    });
+  }
+
+  function renderSummary(){
+    var totalSeats = 0, filledSeats = 0, fullTables = 0;
+    TABLES.forEach(function(t){
+      totalSeats += t.seats;
+      filledSeats += tableFilledCount(t.id);
+      if (tableStatus(t.id)==='full') fullTables++;
+    });
+    document.getElementById('spSumTables').textContent = TABLES.length;
+    document.getElementById('spSumSeats').textContent = totalSeats;
+    document.getElementById('spSumFilled').textContent = filledSeats;
+    document.getElementById('spSumFull').textContent = fullTables;
+  }
+
+  function refreshAll(){
+    refreshAllTiles();
+    renderTableList();
+    renderSummary();
+  }
+
+  /* ---------- Modal ---------- */
+  var overlay = document.getElementById('spModalOverlay');
+  var modalTitle = document.getElementById('spModalTitle');
+  var modalSub = document.getElementById('spModalSub');
+  var modalStatus = document.getElementById('spModalStatus');
+  var seatRowsEl = document.getElementById('spSeatRows');
+  var tableNotesEl = document.getElementById('spTableNotes');
+  var currentTableId = null;
+
+  function openModal(id){
+    currentTableId = id;
+    var t = getTable(id);
+    var ts = getTableState(id);
+    modalTitle.textContent = 'Table ' + id;
+    modalSub.textContent = (t.shape==='round'?'Round':'Rectangular') + ' · ' + t.seats + ' seats';
+    tableNotesEl.value = ts.tableNotes || '';
+
+    seatRowsEl.innerHTML = '';
+    for (var i=0;i<t.seats;i++){
+      (function(seatIndex){
+        var row = document.createElement('div');
+        row.className = 'sp-seat-row';
+        var num = document.createElement('span');
+        num.className = 'sp-seat-num';
+        num.textContent = seatIndex+1;
+        var nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.className = 'name';
+        nameInput.placeholder = 'Guest name';
+        nameInput.value = ts.names[seatIndex] || '';
+        var notesInput = document.createElement('input');
+        notesInput.type = 'text';
+        notesInput.className = 'notes';
+        notesInput.placeholder = 'Notes (optional)';
+        notesInput.value = ts.notes[seatIndex] || '';
+
+        nameInput.addEventListener('input', function(){
+          ts.names[seatIndex] = nameInput.value;
+          updateModalStatus();
+          refreshTableTile(id);
+          renderTableList();
+          renderSummary();
+          saveStateDebounced();
+        });
+        notesInput.addEventListener('input', function(){
+          ts.notes[seatIndex] = notesInput.value;
+          saveStateDebounced();
+        });
+
+        row.appendChild(num);
+        row.appendChild(nameInput);
+        row.appendChild(notesInput);
+        seatRowsEl.appendChild(row);
+      })(i);
+    }
+
+    tableNotesEl.oninput = function(){
+      ts.tableNotes = tableNotesEl.value;
+      saveStateDebounced();
+    };
+
+    updateModalStatus();
+    overlay.classList.add('is-open');
+  }
+
+  function updateModalStatus(){
+    var status = tableStatus(currentTableId);
+    modalStatus.className = 'sp-modal-status ' + status;
+    modalStatus.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  }
+
+  function closeModal(){
+    overlay.classList.remove('is-open');
+    currentTableId = null;
+    saveState();
+  }
+
+  document.getElementById('spModalClose').addEventListener('click', closeModal);
+  document.getElementById('spDoneBtn').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){ if (e.target===overlay) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key==='Escape' && overlay.classList.contains('is-open')) closeModal(); });
+
+  document.getElementById('spResetTableBtn').addEventListener('click', function(){
+    if (!currentTableId) return;
+    if (!confirm('Reset Table ' + currentTableId + '? This clears all names and notes for this table.')) return;
+    var t = getTable(currentTableId);
+    state[currentTableId] = { names:new Array(t.seats).fill(''), notes:new Array(t.seats).fill(''), tableNotes:'' };
+    openModal(currentTableId);
+    refreshAll();
+    saveState();
+  });
+
+  document.getElementById('spResetAllBtn').addEventListener('click', function(){
+    if (!confirm('Reset ALL tables? This clears every guest name and note across the whole plan. This cannot be undone.')) return;
+    state = {};
+    refreshAll();
+    saveState();
+    showToast('All tables reset');
+  });
+
+  /* ---------- Save (debounced) + indicator ---------- */
+  var saveTimer = null;
+  function saveStateDebounced(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveState, 500);
+  }
+  var saveIndicator = document.getElementById('spSaveIndicator');
+  var saveFlashTimer = null;
+  function flashSaved(){
+    saveIndicator.style.color = 'var(--gold-light)';
+    clearTimeout(saveFlashTimer);
+    saveFlashTimer = setTimeout(function(){ saveIndicator.style.color = ''; }, 700);
+  }
+
+  /* ---------- Toast ---------- */
+  var toast = document.getElementById('spToast');
+  var toastTimer = null;
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('is-visible'); }, 2600);
+  }
+
+  /* ---------- Search ---------- */
+  var searchInput = document.getElementById('spSearch');
+  var searchResults = document.getElementById('spSearchResults');
+
+  function runSearch(q){
+    q = q.trim().toLowerCase();
+    TABLES.forEach(function(t){ tableEls[t.id].classList.remove('is-match'); });
+    if (!q){ searchResults.classList.remove('is-open'); searchResults.innerHTML=''; return; }
+    var matches = [];
+    TABLES.forEach(function(t){
+      var ts = getTableState(t.id);
+      ts.names.forEach(function(name, idx){
+        if (name && name.toLowerCase().indexOf(q) !== -1){
+          matches.push({ tableId:t.id, seat:idx+1, name:name });
+        }
+      });
+    });
+    searchResults.innerHTML = '';
+    if (!matches.length){
+      searchResults.innerHTML = '<div class="sp-search-empty">No guests found</div>';
+    } else {
+      matches.forEach(function(m){
+        tableEls[m.tableId].classList.add('is-match');
+        var row = document.createElement('div');
+        row.className = 'sp-search-result';
+        row.innerHTML = '<span>' + escapeHtml(m.name) + '</span><b>Table ' + m.tableId + ', Seat ' + m.seat + '</b>';
+        row.addEventListener('click', function(){
+          openModal(m.tableId);
+          searchResults.classList.remove('is-open');
+        });
+        searchResults.appendChild(row);
+      });
+    }
+    searchResults.classList.add('is-open');
+  }
+  searchInput.addEventListener('input', function(){ runSearch(searchInput.value); });
+  document.addEventListener('click', function(e){
+    if (!searchResults.contains(e.target) && e.target !== searchInput){
+      searchResults.classList.remove('is-open');
+    }
+  });
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  /* ---------- Export CSV ---------- */
+  document.getElementById('spExportBtn').addEventListener('click', function(){
+    var rows = [['Table','Shape','Seats at Table','Seat #','Guest Name','Seat Notes','Table Notes']];
+    TABLES.forEach(function(t){
+      var ts = getTableState(t.id);
+      for (var i=0;i<t.seats;i++){
+        rows.push([
+          t.id, (t.shape==='round'?'Round':'Rectangular'), t.seats, i+1,
+          ts.names[i] || '', ts.notes[i] || '', i===0 ? (ts.tableNotes||'') : ''
+        ]);
+      }
+    });
+    var csv = rows.map(function(r){
+      return r.map(function(v){
+        v = String(v);
+        if (v.indexOf(',')!==-1 || v.indexOf('"')!==-1 || v.indexOf('\n')!==-1){
+          v = '"' + v.replace(/"/g,'""') + '"';
+        }
+        return v;
+      }).join(',');
+    }).join('\r\n');
+    var blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'SPC-OBU-NZ-Gala2026-Seating.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+    showToast('CSV exported');
+  });
+
+  /* ---------- Print sheet ---------- */
+  var printSheet = document.getElementById('spPrintSheet');
+  function buildPrintSheet(){
+    var totalSeats = 0, filledSeats = 0;
+    TABLES.forEach(function(t){ totalSeats += t.seats; filledSeats += tableFilledCount(t.id); });
+    var html = '<h1>SPC OBU NZ — Gala Dinner Dance 2026</h1>' +
+      '<div class="meta">Seating Plan · ' + TABLES.length + ' tables · ' + filledSeats + ' / ' + totalSeats + ' seats assigned · Printed ' + new Date().toLocaleDateString() + '</div>';
+    TABLES.forEach(function(t){
+      var ts = getTableState(t.id);
+      html += '<div class="sp-print-table"><h3>Table ' + t.id + ' — ' + (t.shape==='round'?'Round':'Rectangular') + ', ' + t.seats + ' seats' +
+        (ts.tableNotes ? ' — ' + escapeHtml(ts.tableNotes) : '') + '</h3><ol>';
+      for (var i=0;i<t.seats;i++){
+        var name = ts.names[i];
+        html += '<li' + (name ? '' : ' class="empty-seat"') + '>' + (name ? escapeHtml(name) : '(empty)') +
+          (ts.notes[i] ? ' — ' + escapeHtml(ts.notes[i]) : '') + '</li>';
+      }
+      html += '</ol></div>';
+    });
+    printSheet.innerHTML = html;
+  }
+  document.getElementById('spPrintBtn').addEventListener('click', function(){
+    buildPrintSheet();
+    window.print();
+  });
+  window.addEventListener('beforeprint', buildPrintSheet);
+
+  /* ---------- Init ---------- */
+  loadState();
+  buildFloorTables();
+  refreshAll();
+})();
+</script>
+</body>
+</html>
