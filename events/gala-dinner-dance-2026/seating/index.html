@@ -132,10 +132,10 @@ body.sp-locked .sp-lock-overlay{display:flex}
 }
 .sp-zone{position:absolute; border-radius:6px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--sans); pointer-events:none}
 .sp-zone-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.sp-zone.backdrop{left:4%;top:1.5%;width:64%;height:3.6%;background:#2E5FA3;border-radius:4px}
-.sp-zone.stage{left:4%;top:5.6%;width:64%;height:14%;background:#E8C13A;border:1px solid #C9A227}
+.sp-zone.backdrop{left:8%;top:1.5%;width:56%;height:3.6%;background:#2E5FA3;border-radius:4px}
+.sp-zone.stage{left:8%;top:5.6%;width:56%;height:14%;background:#E8C13A;border:1px solid #C9A227}
 .sp-zone.stage .sp-zone-label{color:#3a2c05}
-.sp-zone.dancefloor{left:4%;top:20%;width:64%;height:22.5%;background:#C23A6B;background:linear-gradient(135deg,#C23A6B,#9E2E58)}
+.sp-zone.dancefloor{left:8%;top:20%;width:56%;height:22.5%;background:#C23A6B;background:linear-gradient(135deg,#C23A6B,#9E2E58)}
 .sp-zone.dancefloor .sp-zone-label{color:#fff}
 .sp-zone.entrance{left:72%;top:0%;width:15%;height:6.5%;background:#B9A6E0;border-radius:0 0 6px 6px}
 .sp-zone.entrance .sp-zone-label{color:#2c2140;font-size:9px}
@@ -179,6 +179,19 @@ body.sp-locked .sp-lock-overlay{display:flex}
 .sp-table.is-dragging{cursor:grabbing !important;z-index:20;transition:none !important;box-shadow:0 18px 30px -8px rgba(0,0,0,.5)}
 .sp-btn.is-active{background:#2E5FA3;border-color:#2E5FA3;color:#fff}
 .sp-btn.is-active:hover{background:#3a6fbd;border-color:#3a6fbd;color:#fff}
+
+/* Edit-layout: room zones (stage, dance floor, walkways, etc.) become
+   movable and resizable too, so the full map — not just tables — can be
+   adjusted. Only active while Edit Layout is on. */
+.sp-floor.is-edit-mode .sp-zone{pointer-events:auto;cursor:grab;outline:2px dashed rgba(46,95,163,.55);outline-offset:-2px}
+.sp-floor.is-edit-mode .sp-zone:hover{outline-color:#2E5FA3}
+.sp-zone.is-dragging{cursor:grabbing !important;outline-color:#2E5FA3 !important;z-index:2}
+.sp-zone-resize{
+  display:none; position:absolute; right:-5px; bottom:-5px; width:14px; height:14px;
+  background:#2E5FA3; border:2px solid #fff; border-radius:4px; cursor:nwse-resize;
+  pointer-events:auto; z-index:6; box-shadow:0 2px 6px rgba(0,0,0,.35);
+}
+.sp-floor.is-edit-mode .sp-zone-resize{display:block}
 
 .sp-hint{text-align:center;margin-top:12px;font-size:11px;color:rgba(248,246,241,.4);letter-spacing:.05em}
 
@@ -529,14 +542,67 @@ body.sp-locked .sp-lock-overlay{display:flex}
     {id:18,shape:'round',seats:10,x:60,y:90.8}
   ];
 
+  // Room zones — stage, dance floor, walkways, bar, kitchen, etc. x/y/w/h are
+  // top-left position + size, in % of the floor canvas, matching the base CSS.
+  var DEFAULT_ZONES = [
+    {id:'fire-exit',   x:0,  y:0,    w:7,  h:2.2},
+    {id:'backdrop',    x:8,  y:1.5,  w:56, h:3.6},
+    {id:'stage',       x:8,  y:5.6,  w:56, h:14},
+    {id:'dancefloor',  x:8,  y:20,   w:56, h:22.5},
+    {id:'entrance',    x:72, y:0,    w:15, h:6.5},
+    {id:'foyer-circ',  x:72, y:0,    w:26, h:43},
+    {id:'foyer-walk2', x:60, y:43,   w:38, h:9},
+    {id:'bar',         x:88, y:16.5, w:11, h:12.5},
+    {id:'foyer-label', x:88, y:32,   w:11, h:11},
+    {id:'kitchen',     x:76, y:75,   w:24, h:25},
+    {id:'walk-h',      x:2,  y:66,   w:76, h:5.5},
+    {id:'walk-v',      x:39, y:50,   w:3,  h:46},
+    {id:'walk-b',      x:2,  y:96,   w:76, h:3.2},
+    {id:'sliding-door',x:2,  y:98.6, w:76, h:1.4}
+  ];
+  var ZONE_LABEL_HTML = {
+    'fire-exit': '<span class="sp-zone-label">FIRE EXIT</span>',
+    'backdrop': '<span class="sp-zone-label" style="color:#fff">BACKDROP</span>',
+    'stage': '<span class="sp-zone-label">STAGE — BAND / LECTERN / DJ</span>',
+    'dancefloor': '<span class="sp-zone-label">DANCE FLOOR</span>',
+    'entrance': '<span class="sp-zone-label">ENTRANCE</span>',
+    'foyer-circ': '',
+    'foyer-walk2': '',
+    'bar': '<span class="sp-zone-label">BAR</span>',
+    'foyer-label': '<span class="sp-zone-label">FOYER</span>',
+    'kitchen': '<span class="sp-zone-label">KITCHEN</span>',
+    'walk-h': '',
+    'walk-v': '',
+    'walk-b': '',
+    'sliding-door': ''
+  };
+
   var STORAGE_KEY = 'spc-obu-gala2026-seating-v2';
   var OLD_STORAGE_KEY = 'spc-obu-gala2026-seating-v1';
   var state = {};              // state[id] = { names, notes, tags, tableNotes, x, y, seats }
+  var zoneState = {};          // zoneState[id] = { x, y, w, h }
   var meta = { band: 6 };
 
   function getDefault(id){
     for (var i=0;i<DEFAULT_TABLES.length;i++){ if (DEFAULT_TABLES[i].id===id) return DEFAULT_TABLES[i]; }
     return null;
+  }
+  function getZoneDefault(id){
+    for (var i=0;i<DEFAULT_ZONES.length;i++){ if (DEFAULT_ZONES[i].id===id) return DEFAULT_ZONES[i]; }
+    return null;
+  }
+  function getZoneState(id){
+    var dz = getZoneDefault(id);
+    if (!dz) return null;
+    if (!zoneState[id]){
+      zoneState[id] = { x:dz.x, y:dz.y, w:dz.w, h:dz.h };
+    }
+    var zs = zoneState[id];
+    if (zs.x == null) zs.x = dz.x;
+    if (zs.y == null) zs.y = dz.y;
+    if (zs.w == null) zs.w = dz.w;
+    if (zs.h == null) zs.h = dz.h;
+    return zs;
   }
 
   function loadState(){
@@ -546,6 +612,7 @@ body.sp-locked .sp-lock-overlay{display:flex}
         var parsed = JSON.parse(raw);
         state = parsed.tables || {};
         meta = parsed.meta || { band:6 };
+        zoneState = parsed.zones || {};
         return;
       }
       var oldRaw = localStorage.getItem(OLD_STORAGE_KEY);
@@ -567,14 +634,15 @@ body.sp-locked .sp-lock-overlay{display:flex}
           };
         });
         meta = { band: 6 };
+        zoneState = {};
         return;
       }
-      state = {}; meta = { band: 6 };
-    } catch(e){ state = {}; meta = { band: 6 }; }
+      state = {}; meta = { band: 6 }; zoneState = {};
+    } catch(e){ state = {}; meta = { band: 6 }; zoneState = {}; }
   }
   function saveState(){
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ meta: meta, tables: state }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ meta: meta, tables: state, zones: zoneState }));
       flashSaved();
     } catch(e){ /* storage unavailable — fail silently */ }
   }
@@ -745,6 +813,127 @@ body.sp-locked .sp-lock-overlay{display:flex}
     });
   }
 
+  /* ---------- Zones: move + resize the full map (stage, dance floor,
+     walkways/"ground", bar, foyer, kitchen, entrance, etc.) in Edit Layout ---------- */
+  var zoneEls = {};
+
+  function attachZoneDrag(id, el){
+    var dragging = false, moved = false, startX = 0, startY = 0, startLeft = 0, startTop = 0, floorRect = null;
+
+    el.addEventListener('pointerdown', function(e){
+      if (!editLayoutMode) return;
+      if (e.target.classList && e.target.classList.contains('sp-zone-resize')) return;
+      e.preventDefault(); e.stopPropagation();
+      dragging = true; moved = false;
+      floorRect = floorEl.getBoundingClientRect();
+      startX = e.clientX; startY = e.clientY;
+      var zs = getZoneState(id);
+      startLeft = zs.x; startTop = zs.y;
+      try { el.setPointerCapture(e.pointerId); } catch(err){}
+      el.classList.add('is-dragging');
+    });
+
+    el.addEventListener('pointermove', function(e){
+      if (!dragging) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+      if (!moved) return;
+      var zs = getZoneState(id);
+      var pctX = startLeft + (dx / floorRect.width) * 100;
+      var pctY = startTop + (dy / floorRect.height) * 100;
+      pctX = Math.max(0, Math.min(100 - zs.w, pctX));
+      pctY = Math.max(0, Math.min(100 - zs.h, pctY));
+      pctX = Math.round(pctX * 2) / 2;   // light snap: 0.5% grid
+      pctY = Math.round(pctY * 2) / 2;
+      el.style.left = pctX + '%';
+      el.style.top = pctY + '%';
+      el.setAttribute('data-drag-x', pctX);
+      el.setAttribute('data-drag-y', pctY);
+    });
+
+    function endDrag(){
+      if (!dragging) return;
+      dragging = false;
+      el.classList.remove('is-dragging');
+      if (moved){
+        var zs = getZoneState(id);
+        var fx = parseFloat(el.getAttribute('data-drag-x'));
+        var fy = parseFloat(el.getAttribute('data-drag-y'));
+        zs.x = isNaN(fx) ? zs.x : fx;
+        zs.y = isNaN(fy) ? zs.y : fy;
+        el.removeAttribute('data-drag-x'); el.removeAttribute('data-drag-y');
+        saveStateDebounced();
+      }
+    }
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+  }
+
+  function attachZoneResize(id, handle){
+    var resizing = false, startX = 0, startY = 0, startW = 0, startH = 0, floorRect = null;
+
+    handle.addEventListener('pointerdown', function(e){
+      if (!editLayoutMode) return;
+      e.preventDefault(); e.stopPropagation();
+      resizing = true;
+      floorRect = floorEl.getBoundingClientRect();
+      startX = e.clientX; startY = e.clientY;
+      var zs = getZoneState(id);
+      startW = zs.w; startH = zs.h;
+      try { handle.setPointerCapture(e.pointerId); } catch(err){}
+    });
+
+    handle.addEventListener('pointermove', function(e){
+      if (!resizing) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      var zs = getZoneState(id);
+      var newW = startW + (dx / floorRect.width) * 100;
+      var newH = startH + (dy / floorRect.height) * 100;
+      newW = Math.max(3, Math.min(100 - zs.x, newW));
+      newH = Math.max(1.5, Math.min(100 - zs.y, newH));
+      newW = Math.round(newW * 2) / 2;
+      newH = Math.round(newH * 2) / 2;
+      var zoneEl = zoneEls[id];
+      zoneEl.style.width = newW + '%';
+      zoneEl.style.height = newH + '%';
+      handle.setAttribute('data-w', newW);
+      handle.setAttribute('data-h', newH);
+    });
+
+    function endResize(){
+      if (!resizing) return;
+      resizing = false;
+      var zs = getZoneState(id);
+      var fw = parseFloat(handle.getAttribute('data-w'));
+      var fh = parseFloat(handle.getAttribute('data-h'));
+      if (!isNaN(fw)) zs.w = fw;
+      if (!isNaN(fh)) zs.h = fh;
+      handle.removeAttribute('data-w'); handle.removeAttribute('data-h');
+      saveStateDebounced();
+    }
+    handle.addEventListener('pointerup', endResize);
+    handle.addEventListener('pointercancel', endResize);
+  }
+
+  function buildZoneEditing(){
+    DEFAULT_ZONES.forEach(function(dz){
+      var el = floorEl.querySelector('.sp-zone.' + dz.id);
+      if (!el) return;
+      zoneEls[dz.id] = el;
+      var zs = getZoneState(dz.id);
+      el.style.left = zs.x + '%';
+      el.style.top = zs.y + '%';
+      el.style.width = zs.w + '%';
+      el.style.height = zs.h + '%';
+      var handle = document.createElement('span');
+      handle.className = 'sp-zone-resize';
+      handle.setAttribute('aria-label', 'Resize');
+      el.appendChild(handle);
+      attachZoneDrag(dz.id, el);
+      attachZoneResize(dz.id, handle);
+    });
+  }
+
   function refreshTableTile(id){
     var el = tableEls[id];
     if (!el) return;
@@ -839,17 +1028,23 @@ body.sp-locked .sp-lock-overlay{display:flex}
     editLayoutBtn.classList.toggle('is-active', editLayoutMode);
     editLayoutLbl.textContent = editLayoutMode ? 'Editing Layout — On' : 'Edit Layout';
     hintEl.textContent = editLayoutMode
-      ? 'Drag tables to reposition · light snap keeps them tidy · click a table without dragging to assign seats'
-      : 'Click any table to assign seats · toggle Edit Layout to drag tables · green hatched paths are walkways — kept clear';
+      ? 'Drag tables or any room zone (stage, dance floor, ground, bar, foyer…) to move it · drag a zone’s corner handle to resize · light snap keeps things tidy · click a table without dragging to assign seats'
+      : 'Click any table to assign seats · toggle Edit Layout to drag tables and room zones · green hatched paths are walkways — kept clear';
   });
 
   document.getElementById('spResetLayoutBtn').addEventListener('click', function(){
-    if (!confirm('Reset all tables to their original floor plan positions? Guest names and notes will be kept.')) return;
+    if (!confirm('Reset all tables AND room zones (stage, dance floor, ground, bar, foyer, kitchen, walkways, etc.) to their original floor plan layout? Guest names and notes will be kept.')) return;
     DEFAULT_TABLES.forEach(function(dt){
       var ts = getTableState(dt.id);
       ts.x = dt.x; ts.y = dt.y;
       var el = tableEls[dt.id];
       if (el){ el.style.left = dt.x + '%'; el.style.top = dt.y + '%'; }
+    });
+    DEFAULT_ZONES.forEach(function(dz){
+      var zs = getZoneState(dz.id);
+      zs.x = dz.x; zs.y = dz.y; zs.w = dz.w; zs.h = dz.h;
+      var el = zoneEls[dz.id];
+      if (el){ el.style.left = dz.x + '%'; el.style.top = dz.y + '%'; el.style.width = dz.w + '%'; el.style.height = dz.h + '%'; }
     });
     saveState();
     showToast('Layout reset to original positions');
@@ -1167,21 +1362,12 @@ body.sp-locked .sp-lock-overlay{display:flex}
 
   /* ---------- Print: exact layered floor map ---------- */
   function buildPrintMapHtml(){
-    var zonesHtml =
-      '<div class="sp-zone fire-exit"><span class="sp-zone-label">FIRE EXIT</span></div>' +
-      '<div class="sp-zone backdrop"><span class="sp-zone-label" style="color:#fff">BACKDROP</span></div>' +
-      '<div class="sp-zone stage"><span class="sp-zone-label">STAGE — BAND / LECTERN / DJ</span></div>' +
-      '<div class="sp-zone dancefloor"><span class="sp-zone-label">DANCE FLOOR</span></div>' +
-      '<div class="sp-zone entrance"><span class="sp-zone-label">ENTRANCE</span></div>' +
-      '<div class="sp-zone foyer-circ"></div>' +
-      '<div class="sp-zone foyer-walk2"></div>' +
-      '<div class="sp-zone bar"><span class="sp-zone-label">BAR</span></div>' +
-      '<div class="sp-zone foyer-label"><span class="sp-zone-label">FOYER</span></div>' +
-      '<div class="sp-zone kitchen"><span class="sp-zone-label">KITCHEN</span></div>' +
-      '<div class="sp-zone walk-h"></div>' +
-      '<div class="sp-zone walk-v"></div>' +
-      '<div class="sp-zone walk-b"></div>' +
-      '<div class="sp-zone sliding-door"></div>';
+    var zonesHtml = '';
+    DEFAULT_ZONES.forEach(function(dz){
+      var zs = getZoneState(dz.id);
+      zonesHtml += '<div class="sp-zone ' + dz.id + '" style="left:' + zs.x + '%;top:' + zs.y + '%;width:' + zs.w + '%;height:' + zs.h + '%;">' +
+        (ZONE_LABEL_HTML[dz.id] || '') + '</div>';
+    });
 
     var tablesHtml = '';
     DEFAULT_TABLES.forEach(function(dt){
@@ -1248,6 +1434,7 @@ body.sp-locked .sp-lock-overlay{display:flex}
     if (appInitialized) return;
     appInitialized = true;
     loadState();
+    buildZoneEditing();
     buildFloorTables();
     bandInput.value = (meta.band != null) ? meta.band : 6;
     refreshAll();
