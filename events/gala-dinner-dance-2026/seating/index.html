@@ -18,7 +18,7 @@
   --gold:#C9A227; --gold-light:#E3C566; --gold-dark:#A5841C;
   --ivory:#F8F6F1; --cream:#F3EEDF; --cream-line:#E2D9BE;
   --ink:#241C0F;
-  --ok:#3F7A57; --warn:#B8791C;
+  --ok:#3F7A57; --warn:#B8791C; --danger:#B84040;
   --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
   --ease:cubic-bezier(.22,1,.36,1);
 }
@@ -29,6 +29,21 @@ body{
   min-height:100vh; -webkit-font-smoothing:antialiased;
 }
 .gold-text{color:var(--gold)}
+
+/* Lock screen */
+body.sp-locked .sp-app{display:none}
+.sp-lock-overlay{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 15%,var(--navy-800),var(--navy-950));padding:20px}
+body.sp-locked .sp-lock-overlay{display:flex}
+.sp-lock-card{width:100%;max-width:360px;background:var(--navy-900);border:1px solid rgba(201,162,39,.25);border-radius:16px;padding:34px 28px;text-align:center;box-shadow:0 40px 90px rgba(0,0,0,.55)}
+.sp-lock-crest{width:52px;height:52px;border-radius:50%;object-fit:cover;margin-bottom:14px}
+.sp-lock-card h1{font-family:var(--serif);font-size:20px;color:var(--gold-light);margin-bottom:8px}
+.sp-lock-card p{font-size:12.5px;color:rgba(248,246,241,.6);margin-bottom:18px;line-height:1.5}
+.sp-lock-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(201,162,39,.4);border-radius:999px;padding:5px 12px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+#spLockForm{display:flex;gap:8px}
+#spLockPassword{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:9px;padding:11px 13px;font-size:14px;letter-spacing:.04em;font-family:var(--sans)}
+#spLockPassword:focus{outline:none;border-color:var(--gold)}
+.sp-lock-error{margin-top:12px;font-size:12px;color:#e58888;display:none;text-align:left}
+.sp-lock-error.is-visible{display:block}
 
 /* Header */
 .sp-header{
@@ -142,22 +157,27 @@ body{
   position:absolute; transform:translate(-50%,-50%) translateZ(8px);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   background:var(--cream); border:2px dashed var(--navy-700); color:var(--ink);
-  cursor:pointer; transition:all .2s var(--ease); box-shadow:0 6px 14px -4px rgba(0,0,0,.35);
-  font-family:var(--sans); z-index:3;
+  cursor:pointer; transition:left .12s var(--ease),top .12s var(--ease),box-shadow .2s var(--ease),transform .2s var(--ease);
+  box-shadow:0 6px 14px -4px rgba(0,0,0,.35);
+  font-family:var(--sans); z-index:3; touch-action:none; user-select:none;
 }
 .sp-table:hover{transform:translate(-50%,-50%) translateZ(14px) scale(1.05); box-shadow:0 12px 22px -6px rgba(0,0,0,.45)}
 .sp-table.shape-round{border-radius:50%}
 .sp-table.shape-rect{border-radius:9px}
-.sp-table.size-8.shape-round{width:70px;height:70px}
-.sp-table.size-9.shape-round{width:76px;height:76px}
-.sp-table.size-10.shape-round{width:82px;height:82px}
-.sp-table.shape-rect{width:100px;height:54px}
 .sp-table .t-num{font-weight:800;font-size:14px;line-height:1.1}
+.sp-table .t-name{font-size:8px;font-weight:700;max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.85;margin-top:1px}
+.sp-table .t-name:empty{display:none}
 .sp-table .t-seats{font-size:9px;font-weight:700;opacity:.75;letter-spacing:.03em}
 .sp-table.status-partial{background:var(--gold-light);border-style:solid;border-color:var(--gold-dark)}
 .sp-table.status-full{background:var(--gold);border-style:solid;border-color:var(--gold-dark);box-shadow:0 0 0 3px rgba(201,162,39,.22),0 6px 14px -4px rgba(0,0,0,.35)}
 .sp-table.status-full .t-num{color:#3a2c05}
 .sp-table.is-match{outline:3px solid #2E5FA3;outline-offset:2px}
+
+/* Edit-layout / drag mode */
+.sp-floor.is-edit-mode .sp-table{cursor:grab;border-style:solid;border-color:#2E5FA3;box-shadow:0 0 0 2px rgba(46,95,163,.25)}
+.sp-table.is-dragging{cursor:grabbing !important;z-index:20;transition:none !important;box-shadow:0 18px 30px -8px rgba(0,0,0,.5)}
+.sp-btn.is-active{background:#2E5FA3;border-color:#2E5FA3;color:#fff}
+.sp-btn.is-active:hover{background:#3a6fbd;border-color:#3a6fbd;color:#fff}
 
 .sp-hint{text-align:center;margin-top:12px;font-size:11px;color:rgba(248,246,241,.4);letter-spacing:.05em}
 
@@ -181,10 +201,30 @@ body{
 .sp-tl-name small{display:block;font-size:10px;font-weight:400;color:rgba(248,246,241,.45)}
 .sp-tl-count{font-size:11px;color:rgba(248,246,241,.6);font-variant-numeric:tabular-nums}
 
+/* Room capacity panel */
+.sp-cap-big{display:flex;align-items:baseline;gap:7px;margin-bottom:10px}
+.sp-cap-big b{font-family:var(--serif);font-size:28px;color:var(--ivory);line-height:1}
+.sp-cap-big span{font-size:11px;color:rgba(248,246,241,.5);letter-spacing:.03em}
+.sp-cap-bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:12px}
+.sp-cap-bar-fill{height:100%;width:0;border-radius:99px;transition:width .3s var(--ease),background .3s var(--ease)}
+.sp-cap-bar-fill.ok{background:var(--ok)}
+.sp-cap-bar-fill.warn{background:var(--gold)}
+.sp-cap-bar-fill.danger{background:var(--danger)}
+.sp-cap-breakdown{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:rgba(248,246,241,.7)}
+.sp-cap-breakdown b{color:var(--ivory);font-variant-numeric:tabular-nums}
+.sp-cap-band{display:flex;align-items:center;gap:6px}
+.sp-cap-band label{font-size:11px;color:rgba(248,246,241,.6)}
+#spBandInput{
+  width:56px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#fff;
+  border-radius:7px;padding:5px 7px;font-size:12px;font-family:var(--sans);text-align:center;
+}
+#spBandInput:focus{outline:none;border-color:var(--gold)}
+.sp-cap-note{margin-top:10px;font-size:10.5px;color:rgba(248,246,241,.4);line-height:1.5}
+
 /* Modal */
 .sp-modal-overlay{position:fixed;inset:0;background:rgba(2,6,14,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .sp-modal-overlay.is-open{display:flex}
-.sp-modal{background:var(--cream);color:var(--ink);border-radius:16px;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;box-shadow:0 40px 90px rgba(0,0,0,.5)}
+.sp-modal{background:var(--cream);color:var(--ink);border-radius:16px;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;box-shadow:0 40px 90px rgba(0,0,0,.5)}
 .sp-modal-head{position:sticky;top:0;background:var(--cream);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px;border-bottom:1px solid var(--cream-line);z-index:2}
 .sp-modal-head h2{font-family:var(--serif);font-size:20px}
 .sp-modal-head .sub{font-size:11px;color:#6b6350;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
@@ -196,15 +236,26 @@ body{
 .sp-modal-close:hover{background:rgba(0,0,0,.12)}
 .sp-modal-close svg{width:16px;height:16px}
 .sp-modal-body{padding:18px 22px}
-.sp-seat-row{display:grid;grid-template-columns:26px 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.sp-table-name-row{margin-bottom:14px}
+.sp-table-name-row label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b6350;margin-bottom:6px}
+.sp-table-name-row input{width:100%;border:1px solid var(--cream-line);background:#fff;border-radius:8px;padding:9px 11px;font-size:13.5px;font-family:var(--sans);color:var(--ink);font-weight:600}
+.sp-table-name-row input:focus{outline:none;border-color:var(--gold-dark);box-shadow:0 0 0 2px rgba(201,162,39,.2)}
+.sp-cap-stepper{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 12px;background:rgba(0,0,0,.035);border-radius:10px}
+.sp-cap-stepper > span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b6350}
+.sp-stepper-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--cream-line);background:#fff;color:var(--ink);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sp-stepper-btn:hover{background:var(--gold-light);border-color:var(--gold-dark)}
+#spSeatsVal{font-family:var(--serif);font-size:16px;min-width:18px;text-align:center}
+.sp-cap-stepper .hint{font-size:10.5px;color:#8a7f60;margin-left:auto}
+.sp-seat-row{display:grid;grid-template-columns:22px 1.15fr 1fr 92px;gap:7px;align-items:center;margin-bottom:8px}
 .sp-seat-num{font-size:11px;font-weight:700;color:#8a7f60;text-align:center}
-.sp-seat-row input{
+.sp-seat-row input,.sp-seat-row select{
   width:100%; border:1px solid var(--cream-line); background:#fff; border-radius:8px;
-  padding:8px 10px; font-size:13px; font-family:var(--sans); color:var(--ink);
+  padding:8px 9px; font-size:12.5px; font-family:var(--sans); color:var(--ink);
 }
-.sp-seat-row input:focus{outline:none;border-color:var(--gold-dark);box-shadow:0 0 0 2px rgba(201,162,39,.2)}
+.sp-seat-row input:focus,.sp-seat-row select:focus{outline:none;border-color:var(--gold-dark);box-shadow:0 0 0 2px rgba(201,162,39,.2)}
 .sp-seat-row input.name{font-weight:600}
 .sp-seat-row input.notes{font-size:12px;color:#6b6350}
+.sp-seat-row select.tag{font-size:11px;color:#6b6350;padding:8px 4px}
 .sp-modal-notes{margin-top:6px}
 .sp-modal-notes label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b6350;margin-bottom:6px}
 .sp-modal-notes textarea{width:100%;min-height:60px;border:1px solid var(--cream-line);background:#fff;border-radius:8px;padding:10px;font-family:var(--sans);font-size:13px;resize:vertical}
@@ -215,7 +266,7 @@ body{
 .sp-modal-foot .sp-btn.danger{color:#a03d3d;border-color:#e3c9c9}
 .sp-modal-foot .sp-btn.danger:hover{background:#fbeaea;border-color:#d98f8f}
 
-.sp-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-800);border:1px solid rgba(201,162,39,.3);color:var(--ivory);font-size:13px;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:300}
+.sp-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-800);border:1px solid rgba(201,162,39,.3);color:var(--ivory);font-size:13px;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:300;max-width:90vw;text-align:center}
 .sp-toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
 
 .sp-print-sheet{display:none}
@@ -224,8 +275,30 @@ body{
   .sp-layout{flex-direction:column}
   .sp-sidebar{width:100%;position:static}
 }
+/* Mobile: flatten the tilt and shrink tables so the whole floor plan is
+   readable at once, with no table-on-table or table-on-label overlap.
+   Desktop/tablet view above this breakpoint is untouched. */
+@media (max-width:640px){
+  .sp-floor-panel{padding:10px}
+  .sp-floor-legend{margin-bottom:8px;font-size:9px;gap:10px}
+  .sp-floor-outer{perspective:none}
+  .sp-floor{transform:none;max-width:100%}
+  .sp-table{transform:translate(-50%,-50%)}
+  .sp-table:hover{transform:translate(-50%,-50%) scale(1.05)}
+  .sp-table.is-dragging{transform:translate(-50%,-50%) scale(1.05) !important}
+  .sp-zone-label{font-size:8px}
+  .sp-zone.stage .sp-zone-label{font-size:7.5px}
+  .sp-zone.kitchen .sp-zone-label{font-size:7px}
+  .sp-zone.bar .sp-zone-label,.sp-zone.foyer-label .sp-zone-label,.sp-zone.entrance .sp-zone-label{font-size:7px}
+  .sp-zone.fire-exit .sp-zone-label{font-size:6px}
+  .sp-table .t-num{font-size:9px}
+  .sp-table .t-name{font-size:6px}
+  .sp-table .t-seats{font-size:6.5px}
+  .sp-hint{font-size:9.5px;margin-top:8px}
+}
 @media print{
-  .sp-header,.sp-toolbar,.sp-layout .sp-main,.sp-sidebar,.sp-modal-overlay,.sp-toast{display:none !important}
+  .sp-header,.sp-toolbar,.sp-layout .sp-main,.sp-sidebar,.sp-modal-overlay,.sp-toast,.sp-lock-overlay{display:none !important}
+  body.sp-locked .sp-app{display:block !important}
   .sp-print-sheet{display:block !important;background:#fff;color:#000;padding:20px;font-family:var(--sans)}
   .sp-print-sheet h1{font-family:var(--serif);font-size:22px;margin-bottom:4px}
   .sp-print-sheet .meta{font-size:12px;color:#555;margin-bottom:18px}
@@ -233,10 +306,38 @@ body{
   .sp-print-table h3{font-size:14px;margin-bottom:6px}
   .sp-print-table ol{margin-left:18px;font-size:12.5px;line-height:1.6}
   .sp-print-table .empty-seat{color:#999}
+  .sp-print-pagebreak{page-break-after:always}
+  .sp-print-map{position:relative;width:100%;aspect-ratio:1000/1300;max-width:680px;margin:0 auto 10px;background:#F3EEDF;border:1px solid #E2D9BE;border-radius:8px;overflow:hidden}
+  .sp-pm-table{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F3EEDF;border:1.5px dashed #0F2447;color:#241C0F;text-align:center;line-height:1.15;border-radius:50%}
+  .sp-pm-table.shape-rect{border-radius:6px}
+  .sp-pm-table.status-partial{background:#E3C566;border-style:solid;border-color:#A5841C}
+  .sp-pm-table.status-full{background:#C9A227;border-style:solid;border-color:#A5841C}
+  .sp-pm-table .pm-num{font-weight:800;font-size:10px}
+  .sp-pm-table .pm-name{font-size:7px;font-weight:700;max-width:92%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sp-pm-table .pm-count{font-size:7px;opacity:.75}
+  .sp-print-legend{display:flex;gap:14px;justify-content:center;margin-bottom:14px;font-size:10px;color:#555}
+  .sp-print-legend span{display:inline-flex;align-items:center;gap:5px}
+  .sp-print-legend i{width:9px;height:9px;border-radius:3px;display:inline-block;border:1px solid #999}
 }
 </style>
 </head>
-<body>
+<body class="sp-locked">
+
+<div class="sp-lock-overlay" id="spLockOverlay">
+  <div class="sp-lock-card">
+    <img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" class="sp-lock-crest" />
+    <span class="sp-lock-badge">Private — Committee Only</span>
+    <h1>Seating Planner</h1>
+    <p>Gala Dinner Dance 2026 — enter the committee password to continue.</p>
+    <form id="spLockForm" autocomplete="off">
+      <input type="password" id="spLockPassword" placeholder="Password" autocomplete="off" />
+      <button type="submit" class="sp-btn gold">Unlock</button>
+    </form>
+    <p class="sp-lock-error" id="spLockError">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<div class="sp-app" id="spApp">
 
 <header class="sp-header">
   <a href="/" class="brand">
@@ -265,6 +366,18 @@ body{
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
     Saved to this browser
   </span>
+  <button type="button" class="sp-btn" id="spEditLayoutBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>
+    <span class="lbl">Edit Layout</span>
+  </button>
+  <button type="button" class="sp-btn" id="spResetLayoutBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+    Reset Layout
+  </button>
+  <button type="button" class="sp-btn gold" id="spSaveBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></svg>
+    Save
+  </button>
   <button type="button" class="sp-btn" id="spExportBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
     Export CSV
@@ -306,11 +419,21 @@ body{
           <!-- tables injected by JS -->
         </div>
       </div>
-      <p class="sp-hint">Click any table to assign seats · green hatched paths are walkways — kept clear</p>
+      <p class="sp-hint" id="spHint">Click any table to assign seats · toggle Edit Layout to drag tables · green hatched paths are walkways — kept clear</p>
     </div>
   </main>
 
   <aside class="sp-sidebar">
+    <div class="sp-panel">
+      <h3>Room Capacity</h3>
+      <div class="sp-cap-big"><b id="spCapTotal">0</b><span>/ 142 max (incl. band)</span></div>
+      <div class="sp-cap-bar"><div class="sp-cap-bar-fill ok" id="spCapBarFill"></div></div>
+      <div class="sp-cap-breakdown">
+        <span>Seated guests: <b id="spCapSeated">0</b></span>
+        <span class="sp-cap-band"><label for="spBandInput">Band</label><input type="number" id="spBandInput" min="0" max="60" value="6" /></span>
+      </div>
+      <p class="sp-cap-note">New guest names are blocked once seated + band reaches 142.</p>
+    </div>
     <div class="sp-panel">
       <h3>Overview</h3>
       <div class="sp-summary-grid">
@@ -343,6 +466,17 @@ body{
       </button>
     </div>
     <div class="sp-modal-body">
+      <div class="sp-table-name-row">
+        <label for="spTableName">Table name (optional)</label>
+        <input type="text" id="spTableName" placeholder="e.g. Smith Family, Gold Sponsor, Head Table" autocomplete="off" />
+      </div>
+      <div class="sp-cap-stepper">
+        <span>Seats at table</span>
+        <button type="button" class="sp-stepper-btn" id="spSeatsDec" aria-label="Decrease seats">&minus;</button>
+        <b id="spSeatsVal">8</b>
+        <button type="button" class="sp-stepper-btn" id="spSeatsInc" aria-label="Increase seats">+</button>
+        <span class="hint">6–12 seats</span>
+      </div>
       <div id="spSeatRows"></div>
       <div class="sp-modal-notes">
         <label>Table notes (dietary, host, sponsor, committee, etc.)</label>
@@ -358,11 +492,15 @@ body{
 
 <div class="sp-toast" id="spToast"></div>
 
+</div><!-- /.sp-app -->
+
 <script>
 (function(){
   'use strict';
 
-  var TABLES = [
+  var ROOM_CAP = 142;
+
+  var DEFAULT_TABLES = [
     {id:1,shape:'round',seats:10,x:11,y:25.4},
     {id:2,shape:'round',seats:8, x:11,y:43.1},
     {id:3,shape:'round',seats:8, x:11,y:65.4},
@@ -388,63 +526,219 @@ body{
     {id:18,shape:'round',seats:10,x:60,y:90.8}
   ];
 
-  var STORAGE_KEY = 'spc-obu-gala2026-seating-v1';
-  var state = {};
+  var STORAGE_KEY = 'spc-obu-gala2026-seating-v2';
+  var OLD_STORAGE_KEY = 'spc-obu-gala2026-seating-v1';
+  var state = {};              // state[id] = { names, notes, tags, tableNotes, x, y, seats }
+  var meta = { band: 6 };
+
+  function getDefault(id){
+    for (var i=0;i<DEFAULT_TABLES.length;i++){ if (DEFAULT_TABLES[i].id===id) return DEFAULT_TABLES[i]; }
+    return null;
+  }
 
   function loadState(){
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      state = raw ? JSON.parse(raw) : {};
-    } catch(e){ state = {}; }
+      if (raw){
+        var parsed = JSON.parse(raw);
+        state = parsed.tables || {};
+        meta = parsed.meta || { band:6 };
+        return;
+      }
+      var oldRaw = localStorage.getItem(OLD_STORAGE_KEY);
+      if (oldRaw){
+        var oldState = JSON.parse(oldRaw);
+        state = {};
+        Object.keys(oldState).forEach(function(idKey){
+          var dt = getDefault(Number(idKey));
+          if (!dt) return;
+          var o = oldState[idKey] || {};
+          var names = o.names || new Array(dt.seats).fill('');
+          state[idKey] = {
+            names: names,
+            notes: o.notes || new Array(names.length).fill(''),
+            tags: new Array(names.length).fill(''),
+            tableNotes: o.tableNotes || '',
+            tableName: '',
+            x: dt.x, y: dt.y, seats: dt.seats
+          };
+        });
+        meta = { band: 6 };
+        return;
+      }
+      state = {}; meta = { band: 6 };
+    } catch(e){ state = {}; meta = { band: 6 }; }
   }
   function saveState(){
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ meta: meta, tables: state }));
       flashSaved();
     } catch(e){ /* storage unavailable — fail silently */ }
   }
 
-  function getTable(id){
-    for (var i=0;i<TABLES.length;i++){ if (TABLES[i].id===id) return TABLES[i]; }
-    return null;
-  }
   function getTableState(id){
-    var t = getTable(id);
+    var dt = getDefault(id);
     if (!state[id]){
-      state[id] = { names: new Array(t.seats).fill(''), notes: new Array(t.seats).fill(''), tableNotes:'' };
+      state[id] = {
+        names: new Array(dt.seats).fill(''), notes: new Array(dt.seats).fill(''), tags: new Array(dt.seats).fill(''),
+        tableNotes: '', tableName: '', x: dt.x, y: dt.y, seats: dt.seats
+      };
     }
-    // migrate/pad if seat count mismatched (defensive)
-    if (state[id].names.length < t.seats){
-      while (state[id].names.length < t.seats){ state[id].names.push(''); state[id].notes.push(''); }
-    }
-    return state[id];
+    var ts = state[id];
+    if (ts.seats == null) ts.seats = dt.seats;
+    if (ts.x == null) ts.x = dt.x;
+    if (ts.y == null) ts.y = dt.y;
+    if (ts.tableName == null) ts.tableName = '';
+    if (!ts.names) ts.names = new Array(ts.seats).fill('');
+    if (!ts.notes) ts.notes = new Array(ts.seats).fill('');
+    if (!ts.tags) ts.tags = new Array(ts.names.length).fill('');
+    while (ts.names.length < ts.seats){ ts.names.push(''); }
+    while (ts.notes.length < ts.seats){ ts.notes.push(''); }
+    while (ts.tags.length < ts.seats){ ts.tags.push(''); }
+    return ts;
   }
   function tableStatus(id){
-    var t = getTable(id);
     var ts = getTableState(id);
-    var filled = ts.names.filter(function(n){ return n.trim().length>0; }).length;
+    var filled = tableFilledCount(id);
     if (filled===0) return 'empty';
-    if (filled>=t.seats) return 'full';
+    if (filled>=ts.seats) return 'full';
     return 'partial';
   }
   function tableFilledCount(id){
     return getTableState(id).names.filter(function(n){ return n.trim().length>0; }).length;
   }
+  function seatedTotal(){
+    var n = 0;
+    DEFAULT_TABLES.forEach(function(dt){ n += tableFilledCount(dt.id); });
+    return n;
+  }
+  function blockedByCap(){
+    return (seatedTotal() + (meta.band||0)) >= ROOM_CAP;
+  }
+
+  /* ---------- Table sizing ---------- */
+  var MOBILE_BREAKPOINT = 640;
+  function isMobileView(){ return window.innerWidth <= MOBILE_BREAKPOINT; }
+  function tableDims(shape, seats){
+    var scale = isMobileView() ? 0.56 : 1;
+    if (shape==='round'){
+      var d = (62 + (seats-6)*3.2) * scale;
+      return { w:d, h:d };
+    }
+    var w = (88 + (seats-6)*3.6) * scale;
+    return { w:w, h:54*scale };
+  }
+  function resizeTableTile(id){
+    var dt = getDefault(id);
+    var ts = getTableState(id);
+    var el = tableEls[id];
+    if (!el) return;
+    var dims = tableDims(dt.shape, ts.seats);
+    el.style.width = dims.w + 'px';
+    el.style.height = dims.h + 'px';
+  }
 
   /* ---------- Render floor ---------- */
   var floorEl = document.getElementById('spFloor');
   var tableEls = {};
+  var editLayoutMode = false;
+
+  function attachDrag(id, el){
+    var dragging = false, moved = false, startX = 0, startY = 0, startLeftPct = 0, startTopPct = 0, floorRect = null;
+
+    el.addEventListener('pointerdown', function(e){
+      if (!editLayoutMode) return;
+      e.preventDefault();
+      dragging = true; moved = false;
+      floorRect = floorEl.getBoundingClientRect();
+      startX = e.clientX; startY = e.clientY;
+      var ts = getTableState(id);
+      startLeftPct = ts.x; startTopPct = ts.y;
+      try { el.setPointerCapture(e.pointerId); } catch(err){}
+      el.classList.add('is-dragging');
+    });
+
+    el.addEventListener('pointermove', function(e){
+      if (!dragging) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+      if (!moved) return;
+      var pctX = startLeftPct + (dx / floorRect.width) * 100;
+      var pctY = startTopPct + (dy / floorRect.height) * 100;
+      pctX = Math.max(3, Math.min(97, pctX));
+      pctY = Math.max(2, Math.min(98, pctY));
+      pctX = Math.round(pctX * 2) / 2;   // light snap: 0.5% grid
+      pctY = Math.round(pctY * 2) / 2;
+      var adj = avoidOverlap(id, pctX, pctY);
+      el.style.left = adj.x + '%';
+      el.style.top = adj.y + '%';
+      el.setAttribute('data-drag-x', adj.x);
+      el.setAttribute('data-drag-y', adj.y);
+    });
+
+    function endDrag(){
+      if (!dragging) return;
+      dragging = false;
+      el.classList.remove('is-dragging');
+      if (moved){
+        var ts = getTableState(id);
+        var fx = parseFloat(el.getAttribute('data-drag-x'));
+        var fy = parseFloat(el.getAttribute('data-drag-y'));
+        ts.x = isNaN(fx) ? ts.x : fx;
+        ts.y = isNaN(fy) ? ts.y : fy;
+        el.removeAttribute('data-drag-x'); el.removeAttribute('data-drag-y');
+        saveStateDebounced();
+      } else if (editLayoutMode){
+        openModal(id);
+      }
+    }
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+
+    el.addEventListener('click', function(e){
+      if (editLayoutMode){ e.preventDefault(); return; }
+      openModal(id);
+    });
+  }
+
+  function avoidOverlap(id, x, y){
+    var floorRect = floorEl.getBoundingClientRect();
+    var dtSelf = getDefault(id);
+    var dimsSelf = tableDims(dtSelf.shape, getTableState(id).seats);
+    var selfR = Math.max(dimsSelf.w, dimsSelf.h) / 2;
+    DEFAULT_TABLES.forEach(function(dt){
+      if (dt.id === id) return;
+      var ots = getTableState(dt.id);
+      var oDims = tableDims(dt.shape, ots.seats);
+      var oR = Math.max(oDims.w, oDims.h) / 2;
+      var dxPct = x - ots.x, dyPct = y - ots.y;
+      var dxPx = dxPct / 100 * floorRect.width, dyPx = dyPct / 100 * floorRect.height;
+      var dist = Math.sqrt(dxPx*dxPx + dyPx*dyPx);
+      var minDist = (selfR + oR) * 0.72;
+      if (dist > 0 && dist < minDist){
+        var push = (minDist - dist);
+        var ux = dxPx / dist, uy = dyPx / dist;
+        x += (ux * push / floorRect.width) * 100;
+        y += (uy * push / floorRect.height) * 100;
+      }
+    });
+    x = Math.max(3, Math.min(97, x));
+    y = Math.max(2, Math.min(98, y));
+    return { x:x, y:y };
+  }
 
   function buildFloorTables(){
-    TABLES.forEach(function(t){
+    DEFAULT_TABLES.forEach(function(dt){
+      var ts = getTableState(dt.id);
       var el = document.createElement('div');
-      el.className = 'sp-table shape-' + t.shape + ' size-' + t.seats;
-      el.style.left = t.x + '%';
-      el.style.top = t.y + '%';
-      el.innerHTML = '<span class="t-num">' + t.id + '</span><span class="t-seats">' + t.seats + ' seats</span>';
-      el.addEventListener('click', function(){ openModal(t.id); });
+      el.className = 'sp-table shape-' + dt.shape;
+      el.style.left = ts.x + '%';
+      el.style.top = ts.y + '%';
+      el.innerHTML = '<span class="t-num">' + dt.id + '</span><span class="t-name">' + escapeHtml(ts.tableName || '') + '</span><span class="t-seats">' + ts.seats + ' seats</span>';
       floorEl.appendChild(el);
-      tableEls[t.id] = el;
+      tableEls[dt.id] = el;
+      resizeTableTile(dt.id);
+      attachDrag(dt.id, el);
     });
   }
 
@@ -455,48 +749,118 @@ body{
     el.classList.remove('status-empty','status-partial','status-full');
     el.classList.add('status-' + status);
     var filled = tableFilledCount(id);
-    var t = getTable(id);
-    el.querySelector('.t-seats').textContent = filled + '/' + t.seats;
+    var ts = getTableState(id);
+    el.querySelector('.t-seats').textContent = filled + '/' + ts.seats;
+    var nameEl = el.querySelector('.t-name');
+    if (nameEl) nameEl.textContent = ts.tableName || '';
   }
 
-  function refreshAllTiles(){ TABLES.forEach(function(t){ refreshTableTile(t.id); }); }
+  function refreshAllTiles(){ DEFAULT_TABLES.forEach(function(dt){ refreshTableTile(dt.id); }); }
+
+  var lastIsMobile = isMobileView();
+  var resizeTimer = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function(){
+      var nowMobile = isMobileView();
+      if (nowMobile !== lastIsMobile){
+        lastIsMobile = nowMobile;
+        DEFAULT_TABLES.forEach(function(dt){ resizeTableTile(dt.id); });
+      }
+    }, 150);
+  });
 
   /* ---------- Sidebar ---------- */
   var tableListEl = document.getElementById('spTableList');
   function renderTableList(){
     tableListEl.innerHTML = '';
-    TABLES.forEach(function(t){
-      var status = tableStatus(t.id);
-      var filled = tableFilledCount(t.id);
+    DEFAULT_TABLES.forEach(function(dt){
+      var ts = getTableState(dt.id);
+      var status = tableStatus(dt.id);
+      var filled = tableFilledCount(dt.id);
       var row = document.createElement('div');
       row.className = 'sp-tl-item';
       row.innerHTML =
         '<span class="sp-tl-dot ' + status + '"></span>' +
-        '<span class="sp-tl-name">Table ' + t.id + '<small>' + (t.shape==='round'?'Round':'Rectangular') + ' · ' + t.seats + ' seats</small></span>' +
-        '<span class="sp-tl-count">' + filled + '/' + t.seats + '</span>';
-      row.addEventListener('click', function(){ openModal(t.id); });
+        '<span class="sp-tl-name">Table ' + dt.id + (ts.tableName ? ' — ' + escapeHtml(ts.tableName) : '') +
+          '<small>' + (dt.shape==='round'?'Round':'Rectangular') + ' · ' + ts.seats + ' seats</small></span>' +
+        '<span class="sp-tl-count">' + filled + '/' + ts.seats + '</span>';
+      row.addEventListener('click', function(){ openModal(dt.id); });
       tableListEl.appendChild(row);
     });
   }
 
   function renderSummary(){
     var totalSeats = 0, filledSeats = 0, fullTables = 0;
-    TABLES.forEach(function(t){
-      totalSeats += t.seats;
-      filledSeats += tableFilledCount(t.id);
-      if (tableStatus(t.id)==='full') fullTables++;
+    DEFAULT_TABLES.forEach(function(dt){
+      var ts = getTableState(dt.id);
+      totalSeats += ts.seats;
+      filledSeats += tableFilledCount(dt.id);
+      if (tableStatus(dt.id)==='full') fullTables++;
     });
-    document.getElementById('spSumTables').textContent = TABLES.length;
+    document.getElementById('spSumTables').textContent = DEFAULT_TABLES.length;
     document.getElementById('spSumSeats').textContent = totalSeats;
     document.getElementById('spSumFilled').textContent = filledSeats;
     document.getElementById('spSumFull').textContent = fullTables;
+  }
+
+  function updateRoomCapUI(){
+    var seated = seatedTotal();
+    var band = meta.band || 0;
+    var total = seated + band;
+    document.getElementById('spCapSeated').textContent = seated;
+    document.getElementById('spCapTotal').textContent = total;
+    var pct = Math.min(100, (total / ROOM_CAP) * 100);
+    var fill = document.getElementById('spCapBarFill');
+    fill.style.width = pct + '%';
+    fill.classList.remove('ok','warn','danger');
+    if (total >= ROOM_CAP) fill.classList.add('danger');
+    else if (total >= ROOM_CAP * 0.9) fill.classList.add('warn');
+    else fill.classList.add('ok');
   }
 
   function refreshAll(){
     refreshAllTiles();
     renderTableList();
     renderSummary();
+    updateRoomCapUI();
   }
+
+  /* ---------- Edit layout toggle ---------- */
+  var editLayoutBtn = document.getElementById('spEditLayoutBtn');
+  var editLayoutLbl = editLayoutBtn.querySelector('.lbl');
+  var hintEl = document.getElementById('spHint');
+  editLayoutBtn.addEventListener('click', function(){
+    editLayoutMode = !editLayoutMode;
+    floorEl.classList.toggle('is-edit-mode', editLayoutMode);
+    editLayoutBtn.classList.toggle('is-active', editLayoutMode);
+    editLayoutLbl.textContent = editLayoutMode ? 'Editing Layout — On' : 'Edit Layout';
+    hintEl.textContent = editLayoutMode
+      ? 'Drag tables to reposition · light snap keeps them tidy · click a table without dragging to assign seats'
+      : 'Click any table to assign seats · toggle Edit Layout to drag tables · green hatched paths are walkways — kept clear';
+  });
+
+  document.getElementById('spResetLayoutBtn').addEventListener('click', function(){
+    if (!confirm('Reset all tables to their original floor plan positions? Guest names and notes will be kept.')) return;
+    DEFAULT_TABLES.forEach(function(dt){
+      var ts = getTableState(dt.id);
+      ts.x = dt.x; ts.y = dt.y;
+      var el = tableEls[dt.id];
+      if (el){ el.style.left = dt.x + '%'; el.style.top = dt.y + '%'; }
+    });
+    saveState();
+    showToast('Layout reset to original positions');
+  });
+
+  /* ---------- Room capacity: band input ---------- */
+  var bandInput = document.getElementById('spBandInput');
+  bandInput.addEventListener('input', function(){
+    var v = parseInt(bandInput.value, 10);
+    if (isNaN(v) || v < 0) v = 0;
+    meta.band = v;
+    updateRoomCapUI();
+    saveStateDebounced();
+  });
 
   /* ---------- Modal ---------- */
   var overlay = document.getElementById('spModalOverlay');
@@ -505,55 +869,134 @@ body{
   var modalStatus = document.getElementById('spModalStatus');
   var seatRowsEl = document.getElementById('spSeatRows');
   var tableNotesEl = document.getElementById('spTableNotes');
+  var tableNameEl = document.getElementById('spTableName');
+  var seatsValEl = document.getElementById('spSeatsVal');
   var currentTableId = null;
 
-  function openModal(id){
-    currentTableId = id;
-    var t = getTable(id);
-    var ts = getTableState(id);
-    modalTitle.textContent = 'Table ' + id;
-    modalSub.textContent = (t.shape==='round'?'Round':'Rectangular') + ' · ' + t.seats + ' seats';
-    tableNotesEl.value = ts.tableNotes || '';
+  var TAG_OPTIONS = ['', 'Dietary', 'Host', 'Sponsor', 'Committee'];
 
+  function renderSeatRows(id){
+    var ts = getTableState(id);
     seatRowsEl.innerHTML = '';
-    for (var i=0;i<t.seats;i++){
+    for (var i=0;i<ts.seats;i++){
       (function(seatIndex){
         var row = document.createElement('div');
         row.className = 'sp-seat-row';
         var num = document.createElement('span');
         num.className = 'sp-seat-num';
         num.textContent = seatIndex+1;
+
         var nameInput = document.createElement('input');
         nameInput.type = 'text';
         nameInput.className = 'name';
         nameInput.placeholder = 'Guest name';
         nameInput.value = ts.names[seatIndex] || '';
+
         var notesInput = document.createElement('input');
         notesInput.type = 'text';
         notesInput.className = 'notes';
         notesInput.placeholder = 'Notes (optional)';
         notesInput.value = ts.notes[seatIndex] || '';
 
+        var tagSelect = document.createElement('select');
+        tagSelect.className = 'tag';
+        TAG_OPTIONS.forEach(function(opt){
+          var o = document.createElement('option');
+          o.value = opt;
+          o.textContent = opt || 'Tag…';
+          tagSelect.appendChild(o);
+        });
+        tagSelect.value = ts.tags[seatIndex] || '';
+
         nameInput.addEventListener('input', function(){
+          var was = (ts.names[seatIndex] || '').trim().length > 0;
+          var willBe = nameInput.value.trim().length > 0;
+          if (!was && willBe && blockedByCap()){
+            nameInput.value = '';
+            showToast('Room cap 142 including band');
+            return;
+          }
           ts.names[seatIndex] = nameInput.value;
           updateModalStatus();
           refreshTableTile(id);
           renderTableList();
           renderSummary();
+          updateRoomCapUI();
           saveStateDebounced();
         });
         notesInput.addEventListener('input', function(){
           ts.notes[seatIndex] = notesInput.value;
           saveStateDebounced();
         });
+        tagSelect.addEventListener('change', function(){
+          ts.tags[seatIndex] = tagSelect.value;
+          saveStateDebounced();
+        });
 
         row.appendChild(num);
         row.appendChild(nameInput);
         row.appendChild(notesInput);
+        row.appendChild(tagSelect);
         seatRowsEl.appendChild(row);
       })(i);
     }
+  }
 
+  function changeCapacity(id, newSeats){
+    newSeats = Math.max(6, Math.min(12, newSeats));
+    var ts = getTableState(id);
+    if (newSeats === ts.seats) return;
+    if (newSeats < ts.seats){
+      var overflowNames = ts.names.slice(newSeats).filter(function(n){ return n && n.trim(); });
+      if (overflowNames.length){
+        var ok = confirm('Reducing Table ' + id + ' to ' + newSeats + ' seats will remove ' + overflowNames.length +
+          ' guest name(s): ' + overflowNames.join(', ') + '.\n\nContinue?');
+        if (!ok) return;
+      }
+      ts.names = ts.names.slice(0, newSeats);
+      ts.notes = ts.notes.slice(0, newSeats);
+      ts.tags = ts.tags.slice(0, newSeats);
+    } else {
+      while (ts.names.length < newSeats){ ts.names.push(''); ts.notes.push(''); ts.tags.push(''); }
+    }
+    ts.seats = newSeats;
+    resizeTableTile(id);
+    seatsValEl.textContent = newSeats;
+    var dt = getDefault(id);
+    modalSub.textContent = (dt.shape==='round'?'Round':'Rectangular') + ' · ' + newSeats + ' seats';
+    renderSeatRows(id);
+    updateModalStatus();
+    refreshAll();
+    saveStateDebounced();
+  }
+  document.getElementById('spSeatsDec').addEventListener('click', function(){
+    if (!currentTableId) return;
+    changeCapacity(currentTableId, getTableState(currentTableId).seats - 1);
+  });
+  document.getElementById('spSeatsInc').addEventListener('click', function(){
+    if (!currentTableId) return;
+    changeCapacity(currentTableId, getTableState(currentTableId).seats + 1);
+  });
+
+  function openModal(id){
+    currentTableId = id;
+    var dt = getDefault(id);
+    var ts = getTableState(id);
+    modalTitle.textContent = 'Table ' + id + (ts.tableName ? ' — ' + ts.tableName : '');
+    modalSub.textContent = (dt.shape==='round'?'Round':'Rectangular') + ' · ' + ts.seats + ' seats';
+    seatsValEl.textContent = ts.seats;
+    tableNameEl.value = ts.tableName || '';
+    tableNotesEl.value = ts.tableNotes || '';
+
+    renderSeatRows(id);
+
+    tableNameEl.oninput = function(){
+      ts.tableName = tableNameEl.value;
+      modalTitle.textContent = 'Table ' + id + (ts.tableName ? ' — ' + ts.tableName : '');
+      refreshTableTile(id);
+      renderTableList();
+      saveStateDebounced();
+    };
     tableNotesEl.oninput = function(){
       ts.tableNotes = tableNotesEl.value;
       saveStateDebounced();
@@ -583,8 +1026,12 @@ body{
   document.getElementById('spResetTableBtn').addEventListener('click', function(){
     if (!currentTableId) return;
     if (!confirm('Reset Table ' + currentTableId + '? This clears all names and notes for this table.')) return;
-    var t = getTable(currentTableId);
-    state[currentTableId] = { names:new Array(t.seats).fill(''), notes:new Array(t.seats).fill(''), tableNotes:'' };
+    var ts = getTableState(currentTableId);
+    ts.names = new Array(ts.seats).fill('');
+    ts.notes = new Array(ts.seats).fill('');
+    ts.tags = new Array(ts.seats).fill('');
+    ts.tableNotes = '';
+    ts.tableName = '';
     openModal(currentTableId);
     refreshAll();
     saveState();
@@ -592,7 +1039,14 @@ body{
 
   document.getElementById('spResetAllBtn').addEventListener('click', function(){
     if (!confirm('Reset ALL tables? This clears every guest name and note across the whole plan. This cannot be undone.')) return;
-    state = {};
+    DEFAULT_TABLES.forEach(function(dt){
+      var ts = getTableState(dt.id);
+      ts.names = new Array(ts.seats).fill('');
+      ts.notes = new Array(ts.seats).fill('');
+      ts.tags = new Array(ts.seats).fill('');
+      ts.tableNotes = '';
+      ts.tableName = '';
+    });
     refreshAll();
     saveState();
     showToast('All tables reset');
@@ -611,6 +1065,11 @@ body{
     clearTimeout(saveFlashTimer);
     saveFlashTimer = setTimeout(function(){ saveIndicator.style.color = ''; }, 700);
   }
+  document.getElementById('spSaveBtn').addEventListener('click', function(){
+    clearTimeout(saveTimer);
+    saveState();
+    showToast('All changes saved to this browser');
+  });
 
   /* ---------- Toast ---------- */
   var toast = document.getElementById('spToast');
@@ -628,14 +1087,14 @@ body{
 
   function runSearch(q){
     q = q.trim().toLowerCase();
-    TABLES.forEach(function(t){ tableEls[t.id].classList.remove('is-match'); });
+    DEFAULT_TABLES.forEach(function(dt){ tableEls[dt.id].classList.remove('is-match'); });
     if (!q){ searchResults.classList.remove('is-open'); searchResults.innerHTML=''; return; }
     var matches = [];
-    TABLES.forEach(function(t){
-      var ts = getTableState(t.id);
+    DEFAULT_TABLES.forEach(function(dt){
+      var ts = getTableState(dt.id);
       ts.names.forEach(function(name, idx){
         if (name && name.toLowerCase().indexOf(q) !== -1){
-          matches.push({ tableId:t.id, seat:idx+1, name:name });
+          matches.push({ tableId:dt.id, seat:idx+1, name:name });
         }
       });
     });
@@ -672,13 +1131,13 @@ body{
 
   /* ---------- Export CSV ---------- */
   document.getElementById('spExportBtn').addEventListener('click', function(){
-    var rows = [['Table','Shape','Seats at Table','Seat #','Guest Name','Seat Notes','Table Notes']];
-    TABLES.forEach(function(t){
-      var ts = getTableState(t.id);
-      for (var i=0;i<t.seats;i++){
+    var rows = [['Table','Table Name','Shape','Seats at Table','Seat #','Guest Name','Seat Notes','Tag','Table Notes']];
+    DEFAULT_TABLES.forEach(function(dt){
+      var ts = getTableState(dt.id);
+      for (var i=0;i<ts.seats;i++){
         rows.push([
-          t.id, (t.shape==='round'?'Round':'Rectangular'), t.seats, i+1,
-          ts.names[i] || '', ts.notes[i] || '', i===0 ? (ts.tableNotes||'') : ''
+          dt.id, ts.tableName || '', (dt.shape==='round'?'Round':'Rectangular'), ts.seats, i+1,
+          ts.names[i] || '', ts.notes[i] || '', ts.tags[i] || '', i===0 ? (ts.tableNotes||'') : ''
         ]);
       }
     });
@@ -703,25 +1162,76 @@ body{
     showToast('CSV exported');
   });
 
-  /* ---------- Print sheet ---------- */
+  /* ---------- Print: exact layered floor map ---------- */
+  function buildPrintMapHtml(){
+    var zonesHtml =
+      '<div class="sp-zone fire-exit"><span class="sp-zone-label">FIRE EXIT</span></div>' +
+      '<div class="sp-zone backdrop"><span class="sp-zone-label" style="color:#fff">BACKDROP</span></div>' +
+      '<div class="sp-zone stage"><span class="sp-zone-label">STAGE — BAND / LECTERN / DJ</span></div>' +
+      '<div class="sp-zone dancefloor"><span class="sp-zone-label">DANCE FLOOR</span></div>' +
+      '<div class="sp-zone entrance"><span class="sp-zone-label">ENTRANCE</span></div>' +
+      '<div class="sp-zone foyer-circ"></div>' +
+      '<div class="sp-zone foyer-walk2"></div>' +
+      '<div class="sp-zone bar"><span class="sp-zone-label">BAR</span></div>' +
+      '<div class="sp-zone foyer-label"><span class="sp-zone-label">FOYER</span></div>' +
+      '<div class="sp-zone kitchen"><span class="sp-zone-label">KITCHEN</span></div>' +
+      '<div class="sp-zone walk-h"></div>' +
+      '<div class="sp-zone walk-v"></div>' +
+      '<div class="sp-zone walk-b"></div>' +
+      '<div class="sp-zone sliding-door"></div>';
+
+    var tablesHtml = '';
+    DEFAULT_TABLES.forEach(function(dt){
+      var ts = getTableState(dt.id);
+      var dims = tableDims(dt.shape, ts.seats);
+      var status = tableStatus(dt.id);
+      var filled = tableFilledCount(dt.id);
+      tablesHtml += '<div class="sp-pm-table shape-' + dt.shape + ' status-' + status + '" style="left:' + ts.x + '%;top:' + ts.y + '%;width:' + dims.w + 'px;height:' + dims.h + 'px;">' +
+        '<span class="pm-num">' + dt.id + '</span>' +
+        (ts.tableName ? '<span class="pm-name">' + escapeHtml(ts.tableName) + '</span>' : '') +
+        '<span class="pm-count">' + filled + '/' + ts.seats + '</span>' +
+        '</div>';
+    });
+
+    return '<div class="sp-print-legend">' +
+        '<span><i style="background:#F3EEDF"></i>Empty</span>' +
+        '<span><i style="background:#E3C566"></i>Partial</span>' +
+        '<span><i style="background:#C9A227"></i>Full</span>' +
+      '</div>' +
+      '<div class="sp-print-map">' + zonesHtml + tablesHtml + '</div>';
+  }
+
+  /* ---------- Print sheet (map page + roster) ---------- */
   var printSheet = document.getElementById('spPrintSheet');
   function buildPrintSheet(){
     var totalSeats = 0, filledSeats = 0;
-    TABLES.forEach(function(t){ totalSeats += t.seats; filledSeats += tableFilledCount(t.id); });
-    var html = '<h1>SPC OBU NZ — Gala Dinner Dance 2026</h1>' +
-      '<div class="meta">Seating Plan · ' + TABLES.length + ' tables · ' + filledSeats + ' / ' + totalSeats + ' seats assigned · Printed ' + new Date().toLocaleDateString() + '</div>';
-    TABLES.forEach(function(t){
-      var ts = getTableState(t.id);
-      html += '<div class="sp-print-table"><h3>Table ' + t.id + ' — ' + (t.shape==='round'?'Round':'Rectangular') + ', ' + t.seats + ' seats' +
+    DEFAULT_TABLES.forEach(function(dt){ var ts=getTableState(dt.id); totalSeats += ts.seats; filledSeats += tableFilledCount(dt.id); });
+    var seated = seatedTotal(), band = meta.band || 0;
+    var printDate = new Date().toLocaleDateString();
+
+    var mapPage = '<h1>SPC OBU NZ — Gala Dinner Dance 2026</h1>' +
+      '<div class="meta">Floor Plan · ' + DEFAULT_TABLES.length + ' tables · Room: ' + seated + ' seated + ' + band + ' band = ' + (seated+band) + ' / ' + ROOM_CAP + ' · Printed ' + printDate + '</div>' +
+      buildPrintMapHtml() +
+      '<div class="sp-print-pagebreak"></div>';
+
+    var rosterHtml = '<h1>SPC OBU NZ — Gala Dinner Dance 2026</h1>' +
+      '<div class="meta">Seating Roster · ' + DEFAULT_TABLES.length + ' tables · ' + filledSeats + ' / ' + totalSeats + ' seats assigned · Printed ' + printDate + '</div>';
+    DEFAULT_TABLES.forEach(function(dt){
+      var ts = getTableState(dt.id);
+      rosterHtml += '<div class="sp-print-table"><h3>Table ' + dt.id + (ts.tableName ? ' — ' + escapeHtml(ts.tableName) : '') + ' — ' +
+        (dt.shape==='round'?'Round':'Rectangular') + ', ' + ts.seats + ' seats' +
         (ts.tableNotes ? ' — ' + escapeHtml(ts.tableNotes) : '') + '</h3><ol>';
-      for (var i=0;i<t.seats;i++){
+      for (var i=0;i<ts.seats;i++){
         var name = ts.names[i];
-        html += '<li' + (name ? '' : ' class="empty-seat"') + '>' + (name ? escapeHtml(name) : '(empty)') +
+        var tag = ts.tags[i];
+        rosterHtml += '<li' + (name ? '' : ' class="empty-seat"') + '>' + (name ? escapeHtml(name) : '(empty)') +
+          (tag ? ' [' + escapeHtml(tag) + ']' : '') +
           (ts.notes[i] ? ' — ' + escapeHtml(ts.notes[i]) : '') + '</li>';
       }
-      html += '</ol></div>';
+      rosterHtml += '</ol></div>';
     });
-    printSheet.innerHTML = html;
+
+    printSheet.innerHTML = mapPage + rosterHtml;
   }
   document.getElementById('spPrintBtn').addEventListener('click', function(){
     buildPrintSheet();
@@ -729,10 +1239,52 @@ body{
   });
   window.addEventListener('beforeprint', buildPrintSheet);
 
-  /* ---------- Init ---------- */
-  loadState();
-  buildFloorTables();
-  refreshAll();
+  /* ---------- App init (gated by password lock) ---------- */
+  var appInitialized = false;
+  function initApp(){
+    if (appInitialized) return;
+    appInitialized = true;
+    loadState();
+    buildFloorTables();
+    bandInput.value = (meta.band != null) ? meta.band : 6;
+    refreshAll();
+  }
+
+  /* ---------- Lock screen ---------- */
+  var AUTH_KEY = 'spc-obu-gala2026-auth-v1';
+  var PASSWORD = 'GDD26';
+  var lockForm = document.getElementById('spLockForm');
+  var lockPwInput = document.getElementById('spLockPassword');
+  var lockError = document.getElementById('spLockError');
+
+  function unlockUI(){
+    document.body.classList.remove('sp-locked');
+    document.body.classList.add('sp-unlocked');
+  }
+
+  lockForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (lockPwInput.value === PASSWORD){
+      try { localStorage.setItem(AUTH_KEY, '1'); } catch(err){}
+      lockError.classList.remove('is-visible');
+      lockPwInput.value = '';
+      unlockUI();
+      initApp();
+    } else {
+      lockError.classList.add('is-visible');
+      lockPwInput.value = '';
+      lockPwInput.focus();
+    }
+  });
+
+  var alreadyAuthed = false;
+  try { alreadyAuthed = localStorage.getItem(AUTH_KEY) === '1'; } catch(e){}
+  if (alreadyAuthed){
+    unlockUI();
+    initApp();
+  } else {
+    lockPwInput.focus();
+  }
 })();
 </script>
 </body>
