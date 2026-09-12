@@ -520,6 +520,18 @@ body{
     var portrait = window.innerWidth < 760;
     var dims = computeMaxDims(portrait);
 
+    /* StPageFlip's "stretch" mode measures its own container's current
+       offsetWidth/Height to decide how big to render (see getBlockWidth/
+       getBlockHeight in the library). #souvenirBook only gets a CSS
+       min-width from the library itself, no real width, so inside a
+       centered flex row (sv-book-wrap) it collapses to that minimum instead
+       of filling the space — this is why the open book rendered far
+       smaller than the cover. Giving the wrapping shell an explicit pixel
+       box up front (matching the same computeMaxDims the cover uses) makes
+       the book fill it, same as the cover does via coverFrame.style.width.*/
+    bookShell.style.width = (portrait ? dims.maxW : dims.maxW * 2) + 'px';
+    bookShell.style.height = dims.maxH + 'px';
+
     var bookEl = document.createElement('div');
     bookEl.id = 'souvenirBook';
     bookShell.appendChild(bookEl);
