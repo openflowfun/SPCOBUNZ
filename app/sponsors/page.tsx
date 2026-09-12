@@ -27,13 +27,9 @@ const tiers = [
   },
 ];
 
-function PlaceholderLogo({ label }: { label: string }) {
+function PlaceholderLogo() {
   return (
-    <div className="flex h-32 items-center justify-center rounded-2xl border-2 border-dashed border-navy-800/15 bg-white/60 transition-all duration-300 hover:border-gold/50">
-      <span className="text-xs font-semibold uppercase tracking-widest text-navy-800/35">
-        {label}
-      </span>
-    </div>
+    <div className="flex h-32 items-center justify-center rounded-2xl border-2 border-dashed border-navy-800/15 bg-white/60 transition-all duration-300 hover:border-gold/50" />
   );
 }
 
@@ -79,7 +75,7 @@ export default function SponsorsPage() {
                 ))
               : [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                   <StaggerItem key={i}>
-                    <PlaceholderLogo label={`Your logo here`} />
+                    <PlaceholderLogo />
                   </StaggerItem>
                 ))}
           </Stagger>
