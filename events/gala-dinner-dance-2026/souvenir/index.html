@@ -541,17 +541,25 @@ body{
       startPage: startInternal || 0
     });
 
-    var pages = [];
-    for (var i = 2; i <= TOTAL_PAGES; i++){ pages.push(hiresUrl(i)); }
-    pageFlip.loadFromImages(pages);
-
-    setTimeout(function(){
-      var imgs = bookEl.querySelectorAll('img');
-      for (var k = 0; k < imgs.length; k++){
-        imgs[k].decoding = 'async';
-        if ('fetchPriority' in imgs[k]) imgs[k].fetchPriority = (k < 2) ? 'high' : 'low';
-      }
-    }, 0);
+    /* Real <img> elements (loadFromHTML) instead of loadFromImages' internal
+       <canvas>: StPageFlip's canvas mode sizes its backing store to CSS
+       pixels with no devicePixelRatio scaling, which renders soft/blurry on
+       any HiDPI/Retina screen no matter how high-res the source JPGs are.
+       DOM <img> elements are scaled by the browser itself at full display
+       resolution, so this keeps every page crisp on any screen. */
+    var pageEls = [];
+    for (var i = 2; i <= TOTAL_PAGES; i++){
+      var pageDiv = document.createElement('div');
+      pageDiv.className = 'page';
+      var img = document.createElement('img');
+      img.src = hiresUrl(i);
+      img.alt = 'Page ' + i;
+      img.decoding = 'async';
+      if ('fetchPriority' in img) img.fetchPriority = (i <= 3) ? 'high' : 'low';
+      pageDiv.appendChild(img);
+      pageEls.push(pageDiv);
+    }
+    pageFlip.loadFromHTML(pageEls);
 
     pageFlip.on('flip', function(e){
       if (!showingCover) updateUI(e.data + 2);
