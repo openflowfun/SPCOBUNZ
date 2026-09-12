@@ -105,6 +105,8 @@ body{
 
 /* Book area */
 .sv-book-wrap{position:relative;z-index:2;flex:1 1 auto;min-height:0;display:flex;justify-content:center;align-items:center;perspective:2400px}
+.sv-book-shell{position:relative;z-index:2}
+.sv-book-shell.is-hidden{display:none}
 #souvenirBook{margin:0 auto;touch-action:pan-y;position:relative;z-index:2}
 #souvenirBook .page{background:#fff}
 #souvenirBook .page img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
@@ -694,7 +696,14 @@ body{
 
   function start(){
     if (!window.__svLibFailed && window.St && window.St.PageFlip){
-      buildBook(0);
+      /* Build the 15-page book in idle time rather than blocking the first
+         paint: the cover (and its click-to-open button) is instantly
+         interactive either way, and openBookAt() already shows a brief
+         "Loading…" state and waits gracefully on the rare chance someone
+         clicks Open before this finishes. This keeps first load smooth
+         instead of front-loading all the page decoding/layout work. */
+      var idle = window.requestIdleCallback || function(fn){ return setTimeout(fn, 300); };
+      idle(function(){ buildBook(0); }, { timeout: 2000 });
     } else {
       onLibError();
     }
