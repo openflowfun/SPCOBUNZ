@@ -142,6 +142,18 @@ nav.desktop a{position:relative;font-size:12px;font-weight:500;letter-spacing:.1
 nav.desktop a:hover,nav.desktop a.active{color:var(--gold)}
 nav.desktop a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:linear-gradient(135deg,#E3C566,#A5841C);transition:width .3s var(--ease)}
 nav.desktop a.active::after{width:100%}
+
+/* About dropdown (desktop) */
+.nav-drop{position:relative}
+.nav-drop-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:none;padding:0;font-family:inherit;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8);cursor:pointer;transition:color .3s}
+.nav-drop-btn:hover,.nav-drop-btn.active,.nav-drop:hover .nav-drop-btn,.nav-drop.open .nav-drop-btn{color:var(--gold)}
+.nav-drop-caret{flex-shrink:0;transition:transform .25s var(--ease)}
+.nav-drop:hover .nav-drop-caret,.nav-drop.open .nav-drop-caret{transform:rotate(180deg)}
+.nav-drop-menu{position:absolute;top:calc(100% + 20px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:230px;background:rgba(8,20,38,.98);border:1px solid rgba(201,162,39,.22);border-radius:14px;padding:9px;box-shadow:0 20px 50px rgba(5,13,26,.5);opacity:0;visibility:hidden;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility .25s;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.nav-drop:hover .nav-drop-menu,.nav-drop:focus-within .nav-drop-menu,.nav-drop.open .nav-drop-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+#navDesktop .nav-drop-menu a{display:block;padding:11px 15px;border-radius:9px;font-size:11.5px;font-weight:500;letter-spacing:.06em;text-transform:none;color:rgba(255,255,255,.82);white-space:nowrap}
+#navDesktop .nav-drop-menu a::after{display:none}
+#navDesktop .nav-drop-menu a:hover,#navDesktop .nav-drop-menu a.active{background:rgba(201,162,39,.14);color:var(--gold-light)}
 .join-btn{padding:10px 22px !important;font-size:11px !important}
 .burger{display:none;width:50px;height:50px;border:1px solid rgba(201,162,39,.4);border-radius:50%;flex-direction:column;align-items:center;justify-content:center;gap:5px;z-index:60}
 .burger span{width:20px;height:2px;background:var(--gold);transition:all .3s}
@@ -162,6 +174,16 @@ body.page-programme .burger{display:none}
 .mobile-menu.open{opacity:1;pointer-events:auto}
 .mobile-menu a{font-family:var(--serif);font-size:26px;color:#fff;transition:color .3s}
 .mobile-menu a:hover,.mobile-menu a.active{color:var(--gold)}
+.mm-drop{display:flex;flex-direction:column;align-items:center}
+.mm-drop-btn{display:inline-flex;align-items:center;gap:8px;background:none;border:none;padding:0;font-family:var(--serif);font-size:26px;color:#fff;cursor:pointer;transition:color .3s}
+.mm-drop-btn:hover,.mm-drop-btn.active,.mm-drop.open .mm-drop-btn{color:var(--gold)}
+.mm-drop-caret{transition:transform .25s var(--ease)}
+.mm-drop.open .mm-drop-caret{transform:rotate(180deg)}
+.mm-drop-menu{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .3s var(--ease);width:100%}
+.mm-drop-menu>div{overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:16px}
+.mm-drop.open .mm-drop-menu{grid-template-rows:1fr}
+#mobileMenu .mm-drop-menu a{font-size:16px;letter-spacing:.04em;color:rgba(255,255,255,.7)}
+#mobileMenu .mm-drop-menu a:hover,#mobileMenu .mm-drop-menu a.active{color:var(--gold-light)}
 .mobile-menu-foot{position:absolute;bottom:30px;display:flex;flex-direction:column;align-items:center;gap:8px}
 .mobile-menu .motto{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,162,39,.6)}
 .mobile-menu-brand{font-family:var(--serif);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55)}
@@ -882,7 +904,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       <b>SPC OBU <span class="gold-text">NZ</span></b>
     </a>
     <nav class="desktop" id="navDesktop">
-      <a href="/">Home</a><a href="/our-story">Our Story</a><a href="/committee">Committee</a>
+      <a href="/">Home</a><div class="nav-drop" id="navAboutDrop"><button type="button" class="nav-drop-btn" aria-expanded="false" aria-haspopup="true">About<svg class="nav-drop-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-drop-menu"><a href="/our-story">Our Story</a><a href="/presidents-message">President's Message</a><a href="/crest-flag-anthem">Crest, Flag &amp; Anthem</a></div></div><a href="/committee">Committee</a>
       <a href="/events">Events</a><a href="/joe-pete">Joe-Pete NZ</a><a href="/membership">Membership</a>
       <a href="/sponsors">Sponsors</a><a href="/gallery">Gallery</a><a href="/contact">Contact</a>
     </nav>
@@ -892,7 +914,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 <div class="mobile-menu" id="mobileMenu">
   <a href="/" class="mobile-menu-logo"><img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" loading="lazy" decoding="async" /><b>SPC OBU <span class="gold-text">NZ</span></b></a>
   <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">Close <span>✕</span></button>
-  <a href="/">Home</a><a href="/our-story">Our Story</a><a href="/committee">Committee</a>
+  <a href="/">Home</a><div class="mm-drop" id="mmAboutDrop"><button type="button" class="mm-drop-btn" aria-expanded="false" aria-haspopup="true">About<svg class="mm-drop-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="mm-drop-menu"><div><a href="/our-story">Our Story</a><a href="/presidents-message">President's Message</a><a href="/crest-flag-anthem">Crest, Flag &amp; Anthem</a></div></div></div><a href="/committee">Committee</a>
   <a href="/events">Events</a><a href="/joe-pete">Joe-Pete NZ</a><a href="/membership">Membership</a>
   <a href="/sponsors">Sponsors</a><a href="/gallery">Gallery</a><a href="/contact">Contact</a>
   <div class="mobile-menu-foot">
@@ -1132,6 +1154,175 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <p class="muted" style="margin-top:16px">Together with branches across Australia, the UK, Canada and beyond, we form a global network of Peterites supporting the College and each other, wherever life has taken us.</p>
         <a href="/committee" class="btn btn-outline-navy" style="margin-top:30px">Meet Our Committee</a>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRESIDENT'S MESSAGE ================= -->
+<section class="page" data-page="presidents-message">
+  <div class="page-hero"><div class="glow"></div>
+    <div class="container">
+      <p class="eyebrow">From the President</p>
+      <h1 class="h-xl">A Message from <br class="prog-welcome-break" /><span class="gold-text">our President</span></h1>
+      <p class="muted-w">Greetings to all Old Peterites, families and friends of SPC OBU New Zealand.</p>
+      <div class="gold-rule"></div>
+    </div>
+  </div>
+
+  <div class="section navy-bg" style="padding:70px 0 96px">
+    <div class="container" style="max-width:840px">
+      <div class="reveal" style="text-align:center">
+        <div class="rm-avatar" style="width:100px;height:100px;font-size:32px;margin:0 auto;box-shadow:0 0 0 5px rgba(201,162,39,.16),0 14px 34px rgba(201,162,39,.35)">SW</div>
+      </div>
+      <div class="reveal d1 glass" style="margin-top:34px;padding:clamp(28px,5vw,58px)">
+        <p class="muted-w" style="font-family:var(--serif);font-style:italic;font-size:clamp(17px,2vw,20px);color:#fff">Greetings to all Old Peterites, families and friends.</p>
+        <p class="muted-w" style="margin-top:22px">It is my pleasure to welcome you to the official home of the St. Peter's College Old Boys' Union in New Zealand.</p>
+        <p class="muted-w" style="margin-top:18px">This Union is a community bound by College - old friends, new faces, and the same Peterite spirit carried across Aotearoa. We gather to reconnect, to celebrate, and to keep that brotherhood alive for the next generation.</p>
+        <p class="muted-w" style="margin-top:18px">Through cricket, Joe-Pete, social events and our Gala Dinner Dance, we create the moments that bring us back together. Through this website and our pages, every Peterite in New Zealand - and beyond - has one place for our news, our history and our upcoming events.</p>
+        <p class="muted-w" style="margin-top:18px">Whether you are already part of the Union or finding us for the first time, you are welcome here. Explore the site, follow our pages, and join us at the next gathering.</p>
+        <p class="muted-w" style="margin-top:18px">Thank you for being part of this family.</p>
+        <div class="gold-rule" style="margin:32px 0 20px"></div>
+        <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:rgba(255,255,255,.85)">Sincerely,</p>
+        <p style="font-family:var(--serif);font-size:23px;font-weight:600;color:#fff;margin-top:8px">Shohan Wimalaratne</p>
+        <p class="eyebrow" style="margin-top:5px">President &middot; SPC OBU New Zealand</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CREST, FLAG & ANTHEM ================= -->
+<section class="page" data-page="crest-flag-anthem">
+  <div class="page-hero"><div class="glow"></div>
+    <div class="container">
+      <p class="eyebrow">About Us</p>
+      <h1 class="h-xl">Crest, Flag <span class="gold-text">&amp; Anthem</span></h1>
+      <p class="muted-w">The symbols and song every Peterite carries with them - from Colombo 04 to Aotearoa.</p>
+      <div class="gold-rule"></div>
+    </div>
+  </div>
+
+  <!-- Crest -->
+  <div class="section" style="background:#fff">
+    <div class="container split">
+      <div class="reveal">
+        <div class="img-frame" style="background:#fff;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;padding:26px;box-shadow:0 10px 40px rgba(5,13,26,.12)"><img src="/public/images/crest-transparent.png" alt="St. Peter's College crest" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" loading="lazy" decoding="async" /></div>
+      </div>
+      <div class="reveal d2">
+        <p class="eyebrow">Est. 1927</p>
+        <h2 class="h-lg" style="margin-top:16px">The Peterite Crest</h2>
+        <div class="gold-rule"></div>
+        <p class="muted" style="margin-top:24px">Rendered in full colour - blue, white and gold - the Crest has carried the College's identity since 1927 and remains, to every Peterite, a mark of pride wherever it is worn or displayed.</p>
+        <p class="muted" style="margin-top:16px">Every element of it was chosen with care - blending the Catholic faith of the College's founders with the culture of the island that shaped it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="background:#fff;padding-top:8px">
+    <div class="container">
+      <div class="grid g3">
+        <div class="card reveal" style="padding:30px">
+          <span class="icon-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v18M7 8h10"/></svg></span>
+          <h3 class="h-md" style="margin-top:18px;font-size:18px;color:var(--navy-800)">The Cross</h3>
+          <p class="muted" style="margin-top:10px;font-size:14px">Set right at the top of the Crest, the Cross keeps Christ and His teaching at the centre of everything the College stands for.</p>
+        </div>
+        <div class="card reveal d1" style="padding:30px">
+          <span class="icon-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg></span>
+          <h3 class="h-md" style="margin-top:18px;font-size:18px;color:var(--navy-800)">Two Elephants</h3>
+          <p class="muted" style="margin-top:10px;font-size:14px">Holding the Cross aloft, the two elephants root the College's faith firmly in Sri Lankan soil and honour people of every faith and background.</p>
+        </div>
+        <div class="card reveal d2" style="padding:30px">
+          <span class="icon-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-8-1v13c3-1 6-.5 8 1 2-1.5 5-2 8-1V5c-3-1-6-.5-8 1Z"/><path d="M12 6v13"/></svg></span>
+          <h3 class="h-md" style="margin-top:18px;font-size:18px;color:var(--navy-800)">The Bible &amp; Palms</h3>
+          <p class="muted" style="margin-top:10px;font-size:14px">At the base, an open book carries the College's guiding words, flanked by two palms recalling Christ's triumphant entry into Jerusalem.</p>
+        </div>
+        <div class="card reveal" style="padding:30px">
+          <span class="icon-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M4 18h16M4 18l-1-9 5 4 4-7 4 7 5-4-1 9"/></svg></span>
+          <h3 class="h-md" style="margin-top:18px;font-size:18px;color:var(--navy-800)">Papal Crown &amp; Keys</h3>
+          <p class="muted" style="margin-top:10px;font-size:14px">The upper half carries the papal tiara and the crossed keys of Heaven - the same keys entrusted to St Peter, the College's patron and first Pope.</p>
+        </div>
+        <div class="card reveal d1" style="padding:30px">
+          <span class="icon-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="4" y="7" width="16" height="12" rx="2"/><path d="M9 4h6l-1 3h-4Z"/></svg></span>
+          <h3 class="h-md" style="margin-top:18px;font-size:18px;color:var(--navy-800)">The Motto Plaque</h3>
+          <p class="muted" style="margin-top:10px;font-size:14px">Anchoring the Crest at its base, a plaque bears the College motto - the standard every Peterite carries into the world.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Motto -->
+  <div class="section navy-bg">
+    <div class="container">
+      <div class="reveal" style="text-align:center;max-width:760px;margin:0 auto">
+        <p class="eyebrow">The College Motto</p>
+        <h2 class="h-xl" style="margin-top:18px;font-family:var(--serif)">Virtus <span class="gold-text">et</span> Veritas</h2>
+        <div class="gold-rule" style="margin-left:auto;margin-right:auto"></div>
+        <p class="muted-w" style="margin-top:24px">Virtue and Truth - the vision our founders set for every Peterite to carry into the world.</p>
+      </div>
+      <div class="grid g2 reveal d1" style="margin-top:48px;max-width:900px;margin-left:auto;margin-right:auto">
+        <div class="glass" style="padding:32px">
+          <div class="gold-rule" style="margin-top:0"></div>
+          <h3 class="h-md" style="color:var(--gold-light);margin-top:18px;font-size:20px">Virtus &middot; Virtue</h3>
+          <p class="muted-w" style="margin-top:12px;font-size:14px">Moral excellence, integrity and a sense of duty - justice, prudence, temperance and courage in every walk of life, and, in faith, hope and charity.</p>
+        </div>
+        <div class="glass" style="padding:32px">
+          <div class="gold-rule" style="margin-top:0"></div>
+          <h3 class="h-md" style="color:var(--gold-light);margin-top:18px;font-size:20px">Veritas &middot; Truth</h3>
+          <p class="muted-w" style="margin-top:12px;font-size:14px">Honesty, sincerity and loyalty - a life lived accurately and truly, in word and in character.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flag -->
+  <div class="section" style="background:#fff">
+    <div class="container split global-family-split">
+      <div class="reveal"><div class="img-frame"><img src="/public/images/flag-HD.jpg" alt="St. Peter's College flag" loading="lazy" decoding="async" /></div></div>
+      <div class="reveal d2">
+        <p class="eyebrow">Blue, White &amp; Gold</p>
+        <h2 class="h-lg" style="margin-top:16px">The College <span class="gold-text">Flag</span></h2>
+        <div class="gold-rule"></div>
+        <p class="muted" style="margin-top:24px">The same tricolour that fills the Crest is flown wherever Peterites gather - at College, and at every Old Boys' Union occasion around the world, including here in New Zealand.</p>
+        <p class="muted" style="margin-top:16px">Raised at our Gala Dinner Dance, Joe-Pete NZ and family gatherings, it is an instant, unmistakable mark of who we are and where we come from.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Anthem -->
+  <div class="section navy-bg" style="padding-bottom:96px">
+    <div class="container">
+      <div class="reveal" style="text-align:center;max-width:760px;margin:0 auto">
+        <p class="eyebrow">The College Anthem</p>
+        <h2 class="h-lg" style="margin-top:16px">The song that unites <span class="gold-text">every Peterite gathering</span></h2>
+        <div class="gold-rule" style="margin-left:auto;margin-right:auto"></div>
+        <p class="muted-w" style="margin-top:22px">Music by George De Niese &middot; Words by T.L. Minor</p>
+        <p class="muted-w" style="margin-top:14px">First sung on the College grounds and carried by old boys to every corner of the world, the anthem calls on Peterites to hold their flag high, to meet life's challenges with courage, and to stand loyally by one another and by their College, wherever life takes them.</p>
+      </div>
+
+      <div class="reveal d1" style="margin-top:48px;max-width:880px;margin-left:auto;margin-right:auto;position:relative">
+        <div class="spc-flag-glow" style="opacity:.6"></div>
+        <div style="position:relative;border-radius:22px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45);border:1px solid rgba(201,162,39,.3)">
+          <video controls preload="metadata" poster="/public/videos/spc-college-anthem-poster.jpg" style="display:block;width:100%;background:#000">
+            <source src="/public/videos/spc-college-anthem.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div style="margin-top:18px;text-align:center">
+          <a href="/public/videos/spc-college-anthem.mp4" download class="btn btn-outline" style="display:inline-flex">Download Anthem Video</a>
+        </div>
+      </div>
+
+      <div class="reveal d2 glass" style="margin-top:40px;max-width:880px;margin-left:auto;margin-right:auto;padding:clamp(24px,4vw,40px);text-align:center">
+        <p class="eyebrow">For Future OBU NZ Events</p>
+        <h3 class="h-md" style="margin-top:12px;color:#fff">Audio-only, ready to play</h3>
+        <p class="muted-w" style="margin-top:12px;font-size:14px">A clean audio track for the Gala Dinner Dance, Joe-Pete NZ and any occasion where the anthem needs to be heard - no screen required.</p>
+        <audio controls preload="none" style="width:100%;margin-top:22px">
+          <source src="/public/audio/spc-college-anthem.mp3" type="audio/mpeg" />
+        </audio>
+        <div style="margin-top:18px">
+          <a href="/public/audio/spc-college-anthem.mp3" download class="btn btn-gold" style="display:inline-flex">Download Anthem MP3</a>
+        </div>
+      </div>
+
+      <p class="reveal" style="text-align:center;margin-top:34px;font-size:12.5px;color:rgba(255,255,255,.45)">Need the full lyric sheet for a printed programme? <a href="mailto:spcobunz@gmail.com" style="color:rgba(201,162,39,.8)">Email the committee</a> and we'll send it through.</p>
     </div>
   </div>
 </section>
@@ -1949,6 +2140,13 @@ function route(){
     const hrefPath = href === "/" ? "home" : href.replace(/^\//,"");
     a.classList.toggle("active", hrefPath === path);
   });
+  document.querySelectorAll(".nav-drop, .mm-drop").forEach(d=>{
+    const hasActive = !!d.querySelector(".nav-drop-menu a.active, .mm-drop-menu a.active");
+    d.querySelector(".nav-drop-btn, .mm-drop-btn").classList.toggle("active", hasActive);
+    d.classList.remove("open");
+    const btn = d.querySelector(".nav-drop-btn, .mm-drop-btn");
+    if(btn) btn.setAttribute("aria-expanded","false");
+  });
   window.scrollTo({top:0,behavior:"instant"});
   document.getElementById("mobileMenu").classList.remove("open");
   document.getElementById("burger").classList.remove("open");
@@ -1969,6 +2167,30 @@ document.addEventListener("click", e=>{
   navigateTo(href);
 });
 window.addEventListener("popstate", route);
+
+/* ========== About dropdown (desktop hover/click + mobile tap) ========== */
+(function(){
+  function closeAllDrops(except){
+    document.querySelectorAll(".nav-drop.open, .mm-drop.open").forEach(d=>{
+      if(d === except) return;
+      d.classList.remove("open");
+      const btn = d.querySelector(".nav-drop-btn, .mm-drop-btn");
+      if(btn) btn.setAttribute("aria-expanded","false");
+    });
+  }
+  document.querySelectorAll(".nav-drop-btn, .mm-drop-btn").forEach(btn=>{
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      const wrap = btn.closest(".nav-drop, .mm-drop");
+      const willOpen = !wrap.classList.contains("open");
+      closeAllDrops(willOpen ? wrap : null);
+      wrap.classList.toggle("open", willOpen);
+      btn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    });
+  });
+  document.addEventListener("click", function(){ closeAllDrops(); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeAllDrops(); });
+})();
 
 /* Google Analytics: fire one page_view per virtual route (initial load
    included, since route() dispatches "routechange" on first paint too) */
