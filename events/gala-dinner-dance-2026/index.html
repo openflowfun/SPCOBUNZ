@@ -1171,11 +1171,8 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 
   <div class="section navy-bg" style="padding:70px 0 96px">
     <div class="container" style="max-width:840px">
-      <div class="reveal" style="text-align:center">
-        <div class="rm-avatar" style="width:100px;height:100px;font-size:32px;margin:0 auto;box-shadow:0 0 0 5px rgba(201,162,39,.16),0 14px 34px rgba(201,162,39,.35)">SW</div>
-      </div>
-      <div class="reveal d1 glass" style="margin-top:34px;padding:clamp(28px,5vw,58px)">
-        <p class="muted-w" style="font-family:var(--serif);font-style:italic;font-size:clamp(17px,2vw,20px);color:#fff">Greetings to all Old Peterites, families and friends.</p>
+      <div class="reveal glass" style="padding:clamp(28px,5vw,58px)">
+        <p class="muted-w" style="font-family:var(--sans);font-weight:300;letter-spacing:.2px;font-size:clamp(19px,2.4vw,24px);line-height:1.5;color:#fff">Greetings to all Old Peterites, families and friends.</p>
         <p class="muted-w" style="margin-top:22px">It is my pleasure to welcome you to the official home of the St. Peter's College Old Boys' Union in New Zealand.</p>
         <p class="muted-w" style="margin-top:18px">This Union is a community bound by College - old friends, new faces, and the same Peterite spirit carried across Aotearoa. We gather to reconnect, to celebrate, and to keep that brotherhood alive for the next generation.</p>
         <p class="muted-w" style="margin-top:18px">Through cricket, Joe-Pete, social events and our Gala Dinner Dance, we create the moments that bring us back together. Through this website and our pages, every Peterite in New Zealand - and beyond - has one place for our news, our history and our upcoming events.</p>
@@ -1205,7 +1202,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
   <div class="section" style="background:#fff">
     <div class="container split">
       <div class="reveal">
-        <div class="img-frame" style="background:#fff;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;padding:26px;box-shadow:0 10px 40px rgba(5,13,26,.12)"><img src="/public/images/crest-transparent.png" alt="St. Peter's College crest" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" loading="lazy" decoding="async" /></div>
+        <div class="img-frame" style="background:#fff;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;padding:26px;box-shadow:0 10px 40px rgba(5,13,26,.12)"><img src="/public/images/crest-spc-cutout.png" alt="St. Peter's College crest" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" loading="lazy" decoding="async" /></div>
       </div>
       <div class="reveal d2">
         <p class="eyebrow">Est. 1927</p>
@@ -1314,9 +1311,10 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <p class="eyebrow">For Future OBU NZ Events</p>
         <h3 class="h-md" style="margin-top:12px;color:#fff">Audio-only, ready to play</h3>
         <p class="muted-w" style="margin-top:12px;font-size:14px">A clean audio track for the Gala Dinner Dance, Joe-Pete NZ and any occasion where the anthem needs to be heard - no screen required.</p>
-        <audio controls preload="none" style="width:100%;margin-top:22px">
+        <audio id="anthemAudio" controls preload="metadata" style="width:100%;margin-top:22px">
           <source src="/public/audio/spc-college-anthem.mp3" type="audio/mpeg" />
         </audio>
+        <p id="anthemAudioError" style="display:none;margin-top:10px;font-size:12px;color:#ffb4b4">Audio couldn't load right now - please use the download button below, or refresh the page.</p>
         <div style="margin-top:18px">
           <a href="/public/audio/spc-college-anthem.mp3" download class="btn btn-gold" style="display:inline-flex">Download Anthem MP3</a>
         </div>
@@ -2190,6 +2188,16 @@ window.addEventListener("popstate", route);
   });
   document.addEventListener("click", function(){ closeAllDrops(); });
   document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeAllDrops(); });
+})();
+
+/* ========== Anthem audio: surface a clear message if it fails to load ========== */
+(function(){
+  var audio = document.getElementById("anthemAudio");
+  var err = document.getElementById("anthemAudioError");
+  if(!audio || !err) return;
+  audio.addEventListener("error", function(){ err.style.display = "block"; }, true);
+  var src = audio.querySelector("source");
+  if(src) src.addEventListener("error", function(){ err.style.display = "block"; });
 })();
 
 /* Google Analytics: fire one page_view per virtual route (initial load
