@@ -3,15 +3,22 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Souvenir Booklet (Preview) — SPC OBU NZ Gala Dinner Dance 2026</title>
+<title>Souvenir Booklet — SPC OBU NZ Gala Dinner Dance 2026</title>
 <meta name="robots" content="noindex, nofollow, noarchive" />
-<meta name="description" content="Private preview of the SPC OBU NZ Gala Dinner Dance 2026 souvenir booklet." />
+<meta name="description" content="The official SPC OBU NZ Gala Dinner Dance 2026 souvenir booklet — flip through it online or download the PDF." />
+<meta property="og:title" content="SPC OBU NZ · Gala Dinner Dance 2026 — Souvenir Booklet" />
+<meta property="og:description" content="A keepsake of the night — flip through the official souvenir booklet." />
+<meta property="og:image" content="https://spcobunz.com/public/images/souvenir/hi-01.jpg" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://spcobunz.com/public/images/souvenir/hi-01.jpg" />
 <link rel="icon" href="/public/images/favicon-32x32.png" sizes="32x32" type="image/png" />
 <link rel="icon" href="/public/images/favicon-16x16.png" sizes="16x16" type="image/png" />
 <link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png" />
 <link rel="preload" as="image" href="/public/images/crest-sm.jpg" />
 <link rel="preload" as="image" href="/public/images/souvenir/thumbs/01.jpg" />
 <link rel="preload" as="image" href="/public/images/souvenir/hi-01.jpg" />
+<link rel="preload" as="script" href="/public/vendor/page-flip.browser.js" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap" rel="stylesheet" />
@@ -101,6 +108,8 @@ body{
 .sv-tool-btn:hover{background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.4);color:var(--gold-light);transform:translateY(-1px)}
 .sv-tool-btn.primary{background:var(--gold);border-color:var(--gold);color:var(--navy-950)}
 .sv-tool-btn.primary:hover{background:var(--gold-light);border-color:var(--gold-light)}
+.sv-tool-btn[aria-pressed="false"] .icon-on{display:none}
+.sv-tool-btn[aria-pressed="true"] .icon-off{display:none}
 @media (max-width:640px){.sv-tool-btn span{display:none}.sv-tool-btn{padding:9px}}
 
 /* Book area */
@@ -108,8 +117,33 @@ body{
 .sv-book-shell{position:relative;z-index:2}
 .sv-book-shell.is-hidden{visibility:hidden;pointer-events:none}
 #souvenirBook{margin:0 auto;touch-action:pan-y;position:relative;z-index:2}
-#souvenirBook .page{background:#fff}
-#souvenirBook .page img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+#souvenirBook .page{background:var(--ivory)}
+#souvenirBook .page img{width:100%;height:100%;object-fit:contain;display:block;background:var(--ivory)}
+
+/* Hardcover treatment: a navy/gold "board edge" band that reads as a
+   bound cover, plus a fanned page-block line down the outer edge so the
+   book doesn't look like a flat loose sheet. */
+.sv-book-shell::before{
+  content:"";
+  position:absolute; inset:-8px;
+  border-radius:8px;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold) 45%,var(--gold-light) 55%,var(--gold-dark));
+  box-shadow:0 18px 46px -12px rgba(0,0,0,.65);
+  z-index:0;
+}
+.sv-book-shell::after{
+  content:"";
+  position:absolute; inset:-4px;
+  border-radius:6px;
+  background:var(--navy-900);
+  z-index:1;
+}
+.sv-page-edge{position:absolute;top:3%;bottom:3%;width:6px;z-index:3;pointer-events:none;
+  background:repeating-linear-gradient(180deg, rgba(255,255,255,.9) 0 1.5px, rgba(201,162,39,.18) 1.5px 3px);
+  border-radius:0 2px 2px 0; box-shadow:1px 0 3px rgba(0,0,0,.25) inset;
+}
+.sv-page-edge.left{left:-6px;transform:scaleX(-1);border-radius:2px 0 0 2px}
+.sv-page-edge.right{right:-6px}
 
 .sv-backdrop{
   position:absolute; inset:-12% -6%; z-index:0; pointer-events:none;
@@ -127,7 +161,7 @@ body{
 }
 @keyframes sv-fade-in{to{opacity:.6}}
 
-/* Cover (standalone, click-to-open) */
+/* Cover (standalone, click-to-open, hardcover styled) */
 .sv-cover{
   position:absolute; inset:0; z-index:5;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
@@ -135,19 +169,34 @@ body{
   transition:opacity .5s var(--ease), transform .5s var(--ease);
 }
 .sv-cover.is-hidden{opacity:0;transform:scale(.96);pointer-events:none}
-.sv-cover-frame{position:relative;flex:0 0 auto;margin:0 auto}
+.sv-cover-frame{position:relative;flex:0 0 auto;margin:0 auto;border-radius:5px}
+.sv-cover-frame::before{
+  content:""; position:absolute; inset:-7px; border-radius:9px; z-index:0;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold) 45%,var(--gold-light) 55%,var(--gold-dark));
+  box-shadow:0 30px 70px -14px rgba(0,0,0,.75);
+}
 .sv-cover-frame img{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
-  border-radius:4px;
-  box-shadow:
-    0 30px 70px -14px rgba(0,0,0,.75),
-    4px 4px 0 0 rgba(255,255,255,.85),
-    7px 7px 0 0 rgba(222,222,222,.55),
-    10px 10px 0 0 rgba(200,200,200,.35);
+  border-radius:4px; z-index:1;
 }
 .sv-cover-frame .lqip{filter:blur(2px);opacity:1;transition:opacity .4s var(--ease)}
 .sv-cover-frame .hires{opacity:0;transition:opacity .5s var(--ease)}
 .sv-cover-frame .hires.is-loaded{opacity:1}
+/* corner-curl affordance: a small folded triangle that gently lifts once,
+   hinting the cover can be opened, then settles */
+.sv-corner-curl{
+  position:absolute; z-index:2; right:-1px; bottom:-1px; width:34px; height:34px;
+  background:linear-gradient(135deg, transparent 50%, rgba(255,255,255,.85) 50%);
+  border-radius:0 0 4px 0; pointer-events:none;
+  box-shadow:-2px -2px 6px rgba(0,0,0,.18);
+  transform-origin:100% 100%;
+  animation:sv-curl-hint 3.2s 1.1s var(--ease) 2;
+}
+@keyframes sv-curl-hint{
+  0%,100%{transform:rotate(0deg) scale(1)}
+  12%{transform:rotate(-8deg) scale(1.12)}
+  24%{transform:rotate(0deg) scale(1)}
+}
 .sv-open-btn{
   display:inline-flex;align-items:center;gap:8px;flex:0 0 auto;
   background:var(--gold); color:var(--navy-950); font-weight:700; font-size:13px;
@@ -238,7 +287,7 @@ body{
     <img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" />
     <b>SPC OBU <span class="gold-text">NZ</span></b>
   </a>
-  <span class="pill"><i></i>Private Preview</span>
+  <span class="pill"><i></i>Official Souvenir</span>
   <a href="/events/gala-dinner-dance-2026" class="sv-back">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     <span>Back to Gala Dinner Dance</span>
@@ -255,6 +304,11 @@ body{
         <button type="button" class="sv-tool-btn" id="svThumbsBtn" aria-pressed="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           <span>Thumbnails</span>
+        </button>
+        <button type="button" class="sv-tool-btn" id="svSoundBtn" aria-pressed="true" aria-label="Toggle page-turn sound">
+          <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+          <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M23 9l-6 6M17 9l6 6"/></svg>
+          <span>Sound</span>
         </button>
         <button type="button" class="sv-tool-btn" id="svZoomBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
@@ -281,6 +335,7 @@ body{
         <div class="sv-cover-frame" id="svCoverFrame">
           <img class="lqip" src="/public/images/souvenir/thumbs/01.jpg" alt="" aria-hidden="true" />
           <img class="hires" id="svCoverHires" src="/public/images/souvenir/hi-01.jpg" alt="Souvenir booklet cover" />
+          <div class="sv-corner-curl" aria-hidden="true"></div>
         </div>
         <button type="button" class="sv-open-btn" id="svOpenBtn">
           <span>Open Booklet</span>
@@ -306,14 +361,14 @@ body{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
         <div class="sv-slider-wrap">
-          <input type="range" class="sv-slider" id="svSlider" min="0" max="14" value="0" step="1" aria-label="Page slider" />
+          <input type="range" class="sv-slider" id="svSlider" min="0" max="36" value="0" step="1" aria-label="Page slider" />
         </div>
         <button type="button" class="sv-nav-btn" id="svNextBtn" aria-label="Next page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
-        <span class="sv-page-label" id="svPageLabel">1 / 15</span>
+        <span class="sv-page-label" id="svPageLabel">1 / 37</span>
       </div>
-      <a href="/public/souvenir/SPC-OBU-NZ-Gala-Dinner-Dance-2026-hd.pdf" class="sv-download" id="svDownloadBtn" download>
+      <a href="/public/souvenir/Gala%20Dinner%20Dance%202026%20-%20Souvenir%20Booklet.pdf" class="sv-download" id="svDownloadBtn" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
         Download PDF
       </a>
@@ -322,7 +377,7 @@ body{
     <noscript>
       <div style="text-align:center;padding:40px 10px;color:#fff">
         <p style="margin-bottom:16px">Enable JavaScript to view the interactive booklet, or download the PDF directly.</p>
-        <a href="/public/souvenir/SPC-OBU-NZ-Gala-Dinner-Dance-2026-hd.pdf" style="color:#C9A227">Download the Souvenir PDF</a>
+        <a href="/public/souvenir/Gala%20Dinner%20Dance%202026%20-%20Souvenir%20Booklet.pdf" style="color:#C9A227">Download the Souvenir PDF</a>
       </div>
     </noscript>
   </div>
@@ -343,14 +398,15 @@ body{
 
 <div class="sv-toast" id="svToast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js" onerror="window.__svLibFailed=true"></script>
+<script src="/public/vendor/page-flip.browser.js" onerror="window.__svLibFailed=true"></script>
 <script>
 (function(){
   'use strict';
-  var TOTAL_PAGES = 15;
+  var TOTAL_PAGES = 37;
   var HIRES_PATH = '/public/images/souvenir/';
   var HIRES_PREFIX = 'hi-';
   var THUMB_PATH = '/public/images/souvenir/thumbs/';
+  var SOUND_KEY = 'spcobunz-souvenir-sound';
 
   function pad(n){ return n < 10 ? '0' + n : '' + n; }
   function hiresUrl(n){ return HIRES_PATH + HIRES_PREFIX + pad(n) + '.jpg'; }
@@ -360,6 +416,7 @@ body{
   var coverEl      = document.getElementById('svCover');
   var coverFrame   = document.getElementById('svCoverFrame');
   var coverHires   = document.getElementById('svCoverHires');
+  var cornerCurl   = coverFrame.querySelector('.sv-corner-curl');
   var openBtn      = document.getElementById('svOpenBtn');
   var hintEl       = document.getElementById('svHint');
   var arrowPrev    = document.getElementById('svArrowPrev');
@@ -370,6 +427,7 @@ body{
   var pageLabel    = document.getElementById('svPageLabel');
   var thumbsEl     = document.getElementById('svThumbs');
   var thumbsBtn    = document.getElementById('svThumbsBtn');
+  var soundBtn     = document.getElementById('svSoundBtn');
   var zoomBtn      = document.getElementById('svZoomBtn');
   var shareBtn     = document.getElementById('svShareBtn');
   var fsBtn        = document.getElementById('svFullscreenBtn');
@@ -393,6 +451,57 @@ body{
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function(){ toast.classList.remove('is-visible'); }, 2400);
   }
+
+  /* ---------- Page-turn sound (fully synthesized, no audio file / no
+     external service — this is why it will keep working forever). ---------- */
+  var soundOn = true;
+  try { var stored = localStorage.getItem(SOUND_KEY); if (stored !== null) soundOn = stored === '1'; } catch(e){}
+  var audioCtx = null;
+  function ensureAudioCtx(){
+    if (!audioCtx){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) { try { audioCtx = new AC(); } catch(e){} }
+    }
+    return audioCtx;
+  }
+  function playFlipSound(){
+    if (!soundOn) return;
+    var ctx = ensureAudioCtx();
+    if (!ctx) return;
+    if (ctx.state === 'suspended') { ctx.resume(); }
+    var duration = 0.26;
+    var len = Math.floor(ctx.sampleRate * duration);
+    var buffer = ctx.createBuffer(1, len, ctx.sampleRate);
+    var data = buffer.getChannelData(0);
+    for (var i = 0; i < len; i++){
+      var t = i / len;
+      var env = Math.pow(1 - t, 2.4) * Math.pow(Math.min(1, t * 9), 0.7);
+      data[i] = (Math.random() * 2 - 1) * env;
+    }
+    var src = ctx.createBufferSource();
+    src.buffer = buffer;
+    var filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(2600, ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + duration);
+    filter.Q.value = 0.8;
+    var gain = ctx.createGain();
+    gain.gain.value = 0.32;
+    src.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    src.start();
+  }
+  function setSound(on){
+    soundOn = on;
+    soundBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    try { localStorage.setItem(SOUND_KEY, on ? '1' : '0'); } catch(e){}
+  }
+  setSound(soundOn);
+  soundBtn.addEventListener('click', function(){
+    setSound(!soundOn);
+    if (soundOn) playFlipSound();
+  });
 
   /* ---------- Thumbnails ---------- */
   function buildThumbs(){
@@ -471,8 +580,13 @@ body{
     updateUI(1);
   }
 
+  function dismissCornerCurl(){
+    if (cornerCurl) cornerCurl.style.display = 'none';
+  }
+
   function openBookAt(visual){
     if (window.__svLibFailed) return;
+    dismissCornerCurl();
     if (!pageFlipReady){
       openBtn.textContent = 'Loading…';
       var waitTimer = setInterval(function(){
@@ -488,6 +602,7 @@ body{
     showingCover = false;
     coverEl.classList.add('is-hidden');
     bookShell.classList.remove('is-hidden');
+    playFlipSound();
     var internal = Math.max(0, visual - 2);
     if (pageFlip) pageFlip.turnToPage(internal);
     updateUI(visual);
@@ -534,6 +649,13 @@ body{
     bookShell.style.width = (portrait ? dims.maxW : dims.maxW * 2) + 'px';
     bookShell.style.height = dims.maxH + 'px';
 
+    var edgeLeft = document.createElement('div');
+    edgeLeft.className = 'sv-page-edge left';
+    var edgeRight = document.createElement('div');
+    edgeRight.className = 'sv-page-edge right';
+    bookShell.appendChild(edgeLeft);
+    bookShell.appendChild(edgeRight);
+
     var bookEl = document.createElement('div');
     bookEl.id = 'souvenirBook';
     bookShell.appendChild(bookEl);
@@ -576,6 +698,7 @@ body{
     pageFlip.loadFromHTML(pageEls);
 
     pageFlip.on('flip', function(e){
+      playFlipSound();
       if (!showingCover) updateUI(e.data + 2);
     });
 
@@ -696,7 +819,7 @@ body{
 
   function start(){
     if (!window.__svLibFailed && window.St && window.St.PageFlip){
-      /* Build the 15-page book in idle time rather than blocking the first
+      /* Build the full book in idle time rather than blocking the first
          paint: the cover (and its click-to-open button) is instantly
          interactive either way, and openBookAt() already shows a brief
          "Loading…" state and waits gracefully on the rare chance someone
