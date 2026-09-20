@@ -539,8 +539,11 @@ body{
     slider.value = visual - 1;
     prevBtn.disabled = visual <= 1;
     nextBtn.disabled = visual >= TOTAL_PAGES;
-    arrowPrev.style.visibility = visual <= 1 ? 'hidden' : 'visible';
-    arrowNext.style.visibility = visual >= TOTAL_PAGES ? 'hidden' : 'visible';
+    /* Both arrows stay hidden on the cover itself — the click-anywhere
+       cover and the Open Booklet button already handle it, and an arrow
+       sitting on top of the cover's frame border reads as a UI glitch. */
+    arrowPrev.style.visibility = (showingCover || visual <= 1) ? 'hidden' : 'visible';
+    arrowNext.style.visibility = (showingCover || visual >= TOTAL_PAGES) ? 'hidden' : 'visible';
     updateActiveThumb(visual);
   }
 
@@ -548,12 +551,15 @@ body{
   function computeMaxDims(singlePage, capOverride){
     var w = bookWrap.clientWidth || 900;
     var h = bookWrap.clientHeight || 600;
-    var availW = Math.max(180, w - 20);
-    var availH = Math.max(180, h - 16);
+    /* Leave real clearance on every side for the arrow buttons and the
+       "Open Booklet" button + hint text stacked under the cover, so the
+       book/cover never grows large enough to sit under them. */
+    var availW = Math.max(160, w - 110);
+    var availH = Math.max(160, h - 90);
     var wFromH = availH * (600 / 848);
     var widthBudget = singlePage ? availW : availW / 2;
     var maxW = Math.min(widthBudget, wFromH);
-    var cap = capOverride || (singlePage ? (window.innerWidth < 760 ? 380 : 600) : 640);
+    var cap = capOverride || (singlePage ? (window.innerWidth < 760 ? 320 : 560) : 600);
     maxW = Math.min(maxW, cap);
     return { maxW: Math.round(maxW), maxH: Math.round(maxW * (848 / 600)) };
   }
