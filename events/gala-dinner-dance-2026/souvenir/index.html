@@ -120,14 +120,12 @@ body{
 #souvenirBook .page{background:var(--ivory)}
 #souvenirBook .page img{width:100%;height:100%;object-fit:contain;display:block;background:var(--ivory)}
 
-/* Hardcover treatment: a navy/gold "board edge" band that reads as a
-   bound cover, plus a fanned page-block line down the outer edge so the
-   book doesn't look like a flat loose sheet. */
+/* Hardcover treatment: a bound-cover board edge in the site's navy. */
 .sv-book-shell::before{
   content:"";
   position:absolute; inset:-8px;
   border-radius:8px;
-  background:linear-gradient(135deg,var(--gold-dark),var(--gold) 45%,var(--gold-light) 55%,var(--gold-dark));
+  background:linear-gradient(135deg,#03081a,#061346 45%,#0c2665 55%,#03081a);
   box-shadow:0 18px 46px -12px rgba(0,0,0,.65);
   z-index:0;
 }
@@ -138,12 +136,6 @@ body{
   background:var(--navy-900);
   z-index:1;
 }
-.sv-page-edge{position:absolute;top:3%;bottom:3%;width:6px;z-index:3;pointer-events:none;
-  background:repeating-linear-gradient(180deg, rgba(255,255,255,.9) 0 1.5px, rgba(201,162,39,.18) 1.5px 3px);
-  border-radius:0 2px 2px 0; box-shadow:1px 0 3px rgba(0,0,0,.25) inset;
-}
-.sv-page-edge.left{left:-6px;transform:scaleX(-1);border-radius:2px 0 0 2px}
-.sv-page-edge.right{right:-6px}
 
 .sv-backdrop{
   position:absolute; inset:-12% -6%; z-index:0; pointer-events:none;
@@ -169,15 +161,15 @@ body{
   transition:opacity .5s var(--ease), transform .5s var(--ease);
 }
 .sv-cover.is-hidden{opacity:0;transform:scale(.96);pointer-events:none}
-.sv-cover-frame{position:relative;flex:0 0 auto;margin:0 auto;border-radius:5px}
+.sv-cover-frame{position:relative;flex:0 0 auto;margin:0 auto;border-radius:5px;background:var(--ivory)}
 .sv-cover-frame::before{
   content:""; position:absolute; inset:-7px; border-radius:9px; z-index:0;
-  background:linear-gradient(135deg,var(--gold-dark),var(--gold) 45%,var(--gold-light) 55%,var(--gold-dark));
+  background:linear-gradient(135deg,#03081a,#061346 45%,#0c2665 55%,#03081a);
   box-shadow:0 30px 70px -14px rgba(0,0,0,.75);
 }
 .sv-cover-frame img{
-  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
-  border-radius:4px; z-index:1;
+  position:absolute; inset:0; width:100%; height:100%; object-fit:contain; display:block;
+  border-radius:4px; z-index:1; background:var(--ivory);
 }
 .sv-cover-frame .lqip{filter:blur(2px);opacity:1;transition:opacity .4s var(--ease)}
 .sv-cover-frame .hires{opacity:0;transition:opacity .5s var(--ease)}
@@ -567,7 +559,11 @@ body{
   }
 
   function applyCoverSize(){
-    var d = computeMaxDims(true);
+    /* Match the cover to a single inner page's size (not the wider
+       full-width cap), so it reads as one page of the book rather than a
+       separately-sized cover graphic. */
+    var portrait = window.innerWidth < 760;
+    var d = computeMaxDims(portrait);
     coverFrame.style.width = d.maxW + 'px';
     coverFrame.style.height = d.maxH + 'px';
   }
@@ -648,13 +644,6 @@ body{
        the book fill it, same as the cover does via coverFrame.style.width.*/
     bookShell.style.width = (portrait ? dims.maxW : dims.maxW * 2) + 'px';
     bookShell.style.height = dims.maxH + 'px';
-
-    var edgeLeft = document.createElement('div');
-    edgeLeft.className = 'sv-page-edge left';
-    var edgeRight = document.createElement('div');
-    edgeRight.className = 'sv-page-edge right';
-    bookShell.appendChild(edgeLeft);
-    bookShell.appendChild(edgeRight);
 
     var bookEl = document.createElement('div');
     bookEl.id = 'souvenirBook';
