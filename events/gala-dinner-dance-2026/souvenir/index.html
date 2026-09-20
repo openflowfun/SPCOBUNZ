@@ -223,7 +223,11 @@ body{
 .sv-arrow.prev{left:clamp(2px,1vw,10px)}
 .sv-arrow.next{right:clamp(2px,1vw,10px)}
 .sv-arrow svg{width:17px;height:17px}
-@media (max-width:768px){.sv-arrow{width:34px;height:34px}.sv-arrow svg{width:14px;height:14px}}
+/* Mobile: the page now runs the same size as the cover with no reserved
+   side margin, so the floating arrows would sit on top of it. The bottom
+   control bar already has prev/next buttons, and swipe/drag still works,
+   so the floating arrows are simply hidden here rather than overlapping. */
+@media (max-width:760px){.sv-arrow{display:none}}
 
 /* Thumbnails strip */
 .sv-thumbs{position:relative;z-index:2;flex:0 0 auto;display:flex;gap:9px;overflow-x:auto;padding:10px 4px 2px;scrollbar-width:thin;scrollbar-color:var(--gold-dark) transparent}
@@ -573,26 +577,23 @@ body{
     return { maxW: Math.round(maxW), maxH: Math.round(maxW * (848 / 600)) };
   }
 
+  function computeMobileDims(){
+    /* No Open Booklet button and no side arrows while the cover is
+       showing on mobile, so both the cover and the book pages can use
+       almost the full stage instead of budgeting room for controls that
+       aren't there — this is the one sizing rule mobile uses for both. */
+    var w = bookWrap.clientWidth || 360;
+    var h = bookWrap.clientHeight || 520;
+    var availW = Math.max(160, w - 24);
+    var availH = Math.max(160, h - 24);
+    var wFromH = availH * (600 / 848);
+    var maxW = Math.round(Math.min(availW, wFromH));
+    return { maxW: maxW, maxH: Math.round(maxW * (848 / 600)) };
+  }
+
   function applyCoverSize(){
     var mobile = window.innerWidth < 760;
-    if (mobile){
-      /* No Open Booklet button and no side arrows while the cover is
-         showing on mobile, so the cover can use almost the full stage
-         instead of budgeting room for controls that aren't there. */
-      var w = bookWrap.clientWidth || 360;
-      var h = bookWrap.clientHeight || 520;
-      var availW = Math.max(160, w - 24);
-      var availH = Math.max(160, h - 24);
-      var wFromH = availH * (600 / 848);
-      var maxW = Math.round(Math.min(availW, wFromH));
-      coverFrame.style.width = maxW + 'px';
-      coverFrame.style.height = Math.round(maxW * (848 / 600)) + 'px';
-      return;
-    }
-    /* Desktop: match the cover to a single inner page's size (not a wider
-       full-width cap), so it reads as one page of the book rather than a
-       separately-sized cover graphic. */
-    var d = computeMaxDims(false);
+    var d = mobile ? computeMobileDims() : computeMaxDims(false);
     coverFrame.style.width = d.maxW + 'px';
     coverFrame.style.height = d.maxH + 'px';
   }
@@ -660,7 +661,9 @@ body{
   function buildBook(startInternal){
     destroyBook();
     var portrait = window.innerWidth < 760;
-    var dims = computeMaxDims(portrait);
+    /* Mobile pages use the exact same sizing rule as the mobile cover, so
+       the book never appears smaller than the cover once it's opened. */
+    var dims = portrait ? computeMobileDims() : computeMaxDims(false);
 
     /* StPageFlip's "stretch" mode measures its own container's current
        offsetWidth/Height to decide how big to render (see getBlockWidth/
