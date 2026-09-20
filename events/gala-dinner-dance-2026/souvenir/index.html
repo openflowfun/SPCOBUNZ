@@ -116,6 +116,12 @@ body{
 .sv-book-wrap{position:relative;z-index:2;flex:1 1 auto;min-height:0;display:flex;justify-content:center;align-items:center;perspective:2400px}
 .sv-book-shell{position:relative;z-index:2}
 .sv-book-shell.is-hidden{visibility:hidden;pointer-events:none}
+/* Separate inner clipping layer: the outer shell's ::before/::after need to
+   extend past its own box (negative inset) to draw the hardcover border, so
+   overflow:hidden can't live on the shell itself — it goes on this inner
+   wrapper instead, which is exactly the shell's own footprint. That keeps
+   whatever StPageFlip renders from ever visually spilling past the cover. */
+.sv-book-inner{position:absolute;inset:0;z-index:2;overflow:hidden;border-radius:4px}
 #souvenirBook{margin:0 auto;touch-action:pan-y;position:relative;z-index:2}
 #souvenirBook .page{background:var(--ivory)}
 #souvenirBook .page img{width:100%;height:100%;object-fit:contain;display:block;background:var(--ivory)}
@@ -197,6 +203,9 @@ body{
   animation:sv-pulse-btn 2.4s ease-in-out infinite;
   font-family:var(--sans);
 }
+/* Mobile: the cover itself is already the whole tap target, so drop the
+   button and let the cover artwork use that reclaimed space instead. */
+@media (max-width:760px){.sv-open-btn{display:none}}
 .sv-open-btn:disabled{animation:none;cursor:default}
 .sv-open-btn svg{width:15px;height:15px}
 @keyframes sv-pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
@@ -565,11 +574,25 @@ body{
   }
 
   function applyCoverSize(){
-    /* Match the cover to a single inner page's size (not the wider
+    var mobile = window.innerWidth < 760;
+    if (mobile){
+      /* No Open Booklet button and no side arrows while the cover is
+         showing on mobile, so the cover can use almost the full stage
+         instead of budgeting room for controls that aren't there. */
+      var w = bookWrap.clientWidth || 360;
+      var h = bookWrap.clientHeight || 520;
+      var availW = Math.max(160, w - 24);
+      var availH = Math.max(160, h - 24);
+      var wFromH = availH * (600 / 848);
+      var maxW = Math.round(Math.min(availW, wFromH));
+      coverFrame.style.width = maxW + 'px';
+      coverFrame.style.height = Math.round(maxW * (848 / 600)) + 'px';
+      return;
+    }
+    /* Desktop: match the cover to a single inner page's size (not a wider
        full-width cap), so it reads as one page of the book rather than a
        separately-sized cover graphic. */
-    var portrait = window.innerWidth < 760;
-    var d = computeMaxDims(portrait);
+    var d = computeMaxDims(false);
     coverFrame.style.width = d.maxW + 'px';
     coverFrame.style.height = d.maxH + 'px';
   }
@@ -651,9 +674,13 @@ body{
     bookShell.style.width = (portrait ? dims.maxW : dims.maxW * 2) + 'px';
     bookShell.style.height = dims.maxH + 'px';
 
+    var bookInner = document.createElement('div');
+    bookInner.className = 'sv-book-inner';
+    bookShell.appendChild(bookInner);
+
     var bookEl = document.createElement('div');
     bookEl.id = 'souvenirBook';
-    bookShell.appendChild(bookEl);
+    bookInner.appendChild(bookEl);
 
     pageFlip = new St.PageFlip(bookEl, {
       width: 600,
