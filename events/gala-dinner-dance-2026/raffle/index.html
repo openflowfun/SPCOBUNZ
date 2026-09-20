@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Raffle Draw — SPC OBU NZ Gala Dinner Dance 2026</title>
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="description" content="Live raffle draw tool for the SPC OBU NZ Gala Dinner Dance 2026." />
+<link rel="icon" href="/public/images/favicon-32x32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="/public/images/favicon-16x16.png" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png" />
+<link rel="preload" as="image" href="/public/images/crest-sm.jpg" />
+<link rel="preload" as="image" href="/public/images/crest-spc-cutout.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --navy-950:#050D1A; --navy-900:#081426; --navy-800:#0A1930; --navy-700:#0F2447;
+  --gold:#C9A227; --gold-light:#E3C566; --gold-dark:#A5841C;
+  --ivory:#F8F6F1;
+  --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--navy-950)}
+body{
+  min-height:100vh; min-height:100dvh;
+  font-family:var(--sans);
+  background:
+    radial-gradient(ellipse 900px 600px at 15% -10%, rgba(201,162,39,.10), transparent 60%),
+    radial-gradient(ellipse 900px 700px at 90% 110%, rgba(201,162,39,.08), transparent 60%),
+    var(--navy-950);
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
+  display:flex; flex-direction:column;
+  overflow-x:hidden;
+}
+.gold-text{color:var(--gold)}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.gold-rule{width:64px;height:2px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));border-radius:2px;margin:16px auto}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* Header */
+.rv-header{
+  flex:0 0 auto; z-index:40;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:12px clamp(16px,4vw,40px);
+  background:rgba(5,13,26,.72);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,162,39,.15);
+  position:sticky; top:0;
+}
+.rv-header .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#fff;flex-shrink:0}
+.rv-header .brand img{width:30px;height:30px;border-radius:50%;object-fit:cover;display:block}
+.rv-header .brand b{font-family:var(--serif);font-size:14px;letter-spacing:.02em;white-space:nowrap}
+.rv-header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.rv-icon-btn{
+  width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  color:var(--ivory);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s var(--ease);
+}
+.rv-icon-btn:hover{background:rgba(201,162,39,.16);border-color:var(--gold);color:var(--gold-light)}
+.rv-icon-btn svg{width:15px;height:15px}
+.rv-back{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;letter-spacing:.05em;
+  color:var(--ivory);opacity:.8;text-decoration:none;
+  padding:7px 13px;border:1px solid rgba(255,255,255,.15);border-radius:999px;
+  transition:all .25s var(--ease); flex-shrink:0;
+}
+.rv-back:hover{opacity:1;border-color:var(--gold);color:var(--gold-light);background:rgba(201,162,39,.08)}
+.rv-back svg{width:14px;height:14px;flex-shrink:0}
+@media (max-width:600px){.rv-back span{display:none}.rv-back{padding:8px}.rv-header .brand b{font-size:13px}}
+
+/* Views */
+.rv-main{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;padding:clamp(24px,5vw,56px) clamp(16px,4vw,24px) 60px}
+.rv-view{display:none;width:100%;max-width:920px;margin:0 auto}
+.rv-view.is-active{display:block;animation:rv-fade-up .55s var(--ease)}
+@keyframes rv-fade-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* Welcome */
+.rv-crest{width:86px;height:auto;display:block;margin:0 auto 18px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.4))}
+.rv-hero-title{font-family:var(--serif);font-size:clamp(30px,5.4vw,52px);text-align:center;line-height:1.12;font-weight:700}
+.rv-hero-sub{text-align:center;margin-top:10px;font-size:clamp(14px,1.6vw,17px);color:rgba(248,246,241,.72)}
+.rv-prize-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+@media (max-width:760px){.rv-prize-grid{grid-template-columns:1fr}}
+.rv-prize-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  border:1px solid rgba(201,162,39,.22); border-radius:16px; padding:22px 20px;
+  text-align:center; position:relative; overflow:hidden;
+}
+.rv-prize-card .rv-prize-num{
+  display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;
+  background:var(--gold); color:var(--navy-950); font-weight:800; font-size:13px; margin-bottom:12px;
+}
+.rv-prize-card h3{font-family:var(--serif);font-size:18px;color:var(--gold-light);line-height:1.3}
+.rv-prize-card p{margin-top:8px;font-size:12.5px;color:rgba(248,246,241,.68);line-height:1.5}
+.rv-ticket-note{
+  margin-top:30px;text-align:center;font-size:13px;color:rgba(248,246,241,.6);
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:999px;
+  padding:10px 20px;display:inline-flex;gap:8px;align-items:center;
+}
+.rv-ticket-note b{color:var(--gold-light)}
+.rv-center{text-align:center}
+.rv-cta{
+  display:inline-flex;align-items:center;gap:10px;margin-top:36px;
+  background:var(--gold); color:var(--navy-950); font-weight:800; font-size:15px;
+  padding:15px 30px; border-radius:999px; border:none; cursor:pointer;
+  letter-spacing:.03em; box-shadow:0 14px 34px -10px rgba(201,162,39,.55);
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+  font-family:var(--sans);
+}
+.rv-cta:hover{transform:translateY(-2px);box-shadow:0 18px 40px -8px rgba(201,162,39,.65)}
+.rv-cta:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
+.rv-cta svg{width:16px;height:16px}
+.rv-cta.outline{background:transparent;border:1.5px solid var(--gold);color:var(--gold-light);box-shadow:none}
+.rv-cta.outline:hover{background:rgba(201,162,39,.1)}
+.rv-cta.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--ivory);box-shadow:none}
+.rv-cta.ghost:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.05)}
+.rv-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+
+/* Setup */
+.rv-card{
+  background:linear-gradient(180deg,rgba(15,36,71,.5),rgba(8,20,38,.5));
+  border:1px solid rgba(201,162,39,.18); border-radius:20px;
+  padding:clamp(24px,4vw,40px); box-shadow:0 30px 70px -24px rgba(0,0,0,.6);
+}
+.rv-label{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light);display:block;margin-bottom:10px}
+.rv-textarea{
+  width:100%; min-height:220px; resize:vertical; border-radius:12px;
+  background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.14); color:#fff;
+  padding:16px; font-family:'SFMono-Regular',Menlo,Consolas,monospace; font-size:13.5px; line-height:1.7;
+}
+.rv-textarea:focus{outline:none;border-color:var(--gold)}
+.rv-hint{font-size:12.5px;color:rgba(248,246,241,.5);margin-top:10px;line-height:1.6}
+.rv-hint code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:4px;color:var(--gold-light)}
+.rv-stat-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
+.rv-stat{
+  flex:1; min-width:140px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+  border-radius:12px; padding:14px 16px; text-align:center;
+}
+.rv-stat b{display:block;font-family:var(--serif);font-size:26px;color:var(--gold-light)}
+.rv-stat span{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:rgba(248,246,241,.5)}
+.rv-resume-banner{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  background:rgba(201,162,39,.08); border:1px solid rgba(201,162,39,.3); border-radius:14px;
+  padding:14px 18px; margin-bottom:22px; font-size:13px;
+}
+.rv-resume-banner button{background:none;border:1px solid rgba(255,255,255,.2);color:var(--ivory);padding:6px 12px;border-radius:999px;font-size:11.5px;cursor:pointer}
+.rv-resume-banner button:hover{border-color:var(--gold)}
+
+/* Draw view */
+.rv-round-bar{
+  display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  background:rgba(255,255,255,.04); border:1px solid rgba(201,162,39,.2); border-radius:14px;
+  padding:16px 20px; margin-bottom:24px;
+}
+.rv-round-bar .rv-round-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light)}
+.rv-round-bar h2{font-family:var(--serif);font-size:clamp(18px,2.4vw,24px);margin-top:2px}
+.rv-round-bar .rv-round-desc{font-size:12.5px;color:rgba(248,246,241,.65);margin-top:2px}
+.rv-remaining{font-size:12px;color:rgba(248,246,241,.55);white-space:nowrap}
+.rv-remaining b{color:var(--gold-light)}
+
+.rv-mode-switch{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:4px;margin:0 auto 26px;gap:4px}
+.rv-mode-btn{border:none;background:transparent;color:rgba(248,246,241,.6);font-family:var(--sans);font-weight:700;font-size:12.5px;letter-spacing:.03em;padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s var(--ease)}
+.rv-mode-btn.is-active{background:var(--gold);color:var(--navy-950)}
+.rv-mode-switch-wrap{display:flex;justify-content:center}
+
+.rv-stage{
+  position:relative; min-height:380px;
+  background:linear-gradient(180deg,rgba(15,36,71,.5),rgba(8,20,38,.5));
+  border:1px solid rgba(201,162,39,.18); border-radius:22px;
+  box-shadow:0 30px 70px -24px rgba(0,0,0,.6);
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  padding:clamp(20px,4vw,42px); overflow:hidden;
+}
+.rv-stage-mode{display:none;width:100%}
+.rv-stage-mode.is-active{display:flex;flex-direction:column;align-items:center}
+
+/* Wheel */
+.rv-wheel-wrap{position:relative;width:min(74vw,360px);aspect-ratio:1/1;margin:0 auto}
+.rv-wheel-wrap canvas{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 0 0 8px var(--navy-900),0 0 0 11px rgba(201,162,39,.6),0 20px 50px -10px rgba(0,0,0,.6)}
+.rv-wheel-pointer{
+  position:absolute; top:-16px; left:50%; transform:translateX(-50%);
+  width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;
+  border-top:26px solid var(--gold); filter:drop-shadow(0 3px 6px rgba(0,0,0,.5)); z-index:3;
+}
+.rv-wheel-hub{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:20%; height:20%; border-radius:50%; background:radial-gradient(circle at 35% 30%,var(--gold-light),var(--gold-dark));
+  box-shadow:0 0 0 3px var(--navy-950), 0 4px 10px rgba(0,0,0,.5); z-index:3;
+}
+
+/* Elimination board */
+.rv-board{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;width:100%;max-height:400px;overflow-y:auto;padding:4px}
+.rv-chip{
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.14); border-radius:10px;
+  padding:9px 6px; text-align:center; font-size:11.5px; font-weight:600; color:rgba(248,246,241,.8);
+  transition:all .15s var(--ease); line-height:1.3;
+}
+.rv-chip .rv-chip-name{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rv-chip .rv-chip-n{display:block;font-size:9.5px;color:rgba(248,246,241,.4);margin-top:2px}
+.rv-chip.is-scanning{background:var(--gold);border-color:var(--gold-light);color:var(--navy-950);transform:scale(1.06)}
+.rv-chip.is-scanning .rv-chip-n{color:rgba(5,13,26,.6)}
+.rv-chip.is-eliminated{opacity:.18;transform:scale(.94)}
+.rv-chip.is-winner{background:linear-gradient(135deg,var(--gold-light),var(--gold));border-color:var(--gold-light);color:var(--navy-950);transform:scale(1.14);box-shadow:0 0 0 4px rgba(201,162,39,.25),0 10px 24px -6px rgba(201,162,39,.6);z-index:2}
+.rv-chip.is-winner .rv-chip-n{color:rgba(5,13,26,.6)}
+
+.rv-draw-btn{margin-top:30px}
+
+/* Winner overlay */
+.rv-winner-overlay{position:fixed;inset:0;background:rgba(2,6,14,.92);z-index:200;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(8px)}
+.rv-winner-overlay.is-open{display:flex}
+.rv-winner-card{
+  position:relative; z-index:2; text-align:center; max-width:480px; width:100%;
+  background:linear-gradient(180deg,rgba(15,36,71,.85),rgba(8,20,38,.9));
+  border:1px solid rgba(201,162,39,.4); border-radius:24px; padding:clamp(30px,5vw,48px);
+  box-shadow:0 40px 100px -20px rgba(0,0,0,.7);
+  animation:rv-pop .5s var(--ease);
+}
+@keyframes rv-pop{from{opacity:0;transform:scale(.85) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.rv-winner-prize{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light)}
+.rv-winner-name{font-family:var(--serif);font-size:clamp(28px,5vw,40px);margin-top:12px;line-height:1.15;font-weight:700}
+.rv-winner-meta{margin-top:10px;font-size:13px;color:rgba(248,246,241,.6)}
+.rv-winner-prize-name{margin-top:20px;font-size:15px;color:#fff}
+.rv-winner-prize-name b{color:var(--gold-light);font-family:var(--serif);font-size:19px;display:block;margin-top:4px}
+#rvConfetti{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+/* Summary */
+.rv-summary-list{display:grid;gap:14px;margin-top:28px}
+.rv-summary-row{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  background:rgba(255,255,255,.04);border:1px solid rgba(201,162,39,.2);border-radius:14px;padding:16px 20px;
+}
+.rv-summary-row .rv-sr-prize{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light)}
+.rv-summary-row .rv-sr-name{font-family:var(--serif);font-size:19px;margin-top:2px}
+.rv-summary-row .rv-sr-tickets{font-size:12px;color:rgba(248,246,241,.5)}
+
+.rv-footnote{text-align:center;margin-top:40px;font-size:11.5px;color:rgba(248,246,241,.35)}
+</style>
+</head>
+<body>
+
+<header class="rv-header">
+  <a href="/" class="brand">
+    <img src="/public/images/crest-sm.jpg" alt="SPC OBU NZ crest" />
+    <b>SPC OBU <span class="gold-text">NZ</span></b>
+  </a>
+  <div class="rv-header-actions">
+    <button type="button" class="rv-icon-btn" id="rvFullscreenBtn" aria-label="Toggle fullscreen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/></svg>
+    </button>
+    <a href="/events/gala-dinner-dance-2026" class="rv-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span>Back to Gala Dinner Dance</span>
+    </a>
+  </div>
+</header>
+
+<main class="rv-main">
+
+  <!-- ================= WELCOME ================= -->
+  <section class="rv-view is-active" data-view="welcome">
+    <img class="rv-crest" src="/public/images/crest-spc-cutout.png" alt="St. Peter's College crest" />
+    <p class="eyebrow rv-center">SPC OBU New Zealand · Gala Dinner Dance 2026</p>
+    <h1 class="rv-hero-title">The <span class="gold-text">Raffle Draw</span></h1>
+    <p class="rv-hero-sub">Three prizes, three lucky Peterites — good luck to everyone in the room tonight.</p>
+
+    <div class="rv-prize-grid">
+      <div class="rv-prize-card">
+        <span class="rv-prize-num">1</span>
+        <h3>DeLonghi Icona<br/>Vintage Breakfast Pack</h3>
+        <p>Kettle &amp; Toaster</p>
+      </div>
+      <div class="rv-prize-card">
+        <span class="rv-prize-num">2</span>
+        <h3>Outdoor Enthusiast<br/>Bundle</h3>
+        <p>Portable Action Cam, Binoculars, LED Stun Light, Multi-tool &amp; Satchel</p>
+      </div>
+      <div class="rv-prize-card">
+        <span class="rv-prize-num">3</span>
+        <h3>Trail Blazer<br/>Bundle</h3>
+        <p>Binoculars, LED Stun Light, Weatherproof Jacket, Multi-tool &amp; Satchel</p>
+      </div>
+    </div>
+
+    <div class="rv-center">
+      <div class="rv-ticket-note">Tickets are <b>$5 each</b> — pay at check-in</div>
+    </div>
+
+    <div class="rv-center">
+      <button type="button" class="rv-cta" id="rvBeginBtn">
+        <span>Begin Raffle Draw</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= SETUP ================= -->
+  <section class="rv-view" data-view="setup">
+    <p class="eyebrow rv-center">Before We Draw</p>
+    <h1 class="rv-hero-title" style="font-size:clamp(24px,3.6vw,34px)">Load Tonight's Tickets</h1>
+    <p class="rv-hero-sub">One line per person — name, then how many tickets they bought.</p>
+
+    <div id="rvResumeBanner" class="rv-resume-banner" style="display:none;margin-top:26px">
+      <span>Picking up a saved raffle from earlier — <b id="rvResumeCount">0</b> tickets loaded.</span>
+      <button type="button" id="rvResumeClear">Clear &amp; start over</button>
+    </div>
+
+    <div class="rv-card" style="margin-top:26px">
+      <label class="rv-label" for="rvEntriesInput">Ticket list</label>
+      <textarea id="rvEntriesInput" class="rv-textarea" spellcheck="false" placeholder="Amal Perera, 3&#10;Nadia Fernando, 1&#10;Kevin Silva, 5&#10;..."></textarea>
+      <p class="rv-hint">One entry per line: <code>Name, ticket count</code>. No number? It's counted as 1 ticket. Someone with 5 tickets is 5&times; more likely to be drawn — exactly like a real raffle drum.</p>
+
+      <div class="rv-stat-row">
+        <div class="rv-stat"><b id="rvStatPeople">0</b><span>Participants</span></div>
+        <div class="rv-stat"><b id="rvStatTickets">0</b><span>Total Tickets</span></div>
+      </div>
+    </div>
+
+    <div class="rv-actions">
+      <button type="button" class="rv-cta ghost" id="rvBackToWelcome">Back</button>
+      <button type="button" class="rv-cta" id="rvContinueBtn" disabled>
+        <span>Continue to Draw</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= DRAW ================= -->
+  <section class="rv-view" data-view="draw">
+    <div class="rv-round-bar">
+      <div>
+        <div class="rv-round-label" id="rvRoundLabel">Draw 1 of 3</div>
+        <h2 id="rvRoundPrizeName">DeLonghi Icona Vintage Breakfast Pack</h2>
+        <div class="rv-round-desc" id="rvRoundPrizeDesc">Kettle &amp; Toaster</div>
+      </div>
+      <div class="rv-remaining"><b id="rvRemainingTickets">0</b> tickets &middot; <b id="rvRemainingPeople">0</b> people still in the draw</div>
+    </div>
+
+    <div class="rv-mode-switch-wrap">
+      <div class="rv-mode-switch">
+        <button type="button" class="rv-mode-btn is-active" id="rvModeWheelBtn" data-mode="wheel">Spinning Wheel</button>
+        <button type="button" class="rv-mode-btn" id="rvModeBoardBtn" data-mode="board">Elimination Board</button>
+      </div>
+    </div>
+
+    <div class="rv-stage">
+      <div class="rv-stage-mode is-active" id="rvStageWheel">
+        <div class="rv-wheel-wrap">
+          <div class="rv-wheel-pointer"></div>
+          <canvas id="rvWheelCanvas" width="640" height="640"></canvas>
+          <div class="rv-wheel-hub"></div>
+        </div>
+      </div>
+      <div class="rv-stage-mode" id="rvStageBoard">
+        <div class="rv-board" id="rvBoardGrid"></div>
+      </div>
+
+      <button type="button" class="rv-cta rv-draw-btn" id="rvDrawBtn">
+        <span>Draw Winner</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+      </button>
+    </div>
+
+    <p class="rv-footnote">Winners are removed from the pool for the next draw, so everyone still in the room gets a fair shot at every remaining prize.</p>
+  </section>
+
+  <!-- ================= SUMMARY ================= -->
+  <section class="rv-view" data-view="summary">
+    <p class="eyebrow rv-center">Gala Dinner Dance 2026</p>
+    <h1 class="rv-hero-title">All Prizes <span class="gold-text">Awarded</span></h1>
+    <p class="rv-hero-sub">Congratulations to tonight's winners — thank you to everyone who bought a ticket.</p>
+
+    <div class="rv-summary-list" id="rvSummaryList"></div>
+
+    <div class="rv-actions">
+      <button type="button" class="rv-cta ghost" id="rvStartOverBtn">Start a New Raffle</button>
+    </div>
+  </section>
+
+</main>
+
+<div class="rv-winner-overlay" id="rvWinnerOverlay">
+  <canvas id="rvConfetti"></canvas>
+  <div class="rv-winner-card">
+    <p class="rv-winner-prize" id="rvWinPrizeLabel">Draw 1 of 3</p>
+    <h2 class="rv-winner-name" id="rvWinName">Winner Name</h2>
+    <p class="rv-winner-meta" id="rvWinMeta">Entered with 3 tickets</p>
+    <p class="rv-winner-prize-name">wins the<b id="rvWinPrize">DeLonghi Icona Vintage Breakfast Pack</b></p>
+    <div class="rv-actions" style="margin-top:28px">
+      <button type="button" class="rv-cta ghost" id="rvRedrawBtn">Redraw This Prize</button>
+      <button type="button" class="rv-cta" id="rvNextRoundBtn">
+        <span>Next Prize</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var STORAGE_KEY = 'spcobunz-raffle-v1';
+
+  var PRIZES = [
+    { name: 'DeLonghi Icona Vintage Breakfast Pack', desc: 'Kettle & Toaster' },
+    { name: 'Outdoor Enthusiast Bundle', desc: 'Portable Action Cam, Binoculars, LED Stun Light, Multi-tool & Satchel' },
+    { name: 'Trail Blazer Bundle', desc: 'Binoculars, LED Stun Light, Weatherproof Jacket, Multi-tool & Satchel' }
+  ];
+
+  var WHEEL_COLORS = ['#0F2447', '#C9A227', '#0A1930', '#E3C566', '#081426', '#A5841C'];
+
+  /* ---------- State ---------- */
+  var state = {
+    rawInput: '',
+    pool: [],        // [{name, tickets}] — tickets = count still in the draw
+    round: 0,        // 0-based index into PRIZES
+    mode: 'wheel',
+    winners: []      // [{name, tickets, prizeIndex}]
+  };
+
+  function saveState(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+  }
+  function loadState(){
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch(e){ return null; }
+  }
+  function clearState(){
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e){}
+  }
+
+  /* ---------- Views ---------- */
+  var views = document.querySelectorAll('.rv-view');
+  function showView(name){
+    views.forEach(function(v){ v.classList.toggle('is-active', v.getAttribute('data-view') === name); });
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  }
+
+  /* ---------- Sound (synthesized — no audio files, no external service) ---------- */
+  var audioCtx = null;
+  function ctx(){
+    if (!audioCtx){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) { try { audioCtx = new AC(); } catch(e){} }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') { audioCtx.resume(); }
+    return audioCtx;
+  }
+  function tone(freq, start, dur, type, gainVal){
+    var c = ctx(); if (!c) return;
+    var o = c.createOscillator(); o.type = type || 'sine'; o.frequency.value = freq;
+    var g = c.createGain(); g.gain.value = 0;
+    o.connect(g); g.connect(c.destination);
+    var t0 = c.currentTime + start;
+    g.gain.linearRampToValueAtTime(gainVal || 0.22, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.start(t0); o.stop(t0 + dur + 0.05);
+  }
+  function playFanfare(){
+    tone(523.25, 0, .2, 'triangle', .22);
+    tone(659.25, .16, .22, 'triangle', .22);
+    tone(783.99, .32, .5, 'triangle', .28);
+    tone(1046.5, .34, .5, 'sine', .12);
+  }
+  function playTick(){
+    var c = ctx(); if (!c) return;
+    var len = Math.floor(c.sampleRate * 0.028);
+    var buf = c.createBuffer(1, len, c.sampleRate);
+    var d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++){ var t = i / len; d[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 3); }
+    var src = c.createBufferSource(); src.buffer = buf;
+    var f = c.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 1400;
+    var g = c.createGain(); g.gain.value = 0.22;
+    src.connect(f); f.connect(g); g.connect(c.destination); src.start();
+  }
+  function playWhoosh(dur){
+    var c = ctx(); if (!c) return;
+    var len = Math.floor(c.sampleRate * dur);
+    var buf = c.createBuffer(1, len, c.sampleRate);
+    var d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++){ var t = i / len; d[i] = (Math.random() * 2 - 1) * Math.pow(t, 0.35) * Math.pow(1 - t, 1.4); }
+    var src = c.createBufferSource(); src.buffer = buf;
+    var f = c.createBiquadFilter(); f.type = 'bandpass';
+    f.frequency.setValueAtTime(280, c.currentTime);
+    f.frequency.exponentialRampToValueAtTime(2400, c.currentTime + dur);
+    var g = c.createGain(); g.gain.value = 0.28;
+    src.connect(f); f.connect(g); g.connect(c.destination); src.start();
+  }
+
+  /* ---------- Confetti (self-contained canvas burst) ---------- */
+  function fireConfetti(){
+    var canvas = document.getElementById('rvConfetti');
+    var c2d = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    var colors = ['#C9A227', '#E3C566', '#ffffff', '#0F2447'];
+    var parts = [];
+    for (var i = 0; i < 150; i++){
+      parts.push({
+        x: canvas.width / 2 + (Math.random() - 0.5) * 260,
+        y: canvas.height * 0.32 + (Math.random() - 0.5) * 40,
+        vx: (Math.random() - 0.5) * 10,
+        vy: -Math.random() * 10 - 4,
+        size: 4 + Math.random() * 5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rot: Math.random() * Math.PI * 2,
+        vr: (Math.random() - 0.5) * 0.34,
+        life: 0
+      });
+    }
+    var start = performance.now();
+    var lastT = start;
+    function frame(now){
+      var dt = Math.min(32, now - lastT); lastT = now;
+      c2d.clearRect(0, 0, canvas.width, canvas.height);
+      var alive = false;
+      for (var i = 0; i < parts.length; i++){
+        var p = parts[i];
+        p.vy += 0.24; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life += dt;
+        if (p.y < canvas.height + 30 && p.life < 3400) alive = true;
+        c2d.save();
+        c2d.translate(p.x, p.y);
+        c2d.rotate(p.rot);
+        c2d.globalAlpha = Math.max(0, 1 - p.life / 3400);
+        c2d.fillStyle = p.color;
+        c2d.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+        c2d.restore();
+      }
+      if (alive) requestAnimationFrame(frame);
+      else c2d.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- Entry parsing ---------- */
+  function parseEntries(text){
+    var lines = text.split('\n');
+    var pool = [];
+    for (var i = 0; i < lines.length; i++){
+      var line = lines[i].trim();
+      if (!line) continue;
+      var parts = line.split(',');
+      var name = (parts[0] || '').trim();
+      if (!name) continue;
+      var qty = parseInt((parts[1] || '').trim(), 10);
+      if (!qty || qty < 1) qty = 1;
+      pool.push({ name: name, tickets: qty });
+    }
+    return pool;
+  }
+  function poolTotals(pool){
+    var people = pool.length;
+    var tickets = 0;
+    for (var i = 0; i < pool.length; i++) tickets += pool[i].tickets;
+    return { people: people, tickets: tickets };
+  }
+
+  /* ---------- Weighted winner selection ---------- */
+  function pickWeightedWinner(pool){
+    var total = 0;
+    for (var i = 0; i < pool.length; i++) total += pool[i].tickets;
+    if (total <= 0) return null;
+    var r = Math.random() * total;
+    var cum = 0;
+    for (var j = 0; j < pool.length; j++){
+      var startFrac = cum / total;
+      cum += pool[j].tickets;
+      var endFrac = cum / total;
+      if (r < cum){
+        return { name: pool[j].name, tickets: pool[j].tickets, index: j, startFrac: startFrac, endFrac: endFrac };
+      }
+    }
+    var last = pool[pool.length - 1];
+    return { name: last.name, tickets: last.tickets, index: pool.length - 1, startFrac: (total - last.tickets) / total, endFrac: 1 };
+  }
+
+  /* ---------- Setup view ---------- */
+  var entriesInput = document.getElementById('rvEntriesInput');
+  var statPeople = document.getElementById('rvStatPeople');
+  var statTickets = document.getElementById('rvStatTickets');
+  var continueBtn = document.getElementById('rvContinueBtn');
+  var resumeBanner = document.getElementById('rvResumeBanner');
+  var resumeCount = document.getElementById('rvResumeCount');
+
+  function refreshSetupStats(){
+    var pool = parseEntries(entriesInput.value);
+    var totals = poolTotals(pool);
+    statPeople.textContent = totals.people;
+    statTickets.textContent = totals.tickets;
+    continueBtn.disabled = totals.tickets === 0;
+  }
+  entriesInput.addEventListener('input', refreshSetupStats);
+
+  document.getElementById('rvBeginBtn').addEventListener('click', function(){
+    var saved = loadState();
+    if (saved && saved.pool && saved.pool.length){
+      resumeBanner.style.display = 'flex';
+      var t = 0; for (var i=0;i<saved.pool.length;i++) t += saved.pool[i].tickets;
+      for (var w=0;w<(saved.winners||[]).length;w++) { /* winners already removed from pool at save time */ }
+      resumeCount.textContent = t;
+      entriesInput.value = poolToText(saved.pool);
+      state = saved;
+    }
+    refreshSetupStats();
+    showView('setup');
+  });
+
+  function poolToText(pool){
+    return pool.map(function(p){ return p.name + ', ' + p.tickets; }).join('\n');
+  }
+
+  document.getElementById('rvResumeClear').addEventListener('click', function(){
+    clearState();
+    state = { rawInput: '', pool: [], round: 0, mode: 'wheel', winners: [] };
+    entriesInput.value = '';
+    resumeBanner.style.display = 'none';
+    refreshSetupStats();
+  });
+
+  document.getElementById('rvBackToWelcome').addEventListener('click', function(){ showView('welcome'); });
+
+  document.getElementById('rvContinueBtn').addEventListener('click', function(){
+    state.pool = parseEntries(entriesInput.value);
+    state.round = state.round || 0;
+    state.winners = state.winners || [];
+    state.mode = state.mode || 'wheel';
+    saveState();
+    enterRound();
+  });
+
+  /* ---------- Draw view ---------- */
+  var roundLabel = document.getElementById('rvRoundLabel');
+  var roundPrizeName = document.getElementById('rvRoundPrizeName');
+  var roundPrizeDesc = document.getElementById('rvRoundPrizeDesc');
+  var remainingTickets = document.getElementById('rvRemainingTickets');
+  var remainingPeople = document.getElementById('rvRemainingPeople');
+  var drawBtn = document.getElementById('rvDrawBtn');
+  var modeWheelBtn = document.getElementById('rvModeWheelBtn');
+  var modeBoardBtn = document.getElementById('rvModeBoardBtn');
+  var stageWheel = document.getElementById('rvStageWheel');
+  var stageBoard = document.getElementById('rvStageBoard');
+  var boardGrid = document.getElementById('rvBoardGrid');
+  var wheelCanvas = document.getElementById('rvWheelCanvas');
+  var wheelCtx = wheelCanvas.getContext('2d');
+  var isDrawing = false;
+  var wheelRotation = 0;
+
+  function setMode(mode){
+    state.mode = mode;
+    modeWheelBtn.classList.toggle('is-active', mode === 'wheel');
+    modeBoardBtn.classList.toggle('is-active', mode === 'board');
+    stageWheel.classList.toggle('is-active', mode === 'wheel');
+    stageBoard.classList.toggle('is-active', mode === 'board');
+    if (mode === 'wheel') drawWheel(wheelRotation); else renderBoard();
+    saveState();
+  }
+  modeWheelBtn.addEventListener('click', function(){ if (!isDrawing) setMode('wheel'); });
+  modeBoardBtn.addEventListener('click', function(){ if (!isDrawing) setMode('board'); });
+
+  function enterRound(){
+    if (state.round >= PRIZES.length || !state.pool.length){
+      showSummary();
+      return;
+    }
+    var prize = PRIZES[state.round];
+    roundLabel.textContent = 'Draw ' + (state.round + 1) + ' of ' + PRIZES.length;
+    roundPrizeName.textContent = prize.name;
+    roundPrizeDesc.textContent = prize.desc;
+    updateRemaining();
+    setMode(state.mode || 'wheel');
+    showView('draw');
+  }
+
+  function updateRemaining(){
+    var totals = poolTotals(state.pool);
+    remainingTickets.textContent = totals.tickets;
+    remainingPeople.textContent = totals.people;
+  }
+
+  /* ---------- Wheel rendering ---------- */
+  function drawWheel(rotation){
+    var W = wheelCanvas.width, H = wheelCanvas.height;
+    var cx = W / 2, cy = H / 2, r = W / 2 - 6;
+    wheelCtx.clearRect(0, 0, W, H);
+    wheelCtx.save();
+    wheelCtx.translate(cx, cy);
+    wheelCtx.rotate(rotation);
+    var total = 0;
+    for (var i = 0; i < state.pool.length; i++) total += state.pool[i].tickets;
+    if (total <= 0){ wheelCtx.restore(); return; }
+    var angle = -Math.PI / 2;
+    for (var g = 0; g < state.pool.length; g++){
+      var frac = state.pool[g].tickets / total;
+      var sweep = frac * Math.PI * 2;
+      wheelCtx.beginPath();
+      wheelCtx.moveTo(0, 0);
+      wheelCtx.arc(0, 0, r, angle, angle + sweep);
+      wheelCtx.closePath();
+      wheelCtx.fillStyle = WHEEL_COLORS[g % WHEEL_COLORS.length];
+      wheelCtx.fill();
+      wheelCtx.lineWidth = 2;
+      wheelCtx.strokeStyle = 'rgba(5,13,26,.5)';
+      wheelCtx.stroke();
+      if (sweep > 0.16){
+        wheelCtx.save();
+        wheelCtx.rotate(angle + sweep / 2);
+        wheelCtx.textAlign = 'right';
+        wheelCtx.fillStyle = '#F8F6F1';
+        wheelCtx.font = '600 20px Inter, sans-serif';
+        var label = state.pool[g].name.length > 16 ? state.pool[g].name.slice(0, 15) + '…' : state.pool[g].name;
+        wheelCtx.fillText(label, r - 18, 6);
+        wheelCtx.restore();
+      }
+      angle += sweep;
+    }
+    wheelCtx.beginPath();
+    wheelCtx.arc(0, 0, r, 0, Math.PI * 2);
+    wheelCtx.lineWidth = 6;
+    wheelCtx.strokeStyle = 'rgba(201,162,39,.5)';
+    wheelCtx.stroke();
+    wheelCtx.restore();
+  }
+
+  function runWheelDraw(winner){
+    var spins = 7 + Math.floor(Math.random() * 2);
+    var bias = (Math.random() - 0.5) * 0.7;
+    var groupMidFrac = winner.startFrac + (winner.endFrac - winner.startFrac) * (0.5 + bias * 0.5 * (winner.endFrac - winner.startFrac > 0.001 ? 1 : 0));
+    groupMidFrac = Math.min(winner.endFrac - 0.002, Math.max(winner.startFrac + 0.002, groupMidFrac));
+    var finalRotation = wheelRotation + Math.PI * 2 * spins + (Math.PI * 2 * (1 - groupMidFrac));
+    var duration = 5200;
+    var startRotation = wheelRotation;
+    var delta = finalRotation - startRotation;
+    var t0 = performance.now();
+    playWhoosh(duration / 1000 * 0.85);
+    var lastTickAt = 0;
+    function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+    function frame(now){
+      var t = Math.min(1, (now - t0) / duration);
+      var eased = easeOutCubic(t);
+      wheelRotation = startRotation + delta * eased;
+      drawWheel(wheelRotation);
+      var speed = (1 - eased);
+      if (now - lastTickAt > (30 + speed * 220) && t < 0.985){ playTick(); lastTickAt = now; }
+      if (t < 1){
+        requestAnimationFrame(frame);
+      } else {
+        wheelRotation = startRotation + delta;
+        drawWheel(wheelRotation);
+        finishDraw(winner);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- Board rendering ---------- */
+  function renderBoard(){
+    boardGrid.innerHTML = '';
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < state.pool.length; i++){
+      var p = state.pool[i];
+      var chip = document.createElement('div');
+      chip.className = 'rv-chip';
+      chip.dataset.name = p.name;
+      var nameEl = document.createElement('span');
+      nameEl.className = 'rv-chip-name';
+      nameEl.textContent = p.name;
+      var nEl = document.createElement('span');
+      nEl.className = 'rv-chip-n';
+      nEl.textContent = p.tickets + (p.tickets === 1 ? ' ticket' : ' tickets');
+      chip.appendChild(nameEl);
+      chip.appendChild(nEl);
+      frag.appendChild(chip);
+    }
+    boardGrid.appendChild(frag);
+  }
+
+  function runBoardDraw(winner){
+    var chips = Array.prototype.slice.call(boardGrid.querySelectorAll('.rv-chip'));
+    if (!chips.length){ finishDraw(winner); return; }
+    var winnerChip = null;
+    for (var i = 0; i < chips.length; i++){ if (chips[i].dataset.name === winner.name) winnerChip = chips[i]; }
+    var duration = 4200;
+    var t0 = performance.now();
+    var lastStep = 0;
+    function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+    function step(now){
+      var t = Math.min(1, (now - t0) / duration);
+      var eased = easeOutCubic(t);
+      var interval = 40 + eased * 260;
+      if (now - lastStep > interval){
+        lastStep = now;
+        for (var i = 0; i < chips.length; i++) chips[i].classList.remove('is-scanning');
+        var idx = Math.floor(Math.random() * chips.length);
+        chips[idx].classList.add('is-scanning');
+        playTick();
+      }
+      if (t < 1){
+        requestAnimationFrame(step);
+      } else {
+        for (var j = 0; j < chips.length; j++){
+          chips[j].classList.remove('is-scanning');
+          if (chips[j] !== winnerChip) chips[j].classList.add('is-eliminated');
+        }
+        if (winnerChip) winnerChip.classList.add('is-winner');
+        finishDraw(winner);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ---------- Draw trigger ---------- */
+  drawBtn.addEventListener('click', function(){
+    if (isDrawing) return;
+    if (!state.pool.length) return;
+    var winner = pickWeightedWinner(state.pool);
+    if (!winner) return;
+    isDrawing = true;
+    drawBtn.disabled = true;
+    modeWheelBtn.style.pointerEvents = 'none';
+    modeBoardBtn.style.pointerEvents = 'none';
+    if (state.mode === 'board') runBoardDraw(winner); else runWheelDraw(winner);
+  });
+
+  var winnerOverlay = document.getElementById('rvWinnerOverlay');
+  var winPrizeLabel = document.getElementById('rvWinPrizeLabel');
+  var winName = document.getElementById('rvWinName');
+  var winMeta = document.getElementById('rvWinMeta');
+  var winPrize = document.getElementById('rvWinPrize');
+  var pendingWinner = null;
+
+  function finishDraw(winner){
+    pendingWinner = winner;
+    playFanfare();
+    var prize = PRIZES[state.round];
+    winPrizeLabel.textContent = 'Draw ' + (state.round + 1) + ' of ' + PRIZES.length;
+    winName.textContent = winner.name;
+    winMeta.textContent = 'Entered with ' + winner.tickets + (winner.tickets === 1 ? ' ticket' : ' tickets');
+    winPrize.textContent = prize.name;
+    winnerOverlay.classList.add('is-open');
+    fireConfetti();
+  }
+
+  document.getElementById('rvRedrawBtn').addEventListener('click', function(){
+    winnerOverlay.classList.remove('is-open');
+    isDrawing = false;
+    drawBtn.disabled = false;
+    modeWheelBtn.style.pointerEvents = '';
+    modeBoardBtn.style.pointerEvents = '';
+    pendingWinner = null;
+    /* Re-render the current mode's stage back to its resting state before
+       allowing another draw of the same prize. */
+    if (state.mode === 'board') renderBoard(); else drawWheel(wheelRotation);
+  });
+
+  document.getElementById('rvNextRoundBtn').addEventListener('click', function(){
+    if (pendingWinner){
+      state.winners.push({ name: pendingWinner.name, tickets: pendingWinner.tickets, prizeIndex: state.round });
+      state.pool = state.pool.filter(function(p){ return p.name !== pendingWinner.name; });
+    }
+    winnerOverlay.classList.remove('is-open');
+    isDrawing = false;
+    drawBtn.disabled = false;
+    modeWheelBtn.style.pointerEvents = '';
+    modeBoardBtn.style.pointerEvents = '';
+    pendingWinner = null;
+    state.round += 1;
+    saveState();
+    wheelRotation = 0;
+    if (state.round >= PRIZES.length){
+      showSummary();
+    } else {
+      updateRemaining();
+      setMode(state.mode || 'wheel');
+    }
+  });
+
+  /* ---------- Summary ---------- */
+  function showSummary(){
+    var list = document.getElementById('rvSummaryList');
+    list.innerHTML = '';
+    for (var i = 0; i < state.winners.length; i++){
+      var w = state.winners[i];
+      var row = document.createElement('div');
+      row.className = 'rv-summary-row';
+      var left = document.createElement('div');
+      var pEl = document.createElement('div'); pEl.className = 'rv-sr-prize'; pEl.textContent = PRIZES[w.prizeIndex] ? PRIZES[w.prizeIndex].name : ('Prize ' + (w.prizeIndex + 1));
+      var nEl = document.createElement('div'); nEl.className = 'rv-sr-name'; nEl.textContent = w.name;
+      left.appendChild(pEl); left.appendChild(nEl);
+      var right = document.createElement('div'); right.className = 'rv-sr-tickets';
+      right.textContent = 'Entered with ' + w.tickets + (w.tickets === 1 ? ' ticket' : ' tickets');
+      row.appendChild(left); row.appendChild(right);
+      list.appendChild(row);
+    }
+    showView('summary');
+  }
+
+  document.getElementById('rvStartOverBtn').addEventListener('click', function(){
+    if (!window.confirm('Start a brand new raffle? This clears tonight\'s saved ticket list and winners.')) return;
+    clearState();
+    state = { rawInput: '', pool: [], round: 0, mode: 'wheel', winners: [] };
+    entriesInput.value = '';
+    resumeBanner.style.display = 'none';
+    wheelRotation = 0;
+    showView('welcome');
+  });
+
+  /* ---------- Fullscreen ---------- */
+  document.getElementById('rvFullscreenBtn').addEventListener('click', function(){
+    if (!document.fullscreenElement && !document.webkitFullscreenElement){
+      (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen || function(){}).call(document.documentElement);
+    } else {
+      (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
+    }
+  });
+
+  /* ---------- Resize ---------- */
+  window.addEventListener('resize', function(){
+    if (document.querySelector('[data-view="draw"]').classList.contains('is-active') && state.mode === 'wheel'){
+      drawWheel(wheelRotation);
+    }
+  });
+
+  /* ---------- Init ---------- */
+  refreshSetupStats();
+  drawWheel(0);
+})();
+</script>
+</body>
+</html>
