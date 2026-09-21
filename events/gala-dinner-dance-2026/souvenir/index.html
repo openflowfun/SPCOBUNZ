@@ -272,6 +272,76 @@ body{
 .sv-zoom-nav.next{right:20px}
 @media (max-width:600px){.sv-zoom-nav{width:38px;height:38px}.sv-zoom-close{width:36px;height:36px;top:12px;right:12px}}
 
+/* Sponsor ad hotspots — invisible tap targets sitting over each sponsor's
+   logo on its printed page, revealing themselves on hover/focus and always
+   showing a small persistent badge so touch users know they're tappable. */
+#souvenirBook .page{position:relative}
+.sv-ad-hotspot{
+  position:absolute; border:none; padding:0; margin:0; cursor:pointer;
+  background:rgba(201,162,39,0); border-radius:10px; z-index:5;
+  transition:background .3s var(--ease), box-shadow .3s var(--ease);
+  -webkit-tap-highlight-color:transparent;
+}
+.sv-ad-hotspot:hover,.sv-ad-hotspot:focus-visible{
+  background:rgba(201,162,39,.14);
+  box-shadow:0 0 0 2px rgba(201,162,39,.6), 0 0 26px rgba(201,162,39,.35);
+  outline:none;
+}
+.sv-ad-hotspot-badge{
+  position:absolute; right:5%; bottom:5%; width:9%; max-width:30px; min-width:16px; aspect-ratio:1/1;
+  border-radius:50%; background:rgba(5,13,26,.78); border:1px solid rgba(201,162,39,.7);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 3px 10px rgba(0,0,0,.4);
+  animation:sv-ad-badge-pulse 2.6s ease-in-out infinite;
+  transition:transform .3s var(--ease), background .3s var(--ease);
+}
+.sv-ad-hotspot:hover .sv-ad-hotspot-badge,.sv-ad-hotspot:focus-visible .sv-ad-hotspot-badge{
+  transform:scale(1.18); background:var(--gold);
+}
+.sv-ad-hotspot-badge svg{width:52%;height:52%;color:var(--gold-light)}
+.sv-ad-hotspot:hover .sv-ad-hotspot-badge svg,.sv-ad-hotspot:focus-visible .sv-ad-hotspot-badge svg{color:var(--navy-950)}
+@keyframes sv-ad-badge-pulse{
+  0%,100%{box-shadow:0 3px 10px rgba(0,0,0,.4), 0 0 0 0 rgba(201,162,39,.45)}
+  50%{box-shadow:0 3px 10px rgba(0,0,0,.4), 0 0 0 6px rgba(201,162,39,0)}
+}
+
+/* Sponsor ad overlay/popup */
+.sv-ad-overlay{position:fixed;inset:0;z-index:250;display:none;align-items:center;justify-content:center;padding:24px}
+.sv-ad-overlay.is-open{display:flex}
+.sv-ad-backdrop{position:absolute;inset:0;background:rgba(2,6,14,.86);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;transition:opacity .35s var(--ease)}
+.sv-ad-overlay.is-open .sv-ad-backdrop{opacity:1}
+.sv-ad-card{
+  position:relative; z-index:1; width:100%; max-width:460px; max-height:88vh;
+  background:linear-gradient(180deg,rgba(15,36,71,.92),rgba(8,20,38,.96));
+  border:1px solid rgba(201,162,39,.35); border-radius:20px;
+  box-shadow:0 40px 100px -20px rgba(0,0,0,.7);
+  display:flex; flex-direction:column; overflow:hidden;
+  opacity:0; transform:scale(.92) translateY(14px);
+  transition:opacity .4s var(--ease), transform .4s var(--ease);
+}
+.sv-ad-overlay.is-open .sv-ad-card{opacity:1;transform:scale(1) translateY(0)}
+.sv-ad-close{
+  position:absolute; top:12px; right:12px; z-index:2; width:36px;height:36px;border-radius:50%;
+  background:rgba(5,13,26,.65);border:1px solid rgba(255,255,255,.22);color:#fff;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s var(--ease);
+}
+.sv-ad-close:hover{background:rgba(201,162,39,.24);border-color:var(--gold)}
+.sv-ad-close svg{width:16px;height:16px}
+.sv-ad-image-wrap{flex:1 1 auto;min-height:0;background:var(--ivory);display:flex;align-items:center;justify-content:center;overflow:auto}
+.sv-ad-image-wrap img{display:block;width:100%;height:auto}
+.sv-ad-footer{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;flex-wrap:wrap}
+.sv-ad-footer-text{min-width:0}
+.sv-ad-eyebrow{display:block;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light)}
+.sv-ad-name{font-family:var(--serif);font-size:17px;color:var(--ivory);margin-top:2px;font-weight:600}
+.sv-ad-cta{
+  display:inline-flex;align-items:center;gap:6px;flex-shrink:0;
+  background:var(--gold);color:var(--navy-950);font-weight:700;font-size:12px;
+  padding:9px 16px;border-radius:999px;text-decoration:none;transition:all .25s var(--ease);
+}
+.sv-ad-cta:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(201,162,39,.5)}
+.sv-ad-cta svg{width:12px;height:12px}
+@media (max-width:480px){.sv-ad-footer{flex-direction:column;align-items:stretch}.sv-ad-cta{justify-content:center}}
+
 /* Toast */
 .sv-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-800);border:1px solid rgba(201,162,39,.3);color:var(--ivory);font-size:13px;padding:12px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:300}
 .sv-toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -401,6 +471,28 @@ body{
   </button>
 </div>
 
+<div class="sv-ad-overlay" id="svAdOverlay">
+  <div class="sv-ad-backdrop" id="svAdBackdrop"></div>
+  <div class="sv-ad-card" id="svAdCard">
+    <button type="button" class="sv-ad-close" id="svAdClose" aria-label="Close advert">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="sv-ad-image-wrap">
+      <img id="svAdImage" src="" alt="" />
+    </div>
+    <div class="sv-ad-footer">
+      <div class="sv-ad-footer-text">
+        <span class="sv-ad-eyebrow" id="svAdEyebrow">Bronze Sponsor</span>
+        <span class="sv-ad-name" id="svAdName">Sponsor</span>
+      </div>
+      <a class="sv-ad-cta" id="svAdCta" href="#" target="_blank" rel="noopener">
+        <span id="svAdCtaLabel">Visit</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
 <div class="sv-toast" id="svToast"></div>
 
 <script src="/public/vendor/page-flip.browser.js" onerror="window.__svLibFailed=true"></script>
@@ -413,8 +505,55 @@ body{
   var THUMB_PATH = '/public/images/souvenir/thumbs/';
   var SOUND_KEY = 'spcobunz-souvenir-sound';
 
+  /* ---------- Sponsor ad hotspots ----------
+     Keyed by absolute booklet page number. rect is [left%, top%, width%,
+     height%] measured against that page's own printed artwork, so it lines
+     up correctly whether the page renders solo (mobile) or as one half of
+     a two-page spread (desktop) — each .page div always matches its own
+     source image 1:1 regardless of spread layout. */
+  var SPONSOR_ADS = {
+    12: {
+      id: 'ceylonika', rect: [17.6, 50.7, 16.9, 11.9],
+      name: 'Ceylonika', eyebrow: 'Bronze Sponsor · Traditional Sri Lankan Wedding Attire',
+      img: '/public/images/souvenir/ads/ceylonika-ad.jpg',
+      ctaHref: 'tel:+64220822317', ctaLabel: 'Call +64 22 082 2317'
+    },
+    13: {
+      id: 'taprobane', rect: [13.0, 27.4, 16.8, 11.3],
+      name: 'Taprobane Finance', eyebrow: 'Bronze Sponsor · Insurance & Financial Advice',
+      img: '/public/images/souvenir/ads/taprobane-ad.jpg',
+      ctaHref: 'https://www.taprobanefinance.co.nz', ctaLabel: 'Visit taprobanefinance.co.nz'
+    },
+    15: {
+      id: 'worx', rect: [7.1, 46.6, 34.9, 8.2],
+      name: 'The Worx Real Estate', eyebrow: 'Bronze Sponsor · Residential Sales & Property Management',
+      img: '/public/images/souvenir/ads/worx-ad.jpg',
+      ctaHref: 'https://www.worxrealestate.co.nz', ctaLabel: 'Visit worxrealestate.co.nz'
+    }
+  };
+
   function pad(n){ return n < 10 ? '0' + n : '' + n; }
   function hiresUrl(n){ return HIRES_PATH + HIRES_PREFIX + pad(n) + '.jpg'; }
+
+  function buildAdHotspot(ad){
+    var hotspot = document.createElement('button');
+    hotspot.type = 'button';
+    hotspot.className = 'sv-ad-hotspot';
+    hotspot.style.left = ad.rect[0] + '%';
+    hotspot.style.top = ad.rect[1] + '%';
+    hotspot.style.width = ad.rect[2] + '%';
+    hotspot.style.height = ad.rect[3] + '%';
+    hotspot.setAttribute('aria-label', 'View ' + ad.name + ' advert');
+    var badge = document.createElement('span');
+    badge.className = 'sv-ad-hotspot-badge';
+    badge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>';
+    hotspot.appendChild(badge);
+    hotspot.addEventListener('click', function(e){
+      e.stopPropagation();
+      openAdOverlay(ad);
+    });
+    return hotspot;
+  }
 
   var bookWrap     = document.getElementById('svBookWrap');
   var bookShell    = document.getElementById('svBookShell');
@@ -443,6 +582,14 @@ body{
   var zoomNext     = document.getElementById('svZoomNext');
   var toast        = document.getElementById('svToast');
   var stage        = document.getElementById('svStage');
+  var adOverlay    = document.getElementById('svAdOverlay');
+  var adBackdrop   = document.getElementById('svAdBackdrop');
+  var adImage      = document.getElementById('svAdImage');
+  var adEyebrow    = document.getElementById('svAdEyebrow');
+  var adName       = document.getElementById('svAdName');
+  var adCta        = document.getElementById('svAdCta');
+  var adCtaLabel   = document.getElementById('svAdCtaLabel');
+  var adClose      = document.getElementById('svAdClose');
 
   var pageFlip = null;
   var pageFlipReady = false;
@@ -718,6 +865,8 @@ body{
       img.decoding = 'async';
       if ('fetchPriority' in img) img.fetchPriority = (i <= 3) ? 'high' : 'low';
       pageDiv.appendChild(img);
+      var ad = SPONSOR_ADS[i];
+      if (ad) pageDiv.appendChild(buildAdHotspot(ad));
       pageEls.push(pageDiv);
     }
     pageFlip.loadFromHTML(pageEls);
@@ -758,6 +907,10 @@ body{
   slider.addEventListener('input', function(){ goToVisual(parseInt(slider.value, 10) + 1); });
 
   document.addEventListener('keydown', function(e){
+    if (adOverlay.classList.contains('is-open')){
+      if (e.key === 'Escape') closeAdOverlay();
+      return;
+    }
     if (zoomOverlay.classList.contains('is-open')){
       if (e.key === 'Escape') closeZoom();
       if (e.key === 'ArrowLeft') stepZoom(-1);
@@ -794,6 +947,20 @@ body{
   zoomOverlay.addEventListener('click', function(e){ if (e.target === zoomOverlay) closeZoom(); });
   zoomPrev.addEventListener('click', function(){ stepZoom(-1); });
   zoomNext.addEventListener('click', function(){ stepZoom(1); });
+
+  /* ---------- Sponsor ad popup ---------- */
+  function openAdOverlay(ad){
+    adImage.src = ad.img;
+    adImage.alt = ad.name + ' advert';
+    adEyebrow.textContent = ad.eyebrow;
+    adName.textContent = ad.name;
+    adCta.href = ad.ctaHref;
+    adCtaLabel.textContent = ad.ctaLabel;
+    adOverlay.classList.add('is-open');
+  }
+  function closeAdOverlay(){ adOverlay.classList.remove('is-open'); }
+  adClose.addEventListener('click', closeAdOverlay);
+  adBackdrop.addEventListener('click', closeAdOverlay);
 
   /* ---------- Share ---------- */
   shareBtn.addEventListener('click', function(){
