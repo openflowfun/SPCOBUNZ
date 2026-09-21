@@ -327,8 +327,13 @@ body{
 }
 .sv-ad-close:hover{background:rgba(201,162,39,.24);border-color:var(--gold)}
 .sv-ad-close svg{width:16px;height:16px}
-.sv-ad-image-wrap{flex:1 1 auto;min-height:0;background:var(--ivory);display:flex;align-items:center;justify-content:center;overflow:auto}
+.sv-ad-image-wrap{flex:1 1 auto;min-height:240px;background:var(--ivory);display:flex;align-items:center;justify-content:center;overflow:auto}
 .sv-ad-image-wrap img{display:block;width:100%;height:auto}
+.sv-ad-image-wrap img[data-broken]{display:none}
+.sv-ad-fallback{display:none;flex-direction:column;align-items:center;gap:8px;padding:30px;text-align:center;color:var(--navy-800)}
+.sv-ad-image-wrap.is-broken .sv-ad-fallback{display:flex}
+.sv-ad-fallback svg{width:26px;height:26px;opacity:.5}
+.sv-ad-fallback span{font-size:12.5px;color:rgba(10,25,48,.6);max-width:260px}
 .sv-ad-footer{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;flex-wrap:wrap}
 .sv-ad-footer-text{min-width:0}
 .sv-ad-eyebrow{display:block;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light)}
@@ -477,8 +482,12 @@ body{
     <button type="button" class="sv-ad-close" id="svAdClose" aria-label="Close advert">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
-    <div class="sv-ad-image-wrap">
+    <div class="sv-ad-image-wrap" id="svAdImageWrap">
       <img id="svAdImage" src="" alt="" />
+      <div class="sv-ad-fallback">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+        <span>Advert image couldn't load — use the link below instead.</span>
+      </div>
     </div>
     <div class="sv-ad-footer">
       <div class="sv-ad-footer-text">
@@ -584,6 +593,7 @@ body{
   var stage        = document.getElementById('svStage');
   var adOverlay    = document.getElementById('svAdOverlay');
   var adBackdrop   = document.getElementById('svAdBackdrop');
+  var adImageWrap  = document.getElementById('svAdImageWrap');
   var adImage      = document.getElementById('svAdImage');
   var adEyebrow    = document.getElementById('svAdEyebrow');
   var adName       = document.getElementById('svAdName');
@@ -950,6 +960,8 @@ body{
 
   /* ---------- Sponsor ad popup ---------- */
   function openAdOverlay(ad){
+    adImageWrap.classList.remove('is-broken');
+    adImage.removeAttribute('data-broken');
     adImage.src = ad.img;
     adImage.alt = ad.name + ' advert';
     adEyebrow.textContent = ad.eyebrow;
@@ -958,6 +970,10 @@ body{
     adCtaLabel.textContent = ad.ctaLabel;
     adOverlay.classList.add('is-open');
   }
+  adImage.addEventListener('error', function(){
+    adImage.setAttribute('data-broken', '1');
+    adImageWrap.classList.add('is-broken');
+  });
   function closeAdOverlay(){ adOverlay.classList.remove('is-open'); }
   adClose.addEventListener('click', closeAdOverlay);
   adBackdrop.addEventListener('click', closeAdOverlay);
