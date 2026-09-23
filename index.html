@@ -555,6 +555,22 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
 .prog-soon{display:flex;align-items:center;gap:18px;margin-top:26px;padding:26px 28px;border-radius:18px;background:#F8F4EC;border:1px dashed rgba(201,162,39,.4)}
 .prog-soon svg{flex-shrink:0;color:var(--gold-dark)}
 .prog-soon p{font-size:13.5px;color:rgba(10,25,48,.65);line-height:1.6}
+.prog-soon.is-confirmed{border-style:solid;border-color:rgba(201,162,39,.5)}
+
+.menu-cuisine-badge{display:table;margin:22px auto 0;padding:8px 20px;border-radius:999px;background:linear-gradient(160deg,#1B3A6B 0%,#10264A 100%);color:var(--gold);font-family:var(--serif);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-align:center}
+.menu-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:28px}
+@media(max-width:900px){.menu-cats{grid-template-columns:1fr}}
+.menu-cat-card{border-radius:18px;overflow:hidden;background:#fff;border:1px solid rgba(10,25,48,.08);box-shadow:0 10px 30px rgba(5,13,26,.08);display:flex;flex-direction:column;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.menu-cat-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(5,13,26,.14)}
+.menu-cat-card .menu-cat-img{width:100%;height:190px;overflow:hidden}
+.menu-cat-card .menu-cat-img img{width:100%;height:100%;object-fit:cover;display:block}
+.menu-cat-body{padding:20px 22px 24px;flex:1 1 auto}
+.menu-cat-label{display:inline-block;font-family:var(--serif);font-size:16px;font-weight:700;color:var(--navy-900);padding-bottom:9px;margin-bottom:11px;border-bottom:2px solid rgba(201,162,39,.35)}
+.menu-cat-list{list-style:none}
+.menu-cat-list li{position:relative;padding-left:15px;margin-top:8px;font-size:13.5px;color:rgba(10,25,48,.75);line-height:1.5}
+.menu-cat-list li:first-child{margin-top:0}
+.menu-cat-list li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.menu-dietary-note{margin-top:26px;text-align:center;font-size:12.5px;color:rgba(10,25,48,.55);font-style:italic;line-height:1.6}
 
 .prog-day-label{text-align:center;margin:0 0 26px}
 .prog-day-label:not(:first-child){margin-top:44px}
@@ -566,6 +582,7 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
 .prog-tl-time{position:absolute;left:0;top:14px;width:64px;text-align:right}
 .prog-tl-time b{display:block;font-family:var(--serif);font-size:17px;font-weight:700;color:var(--navy-900);line-height:1}
 .prog-tl-time small{display:block;margin-top:4px;font-size:8.5px;font-weight:700;letter-spacing:.14em;color:var(--gold-dark)}
+.prog-tl-time--range b{font-size:13px;letter-spacing:-.01em}
 .prog-tl-node{position:absolute;left:76px;top:19px;width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#F3DFA0,var(--gold) 55%,var(--gold-dark) 100%);box-shadow:0 0 0 4px var(--ivory)}
 .prog-tl-node::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1.5px solid rgba(201,162,39,.45);animation:tlPulse 2.8s ease-out infinite}
 @keyframes tlPulse{0%{transform:scale(.55);opacity:.85}100%{transform:scale(2.1);opacity:0}}
@@ -581,6 +598,7 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
   .prog-tl-time{width:40px;top:15px}
   .prog-tl-time b{font-size:13px}
   .prog-tl-time small{font-size:7px}
+  .prog-tl-time--range b{font-size:10.5px}
   .prog-tl-node{left:44px;top:20px;width:11px;height:11px}
 }
 .prog-sponsor-tier{margin-bottom:32px;border-radius:22px;padding:34px 22px 38px}
@@ -1806,68 +1824,100 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
           </div>
         </div>
         <div class="prog-tl-item">
-          <div class="prog-tl-time"><b>6:00</b><small>PM</small></div>
+          <div class="prog-tl-time"><b>6:30</b><small>PM</small></div>
           <span class="prog-tl-node"></span>
-          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7M4 14V6a2 2 0 0 1 2-2h3M17 14V4"/></svg>Guests Take Their Seats</h4></div>
+          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6a2 2 0 0 0 2 2h3Zm0 0v7"/></svg>Entr&eacute;es Served</h4><p>Guests seated as the first course is served.</p></div>
         </div>
         <div class="prog-tl-item">
-          <div class="prog-tl-time"><b>7:00</b><small>PM</small></div>
+          <div class="prog-tl-time"><b>6:45</b><small>PM</small></div>
           <span class="prog-tl-node"></span>
           <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>Official Welcome</h4><p>MC opens the evening.</p></div>
         </div>
         <div class="prog-tl-item">
-          <div class="prog-tl-time"><b>7:30</b><small>PM</small></div>
+          <div class="prog-tl-time prog-tl-time--range"><b>7:00&ndash;8:30</b><small>PM</small></div>
           <span class="prog-tl-node"></span>
-          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Frisky Business - Live Band</h4><p>Session 1 &middot; 90 minutes</p></div>
+          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Band</h4><p>Frisky Business &middot; Session 1</p></div>
         </div>
         <div class="prog-tl-item">
-          <div class="prog-tl-time"><b>8:00</b><small>PM</small></div>
+          <div class="prog-tl-time prog-tl-time--range"><b>8:30&ndash;9:30</b><small>PM</small></div>
           <span class="prog-tl-node"></span>
-          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 3v3a4 4 0 0 0 8 0V3M12 13v8M8 21h8"/></svg>Sri Lankan Buffet Dinner Opens</h4><p>Dinner service continues until 10:00 PM. Guests are welcome to dine while enjoying the live entertainment.</p></div>
+          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 3v3a4 4 0 0 0 8 0V3M12 13v8M8 21h8"/></svg>Dinner &amp; Raffle Draws</h4><p>Sri Lankan buffet dinner, with sponsor thanks and the raffle draw.</p></div>
         </div>
         <div class="prog-tl-item">
-          <div class="prog-tl-time"><b>9:00</b><small>PM</small></div>
+          <div class="prog-tl-time prog-tl-time--range"><b>9:30&ndash;11:00</b><small>PM</small></div>
           <span class="prog-tl-node"></span>
-          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2v2ZM3 19a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2v2Z"/></svg>DJ Naleen, Sponsor Thanks &amp; Raffle Draw</h4></div>
+          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Band</h4><p>Frisky Business &middot; Session 2</p></div>
         </div>
         <div class="prog-tl-item">
-          <div class="prog-tl-time"><b>9:30</b><small>PM</small></div>
+          <div class="prog-tl-time prog-tl-time--range"><b>11:00&ndash;12:30</b><small>PM&ndash;AM</small></div>
           <span class="prog-tl-node"></span>
-          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Frisky Business - Live Band</h4><p>Session 2 &middot; 90 minutes</p></div>
-        </div>
-        <div class="prog-tl-item">
-          <div class="prog-tl-time"><b>11:00</b><small>PM</small></div>
-          <span class="prog-tl-node"></span>
-          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="2"/><path d="m9 8-3 3 2 2-2 5M12 22l2-6 3 2 2-4"/><path d="m11 13 2-3 3 1"/></svg>DJ Naleen - Party Set</h4><p>Dance the night away.</p></div>
-        </div>
-      </div>
-
-      <div class="prog-day-label"><span>Sunday 4 October 2026</span></div>
-      <div class="prog-timeline">
-        <div class="prog-tl-item">
-          <div class="prog-tl-time"><b>12:00</b><small>AM</small></div>
-          <span class="prog-tl-node"></span>
-          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-1 6a3 3 0 0 1-6 0L8 3Z"/><path d="M12 9v5M9 21h6M12 14v7"/></svg>Last Drinks - Bar Closes</h4></div>
+          <div class="prog-tl-card"><h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="2"/><path d="m9 8-3 3 2 2-2 5M12 22l2-6 3 2 2-4"/><path d="m11 13 2-3 3 1"/></svg>Baila</h4><p>DJ Naleen closes the night with Baila &mdash; dance till 12:30 AM.</p></div>
         </div>
       </div>
     </section>
 
     <section class="prog-sec" id="prog-menu">
       <h3><span class="prog-num">02</span>Menu</h3>
-      <div class="prog-soon">
+      <div class="prog-soon is-confirmed">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 3v3a4 4 0 0 0 8 0V3M12 13v8M8 21h8"/></svg>
-        <p>A Sri Lankan buffet dinner is included with every ticket, served 8:00 PM - 10:00 PM. The full dish list &amp; dietary options will be announced soon.</p>
+        <p>A Sri Lankan Fusion buffet dinner is included with every ticket, served 8:30 PM - 9:30 PM.</p>
       </div>
+      <span class="menu-cuisine-badge">Sri Lankan Fusion Cuisine</span>
+
       <div class="prog-food-grid">
-        <img src="/public/images/food1.jpg" alt="Sri Lankan buffet spread" loading="lazy" decoding="async" />
+        <img src="/public/images/food1.jpg" alt="Sri Lankan Fusion buffet spread" loading="lazy" decoding="async" />
       </div>
+
+      <div class="menu-cats">
+        <div class="menu-cat-card">
+          <div class="menu-cat-img"><img src="/public/images/menu/starters-canape.jpg" alt="Starters canap&eacute;s" loading="lazy" decoding="async" /></div>
+          <div class="menu-cat-body">
+            <span class="menu-cat-label">Starters</span>
+            <ul class="menu-cat-list">
+              <li>Veg Quiche</li>
+              <li>Chicken Cutlet</li>
+              <li>Black Pork in Mini Cups</li>
+            </ul>
+          </div>
+        </div>
+        <div class="menu-cat-card">
+          <div class="menu-cat-img"><img src="/public/images/menu/mains-rice-curry.jpg" alt="Sri Lankan Fusion mains" loading="lazy" decoding="async" /></div>
+          <div class="menu-cat-body">
+            <span class="menu-cat-label">Mains</span>
+            <ul class="menu-cat-list">
+              <li>Nasi with Chicken</li>
+              <li>Creamy Mushroom Pasta</li>
+              <li>White Rice</li>
+              <li>Stir-Fry Veggies</li>
+              <li>Pepper Pork</li>
+              <li>Grilled Chicken with Gravy</li>
+              <li>Chilli Paste</li>
+              <li>Garden Salad</li>
+              <li>Russian Salad</li>
+            </ul>
+          </div>
+        </div>
+        <div class="menu-cat-card">
+          <div class="menu-cat-img"><img src="/public/images/menu/dessert-chocolate-mousse.jpg" alt="Dessert" loading="lazy" decoding="async" /></div>
+          <div class="menu-cat-body">
+            <span class="menu-cat-label">Dessert</span>
+            <ul class="menu-cat-list">
+              <li>Chocolate Mousse</li>
+              <li>Cr&egrave;me Caramel</li>
+              <li>Sticky Date Pudding with Caramel Sauce</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p class="menu-dietary-note">Please let us know of any dietary requirements at check-in and our team will be happy to help.</p>
     </section>
 
     <section class="prog-sec" id="prog-entertainment">
       <h3><span class="prog-num">03</span>Entertainment</h3>
       <p class="muted" style="margin-top:22px;font-size:14px;line-height:1.8"><b style="color:var(--navy-900)">Frisky Business</b>, one of New Zealand's premier live party bands, takes the stage across two 90-minute sessions.</p>
       <img src="/public/images/FriskyBusiness.jpg" alt="Frisky Business" class="prog-ent-photo" loading="lazy" decoding="async" />
-      <p class="muted" style="margin-top:22px;font-size:14px;line-height:1.8"><b style="color:var(--navy-900)">DJ Naleen</b> carrying the dance floor before, between and after - all the way to midnight.</p>
+      <p class="muted" style="margin-top:22px;font-size:14px;line-height:1.8"><b style="color:var(--navy-900)">DJ Naleen</b> carrying the dance floor before, between and after - closing the night with Baila until 12:30 AM.</p>
       <img src="/public/images/DJNaleen.jpg" alt="DJ Naleen" class="prog-ent-photo" loading="lazy" decoding="async" />
       <p class="muted" style="margin-top:22px;font-size:14px;line-height:1.8">Plus, prizes to be won on the night.</p>
     </section>
