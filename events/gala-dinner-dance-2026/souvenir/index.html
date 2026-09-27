@@ -665,7 +665,7 @@ body{
     bp.frequency.exponentialRampToValueAtTime(1200, now + swishDur);
 
     var swishGain = ctx.createGain();
-    swishGain.gain.value = 0.17;
+    swishGain.gain.value = 0.06;
 
     src.connect(hp);
     hp.connect(bp);
@@ -691,7 +691,7 @@ body{
     tapFilter.type = 'lowpass';
     tapFilter.frequency.value = 380;
     var tapGain = ctx.createGain();
-    tapGain.gain.value = 0.1;
+    tapGain.gain.value = 0.035;
     tapSrc.connect(tapFilter);
     tapFilter.connect(tapGain);
     tapGain.connect(ctx.destination);
