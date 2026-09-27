@@ -211,8 +211,12 @@ body{
 .sv-open-btn svg{width:15px;height:15px}
 @keyframes sv-pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
 
-.sv-hint{flex:0 0 auto;text-align:center;margin-top:8px;font-size:11px;color:rgba(248,246,241,.4);letter-spacing:.08em;text-transform:uppercase}
-@media (max-height:680px){.sv-hint{display:none}}
+/* Hidden by default — it only existed as an instructional caption under the
+   cover, which cost the cover real vertical space it didn't need to spend.
+   The element itself stays in the DOM because the init-failure fallback
+   below repurposes it as an error message and reveals it explicitly. */
+.sv-hint{display:none;flex:0 0 auto;text-align:center;margin-top:8px;font-size:11px;color:rgba(248,246,241,.4);letter-spacing:.08em;text-transform:uppercase}
+.sv-hint.is-visible{display:block}
 
 .sv-arrow{
   position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;
@@ -432,7 +436,7 @@ body{
       </button>
     </div>
 
-    <p class="sv-hint" id="svHint">Click the cover to open — drag a corner, swipe, or use the arrows to turn pages</p>
+    <p class="sv-hint" id="svHint"></p>
 
     <div class="sv-thumbs is-hidden" id="svThumbs"></div>
 
@@ -632,28 +636,66 @@ body{
     var ctx = ensureAudioCtx();
     if (!ctx) return;
     if (ctx.state === 'suspended') { ctx.resume(); }
-    var duration = 0.26;
-    var len = Math.floor(ctx.sampleRate * duration);
+    var now = ctx.currentTime;
+
+    /* Swish — a quick, tightly-filtered burst of noise swept downward in
+       pitch, read by the ear as a page sliding through the air. Tighter
+       and higher-pitched than the old wide bandpass "whoosh", which is
+       what made it sound more like radio static than paper. */
+    var swishDur = 0.11 + Math.random() * 0.02;
+    var len = Math.max(1, Math.floor(ctx.sampleRate * swishDur));
     var buffer = ctx.createBuffer(1, len, ctx.sampleRate);
     var data = buffer.getChannelData(0);
     for (var i = 0; i < len; i++){
       var t = i / len;
-      var env = Math.pow(1 - t, 2.4) * Math.pow(Math.min(1, t * 9), 0.7);
+      var env = Math.pow(1 - t, 3) * Math.pow(Math.min(1, t * 30), 0.5);
       data[i] = (Math.random() * 2 - 1) * env;
     }
     var src = ctx.createBufferSource();
     src.buffer = buffer;
-    var filter = ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(2600, ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + duration);
-    filter.Q.value = 0.8;
-    var gain = ctx.createGain();
-    gain.gain.value = 0.32;
-    src.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    src.start();
+
+    var hp = ctx.createBiquadFilter();
+    hp.type = 'highpass';
+    hp.frequency.value = 1100;
+
+    var bp = ctx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.Q.value = 1.6;
+    bp.frequency.setValueAtTime(3600 + Math.random() * 400, now);
+    bp.frequency.exponentialRampToValueAtTime(1200, now + swishDur);
+
+    var swishGain = ctx.createGain();
+    swishGain.gain.value = 0.34;
+
+    src.connect(hp);
+    hp.connect(bp);
+    bp.connect(swishGain);
+    swishGain.connect(ctx.destination);
+    src.start(now);
+
+    /* Settle — a soft, low tap a beat later, as the page lands back down.
+       Without this the sound stops dead the instant the swish decays,
+       which reads as artificial; the tiny thump sells the "landing". */
+    var tapDelay = swishDur * 0.75;
+    var tapDur = 0.055;
+    var tapLen = Math.max(1, Math.floor(ctx.sampleRate * tapDur));
+    var tapBuffer = ctx.createBuffer(1, tapLen, ctx.sampleRate);
+    var tapData = tapBuffer.getChannelData(0);
+    for (var j = 0; j < tapLen; j++){
+      var tt = j / tapLen;
+      tapData[j] = (Math.random() * 2 - 1) * Math.pow(1 - tt, 4);
+    }
+    var tapSrc = ctx.createBufferSource();
+    tapSrc.buffer = tapBuffer;
+    var tapFilter = ctx.createBiquadFilter();
+    tapFilter.type = 'lowpass';
+    tapFilter.frequency.value = 380;
+    var tapGain = ctx.createGain();
+    tapGain.gain.value = 0.2;
+    tapSrc.connect(tapFilter);
+    tapFilter.connect(tapGain);
+    tapGain.connect(ctx.destination);
+    tapSrc.start(now + tapDelay);
   }
   function setSound(on){
     soundOn = on;
@@ -723,8 +765,8 @@ body{
     var w = bookWrap.clientWidth || 900;
     var h = bookWrap.clientHeight || 600;
     /* Leave real clearance on every side for the arrow buttons and the
-       "Open Booklet" button + hint text stacked under the cover, so the
-       book/cover never grows large enough to sit under them. */
+       "Open Booklet" button stacked under the cover, so the book/cover
+       never grows large enough to sit under them. */
     var availW = Math.max(160, w - 110);
     var availH = Math.max(160, h - 90);
     var wFromH = availH * (600 / 848);
@@ -907,6 +949,7 @@ body{
     openBtn.innerHTML = '<span>Viewer unavailable</span>';
     openBtn.disabled = true;
     hintEl.textContent = 'Interactive viewer unavailable — please use Download PDF below.';
+    hintEl.classList.add('is-visible');
   }
 
   /* ---------- Wiring ---------- */
