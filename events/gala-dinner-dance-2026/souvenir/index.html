@@ -88,7 +88,8 @@ body{
   margin:0 auto;
 }
 .sv-stage:fullscreen,.sv-stage.is-fullscreen,.sv-stage:-webkit-full-screen{
-  max-width:100vw;width:100vw;height:100vh;border-radius:0;
+  position:fixed;inset:0;z-index:9999;
+  max-width:100vw;width:100vw;height:100vh;height:100dvh;border-radius:0;margin:0;
   background:var(--navy-950);
 }
 .sv-glow{position:absolute;inset:-40%;background:radial-gradient(circle at 50% 30%, rgba(201,162,39,.12), transparent 55%);pointer-events:none;z-index:0}
@@ -122,7 +123,7 @@ body{
    wrapper instead, which is exactly the shell's own footprint. That keeps
    whatever StPageFlip renders from ever visually spilling past the cover. */
 .sv-book-inner{position:absolute;inset:0;z-index:2;overflow:hidden;border-radius:4px}
-#souvenirBook{margin:0 auto;touch-action:pan-y;position:relative;z-index:2}
+#souvenirBook{margin:0 auto;touch-action:pan-y pinch-zoom;position:relative;z-index:2}
 #souvenirBook .page{background:var(--ivory)}
 #souvenirBook .page img{width:100%;height:100%;object-fit:contain;display:block;background:var(--ivory)}
 
@@ -994,21 +995,30 @@ body{
     }
   });
 
-  /* ---------- Fullscreen ---------- */
+  /* ---------- Fullscreen ----------
+     Deliberately NOT using the native Fullscreen API here. Real fullscreen
+     (Element.requestFullscreen) hides everything outside the fullscreened
+     element's own subtree — but the zoom lightbox (#svZoomOverlay) and the
+     sponsor ad card (#svAdOverlay) are siblings of #svStage, so they'd go
+     dark/unclickable the moment real fullscreen engaged. Real fullscreen
+     also disables pinch-to-zoom at the browser level on most platforms.
+     A CSS-only "fake fullscreen" (fixed, full-viewport, high z-index) gets
+     the same full-bleed look while keeping every overlay, link and native
+     pinch gesture fully working. */
+  var fakeFullscreen = false;
+  function setFakeFullscreen(on){
+    fakeFullscreen = on;
+    stage.classList.toggle('is-fullscreen', on);
+    fsBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    var lbl = fsBtn.querySelector('span');
+    if (lbl) lbl.textContent = on ? 'Exit Fullscreen' : 'Fullscreen';
+    scheduleRebuild();
+  }
   fsBtn.addEventListener('click', function(){
-    if (!document.fullscreenElement && !document.webkitFullscreenElement){
-      (stage.requestFullscreen || stage.webkitRequestFullscreen || function(){}).call(stage);
-    } else {
-      (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
-    }
+    setFakeFullscreen(!fakeFullscreen);
   });
-  document.addEventListener('fullscreenchange', function(){
-    stage.classList.toggle('is-fullscreen', !!document.fullscreenElement);
-    scheduleRebuild();
-  });
-  document.addEventListener('webkitfullscreenchange', function(){
-    stage.classList.toggle('is-fullscreen', !!document.webkitFullscreenElement);
-    scheduleRebuild();
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && fakeFullscreen) setFakeFullscreen(false);
   });
   window.addEventListener('resize', scheduleRebuild);
 
@@ -1016,6 +1026,13 @@ body{
   buildThumbs();
   applyCoverSize();
   showCoverView();
+
+  /* On phones, land straight in the immersive fullscreen reader instead of
+     making people find the Fullscreen button first — desktop keeps the
+     framed stage since there's already plenty of room there. */
+  if (window.innerWidth < 760) {
+    setFakeFullscreen(true);
+  }
 
   function revealCoverHires(){
     coverHires.classList.add('is-loaded');
