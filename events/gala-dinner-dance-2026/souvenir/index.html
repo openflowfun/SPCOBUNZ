@@ -311,7 +311,7 @@ body{
     <div class="sv-glow"></div>
 
     <div class="sv-toolbar">
-      <span class="sv-toolbar-title"><b>Souvenir Booklet</b> — Gala Dinner Dance 2026</span>
+      <span class="sv-toolbar-title"><b>Digital Souvenir</b> — Gala Dinner Dance 2026</span>
       <div class="sv-tools">
         <button type="button" class="sv-tool-btn" id="svThumbsBtn" aria-pressed="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -635,12 +635,17 @@ body{
     pageLabel.textContent = visual + ' / ' + TOTAL_PAGES;
     slider.value = visual - 1;
     prevBtn.disabled = visual <= 1;
-    nextBtn.disabled = visual >= TOTAL_PAGES;
+    /* Next stays live on the last page: pressing it closes the booklet
+       back onto its cover (see goNext). */
+    nextBtn.disabled = false;
+    var closing = !showingCover && atLastPage();
+    nextBtn.setAttribute('aria-label', closing ? 'Close booklet' : 'Next page');
+    arrowNext.setAttribute('aria-label', closing ? 'Close booklet' : 'Next page');
     /* Both arrows stay hidden on the cover itself — the click-anywhere
        cover and the Open Booklet button already handle it, and an arrow
        sitting on top of the cover's frame border reads as a UI glitch. */
     arrowPrev.style.visibility = (showingCover || visual <= 1) ? 'hidden' : 'visible';
-    arrowNext.style.visibility = (showingCover || visual >= TOTAL_PAGES) ? 'hidden' : 'visible';
+    arrowNext.style.visibility = showingCover ? 'hidden' : 'visible';
     updateActiveThumb(visual);
   }
 
@@ -728,8 +733,27 @@ body{
     if (pageFlip && pageFlip.getCurrentPageIndex() === 0){ showCoverView(); }
     else if (pageFlip){ pageFlip.flipPrev(); }
   }
+  /* True once the final page (or final two-page spread on desktop) is
+     showing, i.e. there is nothing left to flip to. */
+  function atLastPage(){
+    if (!pageFlip) return currentVisual >= TOTAL_PAGES;
+    try {
+      var last = pageFlip.getPageCount() - (pageFlip.getOrientation() === 'portrait' ? 1 : 2);
+      return pageFlip.getCurrentPageIndex() >= last;
+    } catch(e){ return currentVisual >= TOTAL_PAGES; }
+  }
+  function closeToCover(){
+    playFlipSound();
+    showCoverView();
+    /* Rewind the hidden book once the cover has faded back in, so the
+       next "Open Booklet" starts cleanly from page 2. */
+    setTimeout(function(){
+      if (pageFlip && showingCover){ try { pageFlip.turnToPage(0); } catch(e){} }
+    }, 450);
+  }
   function goNext(){
     if (showingCover){ openBookAt(2); return; }
+    if (atLastPage()){ closeToCover(); return; }
     if (pageFlip){ pageFlip.flipNext(); }
   }
 
