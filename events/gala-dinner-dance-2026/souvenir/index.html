@@ -418,10 +418,48 @@ body{
   var HIRES_PATH = '/public/images/souvenir/';
   var HIRES_PREFIX = 'hi-';
   var THUMB_PATH = '/public/images/souvenir/thumbs/';
+  /* Flipbook pages use a lighter 1600px tier (plenty for a crisp spread
+     on HiDPI screens); the full-res hi-XX files are only fetched for Zoom. */
+  var PAGE_PATH = '/public/images/souvenir/md/';
+  var LOAD_BEHIND = 2, LOAD_AHEAD = 5;
   var SOUND_KEY = 'spcobunz-souvenir-sound';
 
   function pad(n){ return n < 10 ? '0' + n : '' + n; }
   function hiresUrl(n){ return HIRES_PATH + HIRES_PREFIX + pad(n) + '.jpg'; }
+  function pageUrl(n){ return PAGE_PATH + pad(n) + '.jpg'; }
+
+  /* ---------- Progressive page loading ----------
+     Only the pages around the one being viewed are requested straight
+     away; the rest trickle in one at a time in the background, so opening
+     the booklet never waits on (or decodes) all 49 pages at once. */
+  var pageImgs = {};        // visual page number -> <img> in the current book
+  var requested = {};       // visual page number -> true once its src was set
+  var bgTimer = null;
+  function requestPage(n){
+    var img = pageImgs[n];
+    if (!img || img.getAttribute('src')) return;
+    img.src = img.getAttribute('data-src');
+    requested[n] = true;
+  }
+  function loadAround(visual){
+    for (var n = visual - LOAD_BEHIND; n <= visual + LOAD_AHEAD; n++){
+      if (n >= 2 && n <= TOTAL_PAGES) requestPage(n);
+    }
+  }
+  function backgroundFill(){
+    clearTimeout(bgTimer);
+    var conn = navigator.connection;
+    if (conn && (conn.saveData || /2g/.test(conn.effectiveType || ''))) return;
+    var next = 0;
+    for (var n = 2; n <= TOTAL_PAGES; n++){
+      if (pageImgs[n] && !pageImgs[n].getAttribute('src')){ next = n; break; }
+    }
+    if (!next) return;
+    var img = pageImgs[next];
+    requestPage(next);
+    var done = function(){ bgTimer = setTimeout(backgroundFill, 120); };
+    if (img.complete) done(); else { img.addEventListener('load', done, { once: true }); img.addEventListener('error', done, { once: true }); }
+  }
 
   var bookWrap     = document.getElementById('svBookWrap');
   var bookShell    = document.getElementById('svBookShell');
@@ -593,6 +631,7 @@ body{
   /* ---------- Shared UI state ---------- */
   function updateUI(visual){
     currentVisual = visual;
+    loadAround(visual);
     pageLabel.textContent = visual + ' / ' + TOTAL_PAGES;
     slider.value = visual - 1;
     prevBtn.disabled = visual <= 1;
@@ -754,18 +793,25 @@ body{
        DOM <img> elements are scaled by the browser itself at full display
        resolution, so this keeps every page crisp on any screen. */
     var pageEls = [];
+    pageImgs = {};
     for (var i = 2; i <= TOTAL_PAGES; i++){
       var pageDiv = document.createElement('div');
       pageDiv.className = 'page';
       var img = document.createElement('img');
-      img.src = hiresUrl(i);
+      img.setAttribute('data-src', pageUrl(i));
+      /* Pages already fetched before a resize/fullscreen rebuild come
+         straight from cache, so re-attach them immediately. */
+      if (requested[i]) img.src = pageUrl(i);
       img.alt = 'Page ' + i;
       img.decoding = 'async';
-      if ('fetchPriority' in img) img.fetchPriority = (i <= 3) ? 'high' : 'low';
+      pageImgs[i] = img;
       pageDiv.appendChild(img);
       pageEls.push(pageDiv);
     }
     pageFlip.loadFromHTML(pageEls);
+    loadAround((startInternal || 0) + 2);
+    clearTimeout(bgTimer);
+    bgTimer = setTimeout(backgroundFill, 1500);
 
     pageFlip.on('flip', function(e){
       playFlipSound();
