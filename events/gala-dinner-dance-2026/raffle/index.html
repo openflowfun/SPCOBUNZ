@@ -13,7 +13,7 @@
 <link rel="preload" as="image" href="/public/images/crest-spc-cutout.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap" rel="stylesheet" />
 <style>
 :root{
   --navy-950:#050D1A; --navy-900:#081426; --navy-800:#0A1930; --navy-700:#0F2447;
@@ -237,6 +237,57 @@ body{
 .rv-summary-row .rv-sr-tickets{font-size:12px;color:rgba(248,246,241,.5)}
 
 .rv-footnote{text-align:center;margin-top:40px;font-size:11.5px;color:rgba(248,246,241,.35)}
+
+/* ================= Lucky Table Draw ================= */
+.ld-entry{margin:44px auto 0;max-width:640px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid rgba(201,162,39,.3);border-radius:18px;padding:20px 22px}
+.ld-entry img{width:74px;height:auto;display:block}
+.ld-entry h3{font-family:'Cinzel',var(--serif);font-size:20px;color:var(--gold-light);letter-spacing:.02em}
+.ld-entry p{margin-top:6px;font-size:13px;line-height:1.55;color:rgba(248,246,241,.7)}
+.ld-entry .rv-cta{margin-top:14px;padding:12px 22px;font-size:14px}
+@media (max-width:560px){.ld-entry{grid-template-columns:1fr;text-align:center}.ld-entry img{margin:0 auto}}
+.rv-view[data-view="tables"]{max-width:1180px}
+.ld-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.ld-top h2{font-family:'Cinzel',var(--serif);font-size:clamp(22px,2.8vw,34px);color:var(--gold-light);letter-spacing:.03em}
+.ld-top p{font-size:13.5px;color:rgba(248,246,241,.65);margin-top:4px}
+.ld-top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ld-small{margin-top:0!important;padding:10px 16px!important;font-size:13px!important}
+.ld-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:22px;align-items:stretch}
+@media (max-width:900px){.ld-grid{grid-template-columns:1fr}}
+.ld-stage{min-height:0;padding:clamp(20px,3vw,36px)}
+.ld-wheel{position:relative;width:min(84vw,62vh,640px);aspect-ratio:1/1;margin:14px auto 0}
+.ld-wheel canvas{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 0 0 10px var(--navy-900),0 0 0 14px rgba(201,162,39,.7),0 30px 70px -14px rgba(0,0,0,.7)}
+.ld-wheel .rv-wheel-pointer{top:-22px;border-left-width:22px;border-right-width:22px;border-top-width:36px}
+.ld-hub{position:absolute;top:50%;left:50%;width:22%;height:22%;transform:translate(-50%,-50%);border-radius:50%;z-index:3;
+  background:radial-gradient(circle at 35% 30%,#1c2f63,#0a1633);box-shadow:0 0 0 4px var(--gold),0 6px 16px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}
+.ld-hub img{width:70%;height:auto}
+.ld-empty{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:18%;font-size:15px;line-height:1.5;color:rgba(248,246,241,.75);z-index:4}
+.ld-empty.show{display:flex}
+.ld-side{display:flex;flex-direction:column;gap:14px}
+.ld-panel{background:linear-gradient(180deg,rgba(15,36,71,.5),rgba(8,20,38,.5));border:1px solid rgba(201,162,39,.18);border-radius:18px;padding:18px}
+.ld-panel h3{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light)}
+.ld-totals{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ld-totals div{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;text-align:center}
+.ld-totals b{display:block;font-family:'Cinzel',var(--serif);font-size:30px;color:var(--gold-light);line-height:1.1}
+.ld-totals span{font-size:11px;color:rgba(248,246,241,.55)}
+.ld-list{list-style:none;margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ld-list li{border-radius:10px;padding:8px 6px;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);font-size:11px;color:rgba(248,246,241,.55)}
+.ld-list li b{display:block;font-family:'Cinzel',var(--serif);font-size:18px;color:#fff}
+.ld-list li.is-in{border-color:rgba(201,162,39,.5);background:rgba(201,162,39,.1)}
+.ld-list li.is-in span{color:var(--gold-light)}
+.ld-list li.is-win{background:var(--gold);border-color:var(--gold-light)}
+.ld-list li.is-win b,.ld-list li.is-win span{color:var(--navy-950)}
+.ld-mode{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:4px;gap:4px;margin-top:12px}
+.ld-mode button{flex:1;border:none;background:transparent;color:rgba(248,246,241,.6);font:700 12px var(--sans);padding:9px 10px;border-radius:999px;cursor:pointer}
+.ld-mode button.is-active{background:var(--gold);color:var(--navy-950)}
+.ld-note{font-size:12px;line-height:1.55;color:rgba(248,246,241,.55);margin-top:10px}
+.ld-status{font-size:12.5px;color:rgba(248,246,241,.6);display:flex;align-items:center;gap:8px}
+.ld-status i{width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite}
+.ld-status.is-closed i{background:var(--gold);animation:none}
+.ld-status.is-off i{background:#f87171;animation:none}
+.ld-spin{width:100%;justify-content:center;margin-top:22px}
+.ld-win-table{font-family:'Cinzel',var(--serif);font-weight:700;font-size:clamp(64px,12vw,120px);line-height:1;color:var(--gold-light);margin-top:10px;text-shadow:0 8px 30px rgba(201,162,39,.35)}
+#ldConfetti{position:fixed;inset:0;z-index:1;pointer-events:none}
 </style>
 </head>
 <body>
@@ -293,6 +344,15 @@ body{
         <span>Begin Raffle Draw</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </button>
+    </div>
+
+    <div class="ld-entry">
+      <img src="/public/images/lucky-draw/prize-bottles.webp" alt="" width="620" height="792" />
+      <div>
+        <h3>Lucky Table Draw</h3>
+        <p>Spin for the table that wins 2 bottles of Johnnie Walker Double Black. Only tables with entries go on the wheel.</p>
+        <button type="button" class="rv-cta outline" id="ldOpenBtn"><span>Open the Lucky Table Draw</span></button>
+      </div>
     </div>
   </section>
 
@@ -376,6 +436,55 @@ body{
 
     <div class="rv-actions">
       <button type="button" class="rv-cta ghost" id="rvStartOverBtn">Start a New Raffle</button>
+    </div>
+  </section>
+
+  <!-- ================= LUCKY TABLE DRAW ================= -->
+  <section class="rv-view" data-view="tables">
+    <div class="ld-top">
+      <div>
+        <h2>Lucky Table Draw</h2>
+        <p>Win 2 bottles of Johnnie Walker Double Black for your table</p>
+      </div>
+      <div class="ld-top-actions">
+        <span class="ld-status" id="ldStatus"><i></i><span id="ldStatusText">Loading entries…</span></span>
+        <button type="button" class="rv-cta ghost ld-small" id="ldRefreshBtn">Refresh entries</button>
+        <button type="button" class="rv-cta ghost ld-small" id="ldBackBtn">Back</button>
+      </div>
+    </div>
+
+    <div class="ld-grid">
+      <div class="rv-stage ld-stage">
+        <div class="ld-wheel">
+          <div class="rv-wheel-pointer"></div>
+          <canvas id="ldWheel" width="1200" height="1200"></canvas>
+          <div class="ld-hub"><img src="/public/images/lucky-draw/obu-nz-crest.webp" alt="" /></div>
+          <div class="ld-empty" id="ldEmpty">No entries yet. Tables appear on the wheel as guests enter.</div>
+        </div>
+        <button type="button" class="rv-cta ld-spin" id="ldSpinBtn">
+          <span>Spin the wheel</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg>
+        </button>
+      </div>
+
+      <aside class="ld-side">
+        <div class="ld-panel">
+          <h3>Entries</h3>
+          <div class="ld-totals">
+            <div><b id="ldTotal">0</b><span>entries</span></div>
+            <div><b id="ldTablesIn">0</b><span>tables on the wheel</span></div>
+          </div>
+          <ul class="ld-list" id="ldList"></ul>
+        </div>
+        <div class="ld-panel">
+          <h3>Wheel slices</h3>
+          <div class="ld-mode" role="group" aria-label="How slices are sized">
+            <button type="button" class="is-active" data-mode="weighted">By entries</button>
+            <button type="button" data-mode="equal">Equal per table</button>
+          </div>
+          <p class="ld-note" id="ldModeNote">Each entry is one chance, so a table with more entries gets a bigger slice.</p>
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -930,5 +1039,21 @@ body{
   drawWheel(0);
 })();
 </script>
+<div class="rv-winner-overlay" id="ldWinnerOverlay">
+  <canvas id="ldConfetti"></canvas>
+  <div class="rv-winner-card">
+    <p class="rv-winner-prize">Lucky Table Draw</p>
+    <div class="ld-win-table" id="ldWinTable">Table 7</div>
+    <p class="rv-winner-meta" id="ldWinMeta">4 entries from this table</p>
+    <p class="rv-winner-prize-name">wins<b>2 bottles of Johnnie Walker Double Black</b></p>
+    <div class="rv-actions" style="margin-top:28px">
+      <button type="button" class="rv-cta ghost" id="ldRespinBtn">Spin again</button>
+      <button type="button" class="rv-cta" id="ldDoneBtn"><span>Done</span></button>
+    </div>
+  </div>
+</div>
+
+<script src="/public/js/lucky-draw-config.js"></script>
+<script src="/public/js/lucky-draw-wheel.js"></script>
 </body>
 </html>

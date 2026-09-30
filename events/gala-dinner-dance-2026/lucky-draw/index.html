@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Lucky Table Draw — SPC OBU NZ Gala Dinner Dance 2026</title>
+<meta name="description" content="Enter the Lucky Table Draw at the SPC OBU NZ Gala Dinner Dance 2026 for a chance to win 2 bottles for your table. Entries close 8:15pm, Saturday 3 October." />
+<meta name="theme-color" content="#1B2C68" />
+<meta property="og:title" content="Lucky Table Draw — Gala Dinner Dance 2026" />
+<meta property="og:description" content="Win 2 bottles for your table. Entries close 8:15pm, Saturday 3 October 2026." />
+<meta property="og:image" content="https://spcobunz.com/public/images/souvenir/md/47.jpg" />
+<link rel="icon" href="/public/images/favicon-32x32.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png" />
+<link rel="preload" as="image" href="/public/images/lucky-draw/obu-nz-crest.webp" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="/public/js/lucky-draw-config.js"></script>
+<style>
+:root{
+  --navy:#2A3F7E;        /* souvenir page navy */
+  --navy-deep:#16244F;
+  --navy-ink:#0C1633;
+  --gold:#A8792A;        /* the GALA gold */
+  --gold-bright:#D9B46A;
+  --gold-pale:#F1DDAA;
+  --ivory:#F8F4EA;
+  --display:'Cinzel','Trajan Pro',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{background:var(--navy-deep)}
+body{
+  min-height:100vh;min-height:100dvh;font-family:var(--sans);color:#fff;-webkit-font-smoothing:antialiased;
+  background-color:var(--navy);
+  /* Seigaiha waves, as on the souvenir pages */
+  background-image:
+    radial-gradient(ellipse 120% 70% at 50% 0%, rgba(12,22,51,0) 0%, rgba(12,22,51,.55) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' viewBox='0 0 120 60'%3E%3Cg fill='%232A3F7E' stroke='%23364D93' stroke-width='2.2'%3E%3Cg id='s'%3E%3Ccircle r='58'/%3E%3Ccircle r='46'/%3E%3Ccircle r='34'/%3E%3Ccircle r='22'/%3E%3Ccircle r='10'/%3E%3C/g%3E%3Cuse href='%23s' x='0' y='0'/%3E%3Cuse href='%23s' x='120' y='0'/%3E%3Cuse href='%23s' x='60' y='30'/%3E%3Cuse href='%23s' x='0' y='60'/%3E%3Cuse href='%23s' x='120' y='60'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:auto, 120px 60px;
+  background-attachment:fixed, scroll;
+  overflow-x:hidden;
+}
+.embed body, body.is-embed{background-attachment:scroll, scroll}
+
+/* Gold ribbons — the souvenir's swoosh, drawn as SVG so it stays crisp */
+.ribbon{position:absolute;pointer-events:none;z-index:0;width:min(760px,130vw);height:auto}
+.ribbon.top{top:-60px;left:-18vw}
+.ribbon.bottom{bottom:-40px;right:-22vw;transform:rotate(180deg)}
+.sparkle{position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 8%, var(--gold-pale), transparent 60%),
+    radial-gradient(1.2px 1.2px at 22% 14%, var(--gold-bright), transparent 60%),
+    radial-gradient(1.8px 1.8px at 31% 5%, var(--gold-pale), transparent 60%),
+    radial-gradient(1.1px 1.1px at 40% 11%, var(--gold-bright), transparent 60%),
+    radial-gradient(1.4px 1.4px at 18% 19%, var(--gold-bright), transparent 60%),
+    radial-gradient(1px 1px at 8% 16%, var(--gold-pale), transparent 60%),
+    radial-gradient(1.5px 1.5px at 86% 93%, var(--gold-pale), transparent 60%),
+    radial-gradient(1.2px 1.2px at 78% 88%, var(--gold-bright), transparent 60%),
+    radial-gradient(1.7px 1.7px at 92% 84%, var(--gold-pale), transparent 60%);
+}
+
+.page{position:relative;overflow:hidden;min-height:100vh;min-height:100dvh}
+.wrap{position:relative;z-index:1;width:100%;max-width:560px;margin:0 auto;padding:30px 20px 56px}
+
+.back{position:relative;z-index:2;display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.78);text-decoration:none;font-size:13px;font-weight:500;padding:8px 14px 8px 10px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(12,22,51,.35);backdrop-filter:blur(6px)}
+.back:hover{color:#fff;border-color:var(--gold-bright)}
+.back svg{width:15px;height:15px}
+.is-embed .back{display:none}
+
+/* Crest + event lockup */
+.brand{text-align:center;margin-top:18px}
+.crest{width:150px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 8px 18px rgba(0,0,0,.35))}
+.lockup{margin-top:18px;font-family:var(--display);text-align:center;line-height:1}
+.lockup .l1{display:block;font-weight:500;font-size:17px;letter-spacing:.2em;color:#fff;padding-left:.2em}
+.lockup .l2{display:block;font-weight:400;font-size:52px;letter-spacing:.14em;margin-top:4px;padding-left:.14em;
+  background:linear-gradient(180deg,#C4953F 0%,var(--gold) 55%,#8C6320 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lockup .l3{display:block;font-weight:500;font-size:30px;letter-spacing:.09em;color:#fff;margin-top:2px;padding-left:.09em}
+.lockup .l4{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:12px;font-weight:500;font-size:20px;letter-spacing:.18em;color:var(--gold);padding-left:.18em}
+.lockup .l4 i{display:block;width:74px;height:10px;background:
+  linear-gradient(var(--gold),var(--gold)) center/100% 1px no-repeat;position:relative}
+.lockup .l4 i::after{content:"";position:absolute;top:50%;width:6px;height:6px;border:1px solid var(--gold);transform:translate(-50%,-50%) rotate(45deg);background:var(--navy)}
+.lockup .l4 i:first-child::after{left:78%}
+.lockup .l4 i:last-child::after{left:22%}
+
+/* Prize */
+.prize{margin-top:34px;text-align:center}
+.prize h1{font-family:var(--display);font-weight:600;font-size:clamp(25px,6.4vw,31px);line-height:1.22;letter-spacing:.02em;color:var(--gold-pale)}
+.prize p.lede{margin:12px auto 0;max-width:30em;font-size:15.5px;line-height:1.6;color:rgba(255,255,255,.8)}
+.bottles{display:block;width:min(270px,70%);height:auto;margin:22px auto 0;filter:drop-shadow(0 22px 30px rgba(5,10,30,.55))}
+
+/* Countdown */
+.closes{margin:6px auto 0;display:flex;flex-direction:column;align-items:center;gap:12px}
+.closes .when{font-size:14px;color:rgba(255,255,255,.78)}
+.closes .when b{color:#fff;font-weight:600}
+.clock{display:flex;gap:8px}
+.clock div{min-width:62px;padding:9px 6px 7px;border-radius:10px;background:rgba(12,22,51,.55);border:1px solid rgba(217,180,106,.35);text-align:center}
+.clock b{display:block;font-family:var(--display);font-size:24px;font-weight:600;color:var(--gold-pale);font-variant-numeric:tabular-nums;line-height:1.1}
+.clock span{display:block;margin-top:2px;font-size:10.5px;color:rgba(255,255,255,.6)}
+
+/* The entry ticket */
+.ticket{
+  position:relative;margin-top:30px;color:var(--navy-ink);
+  background:linear-gradient(180deg,#FFFDF8 0%,var(--ivory) 100%);
+  border-radius:18px;box-shadow:0 30px 60px -24px rgba(3,8,26,.75),0 0 0 1px rgba(217,180,106,.55);
+}
+.ticket::before,.ticket::after{ /* punched notches at the stub line */
+  content:"";position:absolute;top:92px;width:22px;height:22px;border-radius:50%;background:var(--navy);box-shadow:inset 0 0 0 1px rgba(217,180,106,.55)}
+.ticket::before{left:-11px}
+.ticket::after{right:-11px}
+.stub{height:103px;padding:20px 26px 0;border-bottom:2px dashed rgba(168,121,42,.45);display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.stub h2{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:.03em;color:var(--navy-deep);line-height:1.2}
+.stub p{margin-top:5px;font-size:13px;color:#5B6078;line-height:1.45}
+.stub .seal{flex:0 0 auto;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 35% 30%,#E7C98A,var(--gold) 70%);color:#fff;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.04em;box-shadow:0 0 0 3px #FFFDF8,0 0 0 4px rgba(168,121,42,.5)}
+.form{padding:24px 26px 28px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:420px){.row{grid-template-columns:1fr}.stub{padding:18px 20px 0}.form{padding:22px 20px 24px}}
+.field{margin-top:16px}
+.row .field{margin-top:0}
+.field:first-child{margin-top:0}
+label.lbl{display:block;font-size:13px;font-weight:600;color:var(--navy-deep);margin-bottom:6px}
+.input{width:100%;height:48px;border-radius:10px;border:1.5px solid #D8D2C2;background:#fff;padding:0 14px;font:500 16px/1 var(--sans);color:var(--navy-ink);transition:border-color .2s,box-shadow .2s}
+.input::placeholder{color:#A3A6B4;font-weight:400}
+.input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(168,121,42,.2)}
+.field.bad .input{border-color:#C2412D}
+.err{display:none;margin-top:6px;font-size:12.5px;color:#B23A27}
+.field.bad .err{display:block}
+
+/* Table picker — the tables, laid out like the room */
+fieldset{border:none;margin-top:20px}
+legend.lbl{display:block;font-size:13px;font-weight:600;color:var(--navy-deep);margin-bottom:10px}
+.tables{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.tables input{position:absolute;opacity:0;pointer-events:none}
+.tables label{aspect-ratio:1/1;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-family:var(--display);font-weight:700;font-size:18px;color:var(--navy-deep);background:#fff;border:1.5px solid #D8D2C2;
+  transition:transform .15s var(--ease),background .15s,border-color .15s,color .15s;user-select:none;-webkit-user-select:none}
+.tables label:hover{border-color:var(--gold)}
+.tables input:focus-visible + label{box-shadow:0 0 0 3px rgba(168,121,42,.35)}
+.tables input:checked + label{background:radial-gradient(circle at 35% 30%,#E7C98A,var(--gold) 72%);border-color:var(--gold);color:#fff;transform:scale(1.06)}
+fieldset.bad .tables label{border-color:#E4A99E}
+fieldset .err{margin-top:8px}
+fieldset.bad .err{display:block}
+.hint{margin-top:8px;font-size:12.5px;color:#6A6E82}
+
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:20px;font-size:13.5px;line-height:1.45;color:#3C4260;cursor:pointer}
+.check input{width:20px;height:20px;flex:0 0 auto;margin-top:1px;accent-color:var(--gold)}
+.check-wrap.bad .check{color:#B23A27}
+
+.submit{margin-top:22px;width:100%;height:54px;border:none;border-radius:12px;cursor:pointer;
+  font:700 16px/1 var(--sans);letter-spacing:.02em;color:#fff;
+  background:linear-gradient(180deg,#1F3374,var(--navy-deep));box-shadow:0 12px 26px -12px rgba(12,22,51,.8),inset 0 1px 0 rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s,filter .15s}
+.submit:hover{filter:brightness(1.12)}
+.submit:active{transform:translateY(1px)}
+.submit:disabled{opacity:.6;cursor:default}
+.submit .spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spin .8s linear infinite;display:none}
+.submit.busy .spin{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.form-msg{display:none;margin-top:14px;padding:12px 14px;border-radius:10px;font-size:13.5px;line-height:1.5;background:#FBEAE6;color:#8E2C1C}
+.form-msg.show{display:block}
+.privacy{margin-top:14px;font-size:12px;line-height:1.5;color:#7A7E90;text-align:center}
+
+/* Success + closed states replace the form */
+.state{display:none;padding:30px 26px 32px;text-align:center}
+.state.show{display:block}
+.state .mark{width:74px;height:74px;margin:0 auto;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 35% 30%,#E7C98A,var(--gold) 72%);box-shadow:0 0 0 4px #FFFDF8,0 0 0 5px rgba(168,121,42,.5);animation:pop .6s var(--ease)}
+.state .mark svg{width:34px;height:34px;color:#fff}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.state h3{margin-top:18px;font-family:var(--display);font-size:24px;color:var(--navy-deep)}
+.state p{margin:10px auto 0;max-width:26em;font-size:14.5px;line-height:1.6;color:#4A5070}
+.state .big{font-family:var(--display);font-weight:700;font-size:44px;color:var(--gold);margin-top:14px;line-height:1}
+.state .big small{display:block;font-family:var(--sans);font-size:12px;font-weight:600;color:#6A6E82;letter-spacing:.02em;margin-bottom:6px}
+.link-btn{margin-top:18px;background:none;border:1.5px solid #D8D2C2;border-radius:999px;padding:10px 18px;font:600 13.5px var(--sans);color:var(--navy-deep);cursor:pointer}
+.link-btn:hover{border-color:var(--gold)}
+.is-closed .ticket .form, .is-done .ticket .form{display:none}
+
+/* How it works */
+.how{margin-top:40px}
+.how h2{font-family:var(--display);font-weight:600;font-size:20px;text-align:center;color:var(--gold-pale);letter-spacing:.03em}
+.steps{list-style:none;margin-top:18px;display:grid;gap:12px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:38px 1fr;gap:14px;align-items:start;padding:14px 16px;border-radius:14px;background:rgba(12,22,51,.4);border:1px solid rgba(217,180,106,.18)}
+.steps li::before{content:counter(s);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:17px;color:var(--navy-ink);background:linear-gradient(180deg,var(--gold-pale),var(--gold-bright))}
+.steps b{display:block;font-size:15px;color:#fff}
+.steps span{display:block;margin-top:3px;font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.72)}
+.terms{margin-top:26px;font-size:12.5px;line-height:1.65;color:rgba(255,255,255,.62)}
+.terms h3{font-size:13px;color:rgba(255,255,255,.85);margin-bottom:6px}
+.terms ul{padding-left:18px}
+.foot{margin-top:34px;text-align:center;font-family:var(--display);font-size:13px;letter-spacing:.14em;color:rgba(255,255,255,.55)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<script>if (/[?&]embed=1\b/.test(location.search)) document.body.classList.add('is-embed');</script>
+<div class="page">
+  <svg class="ribbon top" viewBox="0 0 760 300" aria-hidden="true">
+    <defs><linearGradient id="gA" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7A5518"/><stop offset=".35" stop-color="#E9CB84"/><stop offset=".6" stop-color="#B8893A"/><stop offset="1" stop-color="#F3DEA6"/></linearGradient></defs>
+    <g fill="none" stroke="url(#gA)" stroke-linecap="round">
+      <path d="M-20 120 C 160 30, 360 250, 780 70" stroke-width="16" opacity=".9"/>
+      <path d="M-20 150 C 180 60, 380 270, 780 110" stroke-width="3" opacity=".8"/>
+      <path d="M-20 95 C 200 0, 420 210, 780 30" stroke-width="7" opacity=".6"/>
+      <path d="M-20 175 C 150 110, 360 280, 780 160" stroke-width="1.5" opacity=".7"/>
+    </g>
+  </svg>
+  <svg class="ribbon bottom" viewBox="0 0 760 300" aria-hidden="true">
+    <g fill="none" stroke="url(#gA)" stroke-linecap="round">
+      <path d="M-20 120 C 160 30, 360 250, 780 70" stroke-width="14" opacity=".85"/>
+      <path d="M-20 150 C 180 60, 380 270, 780 110" stroke-width="3" opacity=".7"/>
+      <path d="M-20 95 C 200 0, 420 210, 780 30" stroke-width="6" opacity=".5"/>
+    </g>
+  </svg>
+  <div class="sparkle" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <a class="back" href="/events/gala-dinner-dance-2026">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Gala Dinner Dance
+    </a>
+
+    <header class="brand">
+      <img class="crest" src="/public/images/lucky-draw/obu-nz-crest.webp" width="480" height="508" alt="St. Peter's College Old Boys Union New Zealand, established 2020" />
+      <div class="lockup" role="img" aria-label="SPC OBU NZ Gala Dinner Dance 2026">
+        <span class="l1">SPC OBU NZ</span>
+        <span class="l2">GALA</span>
+        <span class="l3">DINNER DANCE</span>
+        <span class="l4"><i></i>2026<i></i></span>
+      </div>
+    </header>
+
+    <section class="prize">
+      <h1>Win 2 bottles of Johnnie Walker Double Black for your table</h1>
+      <p class="lede">Enter the Lucky Table Draw with your table number. At 8:15pm every entry goes on the wheel, and the table it lands on takes home the bottles.</p>
+      <img class="bottles" src="/public/images/lucky-draw/prize-bottles.webp" width="620" height="792" alt="Two bottles of Johnnie Walker whisky" loading="eager" decoding="async" />
+      <div class="closes">
+        <div class="when">Entries close <b>8:15pm, Saturday 3 October</b></div>
+        <div class="clock" id="clock" aria-live="off">
+          <div><b id="cD">0</b><span>days</span></div>
+          <div><b id="cH">00</b><span>hours</span></div>
+          <div><b id="cM">00</b><span>mins</span></div>
+          <div><b id="cS">00</b><span>secs</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ticket" id="ticket" aria-labelledby="ticketTitle">
+      <div class="stub">
+        <div>
+          <h2 id="ticketTitle">Lucky Table Draw</h2>
+          <p>One entry per guest. Every field is required.</p>
+        </div>
+        <div class="seal" aria-hidden="true">OBU</div>
+      </div>
+
+      <form class="form" id="form" novalidate>
+        <div class="row">
+          <div class="field" data-f="first">
+            <label class="lbl" for="first">First name</label>
+            <input class="input" id="first" name="first" autocomplete="given-name" maxlength="60" required />
+            <div class="err">Enter your first name.</div>
+          </div>
+          <div class="field" data-f="last">
+            <label class="lbl" for="last">Last name</label>
+            <input class="input" id="last" name="last" autocomplete="family-name" maxlength="60" required />
+            <div class="err">Enter your last name.</div>
+          </div>
+        </div>
+        <div class="field" data-f="mobile">
+          <label class="lbl" for="mobile">Mobile number</label>
+          <input class="input" id="mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="021 123 4567" maxlength="20" required />
+          <div class="err">Enter a mobile number we can call if your table wins.</div>
+        </div>
+        <div class="field" data-f="email">
+          <label class="lbl" for="email">Email</label>
+          <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required />
+          <div class="err">Enter a valid email address.</div>
+        </div>
+
+        <fieldset data-f="table">
+          <legend class="lbl">Your table number</legend>
+          <div class="tables" id="tables"></div>
+          <div class="err">Choose the table you're sitting at.</div>
+          <div class="hint">Your table number is on the seating list at the entrance.</div>
+        </fieldset>
+
+        <div class="check-wrap" data-f="age">
+          <label class="check"><input type="checkbox" id="age" /> <span>I'm 18 or over and attending the Gala Dinner Dance.</span></label>
+        </div>
+
+        <button type="submit" class="submit" id="submit"><span class="spin" aria-hidden="true"></span><span id="submitLabel">Enter the draw</span></button>
+        <div class="form-msg" id="formMsg" role="alert"></div>
+        <p class="privacy">Your details are used only to run this draw and contact the winning table.</p>
+      </form>
+
+      <div class="state" id="done" aria-live="polite">
+        <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h3 id="doneTitle">You're in the draw</h3>
+        <div class="big"><small>Your entry is on the wheel for</small><span id="doneTable">Table 1</span></div>
+        <p>The wheel spins at 8:15pm on the big screen. If it lands on your table, the bottles are yours.</p>
+        <button type="button" class="link-btn" id="another">Enter another guest</button>
+      </div>
+
+      <div class="state" id="closed">
+        <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/></svg></div>
+        <h3>Entries have closed</h3>
+        <p>The Lucky Table Draw closed at 8:15pm. Watch the big screen to see which table wins.</p>
+      </div>
+
+      <div class="state" id="soon">
+        <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/></svg></div>
+        <h3>Entries open soon</h3>
+        <p>The Lucky Table Draw isn't taking entries yet. Check back shortly.</p>
+      </div>
+    </section>
+
+    <section class="how" aria-labelledby="howTitle">
+      <h2 id="howTitle">How the draw works</h2>
+      <ol class="steps">
+        <li><div><b>Enter with your table number</b><span>Fill in the ticket above before 8:15pm on Saturday 3 October.</span></div></li>
+        <li><div><b>Your entry goes on the wheel</b><span>Each entry adds a slice for its table, so the more guests at a table who enter, the bigger that table's share of the wheel.</span></div></li>
+        <li><div><b>The wheel picks a table</b><span>We spin it live on the big screen at 8:15pm. The winning table receives 2 bottles of Johnnie Walker Double Black.</span></div></li>
+      </ol>
+      <div class="terms">
+        <h3>The fine print</h3>
+        <ul>
+          <li>Open to guests aged 18 or over attending the SPC OBU NZ Gala Dinner Dance on Saturday 3 October 2026.</li>
+          <li>One entry per person. Only tables with at least one entry go on the wheel.</li>
+          <li>Entries close at 8:15pm NZDT. Late entries can't be accepted.</li>
+          <li>The prize goes to the winning table and must be collected on the night. It can't be exchanged for cash.</li>
+          <li>Please enjoy responsibly.</li>
+        </ul>
+      </div>
+      <p class="foot">One College. One Brotherhood.</p>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var C = window.LUCKY_DRAW;
+  var deadline = new Date(C.deadline).getTime();
+  var STORE = 'spcobunz-lucky-draw-entry';
+
+  var ticket = document.getElementById('ticket');
+  var form = document.getElementById('form');
+  var submitBtn = document.getElementById('submit');
+  var submitLabel = document.getElementById('submitLabel');
+  var formMsg = document.getElementById('formMsg');
+
+  /* Table chips 1–15 */
+  var tablesEl = document.getElementById('tables');
+  for (var t = 1; t <= C.tables; t++){
+    var id = 'tbl' + t;
+    var inp = document.createElement('input');
+    inp.type = 'radio'; inp.name = 'table'; inp.value = t; inp.id = id;
+    var lab = document.createElement('label');
+    lab.setAttribute('for', id); lab.textContent = t;
+    lab.setAttribute('aria-label', 'Table ' + t);
+    tablesEl.appendChild(inp); tablesEl.appendChild(lab);
+  }
+
+  /* States */
+  function show(stateId){
+    ['done','closed','soon'].forEach(function(s){ document.getElementById(s).classList.toggle('show', s === stateId); });
+    document.body.classList.toggle('is-done', stateId === 'done');
+    document.body.classList.toggle('is-closed', stateId === 'closed' || stateId === 'soon');
+  }
+  function showDone(entry){
+    document.getElementById('doneTitle').textContent = 'You\u2019re in the draw, ' + entry.first;
+    document.getElementById('doneTable').textContent = 'Table ' + entry.table;
+    show('done');
+  }
+
+  /* Countdown */
+  var cD = document.getElementById('cD'), cH = document.getElementById('cH'),
+      cM = document.getElementById('cM'), cS = document.getElementById('cS');
+  function two(n){ return (n < 10 ? '0' : '') + n; }
+  function tick(){
+    var left = Math.max(0, deadline - Date.now());
+    var s = Math.floor(left / 1000);
+    cD.textContent = Math.floor(s / 86400);
+    cH.textContent = two(Math.floor(s % 86400 / 3600));
+    cM.textContent = two(Math.floor(s % 3600 / 60));
+    cS.textContent = two(s % 60);
+    if (left <= 0){
+      clearInterval(timer);
+      if (!document.body.classList.contains('is-done')) show('closed');
+      document.querySelector('.closes .when').innerHTML = 'Entries closed at <b>8:15pm, Saturday 3 October</b>';
+    }
+  }
+  var timer = setInterval(tick, 1000); tick();
+
+  /* Initial state */
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch(e){}
+  if (Date.now() >= deadline) show('closed');
+  else if (!C.isConfigured()) show('soon');
+  else if (saved) showDone(saved);
+
+  document.getElementById('another').addEventListener('click', function(){
+    form.reset(); show(null); formMsg.classList.remove('show');
+    document.getElementById('first').focus();
+  });
+
+  /* Validation */
+  function normMobile(v){
+    var s = String(v || '').replace(/[\s().-]/g, '');
+    if (/^00/.test(s)) s = '+' + s.slice(2);
+    else if (/^0/.test(s)) s = '+64' + s.slice(1);
+    else if (/^64/.test(s)) s = '+' + s;
+    return s;
+  }
+  function setBad(key, bad){
+    var el = form.querySelector('[data-f="' + key + '"]');
+    if (el) el.classList.toggle('bad', !!bad);
+    return !bad;
+  }
+  function validate(){
+    var v = {
+      first: form.first.value.trim(),
+      last: form.last.value.trim(),
+      mobile: normMobile(form.mobile.value),
+      email: form.email.value.trim(),
+      table: (form.querySelector('input[name="table"]:checked') || {}).value,
+      age: document.getElementById('age').checked
+    };
+    var ok = true, firstBad = null;
+    function chk(key, good, focusEl){
+      if (!setBad(key, !good)){ ok = false; if (!firstBad) firstBad = focusEl; }
+    }
+    chk('first', v.first.length > 0, form.first);
+    chk('last', v.last.length > 0, form.last);
+    chk('mobile', /^\+?[0-9]{7,15}$/.test(v.mobile), form.mobile);
+    chk('email', /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email), form.email);
+    chk('table', !!v.table, tablesEl.querySelector('input'));
+    chk('age', v.age, document.getElementById('age'));
+    if (firstBad) firstBad.focus();
+    return ok ? v : null;
+  }
+  form.addEventListener('input', function(e){
+    var f = e.target.closest('[data-f]'); if (f) f.classList.remove('bad');
+  });
+  form.addEventListener('change', function(e){
+    var f = e.target.closest('[data-f]'); if (f) f.classList.remove('bad');
+  });
+
+  function fail(msg){
+    formMsg.textContent = msg; formMsg.classList.add('show');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    formMsg.classList.remove('show');
+    if (Date.now() >= deadline){ show('closed'); return; }
+    var v = validate(); if (!v) return;
+
+    submitBtn.disabled = true; submitBtn.classList.add('busy'); submitLabel.textContent = 'Entering\u2026';
+    C.request('lucky_draw_entries', {
+      first_name: v.first, last_name: v.last, mobile: v.mobile,
+      email: v.email.toLowerCase(), table_number: parseInt(v.table, 10)
+    }).then(function(res){
+      if (res.ok){
+        var entry = { first: v.first, table: v.table };
+        try { localStorage.setItem(STORE, JSON.stringify(entry)); } catch(e){}
+        showDone(entry);
+        ticket.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      return res.json().catch(function(){ return {}; }).then(function(body){
+        if (res.status === 409 || body.code === '23505'){
+          fail('That email or mobile number has already been entered. Each guest can enter once.');
+        } else if (res.status === 401 || res.status === 403 || body.code === '42501'){
+          if (Date.now() >= deadline - 60000) show('closed');
+          else fail('Entries aren\u2019t being accepted right now. Please tell a committee member.');
+        } else {
+          fail('Your entry didn\u2019t go through. Check your details and try again.');
+        }
+      });
+    }).catch(function(){
+      fail('No connection. Check your signal or Wi-Fi and try again.');
+    }).then(function(){
+      submitBtn.disabled = false; submitBtn.classList.remove('busy'); submitLabel.textContent = 'Enter the draw';
+    });
+  });
+})();
+</script>
+</body>
+</html>

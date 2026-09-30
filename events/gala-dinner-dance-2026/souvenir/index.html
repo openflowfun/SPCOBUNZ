@@ -279,6 +279,19 @@ body{
 
 #souvenirBook .page{position:relative}
 
+/* Lucky Table Draw button on page 47 */
+.sv-cta-hotspot{position:absolute;border:none;padding:0;margin:0;cursor:pointer;background:transparent;border-radius:999px;z-index:5;-webkit-tap-highlight-color:transparent;animation:sv-cta-glow 2.4s ease-in-out infinite}
+.sv-cta-hotspot:hover,.sv-cta-hotspot:focus-visible{outline:none;background:rgba(201,162,39,.12);box-shadow:0 0 0 3px rgba(201,162,39,.75),0 0 30px rgba(201,162,39,.45)}
+@keyframes sv-cta-glow{0%,100%{box-shadow:0 0 0 0 rgba(201,162,39,0)}50%{box-shadow:0 0 0 3px rgba(201,162,39,.55),0 0 24px rgba(201,162,39,.35)}}
+@media (prefers-reduced-motion:reduce){.sv-cta-hotspot{animation:none}}
+.sv-draw-modal{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(2,6,14,.82);backdrop-filter:blur(6px)}
+.sv-draw-modal.is-open{display:flex}
+.sv-draw-box{position:relative;width:100%;max-width:560px;height:min(92vh,900px);border-radius:20px;overflow:hidden;background:#2A3F7E;box-shadow:0 40px 100px -20px rgba(0,0,0,.8),0 0 0 1px rgba(201,162,39,.5)}
+.sv-draw-box iframe{width:100%;height:100%;border:0;display:block}
+.sv-draw-close{position:absolute;top:10px;right:10px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(12,22,51,.7);color:#fff;font-size:22px;line-height:1;cursor:pointer}
+.sv-draw-close:hover{border-color:#C9A227}
+@media (max-width:600px){.sv-draw-modal{padding:0}.sv-draw-box{height:100%;max-width:none;border-radius:0}}
+
 /* Toast */
 .sv-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-800);border:1px solid rgba(201,162,39,.3);color:var(--ivory);font-size:13px;padding:12px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:300}
 .sv-toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -408,6 +421,11 @@ body{
   </button>
 </div>
 
+<div class="sv-draw-modal" id="svDrawModal" role="dialog" aria-modal="true" aria-label="Lucky Table Draw entry form">
+  <div class="sv-draw-box">
+    <button type="button" class="sv-draw-close" id="svDrawClose" aria-label="Close">&times;</button>
+  </div>
+</div>
 <div class="sv-toast" id="svToast"></div>
 
 <script src="/public/vendor/page-flip.browser.js" onerror="window.__svLibFailed=true"></script>
@@ -427,6 +445,40 @@ body{
   function pad(n){ return n < 10 ? '0' + n : '' + n; }
   function hiresUrl(n){ return HIRES_PATH + HIRES_PREFIX + pad(n) + '.jpg'; }
   function pageUrl(n){ return PAGE_PATH + pad(n) + '.jpg'; }
+
+  /* ---------- Lucky Table Draw (page 47 "CLICK HERE") ---------- */
+  var DRAW_PAGE = 47;
+  var DRAW_URL = '/events/gala-dinner-dance-2026/lucky-draw/';
+  var DRAW_RECT = [8.0, 37.6, 84.5, 17.5];   // left, top, width, height in % of the page
+  var drawModal = document.getElementById('svDrawModal');
+  var drawBox = drawModal.querySelector('.sv-draw-box');
+  function openDrawForm(){
+    if (!drawBox.querySelector('iframe')){
+      var fr = document.createElement('iframe');
+      fr.src = DRAW_URL + '?embed=1';
+      fr.title = 'Lucky Table Draw entry form';
+      drawBox.appendChild(fr);
+    }
+    drawModal.classList.add('is-open');
+    document.getElementById('svDrawClose').focus();
+  }
+  function closeDrawForm(){ drawModal.classList.remove('is-open'); }
+  document.getElementById('svDrawClose').addEventListener('click', closeDrawForm);
+  drawModal.addEventListener('click', function(e){ if (e.target === drawModal) closeDrawForm(); });
+  function buildDrawHotspot(){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'sv-cta-hotspot';
+    b.style.left = DRAW_RECT[0] + '%'; b.style.top = DRAW_RECT[1] + '%';
+    b.style.width = DRAW_RECT[2] + '%'; b.style.height = DRAW_RECT[3] + '%';
+    b.setAttribute('aria-label', 'Enter the Lucky Table Draw');
+    /* Keep the tap from also starting a page flip. */
+    ['mousedown','touchstart','pointerdown'].forEach(function(ev){
+      b.addEventListener(ev, function(e){ e.stopPropagation(); }, { passive: true });
+    });
+    b.addEventListener('click', function(e){ e.stopPropagation(); e.preventDefault(); openDrawForm(); });
+    return b;
+  }
 
   /* ---------- Progressive page loading ----------
      Only the pages around the one being viewed are requested straight
@@ -830,6 +882,7 @@ body{
       img.decoding = 'async';
       pageImgs[i] = img;
       pageDiv.appendChild(img);
+      if (i === DRAW_PAGE) pageDiv.appendChild(buildDrawHotspot());
       pageEls.push(pageDiv);
     }
     pageFlip.loadFromHTML(pageEls);
@@ -874,6 +927,10 @@ body{
   slider.addEventListener('input', function(){ goToVisual(parseInt(slider.value, 10) + 1); });
 
   document.addEventListener('keydown', function(e){
+    if (drawModal.classList.contains('is-open')){
+      if (e.key === 'Escape') closeDrawForm();
+      return;
+    }
     if (zoomOverlay.classList.contains('is-open')){
       if (e.key === 'Escape') closeZoom();
       if (e.key === 'ArrowLeft') stepZoom(-1);
