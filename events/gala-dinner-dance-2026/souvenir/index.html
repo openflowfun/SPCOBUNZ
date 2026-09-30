@@ -446,12 +446,12 @@ body{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
         <div class="sv-slider-wrap">
-          <input type="range" class="sv-slider" id="svSlider" min="0" max="36" value="0" step="1" aria-label="Page slider" />
+          <input type="range" class="sv-slider" id="svSlider" min="0" max="48" value="0" step="1" aria-label="Page slider" />
         </div>
         <button type="button" class="sv-nav-btn" id="svNextBtn" aria-label="Next page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
-        <span class="sv-page-label" id="svPageLabel">1 / 37</span>
+        <span class="sv-page-label" id="svPageLabel">1 / 49</span>
       </div>
       <a href="/public/souvenir/Gala%20Dinner%20Dance%202026%20-%20Souvenir%20Booklet.pdf" class="sv-download" id="svDownloadBtn" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
@@ -513,7 +513,7 @@ body{
 <script>
 (function(){
   'use strict';
-  var TOTAL_PAGES = 45;
+  var TOTAL_PAGES = 49;
   var HIRES_PATH = '/public/images/souvenir/';
   var HIRES_PREFIX = 'hi-';
   var THUMB_PATH = '/public/images/souvenir/thumbs/';
@@ -526,19 +526,19 @@ body{
      a two-page spread (desktop) — each .page div always matches its own
      source image 1:1 regardless of spread layout. */
   var SPONSOR_ADS = {
-    22: {
+    19: {
       id: 'ceylonika', rect: [7.9, 72.17, 35.74, 6.78],
       name: 'Ceylonika', eyebrow: 'Bronze Sponsor · Traditional Sri Lankan Wedding Attire',
       img: '/public/images/souvenir/ads/ceylonika-ad.jpg',
       ctaHref: 'tel:+64220822317', ctaLabel: 'Call +64 22 082 2317'
     },
-    23: {
+    28: {
       id: 'taprobane', rect: [36.5, 92.28, 56.65, 4.5],
       name: 'Taprobane Finance', eyebrow: 'Bronze Sponsor · Insurance & Financial Advice',
       img: '/public/images/souvenir/ads/taprobane-ad.jpg',
       ctaHref: 'tel:0800777000', ctaLabel: 'Call 0800 777 000'
     },
-    29: {
+    33: {
       id: 'worx', rect: [65.8, 90.5, 32.2, 7.7],
       name: 'The Worx Real Estate', eyebrow: 'Bronze Sponsor · Residential Sales & Property Management',
       img: '/public/images/souvenir/ads/worx-ad.jpg',
