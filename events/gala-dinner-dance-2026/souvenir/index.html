@@ -373,12 +373,12 @@ body{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
         <div class="sv-slider-wrap">
-          <input type="range" class="sv-slider" id="svSlider" min="0" max="48" value="0" step="1" aria-label="Page slider" />
+          <input type="range" class="sv-slider" id="svSlider" min="0" max="49" value="0" step="1" aria-label="Page slider" />
         </div>
         <button type="button" class="sv-nav-btn" id="svNextBtn" aria-label="Next page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
-        <span class="sv-page-label" id="svPageLabel">1 / 49</span>
+        <span class="sv-page-label" id="svPageLabel">1 / 50</span>
       </div>
       <a href="/public/souvenir/Gala%20Dinner%20Dance%202026%20-%20Souvenir%20Booklet.pdf" class="sv-download" id="svDownloadBtn" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
@@ -414,7 +414,7 @@ body{
 <script>
 (function(){
   'use strict';
-  var TOTAL_PAGES = 49;
+  var TOTAL_PAGES = 50;
   var HIRES_PATH = '/public/images/souvenir/';
   var HIRES_PREFIX = 'hi-';
   var THUMB_PATH = '/public/images/souvenir/thumbs/';
@@ -431,7 +431,7 @@ body{
   /* ---------- Progressive page loading ----------
      Only the pages around the one being viewed are requested straight
      away; the rest trickle in one at a time in the background, so opening
-     the booklet never waits on (or decodes) all 49 pages at once. */
+     the booklet never waits on (or decodes) every page at once. */
   var pageImgs = {};        // visual page number -> <img> in the current book
   var requested = {};       // visual page number -> true once its src was set
   var bgTimer = null;
