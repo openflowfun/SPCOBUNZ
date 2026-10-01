@@ -1077,6 +1077,13 @@ body{
     }
   }
 
+  /* Arriving from the Events page's souvenir cover (#open): go straight
+     into the booklet instead of showing the same cover a second time. */
+  if (location.hash === '#open'){
+    try { history.replaceState(null, '', location.pathname + location.search); } catch(e){}
+    setTimeout(function(){ openBookAt(2); }, 60);
+  }
+
   if (document.readyState === 'complete' || document.readyState === 'interactive'){
     setTimeout(start, 0);
   } else {
