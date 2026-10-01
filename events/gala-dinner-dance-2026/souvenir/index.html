@@ -279,7 +279,7 @@ body{
 
 #souvenirBook .page{position:relative}
 
-/* Lucky Table Draw button on page 47 */
+/* Lucky Table Draw button on page 34 */
 .sv-cta-hotspot{position:absolute;border:none;padding:0;margin:0;cursor:pointer;background:transparent;border-radius:999px;z-index:5;-webkit-tap-highlight-color:transparent;animation:sv-cta-glow 2.4s ease-in-out infinite}
 .sv-cta-hotspot:hover,.sv-cta-hotspot:focus-visible{outline:none;background:rgba(201,162,39,.12);box-shadow:0 0 0 3px rgba(201,162,39,.75),0 0 30px rgba(201,162,39,.45)}
 @keyframes sv-cta-glow{0%,100%{box-shadow:0 0 0 0 rgba(201,162,39,0)}50%{box-shadow:0 0 0 3px rgba(201,162,39,.55),0 0 24px rgba(201,162,39,.35)}}
@@ -389,12 +389,12 @@ body{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
         <div class="sv-slider-wrap">
-          <input type="range" class="sv-slider" id="svSlider" min="0" max="49" value="0" step="1" aria-label="Page slider" />
+          <input type="range" class="sv-slider" id="svSlider" min="0" max="50" value="0" step="1" aria-label="Page slider" />
         </div>
         <button type="button" class="sv-nav-btn" id="svNextBtn" aria-label="Next page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
-        <span class="sv-page-label" id="svPageLabel">1 / 50</span>
+        <span class="sv-page-label" id="svPageLabel">1 / 51</span>
       </div>
       <a href="/public/souvenir/Gala%20Dinner%20Dance%202026%20-%20Souvenir%20Booklet.pdf" class="sv-download" id="svDownloadBtn" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
@@ -436,7 +436,7 @@ body{
 <script>
 (function(){
   'use strict';
-  var TOTAL_PAGES = 50;
+  var TOTAL_PAGES = 51;
   var HIRES_PATH = '/public/images/souvenir/';
   var HIRES_PREFIX = 'hi-';
   var THUMB_PATH = '/public/images/souvenir/thumbs/';
@@ -450,10 +450,10 @@ body{
   function hiresUrl(n){ return HIRES_PATH + HIRES_PREFIX + pad(n) + '.jpg'; }
   function pageUrl(n){ return PAGE_PATH + pad(n) + '.jpg'; }
 
-  /* ---------- Lucky Table Draw (page 47 "CLICK HERE") ---------- */
-  var DRAW_PAGE = 47;
+  /* ---------- Lucky Table Draw (page 34 "CLICK HERE") ---------- */
+  var DRAW_PAGE = 34;
   var DRAW_URL = '/events/gala-dinner-dance-2026/lucky-draw/';
-  var DRAW_RECT = [8.0, 37.6, 84.5, 17.5];   // left, top, width, height in % of the page
+  var DRAW_RECT = [9.5, 32.0, 81.5, 15.0];   // left, top, width, height in % of the page
   var drawModal = document.getElementById('svDrawModal');
   var drawBox = drawModal.querySelector('.sv-draw-box');
   function openDrawForm(){
@@ -960,7 +960,7 @@ body{
     placeZoomCta();
   }
   function closeZoom(){ zoomOverlay.classList.remove('is-open'); placeZoomCta(); }
-  /* Page 47's "CLICK HERE" stays tappable in the zoom view too. */
+  /* Page 34 "CLICK HERE" stays tappable in the zoom view too. */
   var zoomCta = document.getElementById('svZoomCta');
   function placeZoomCta(){
     var on = zoomOverlay.classList.contains('is-open') &&
