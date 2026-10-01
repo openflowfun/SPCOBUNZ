@@ -485,6 +485,10 @@ body.page-programme .burger{display:none}
    so push the close button below it there and make it a touch smaller */
 @media(min-width:1081px){.prog-close{top:132px;right:40px;width:38px;height:38px;font-size:15px}}
 .prog-buy-desktop,.prog-buy-mobile{display:none}
+.prog-soldout{display:inline-flex;align-items:center;gap:14px;padding:15px 30px;border-radius:999px;background:linear-gradient(135deg,var(--navy-800,#122a52),var(--navy-900,#0b1d3a));border:1.5px solid var(--gold);box-shadow:0 10px 30px rgba(5,13,26,.18);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.prog-soldout b{font-family:'Playfair Display',Georgia,serif;font-size:18px;letter-spacing:.08em;color:var(--gold-light)}
+.prog-soldout i{width:1px;height:18px;background:rgba(201,162,39,.5)}
+@media(max-width:560px){.prog-soldout{flex-direction:column;gap:6px;border-radius:18px;text-align:center;font-size:11px}.prog-soldout i{display:none}}
 @media(min-width:1081px){
   .prog-buy-desktop{position:fixed;display:inline-flex;align-items:center;justify-content:center;top:132px;right:88px;height:38px;z-index:5;padding:0 22px;font-size:10.5px}
 }
@@ -1755,8 +1759,6 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 <!-- Full Gala Dinner Dance Programme -->
 <div class="page prog-overlay" id="programmeOverlay" data-page="events/gala-dinner-dance-2026">
   <a href="/events" class="prog-close" id="programmeClose" aria-label="Back to Events">✕</a>
-  <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold prog-buy-desktop" data-tickets-link>Buy Tickets</a>
-  <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold prog-buy-mobile" data-tickets-link>Buy Tickets</a>
   <div class="prog-hero">
     <div class="prog-hero-glow"></div>
     <img src="/public/images/crest-spc-cutout.png" alt="" class="prog-crest" loading="lazy" decoding="async" />
@@ -1818,8 +1820,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
         <div class="prog-item"><b>Tickets</b><span>$110 per person<br />$1,100 table of 10</span></div>
       </div>
       <div class="prog-cta">
-        <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-tickets-link>Buy Tickets</a>
-        <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-tickets-link>Reserve a Table</a>
+        <span class="prog-soldout"><b>Sold Out</b><i></i>See you on the 3rd of October</span>
         <a href="#" class="btn btn-outline" id="progAddCal">+ Add to Calendar</a>
       </div>
       <div class="prog-map">
