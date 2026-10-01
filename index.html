@@ -605,6 +605,26 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
   .prog-tl-time--range b{font-size:10.5px}
   .prog-tl-node{left:44px;top:20px;width:11px;height:11px}
 }
+/* Schedule text sized to match the Event Details tiles */
+.prog-tl-card h4{font-size:17px}
+.prog-tl-card p{font-size:14px;color:rgba(255,255,255,.78)}
+.prog-tl-loc{font-size:12px;color:rgba(255,255,255,.6)}
+.prog-tl-time b{font-size:19px}
+.prog-tl-time small{font-size:10px}
+.prog-tl-time--range b{font-size:15px;white-space:nowrap}
+@media(max-width:560px){
+  .prog-timeline::before{left:68px}
+  .prog-tl-item{padding-left:90px}
+  .prog-tl-time{width:58px;top:15px}
+  .prog-tl-time b{font-size:17px}
+  .prog-tl-time--range b{font-size:13px}
+  .prog-tl-time small{font-size:9px}
+  .prog-tl-node{left:62px;top:21px}
+  .prog-tl-card{padding:16px 18px}
+  .prog-tl-card h4{font-size:19px}
+  .prog-tl-card p{font-size:16px;line-height:1.55}
+  .prog-tl-loc{font-size:13px}
+}
 .prog-sponsor-tier{margin-bottom:32px;border-radius:22px;padding:34px 22px 38px}
 .prog-sponsor-tier:last-child{margin-bottom:0}
 .prog-sponsor-tier h5{display:flex;align-items:center;justify-content:center;gap:14px;text-align:center;font-size:15px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px}
