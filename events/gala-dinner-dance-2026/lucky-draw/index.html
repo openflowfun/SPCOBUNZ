@@ -370,14 +370,17 @@ fieldset.bad .err{display:block}
   var timer = setInterval(tick, 1000); tick();
 
   /* Initial state */
-  var saved = null;
-  try { saved = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch(e){}
+  /* Always open on a fresh, empty form — never someone else's details
+     (phones and shared tablets alike). Repeat entries are still stopped
+     by the Sheet, which checks the mobile number. Clears anything an
+     older version of this page saved on the device. */
+  try { localStorage.removeItem(STORE); } catch(e){}
   if (Date.now() >= deadline) show('closed');
   else if (!C.isConfigured()) show('soon');
-  else if (saved) showDone(saved);
 
   document.getElementById('another').addEventListener('click', function(){
     form.reset(); show(null); formMsg.classList.remove('show');
+    form.querySelectorAll('.bad').forEach(function(el){ el.classList.remove('bad'); });
     document.getElementById('first').focus();
   });
 
@@ -436,7 +439,6 @@ fieldset.bad .err{display:block}
     }).then(function(res){
       if (res && res.ok){
         var entry = { first: v.first };
-        try { localStorage.setItem(STORE, JSON.stringify(entry)); } catch(e){}
         showDone(entry);
         ticket.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
