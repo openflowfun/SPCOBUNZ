@@ -68,6 +68,16 @@
         if (t >= 1 && t <= C.tables && n > 0) next[t] = n;
       });
       counts = next;
+      var um = document.getElementById('ldUnmatched');
+      if (!data.guestList){
+        um.hidden = false;
+        um.textContent = (data.total || 0) + ' entries received. Add the guest list to the Sheet\u2019s Guests tab so entries can be matched to tables.';
+      } else if (data.unmatched){
+        um.hidden = false;
+        um.textContent = data.unmatched + (data.unmatched === 1 ? ' entry isn\u2019t' : ' entries aren\u2019t') + ' on the wheel yet: the name didn\u2019t match the guest list. Type their table into the Sheet\u2019s Entries tab to include them.';
+      } else {
+        um.hidden = true;
+      }
       var closed = Date.now() >= deadline;
       var time = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
       setStatus(closed ? 'closed' : 'live', closed ? 'Entries closed · final count' : 'Live · updated ' + time);
