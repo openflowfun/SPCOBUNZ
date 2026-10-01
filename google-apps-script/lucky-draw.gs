@@ -96,9 +96,10 @@ function doPost(e) {
   var email = String(d.email || '').trim().toLowerCase().slice(0, 254);
   var mobile = String(d.mobile || '').replace(/[^\d+]/g, '');
 
+  // Email is optional (no longer asked on the form); checked only if given.
   if (!first || !last ||
       !/^\+?\d{7,15}$/.test(mobile) ||
-      !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))) {
     return json_({ ok: false, error: 'invalid' });
   }
 
@@ -110,7 +111,7 @@ function doPost(e) {
     if (lastRow > 1) {
       var rows = sh.getRange(2, 4, lastRow - 1, 2).getValues(); // Mobile, Email
       for (var i = 0; i < rows.length; i++) {
-        if (String(rows[i][0]).replace(/^'/, '') === mobile || String(rows[i][1]).toLowerCase() === email) {
+        if (String(rows[i][0]).replace(/^'/, '') === mobile || (email && String(rows[i][1]).toLowerCase() === email)) {
           return json_({ ok: false, error: 'duplicate' });
         }
       }
