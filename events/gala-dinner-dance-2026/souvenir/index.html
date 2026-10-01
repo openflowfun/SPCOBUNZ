@@ -284,12 +284,15 @@ body{
 .sv-cta-hotspot:hover,.sv-cta-hotspot:focus-visible{outline:none;background:rgba(201,162,39,.12);box-shadow:0 0 0 3px rgba(201,162,39,.75),0 0 30px rgba(201,162,39,.45)}
 @keyframes sv-cta-glow{0%,100%{box-shadow:0 0 0 0 rgba(201,162,39,0)}50%{box-shadow:0 0 0 3px rgba(201,162,39,.55),0 0 24px rgba(201,162,39,.35)}}
 @media (prefers-reduced-motion:reduce){.sv-cta-hotspot{animation:none}}
-.sv-draw-modal{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(2,6,14,.82);backdrop-filter:blur(6px)}
+.sv-draw-modal{position:fixed;inset:0;z-index:10050;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(2,6,14,.82);backdrop-filter:blur(6px)}
 .sv-draw-modal.is-open{display:flex}
 .sv-draw-box{position:relative;width:100%;max-width:560px;height:min(92vh,900px);border-radius:20px;overflow:hidden;background:#2A3F7E;box-shadow:0 40px 100px -20px rgba(0,0,0,.8),0 0 0 1px rgba(201,162,39,.5)}
 .sv-draw-box iframe{width:100%;height:100%;border:0;display:block}
 .sv-draw-close{position:absolute;top:10px;right:10px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(12,22,51,.7);color:#fff;font-size:22px;line-height:1;cursor:pointer}
 .sv-draw-close:hover{border-color:#C9A227}
+.sv-zoom-cta{position:fixed;display:none;z-index:210;border:none;padding:0;background:transparent;border-radius:999px;cursor:pointer;animation:sv-cta-glow 2.4s ease-in-out infinite}
+.sv-zoom-cta.is-on{display:block}
+.sv-zoom-cta:hover,.sv-zoom-cta:focus-visible{outline:none;background:rgba(201,162,39,.12);box-shadow:0 0 0 3px rgba(201,162,39,.75)}
 @media (max-width:600px){.sv-draw-modal{padding:0}.sv-draw-box{height:100%;max-width:none;border-radius:0}}
 
 /* Toast */
@@ -416,6 +419,7 @@ body{
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
   </button>
   <img id="svZoomImg" src="" alt="Zoomed booklet page" />
+  <button type="button" class="sv-zoom-cta" id="svZoomCta" aria-label="Enter the Lucky Table Draw"></button>
   <button type="button" class="sv-zoom-nav next" id="svZoomNext" aria-label="Next page">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
   </button>
@@ -953,13 +957,32 @@ body{
     zoomImg.src = hiresUrl(currentVisual);
     zoomImg.setAttribute('data-index', currentVisual);
     zoomOverlay.classList.add('is-open');
+    placeZoomCta();
   }
-  function closeZoom(){ zoomOverlay.classList.remove('is-open'); }
+  function closeZoom(){ zoomOverlay.classList.remove('is-open'); placeZoomCta(); }
+  /* Page 47's "CLICK HERE" stays tappable in the zoom view too. */
+  var zoomCta = document.getElementById('svZoomCta');
+  function placeZoomCta(){
+    var on = zoomOverlay.classList.contains('is-open') &&
+             parseInt(zoomImg.getAttribute('data-index'), 10) === DRAW_PAGE &&
+             zoomImg.complete && zoomImg.naturalWidth > 0;
+    zoomCta.classList.toggle('is-on', on);
+    if (!on) return;
+    var r = zoomImg.getBoundingClientRect();
+    zoomCta.style.left = (r.left + r.width * DRAW_RECT[0] / 100) + 'px';
+    zoomCta.style.top = (r.top + r.height * DRAW_RECT[1] / 100) + 'px';
+    zoomCta.style.width = (r.width * DRAW_RECT[2] / 100) + 'px';
+    zoomCta.style.height = (r.height * DRAW_RECT[3] / 100) + 'px';
+  }
+  zoomImg.addEventListener('load', placeZoomCta);
+  window.addEventListener('resize', placeZoomCta);
+  zoomCta.addEventListener('click', function(e){ e.stopPropagation(); closeZoom(); openDrawForm(); });
   function stepZoom(dir){
     var v = parseInt(zoomImg.getAttribute('data-index'), 10) || 1;
     v = Math.max(1, Math.min(TOTAL_PAGES, v + dir));
     zoomImg.src = hiresUrl(v);
     zoomImg.setAttribute('data-index', v);
+    placeZoomCta();
     goToVisual(v);
   }
   zoomBtn.addEventListener('click', openZoom);
