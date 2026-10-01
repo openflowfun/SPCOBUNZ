@@ -570,8 +570,10 @@ body{
     }
     return audioCtx;
   }
+  /* Dragging the page slider jumps through pages silently. */
+  var scrubbing = false, scrubTimer = null;
   function playFlipSound(){
-    if (!soundOn) return;
+    if (!soundOn || scrubbing) return;
     var ctx = ensureAudioCtx();
     if (!ctx) return;
     if (ctx.state === 'suspended') { ctx.resume(); }
@@ -604,7 +606,7 @@ body{
     bp.frequency.exponentialRampToValueAtTime(1200, now + swishDur);
 
     var swishGain = ctx.createGain();
-    swishGain.gain.value = 0.06;
+    swishGain.gain.value = 0.04;
 
     src.connect(hp);
     hp.connect(bp);
@@ -630,7 +632,7 @@ body{
     tapFilter.type = 'lowpass';
     tapFilter.frequency.value = 380;
     var tapGain = ctx.createGain();
-    tapGain.gain.value = 0.035;
+    tapGain.gain.value = 0.024;
     tapSrc.connect(tapFilter);
     tapFilter.connect(tapGain);
     tapGain.connect(ctx.destination);
@@ -928,7 +930,13 @@ body{
   nextBtn.addEventListener('click', goNext);
   arrowPrev.addEventListener('click', goPrev);
   arrowNext.addEventListener('click', goNext);
-  slider.addEventListener('input', function(){ goToVisual(parseInt(slider.value, 10) + 1); });
+  slider.addEventListener('input', function(){
+    scrubbing = true;
+    clearTimeout(scrubTimer);
+    goToVisual(parseInt(slider.value, 10) + 1);
+    /* Stay quiet until any flip the slider started has finished. */
+    scrubTimer = setTimeout(function(){ scrubbing = false; }, 900);
+  });
 
   document.addEventListener('keydown', function(e){
     if (drawModal.classList.contains('is-open')){
