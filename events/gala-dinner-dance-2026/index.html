@@ -2710,10 +2710,12 @@ document.getElementById("benefitsRoot").innerHTML = BENEFITS.map(([t,d],i)=>`
 /* ========== Upcoming Events Calendar ========== */
 const UPCOMING_EVENTS = [
   {date:"2026-10-03", title:"Gala Dinner Dance 2026", venue:"Fairway Events Centre, Auckland", tag:"Signature Event", icon:"gala"},
-  {date:"2026-11-04", title:"Annual General Meeting 2026", venue:"Members Meeting &middot; Auckland", tag:"Members Meeting", icon:"agm"},
-  {date:"2026-11-28", title:"Isipathana 7s Rugby", venue:"Auckland", tag:"Sports Fixture", icon:"rugby"}
+  {date:"2026-11-01", title:"Lankan Fest NZ &amp; Ceylon Cricket Carnival", venue:"Auckland", tag:"Community Event", icon:"cricket"},
+  {date:"2026-11-24", title:"Annual General Meeting 2026", venue:"Members Meeting &middot; Auckland", tag:"Members Meeting", icon:"agm"},
+  {date:"2026-11-29", title:"Isipathana Rugby 7s", venue:"Auckland", tag:"Sports Fixture", icon:"rugby"}
 ];
 const CAL_ICONS = {
+  cricket: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5l6 6-9.5 9.5a2 2 0 0 1-2.8 0l-3.2-3.2a2 2 0 0 1 0-2.8z"/><path d="M5.5 18.5 3 21"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>`,
   gala: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 3h10l-1 6a4 4 0 0 1-8 0L7 3Z"/><path d="M5 5a2 2 0 0 0 2 2M19 5a2 2 0 0 1-2 2"/></svg>`,
   agm: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>`,
   rugby: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="6" transform="rotate(-40 12 12)"/><path d="m8 8 8 8M9.5 6.5 6.5 9.5M17.5 14.5 14.5 17.5"/></svg>`
