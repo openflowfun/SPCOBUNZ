@@ -672,6 +672,13 @@ header.scrolled ~ main .prog-buy-mobile{top:38px;padding:10px 22px;font-size:10.
 @media(max-width:700px){.prog-nav{display:none}.prog-hero{padding:96px 20px 34px}}
 .gala{border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(5,13,26,.35);display:grid;grid-template-columns:3fr 2fr}
 @media(max-width:900px){.gala{grid-template-columns:1fr}}
+.gala-soldout{position:relative;border-radius:28px;overflow:hidden}
+.gala-soldout .gala{filter:blur(3px) saturate(.85);transform:scale(1.01);pointer-events:none;user-select:none}
+.soldout-veil{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;background:rgba(5,13,26,.45);z-index:2}
+.soldout-stamp{display:inline-block;padding:12px 34px;border:2px solid var(--gold);border-radius:999px;font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(30px,5vw,54px);letter-spacing:.06em;text-transform:uppercase;color:var(--gold-light);background:rgba(5,13,26,.55);box-shadow:0 0 0 6px rgba(201,162,39,.12),0 20px 50px rgba(0,0,0,.45);transform:rotate(-4deg)}
+.soldout-title{margin-top:28px;font-family:'Playfair Display',Georgia,serif;font-size:clamp(22px,3vw,32px);color:#fff}
+.soldout-sub{margin-top:10px;max-width:440px;font-size:15px;line-height:1.6;color:rgba(255,255,255,.8)}
+.soldout-sub b{color:var(--gold-light);font-weight:600}
 .gala-l{padding:52px}
 .gala-r{padding:52px;background:rgba(255,255,255,.04);border-left:1px solid rgba(201,162,39,.2)}
 @media(max-width:900px){.gala-r{border-left:none;border-top:1px solid rgba(201,162,39,.2)}}
@@ -1070,7 +1077,7 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
       </div>
       <div class="reveal d2" style="text-align:center">
         <p class="eyebrow" style="margin-bottom:26px">The countdown is on</p>
-        <div class="countdown" style="justify-content:center" data-countdown="2026-10-03T05:30:00+13:00"></div>
+        <div class="countdown" style="justify-content:center" data-countdown="2026-10-03T17:30:00+13:00"></div>
       </div>
     </div>
   </div>
@@ -1404,31 +1411,38 @@ footer .top-rule{height:1px;background:linear-gradient(135deg,#E3C566,#C9A227,#A
 
   <div class="section" style="padding-top:24px">
     <div class="container reveal">
-      <div class="gala navy-bg">
-        <div class="gala-l">
-          <span class="pill"><i></i>Tickets on sale</span>
-          <h2 class="h-lg" style="margin-top:22px">Gala Dinner <span class="gold-text">Dance 2026</span></h2>
-          <p class="muted-w" style="margin-top:18px;max-width:520px">The premier event on the SPC OBU NZ calendar. Join Peterites, families and friends for a night of wining and dining, live music and dancing.</p>
-          <dl class="dl">
-            <div><dt>Date</dt><dd>Saturday, <br />3rd October 2026</dd></div>
-            <div><dt>Venue</dt><dd>Fairway Events Centre, Auckland</dd></div>
-            <div><dt>Dress Code</dt><dd>Ladies after-five,<br />Gents formal</dd></div>
-          </dl>
-          <div class="countdown lg" style="margin-top:34px" data-countdown="2026-10-03T05:30:00+13:00"></div>
+      <div class="gala-soldout">
+        <div class="gala navy-bg" aria-hidden="true" inert>
+          <div class="gala-l">
+            <span class="pill"><i></i>Sold out</span>
+            <h2 class="h-lg" style="margin-top:22px">Gala Dinner <span class="gold-text">Dance 2026</span></h2>
+            <p class="muted-w" style="margin-top:18px;max-width:520px">The premier event on the SPC OBU NZ calendar. Join Peterites, families and friends for a night of wining and dining, live music and dancing.</p>
+            <dl class="dl">
+              <div><dt>Date</dt><dd>Saturday, <br />3rd October 2026</dd></div>
+              <div><dt>Venue</dt><dd>Fairway Events Centre, Auckland</dd></div>
+              <div><dt>Dress Code</dt><dd>Ladies after-five,<br />Gents formal</dd></div>
+            </dl>
+            <div class="countdown lg" style="margin-top:34px" data-countdown="2026-10-03T17:30:00+13:00"></div>
+          </div>
+          <div class="gala-r">
+            <p class="eyebrow">Tickets</p>
+            <div class="ticket">
+              <div class="row"><b>Single Ticket</b><span class="price">$110</span></div>
+              <small>Per person &middot; dinner, entertainment &amp; dancing</small>
+              <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-tickets-link>Buy Tickets</a>
+            </div>
+            <div class="ticket">
+              <div class="row"><b>Table of 10</b><span class="price">$1,100</span></div>
+              <small>Reserve a full table for your crew &amp; family</small>
+              <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-outline" data-tickets-link>Reserve a Table</a>
+            </div>
+            <p style="margin-top:22px;text-align:center;font-size:11px;color:rgba(255,255,255,.4)">Tickets sold via My eTickets NZ &middot;<br class="ticket-note-break" /> Questions? <a href="mailto:spcobunz@gmail.com" style="color:rgba(201,162,39,.7)">spcobunz@gmail.com</a></p>
+          </div>
         </div>
-        <div class="gala-r">
-          <p class="eyebrow">Tickets</p>
-          <div class="ticket">
-            <div class="row"><b>Single Ticket</b><span class="price">$110</span></div>
-            <small>Per person &middot; dinner, entertainment &amp; dancing</small>
-            <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-tickets-link>Buy Tickets</a>
-          </div>
-          <div class="ticket">
-            <div class="row"><b>Table of 10</b><span class="price">$1,100</span></div>
-            <small>Reserve a full table for your crew &amp; family</small>
-            <a href="https://www.myetickets.co.nz" target="_blank" rel="noopener noreferrer" class="btn btn-outline" data-tickets-link>Reserve a Table</a>
-          </div>
-          <p style="margin-top:22px;text-align:center;font-size:11px;color:rgba(255,255,255,.4)">Tickets sold via My eTickets NZ &middot;<br class="ticket-note-break" /> Questions? <a href="mailto:spcobunz@gmail.com" style="color:rgba(201,162,39,.7)">spcobunz@gmail.com</a></p>
+        <div class="soldout-veil" role="status">
+          <span class="soldout-stamp">Sold Out</span>
+          <p class="soldout-title">Thank you, Peterites!</p>
+          <p class="soldout-sub">See you on <b>Saturday 3rd October</b> at Fairway Events Centre.</p>
         </div>
       </div>
     </div>
