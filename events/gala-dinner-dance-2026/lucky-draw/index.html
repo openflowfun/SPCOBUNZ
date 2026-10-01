@@ -233,7 +233,7 @@ fieldset.bad .err{display:block}
 
     <section class="prize">
       <h1>Win 2 bottles of Johnnie Walker Double Black for your table</h1>
-      <p class="lede">Enter the Lucky Table Draw with your table number. At 8:15pm every entry goes on the wheel, and the table it lands on takes home the bottles.</p>
+      <p class="lede">Enter the Lucky Table Draw with your details. At 8:15pm every entry goes on the wheel under the guest's table, and the table it lands on takes home the bottles.</p>
       <img class="bottles" src="/public/images/lucky-draw/prize-bottles.webp" width="620" height="792" alt="Two bottles of Johnnie Walker whisky" loading="eager" decoding="async" />
       <div class="closes">
         <div class="when">Entries close <b>8:15pm, Saturday 3 October</b></div>
@@ -250,7 +250,7 @@ fieldset.bad .err{display:block}
       <div class="stub">
         <div>
           <h2 id="ticketTitle">Lucky Table Draw</h2>
-          <p>One entry per guest. Every field is required.</p>
+          <p>One entry per guest. Use the name your ticket was booked under.</p>
         </div>
         <div class="seal" aria-hidden="true">OBU</div>
       </div>
@@ -279,12 +279,6 @@ fieldset.bad .err{display:block}
           <div class="err">Enter a valid email address.</div>
         </div>
 
-        <fieldset data-f="table">
-          <legend class="lbl">Your table number</legend>
-          <div class="tables" id="tables"></div>
-          <div class="err">Choose the table you're sitting at.</div>
-          <div class="hint">Your table number is on the seating list at the entrance.</div>
-        </fieldset>
 
         <div class="check-wrap" data-f="age">
           <label class="check"><input type="checkbox" id="age" /> <span>I'm 18 or over and attending the Gala Dinner Dance.</span></label>
@@ -299,8 +293,7 @@ fieldset.bad .err{display:block}
       <div class="state" id="done" aria-live="polite">
         <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
         <h3 id="doneTitle">You're in the draw</h3>
-        <div class="big"><small>Your entry is on the wheel for</small><span id="doneTable">Table 1</span></div>
-        <p>The wheel spins at 8:15pm on the big screen. If it lands on your table, the bottles are yours.</p>
+        <p>We'll match your name to the guest list, so your table gets a slice on the wheel. The wheel spins at 8:15pm on the big screen. If it lands on your table, the bottles are yours.</p>
         <button type="button" class="link-btn" id="another">Enter another guest</button>
       </div>
 
@@ -320,8 +313,8 @@ fieldset.bad .err{display:block}
     <section class="how" aria-labelledby="howTitle">
       <h2 id="howTitle">How the draw works</h2>
       <ol class="steps">
-        <li><div><b>Enter with your table number</b><span>Fill in the ticket above before 8:15pm on Saturday 3 October.</span></div></li>
-        <li><div><b>Your entry goes on the wheel</b><span>Each entry adds a slice for its table, so the more guests at a table who enter, the bigger that table's share of the wheel.</span></div></li>
+        <li><div><b>Enter your details</b><span>Fill in the ticket above before 8:15pm on Saturday 3 October, using the name on your booking.</span></div></li>
+        <li><div><b>We match you to your table</b><span>Your name is matched to the guest list, and each entry adds a slice for that table. The more guests at a table who enter, the bigger its share of the wheel.</span></div></li>
         <li><div><b>The wheel picks a table</b><span>We spin it live on the big screen at 8:15pm. The winning table receives 2 bottles of Johnnie Walker Double Black.</span></div></li>
       </ol>
       <div class="terms">
@@ -352,18 +345,6 @@ fieldset.bad .err{display:block}
   var submitLabel = document.getElementById('submitLabel');
   var formMsg = document.getElementById('formMsg');
 
-  /* Table chips 1–15 */
-  var tablesEl = document.getElementById('tables');
-  for (var t = 1; t <= C.tables; t++){
-    var id = 'tbl' + t;
-    var inp = document.createElement('input');
-    inp.type = 'radio'; inp.name = 'table'; inp.value = t; inp.id = id;
-    var lab = document.createElement('label');
-    lab.setAttribute('for', id); lab.textContent = t;
-    lab.setAttribute('aria-label', 'Table ' + t);
-    tablesEl.appendChild(inp); tablesEl.appendChild(lab);
-  }
-
   /* States */
   function show(stateId){
     ['done','closed','soon'].forEach(function(s){ document.getElementById(s).classList.toggle('show', s === stateId); });
@@ -372,7 +353,6 @@ fieldset.bad .err{display:block}
   }
   function showDone(entry){
     document.getElementById('doneTitle').textContent = 'You\u2019re in the draw, ' + entry.first;
-    document.getElementById('doneTable').textContent = 'Table ' + entry.table;
     show('done');
   }
 
@@ -426,7 +406,6 @@ fieldset.bad .err{display:block}
       last: form.last.value.trim(),
       mobile: normMobile(form.mobile.value),
       email: form.email.value.trim(),
-      table: (form.querySelector('input[name="table"]:checked') || {}).value,
       age: document.getElementById('age').checked
     };
     var ok = true, firstBad = null;
@@ -437,7 +416,6 @@ fieldset.bad .err{display:block}
     chk('last', v.last.length > 0, form.last);
     chk('mobile', /^\+?[0-9]{7,15}$/.test(v.mobile), form.mobile);
     chk('email', /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email), form.email);
-    chk('table', !!v.table, tablesEl.querySelector('input'));
     chk('age', v.age, document.getElementById('age'));
     if (firstBad) firstBad.focus();
     return ok ? v : null;
@@ -462,11 +440,11 @@ fieldset.bad .err{display:block}
     submitBtn.disabled = true; submitBtn.classList.add('busy'); submitLabel.textContent = 'Entering\u2026';
     C.submit({
       first_name: v.first, last_name: v.last, mobile: v.mobile,
-      email: v.email.toLowerCase(), table_number: parseInt(v.table, 10),
+      email: v.email.toLowerCase(),
       website: form.website.value
     }).then(function(res){
       if (res && res.ok){
-        var entry = { first: v.first, table: v.table };
+        var entry = { first: v.first };
         try { localStorage.setItem(STORE, JSON.stringify(entry)); } catch(e){}
         showDone(entry);
         ticket.scrollIntoView({ behavior: 'smooth', block: 'start' });
