@@ -1,5 +1,5 @@
 /**
- * SPC OBU NZ Gala Dinner Dance 2026 — Lucky Table Draw + "What's my table?"
+ * SPC OBU NZ Gala Dinner Dance 2026 — Souvenir Draw + "What's my table?"
  * Google Apps Script web app bound to the "Lucky Table Draw" Google Sheet.
  *
  * Tabs:
@@ -7,14 +7,15 @@
  *   Guests  — the final guest list: Guest name | Table | Table host
  *             (created automatically; paste the list in under the headings).
  *
- * POST                 → lucky draw entry; rejects duplicates and late entries.
+ * POST                 → Souvenir Draw entry; rejects duplicates and late entries.
+ * GET ?action=entrants → entrant names for the projector wheel (no contacts).
  * GET ?action=counts   → entries per table for the wheel (no names or contacts).
  * GET ?action=find&q=  → up to 6 guests whose name matches, with table + host.
  *
  * After pasting a new version: Deploy → Manage deployments → ✏️ Edit →
  * Version: New version → Deploy (keeps the same web app URL).
  */
-var DEADLINE = new Date('2026-10-03T20:15:00+13:00');
+var DEADLINE = new Date('2026-10-03T20:00:00+13:00');   // entries close 8:00pm NZDT
 var TABLES = 15;
 var ENTRIES = 'Entries';
 var ENTRY_HEADERS = ['Entered at (NZ)', 'First name', 'Last name', 'Mobile', 'Email', 'Table (optional override)'];
@@ -152,8 +153,23 @@ function find_(q) {
   };
 }
 
+/* Names only — mobiles and emails never leave the Sheet. */
+function entrants_() {
+  var sh = tab_(ENTRIES, ENTRY_HEADERS);
+  var n = sh.getLastRow() - 1;
+  var list = [];
+  if (n > 0) {
+    sh.getRange(2, 2, n, 2).getValues().forEach(function (r, i) {   // First, Last
+      var first = String(r[0]).trim(), last = String(r[1]).trim();
+      if (first || last) list.push({ id: i + 2, name: (first + ' ' + last).trim() });
+    });
+  }
+  return { ok: true, entrants: list, total: list.length, closed: new Date() >= DEADLINE };
+}
+
 function doGet(e) {
   var p = (e && e.parameter) || {};
+  if (p.action === 'entrants') return json_(entrants_());
   if (p.action === 'counts') return json_(counts_());
   if (p.action === 'where') return json_({ ok: true, sheet: SpreadsheetApp.openById(SPREADSHEET_ID).getName() });
   if (p.action === 'find') return json_(find_(String(p.q || '').slice(0, 80)));

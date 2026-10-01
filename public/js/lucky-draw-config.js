@@ -1,4 +1,4 @@
-/* Lucky Table Draw — shared settings for the entry page
+/* Souvenir Draw — shared settings for the entry page
    (/events/gala-dinner-dance-2026/lucky-draw/) and the draw wheel on the
    raffle page, plus the "What's my table?" page. Entries are stored in a Google Sheet through a Google Apps
    Script web app (source: /google-apps-script/lucky-draw.gs). The web app
@@ -7,10 +7,11 @@
 window.LUCKY_DRAW = {
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxNd61CA-coZ3mzcNBEprqj8nIN-pQUz0CeKArv_e0SU5QE8EcfFyo9RkqtzD1lVkSI8g/exec',
 
-  /* 8:15pm NZDT, Saturday 3 October 2026. The web app enforces this too. */
-  deadline: '2026-10-03T20:15:00+13:00',
+  /* 8:00pm NZDT, Saturday 3 October 2026. The web app enforces this too. */
+  deadline: '2026-10-03T20:00:00+13:00',
   tables: 15,
-  prize: '2 bottles of Johnnie Walker Double Black'
+  prize: '1 bottle of Johnnie Walker Double Black',
+  draws: 2
 };
 
 window.LUCKY_DRAW.isConfigured = function(){
@@ -43,6 +44,15 @@ window.LUCKY_DRAW.counts = function(){
 /* "What's my table?" lookup: { ok, results: [{name, table, host}], more, tooShort } */
 window.LUCKY_DRAW.find = function(q){
   return fetch(window.LUCKY_DRAW.appsScriptUrl + '?action=find&q=' + encodeURIComponent(q), { redirect: 'follow' })
+    .then(function(res){
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    });
+};
+
+/* Souvenir Draw wheel: { ok, entrants: [{id, name}], total, closed } */
+window.LUCKY_DRAW.entrants = function(){
+  return fetch(window.LUCKY_DRAW.appsScriptUrl + '?action=entrants&t=' + Date.now(), { redirect: 'follow' })
     .then(function(res){
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();

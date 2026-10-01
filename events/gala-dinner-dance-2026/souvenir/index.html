@@ -279,7 +279,7 @@ body{
 
 #souvenirBook .page{position:relative}
 
-/* Lucky Table Draw button on page 34 */
+/* Souvenir Draw button on page 34 */
 .sv-cta-hotspot{position:absolute;border:none;padding:0;margin:0;cursor:pointer;background:transparent;border-radius:999px;z-index:5;-webkit-tap-highlight-color:transparent;animation:sv-cta-glow 2.4s ease-in-out infinite}
 .sv-cta-hotspot:hover,.sv-cta-hotspot:focus-visible{outline:none;background:rgba(201,162,39,.12);box-shadow:0 0 0 3px rgba(201,162,39,.75),0 0 30px rgba(201,162,39,.45)}
 @keyframes sv-cta-glow{0%,100%{box-shadow:0 0 0 0 rgba(201,162,39,0)}50%{box-shadow:0 0 0 3px rgba(201,162,39,.55),0 0 24px rgba(201,162,39,.35)}}
@@ -419,13 +419,13 @@ body{
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
   </button>
   <img id="svZoomImg" src="" alt="Zoomed booklet page" />
-  <button type="button" class="sv-zoom-cta" id="svZoomCta" aria-label="Enter the Lucky Table Draw"></button>
+  <button type="button" class="sv-zoom-cta" id="svZoomCta" aria-label="Enter the Souvenir Draw"></button>
   <button type="button" class="sv-zoom-nav next" id="svZoomNext" aria-label="Next page">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
   </button>
 </div>
 
-<div class="sv-draw-modal" id="svDrawModal" role="dialog" aria-modal="true" aria-label="Lucky Table Draw entry form">
+<div class="sv-draw-modal" id="svDrawModal" role="dialog" aria-modal="true" aria-label="Souvenir Draw entry form">
   <div class="sv-draw-box">
     <button type="button" class="sv-draw-close" id="svDrawClose" aria-label="Close">&times;</button>
   </div>
@@ -450,7 +450,7 @@ body{
   function hiresUrl(n){ return HIRES_PATH + HIRES_PREFIX + pad(n) + '.jpg'; }
   function pageUrl(n){ return PAGE_PATH + pad(n) + '.jpg'; }
 
-  /* ---------- Lucky Table Draw (page 34 "CLICK HERE") ---------- */
+  /* ---------- Souvenir Draw (page 34 "CLICK HERE") ---------- */
   var DRAW_PAGE = 34;
   var DRAW_URL = '/events/gala-dinner-dance-2026/lucky-draw/';
   var DRAW_RECT = [9.5, 32.0, 81.5, 15.0];   // left, top, width, height in % of the page
@@ -460,7 +460,7 @@ body{
     if (!drawBox.querySelector('iframe')){
       var fr = document.createElement('iframe');
       fr.src = DRAW_URL + '?embed=1';
-      fr.title = 'Lucky Table Draw entry form';
+      fr.title = 'Souvenir Draw entry form';
       drawBox.appendChild(fr);
     }
     drawModal.classList.add('is-open');
@@ -475,7 +475,7 @@ body{
     b.className = 'sv-cta-hotspot';
     b.style.left = DRAW_RECT[0] + '%'; b.style.top = DRAW_RECT[1] + '%';
     b.style.width = DRAW_RECT[2] + '%'; b.style.height = DRAW_RECT[3] + '%';
-    b.setAttribute('aria-label', 'Enter the Lucky Table Draw');
+    b.setAttribute('aria-label', 'Enter the Souvenir Draw');
     /* Keep the tap from also starting a page flip. */
     ['mousedown','touchstart','pointerdown'].forEach(function(ev){
       b.addEventListener(ev, function(e){ e.stopPropagation(); }, { passive: true });

@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Lucky Table Draw — SPC OBU NZ Gala Dinner Dance 2026</title>
-<meta name="description" content="Enter the Lucky Table Draw at the SPC OBU NZ Gala Dinner Dance 2026 for a chance to win 2 bottles for your table. Entries close 8:15pm, Saturday 3 October." />
+<title>Souvenir Draw — SPC OBU NZ Gala Dinner Dance 2026</title>
+<meta name="description" content="Enter the Souvenir Draw at the SPC OBU NZ Gala Dinner Dance 2026. 2 bottles of Johnnie Walker Double Black to be won. Entries close 8:00pm, Saturday 3 October." />
 <meta name="theme-color" content="#1B2C68" />
-<meta property="og:title" content="Lucky Table Draw — Gala Dinner Dance 2026" />
-<meta property="og:description" content="Win 2 bottles for your table. Entries close 8:15pm, Saturday 3 October 2026." />
+<meta property="og:title" content="Souvenir Draw — Gala Dinner Dance 2026" />
+<meta property="og:description" content="2 bottles of Double Black whisky to be won. Entries close 8:00pm, Saturday 3 October 2026." />
 <meta property="og:image" content="https://spcobunz.com/public/images/souvenir/md/34.jpg" />
 <link rel="icon" href="/public/images/favicon-32x32.png" sizes="32x32" type="image/png" />
 <link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png" />
@@ -68,7 +68,9 @@ body{
 .back{position:relative;z-index:2;display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.78);text-decoration:none;font-size:13px;font-weight:500;padding:8px 14px 8px 10px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(12,22,51,.35);backdrop-filter:blur(6px)}
 .back:hover{color:#fff;border-color:var(--gold-bright)}
 .back svg{width:15px;height:15px}
-.is-embed .back{display:none}
+.is-embed .back,.is-embed .brand,.is-embed .ribbon.top{display:none}
+.is-embed .prize{margin-top:6px}
+.is-embed .wrap{padding-top:22px}
 
 /* Crest + event lockup */
 .brand{text-align:center;margin-top:18px}
@@ -232,11 +234,11 @@ fieldset.bad .err{display:block}
     </header>
 
     <section class="prize">
-      <h1>Win 2 bottles of Johnnie Walker Double Black for your table</h1>
-      <p class="lede">Enter the Lucky Table Draw with your details. At 8:15pm every entry goes on the wheel under the guest's table, and the table it lands on takes home the bottles.</p>
+      <h1>2 Bottles of Double Black Whisky to Be Won!</h1>
+      <p class="lede">Enter your details below. At 8:00pm every entry goes into 2 lucky draws.</p>
       <img class="bottles" src="/public/images/lucky-draw/prize-bottles.webp" width="620" height="792" alt="Two bottles of Johnnie Walker whisky" loading="eager" decoding="async" />
       <div class="closes">
-        <div class="when">Entries close <b>8:15pm, Saturday 3 October</b></div>
+        <div class="when">Entries close <b>8:00pm, Saturday 3 October</b></div>
         <div class="clock" id="clock" aria-live="off">
           <div><b id="cD">0</b><span>days</span></div>
           <div><b id="cH">00</b><span>hours</span></div>
@@ -249,7 +251,7 @@ fieldset.bad .err{display:block}
     <section class="ticket" id="ticket" aria-labelledby="ticketTitle">
       <div class="stub">
         <div>
-          <h2 id="ticketTitle">Lucky Table Draw</h2>
+          <h2 id="ticketTitle">Souvenir Draw</h2>
           <p>One entry per guest. Use the name your ticket was booked under.</p>
         </div>
         <div class="seal" aria-hidden="true">OBU</div>
@@ -271,7 +273,7 @@ fieldset.bad .err{display:block}
         <div class="field" data-f="mobile">
           <label class="lbl" for="mobile">Mobile number</label>
           <input class="input" id="mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="021 123 4567" maxlength="20" required />
-          <div class="err">Enter a mobile number we can call if your table wins.</div>
+          <div class="err">Enter a mobile number we can call if you win.</div>
         </div>
         <div class="field" data-f="email">
           <label class="lbl" for="email">Email</label>
@@ -287,43 +289,42 @@ fieldset.bad .err{display:block}
         <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
         <button type="submit" class="submit" id="submit"><span class="spin" aria-hidden="true"></span><span id="submitLabel">Enter the draw</span></button>
         <div class="form-msg" id="formMsg" role="alert"></div>
-        <p class="privacy">Your details are used only to run this draw and contact the winning table.</p>
+        <p class="privacy">Your details are used only to run this draw and contact the winners.</p>
       </form>
 
       <div class="state" id="done" aria-live="polite">
         <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
         <h3 id="doneTitle">You're in the draw</h3>
-        <p>We'll match your name to the guest list, so your table gets a slice on the wheel. The wheel spins at 8:15pm on the big screen. If it lands on your table, the bottles are yours.</p>
+        <p>Your entry goes into both Souvenir Draws. The wheel spins at 8:00pm on the big screen — good luck!</p>
         <button type="button" class="link-btn" id="another">Enter another guest</button>
       </div>
 
       <div class="state" id="closed">
         <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/></svg></div>
         <h3>Entries have closed</h3>
-        <p>The Lucky Table Draw closed at 8:15pm. Watch the big screen to see which table wins.</p>
+        <p>The Souvenir Draw closed at 8:00pm. Watch the big screen to see who wins.</p>
       </div>
 
       <div class="state" id="soon">
         <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/></svg></div>
         <h3>Entries open soon</h3>
-        <p>The Lucky Table Draw isn't taking entries yet. Check back shortly.</p>
+        <p>The Souvenir Draw isn't taking entries yet. Check back shortly.</p>
       </div>
     </section>
 
     <section class="how" aria-labelledby="howTitle">
-      <h2 id="howTitle">How the draw works</h2>
+      <h2 id="howTitle">How the draws work</h2>
       <ol class="steps">
-        <li><div><b>Enter your details</b><span>Fill in the ticket above before 8:15pm on Saturday 3 October, using the name on your booking.</span></div></li>
-        <li><div><b>We match you to your table</b><span>Your name is matched to the guest list, and each entry adds a slice for that table. The more guests at a table who enter, the bigger its share of the wheel.</span></div></li>
-        <li><div><b>The wheel picks a table</b><span>We spin it live on the big screen at 8:15pm. The winning table receives 2 bottles of Johnnie Walker Double Black.</span></div></li>
+        <li><div><b>Enter your details</b><span>Fill in the ticket above before 8:00pm on Saturday 3 October, using the name on your booking.</span></div></li>
+        <li><div><b>The wheel picks a winner</b><span>We spin the wheel live on the big screen at 8:00pm, twice. Each of the 2 winners receives 1 bottle of Johnnie Walker Double Black.</span></div></li>
       </ol>
       <div class="terms">
         <h3>The fine print</h3>
         <ul>
           <li>Open to guests aged 18 or over attending the SPC OBU NZ Gala Dinner Dance on Saturday 3 October 2026.</li>
-          <li>One entry per person. Only tables with at least one entry go on the wheel.</li>
-          <li>Entries close at 8:15pm NZDT. Late entries can't be accepted.</li>
-          <li>The prize goes to the winning table and must be collected on the night. It can't be exchanged for cash.</li>
+          <li>One entry per person. Every entry goes into both draws; each person can win once.</li>
+          <li>Entries close at 8:00pm NZDT. Late entries can't be accepted.</li>
+          <li>Winners must be present to collect their bottle on the night. Prizes can't be exchanged for cash.</li>
           <li>Please enjoy responsibly.</li>
         </ul>
       </div>
@@ -370,7 +371,7 @@ fieldset.bad .err{display:block}
     if (left <= 0){
       clearInterval(timer);
       if (!document.body.classList.contains('is-done')) show('closed');
-      document.querySelector('.closes .when').innerHTML = 'Entries closed at <b>8:15pm, Saturday 3 October</b>';
+      document.querySelector('.closes .when').innerHTML = 'Entries closed at <b>8:00pm, Saturday 3 October</b>';
     }
   }
   var timer = setInterval(tick, 1000); tick();
