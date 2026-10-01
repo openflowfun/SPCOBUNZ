@@ -324,37 +324,8 @@ body{
   <section class="rv-view is-active" data-view="welcome">
     <img class="rv-crest" src="/public/images/crest-spc-cutout.png" alt="St. Peter's College crest" />
     <p class="eyebrow rv-center">SPC OBU New Zealand · Gala Dinner Dance 2026</p>
-    <h1 class="rv-hero-title">The <span class="gold-text">Raffle Draw</span></h1>
-    <p class="rv-hero-sub">Three prizes, three lucky Peterites — good luck to everyone in the room tonight.</p>
-
-    <div class="rv-prize-grid">
-      <div class="rv-prize-card">
-        <span class="rv-prize-num">1</span>
-        <h3>DeLonghi Icona<br/>Vintage Breakfast Pack</h3>
-        <p>Kettle &amp; Toaster</p>
-      </div>
-      <div class="rv-prize-card">
-        <span class="rv-prize-num">2</span>
-        <h3>Outdoor Enthusiast<br/>Bundle</h3>
-        <p>Portable Action Cam, Binoculars, LED Stun Light, Multi-tool &amp; Satchel</p>
-      </div>
-      <div class="rv-prize-card">
-        <span class="rv-prize-num">3</span>
-        <h3>Trail Blazer<br/>Bundle</h3>
-        <p>Binoculars, LED Stun Light, Weatherproof Jacket, Multi-tool &amp; Satchel</p>
-      </div>
-    </div>
-
-    <div class="rv-center">
-      <div class="rv-ticket-note">Tickets are <b>$5 each</b> — pay at check-in</div>
-    </div>
-
-    <div class="rv-center">
-      <button type="button" class="rv-cta" id="rvBeginBtn">
-        <span>Begin Raffle Draw</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
-    </div>
+    <h1 class="rv-hero-title">The Digital <span class="gold-text">Raffle Draws</span></h1>
+    <p class="rv-hero-sub">Good luck to everyone in the room tonight.</p>
 
     <div class="ld-entry">
       <img src="/public/images/lucky-draw/prize-bottles.webp" alt="" width="620" height="792" />
@@ -715,7 +686,8 @@ body{
   }
   entriesInput.addEventListener('input', refreshSetupStats);
 
-  document.getElementById('rvBeginBtn').addEventListener('click', function(){
+  var rvBeginBtn = document.getElementById('rvBeginBtn');
+  if (rvBeginBtn) rvBeginBtn.addEventListener('click', function(){
     var saved = loadState();
     if (saved && saved.pool && saved.pool.length){
       resumeBanner.style.display = 'flex';
