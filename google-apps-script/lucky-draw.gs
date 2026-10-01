@@ -21,9 +21,12 @@ var ENTRY_HEADERS = ['Entered at (NZ)', 'First name', 'Last name', 'Mobile', 'Em
 var GUESTS = 'Guests';
 var GUEST_HEADERS = ['Guest name', 'Table', 'Table host'];
 var MAX_RESULTS = 6;
+// Always write to this exact Google Sheet, wherever the script is attached:
+// docs.google.com/spreadsheets/d/<SPREADSHEET_ID>/edit
+var SPREADSHEET_ID = '1d5jFMBX-49UUOz2qG7YhlhCv3PrrljrPgTff5_6ViFc';
 
 function tab_(name, headers) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   var sh = ss.getSheetByName(name);
   if (!sh) {
     sh = ss.insertSheet(name);
@@ -152,6 +155,7 @@ function find_(q) {
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.action === 'counts') return json_(counts_());
+  if (p.action === 'where') return json_({ ok: true, sheet: SpreadsheetApp.openById(SPREADSHEET_ID).getName() });
   if (p.action === 'find') return json_(find_(String(p.q || '').slice(0, 80)));
   return json_({ ok: true, service: 'Gala Dinner Dance 2026' });
 }
