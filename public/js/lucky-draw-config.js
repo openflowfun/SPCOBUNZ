@@ -1,34 +1,41 @@
 /* Lucky Table Draw — shared settings for the entry page
    (/events/gala-dinner-dance-2026/lucky-draw/) and the draw wheel on the
-   raffle page. Paste the Supabase project URL and publishable ("anon") key
-   below. The publishable key is designed to be public: the database only lets
-   visitors ADD an entry before the deadline, and only exposes per-table entry
-   counts — nobody can read names, emails or phone numbers from the site. */
+   raffle page. Entries are stored in a Google Sheet through a Google Apps
+   Script web app (source: /google-apps-script/lucky-draw.gs). The web app
+   only accepts new entries before the deadline and only ever returns
+   per-table counts — names, emails and numbers stay in the Sheet. */
 window.LUCKY_DRAW = {
-  supabaseUrl: 'PASTE_SUPABASE_URL',
-  supabaseKey: 'PASTE_SUPABASE_PUBLISHABLE_KEY',
+  appsScriptUrl: 'PASTE_APPS_SCRIPT_WEB_APP_URL',
 
-  /* 8:15pm NZDT, Saturday 3 October 2026. The database enforces this too. */
+  /* 8:15pm NZDT, Saturday 3 October 2026. The web app enforces this too. */
   deadline: '2026-10-03T20:15:00+13:00',
   tables: 15,
   prize: '2 bottles of Johnnie Walker Double Black'
 };
 
 window.LUCKY_DRAW.isConfigured = function(){
-  var c = window.LUCKY_DRAW;
-  return c.supabaseUrl.indexOf('PASTE_') !== 0 && c.supabaseKey.indexOf('PASTE_') !== 0;
+  return /^https:\/\/script\.google\.com\//.test(window.LUCKY_DRAW.appsScriptUrl);
 };
 
-/* Minimal Supabase REST helper — no SDK needed. */
-window.LUCKY_DRAW.request = function(path, body){
-  var c = window.LUCKY_DRAW;
-  return fetch(c.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/' + path, {
+/* Send an entry. Plain-text body keeps it a "simple" request (no CORS
+   preflight), which Apps Script web apps require. Resolves to
+   { ok: true } or { ok: false, error: 'duplicate' | 'closed' | 'invalid' }. */
+window.LUCKY_DRAW.submit = function(entry){
+  return fetch(window.LUCKY_DRAW.appsScriptUrl, {
     method: 'POST',
-    headers: {
-      'apikey': c.supabaseKey,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify(body || {})
+    body: JSON.stringify(entry),
+    redirect: 'follow'
+  }).then(function(res){
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
   });
+};
+
+/* Per-table entry counts for the wheel: { ok, counts: {table: n}, total, closed } */
+window.LUCKY_DRAW.counts = function(){
+  return fetch(window.LUCKY_DRAW.appsScriptUrl + '?action=counts&t=' + Date.now(), { redirect: 'follow' })
+    .then(function(res){
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    });
 };

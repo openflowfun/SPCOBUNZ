@@ -290,6 +290,7 @@ fieldset.bad .err{display:block}
           <label class="check"><input type="checkbox" id="age" /> <span>I'm 18 or over and attending the Gala Dinner Dance.</span></label>
         </div>
 
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
         <button type="submit" class="submit" id="submit"><span class="spin" aria-hidden="true"></span><span id="submitLabel">Enter the draw</span></button>
         <div class="form-msg" id="formMsg" role="alert"></div>
         <p class="privacy">Your details are used only to run this draw and contact the winning table.</p>
@@ -459,27 +460,26 @@ fieldset.bad .err{display:block}
     var v = validate(); if (!v) return;
 
     submitBtn.disabled = true; submitBtn.classList.add('busy'); submitLabel.textContent = 'Entering\u2026';
-    C.request('lucky_draw_entries', {
+    C.submit({
       first_name: v.first, last_name: v.last, mobile: v.mobile,
-      email: v.email.toLowerCase(), table_number: parseInt(v.table, 10)
+      email: v.email.toLowerCase(), table_number: parseInt(v.table, 10),
+      website: form.website.value
     }).then(function(res){
-      if (res.ok){
+      if (res && res.ok){
         var entry = { first: v.first, table: v.table };
         try { localStorage.setItem(STORE, JSON.stringify(entry)); } catch(e){}
         showDone(entry);
         ticket.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
-      return res.json().catch(function(){ return {}; }).then(function(body){
-        if (res.status === 409 || body.code === '23505'){
-          fail('That email or mobile number has already been entered. Each guest can enter once.');
-        } else if (res.status === 401 || res.status === 403 || body.code === '42501'){
-          if (Date.now() >= deadline - 60000) show('closed');
-          else fail('Entries aren\u2019t being accepted right now. Please tell a committee member.');
-        } else {
-          fail('Your entry didn\u2019t go through. Check your details and try again.');
-        }
-      });
+      var err = res && res.error;
+      if (err === 'duplicate'){
+        fail('That email or mobile number has already been entered. Each guest can enter once.');
+      } else if (err === 'closed'){
+        show('closed');
+      } else {
+        fail('Your entry didn\u2019t go through. Check your details and try again.');
+      }
     }).catch(function(){
       fail('No connection. Check your signal or Wi-Fi and try again.');
     }).then(function(){

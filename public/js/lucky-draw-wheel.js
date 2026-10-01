@@ -1,6 +1,6 @@
 /* Lucky Table Draw — projector wheel on the raffle page.
    Pulls per-table entry counts (never names or contact details) from
-   Supabase, draws one slice per table that has entries, and spins to a
+   the Google Sheet web app, draws one slice per table that has entries, and spins to a
    winner picked with crypto-grade randomness. Add ?demo=1 to the raffle
    page URL to rehearse with sample entries. */
 (function(){
@@ -60,13 +60,11 @@
       counts = {}; render();
       return Promise.resolve();
     }
-    return C.request('rpc/lucky_draw_table_counts', {}).then(function(res){
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.json();
-    }).then(function(rows){
+    return C.counts().then(function(data){
+      if (!data || !data.ok) throw new Error('bad response');
       var next = {};
-      (rows || []).forEach(function(r){
-        var t = parseInt(r.table_number, 10), n = parseInt(r.entries, 10);
+      Object.keys(data.counts || {}).forEach(function(k){
+        var t = parseInt(k, 10), n = parseInt(data.counts[k], 10);
         if (t >= 1 && t <= C.tables && n > 0) next[t] = n;
       });
       counts = next;
