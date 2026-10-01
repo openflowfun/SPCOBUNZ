@@ -290,7 +290,6 @@ fieldset.bad .err{display:block}
         <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
         <h3 id="doneTitle">You're in the draw</h3>
         <p>Your entry goes into both Souvenir Draws. The wheel spins at 8:15pm on the big screen — good luck!</p>
-        <button type="button" class="link-btn" id="another">Enter another guest</button>
       </div>
 
       <div class="state" id="closed">
@@ -378,11 +377,6 @@ fieldset.bad .err{display:block}
   if (Date.now() >= deadline) show('closed');
   else if (!C.isConfigured()) show('soon');
 
-  document.getElementById('another').addEventListener('click', function(){
-    form.reset(); show(null); formMsg.classList.remove('show');
-    form.querySelectorAll('.bad').forEach(function(el){ el.classList.remove('bad'); });
-    document.getElementById('first').focus();
-  });
 
   /* Validation */
   function normMobile(v){
