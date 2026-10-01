@@ -274,11 +274,6 @@ fieldset.bad .err{display:block}
           <input class="input" id="mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="021 123 4567" maxlength="20" required />
           <div class="err">Enter a mobile number we can call if you win.</div>
         </div>
-        <div class="field" data-f="email">
-          <label class="lbl" for="email">Email</label>
-          <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required />
-          <div class="err">Enter a valid email address.</div>
-        </div>
 
 
         <div class="check-wrap" data-f="age">
@@ -404,7 +399,6 @@ fieldset.bad .err{display:block}
       first: form.first.value.trim(),
       last: form.last.value.trim(),
       mobile: normMobile(form.mobile.value),
-      email: form.email.value.trim(),
       age: document.getElementById('age').checked
     };
     var ok = true, firstBad = null;
@@ -414,7 +408,6 @@ fieldset.bad .err{display:block}
     chk('first', v.first.length > 0, form.first);
     chk('last', v.last.length > 0, form.last);
     chk('mobile', /^\+?[0-9]{7,15}$/.test(v.mobile), form.mobile);
-    chk('email', /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email), form.email);
     chk('age', v.age, document.getElementById('age'));
     if (firstBad) firstBad.focus();
     return ok ? v : null;
@@ -439,7 +432,6 @@ fieldset.bad .err{display:block}
     submitBtn.disabled = true; submitBtn.classList.add('busy'); submitLabel.textContent = 'Entering\u2026';
     C.submit({
       first_name: v.first, last_name: v.last, mobile: v.mobile,
-      email: v.email.toLowerCase(),
       website: form.website.value
     }).then(function(res){
       if (res && res.ok){
@@ -451,7 +443,7 @@ fieldset.bad .err{display:block}
       }
       var err = res && res.error;
       if (err === 'duplicate'){
-        fail('That email or mobile number has already been entered. Each guest can enter once.');
+        fail('That mobile number has already been entered. Each guest can enter once.');
       } else if (err === 'closed'){
         show('closed');
       } else {
