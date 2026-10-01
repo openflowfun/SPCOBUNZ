@@ -299,8 +299,64 @@ body{
 .ld-reset{margin-top:12px;background:none;border:none;color:rgba(248,246,241,.5);font:600 12px var(--sans);text-decoration:underline;cursor:pointer}
 .ld-reset:hover{color:var(--gold-light)}
 </style>
+<style>
+/* Admin lock — keeps the draw screen away from the public */
+html.rv-locked body > *:not(#rvLock){visibility:hidden}
+#rvLock{display:none;position:fixed;inset:0;z-index:100000;align-items:center;justify-content:center;padding:24px;
+  background:radial-gradient(ellipse at 50% 30%,#12284B 0%,#050D1A 70%);font-family:'Inter',system-ui,sans-serif;color:#F8F6F1}
+html.rv-locked #rvLock{display:flex}
+.rv-lock-card{width:100%;max-width:380px;text-align:center;padding:34px 28px;border-radius:22px;background:rgba(255,255,255,.04);border:1px solid rgba(201,162,39,.35);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.rv-lock-card img{width:76px;height:auto;display:block;margin:0 auto 14px}
+.rv-lock-card h1{font-family:'Playfair Display',Georgia,serif;font-size:24px;color:#E3C566}
+.rv-lock-card p{margin-top:8px;font-size:13.5px;color:rgba(248,246,241,.65);line-height:1.5}
+.rv-lock-card input{margin-top:20px;width:100%;height:50px;border-radius:12px;border:1.5px solid rgba(201,162,39,.45);background:rgba(5,13,26,.6);color:#fff;padding:0 16px;font:600 16px/1 'Inter',system-ui,sans-serif;letter-spacing:.08em;text-align:center}
+.rv-lock-card input:focus{outline:none;border-color:#E3C566;box-shadow:0 0 0 3px rgba(201,162,39,.25)}
+.rv-lock-card button{margin-top:12px;width:100%;height:50px;border:none;border-radius:12px;background:linear-gradient(135deg,#E3C566,#C9A227);color:#0A1930;font:700 15px 'Inter',system-ui,sans-serif;cursor:pointer}
+.rv-lock-err{min-height:20px;margin-top:10px;font-size:13px;color:#F2A08F}
+</style>
+<script>
+/* Lock the page before anything paints, unless already unlocked this session. */
+(function(){ try { if (sessionStorage.getItem('rv-admin') !== '1') document.documentElement.classList.add('rv-locked'); }
+  catch(e){ document.documentElement.classList.add('rv-locked'); } })();
+</script>
 </head>
 <body>
+<div id="rvLock" role="dialog" aria-modal="true" aria-labelledby="rvLockTitle">
+  <form class="rv-lock-card" id="rvLockForm" autocomplete="off">
+    <img src="/public/images/crest-spc-cutout.png" alt="" />
+    <h1 id="rvLockTitle">Event admins only</h1>
+    <p>Enter the admin password to open the raffle draw screen.</p>
+    <input type="password" id="rvLockPw" placeholder="Password" aria-label="Admin password" autocapitalize="characters" spellcheck="false" />
+    <button type="submit">Unlock</button>
+    <div class="rv-lock-err" id="rvLockErr" role="alert"></div>
+  </form>
+</div>
+<script>
+(function(){
+  /* Only a SHA-256 fingerprint of the password lives in the page, not the password itself. */
+  var HASH = 'c616e97cf4c593ef555dd34a3946c79fd6b15eb44f1a95fe899ccc9cb3bec52c';
+  var form = document.getElementById('rvLockForm'), pw = document.getElementById('rvLockPw'), err = document.getElementById('rvLockErr');
+  if (document.documentElement.classList.contains('rv-locked')) setTimeout(function(){ pw.focus(); }, 50);
+  function sha(text){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function(buf){
+      return Array.prototype.map.call(new Uint8Array(buf), function(b){ return ('0' + b.toString(16)).slice(-2); }).join('');
+    });
+  }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    sha('spcobunz-raffle:' + pw.value.trim().toUpperCase()).then(function(h){
+      if (h === HASH){
+        try { sessionStorage.setItem('rv-admin', '1'); } catch(x){}
+        document.documentElement.classList.remove('rv-locked');
+        pw.value = ''; err.textContent = '';
+      } else {
+        err.textContent = 'That password isn\u2019t right.';
+        pw.select();
+      }
+    });
+  });
+})();
+</script>
 
 <header class="rv-header">
   <a href="/" class="brand">
