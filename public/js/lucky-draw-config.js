@@ -5,7 +5,7 @@
    only accepts new entries before the deadline and only ever returns
    per-table counts — names, emails and numbers stay in the Sheet. */
 window.LUCKY_DRAW = {
-  appsScriptUrl: 'PASTE_APPS_SCRIPT_WEB_APP_URL',
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxNd61CA-coZ3mzcNBEprqj8nIN-pQUz0CeKArv_e0SU5QE8EcfFyo9RkqtzD1lVkSI8g/exec',
 
   /* 8:15pm NZDT, Saturday 3 October 2026. The web app enforces this too. */
   deadline: '2026-10-03T20:15:00+13:00',
