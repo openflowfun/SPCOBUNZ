@@ -23,6 +23,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://script.google.com" crossorigin />
+<link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
 <script src="/public/js/lucky-draw-config.js"></script>
 <style>
 :root{
@@ -85,6 +87,8 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
 .results{width:100%;margin-top:18px;display:grid;gap:12px;min-height:40px}
 .hint{font-size:14px;line-height:1.55;color:rgba(255,255,255,.7);text-align:center;padding:4px 10px}
 .hint b{color:var(--gold-pale);font-weight:600}
+.hint.searching{animation:mt-pulse 1.2s ease-in-out infinite}
+@keyframes mt-pulse{0%,100%{opacity:.55}50%{opacity:1}}
 .card{display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;
   background:linear-gradient(180deg,#FFFDF8,var(--ivory));color:var(--navy-ink);box-shadow:0 20px 40px -22px rgba(3,8,26,.85),0 0 0 1px rgba(217,180,106,.5);animation:rise .35s var(--ease) both}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -252,6 +256,41 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
     document.body.classList.add('has-results');
   }
 
+  /* ---------- Speed ----------
+     1. Wake the Google script as soon as the page opens, so the first search
+        doesn't pay its start-up time.
+     2. Remember every answer, so going back to a search is instant.
+     3. When a longer search extends one we already have a complete answer
+        for (e.g. "Sag" -> "Sagi"), filter that answer on the phone: instant,
+        no network at all. Matching mirrors the Sheet's rules exactly. */
+  var cache = {};
+  function norm(t){
+    return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s]/g, ' ').replace(/\b(mr|mrs|ms|miss|dr|rev|fr|prof)\b/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  function matches(name, qWords){
+    var words = norm(name).split(' ');
+    return qWords.every(function(q){ return words.some(function(w){ return w.indexOf(q) === 0; }); });
+  }
+  function fromCache(key){
+    if (cache[key]) return cache[key];
+    var qWords = key.split(' ').filter(Boolean);
+    for (var k = key.length - 1; k >= 3; k--){
+      var base = cache[key.slice(0, k).trim()];
+      if (base && !base.more && !base.tooShort){
+        return { ok: true, more: false, results: base.results.filter(function(g){ return matches(g.name, qWords); }) };
+      }
+    }
+    return null;
+  }
+  if (C.isConfigured()){
+    try { fetch(C.appsScriptUrl + '?action=ping&t=' + Date.now(), { redirect: 'follow' }).catch(function(){}); } catch(e){}
+  }
+  function showSearching(){
+    if (results.querySelector('.card')) return;   // keep the last answer on screen while refining
+    results.innerHTML = '<p class="hint searching">Finding your table\u2026</p>';
+  }
+
   function search(){
     var q = input.value.trim();
     form.classList.toggle('has-text', !!input.value);
@@ -259,17 +298,22 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
     if (!q){ hint('At least 3 letters of your first name or surname.'); return; }
     if (q.replace(/\s/g, '').length < 3){ hint('Keep typing \u2014 at least 3 letters of your first name or surname.'); return; }
     if (!C.isConfigured()){ hint('Table lookup isn\u2019t available yet. Please ask at the check-in desk.'); return; }
+    var key = norm(q);
+    var local = fromCache(key);
+    if (local){ seq++; form.classList.remove('busy'); render(local, q); return; }
+    showSearching();
     timer = setTimeout(function(){
       var mine = ++seq;
       form.classList.add('busy');
       C.find(q).then(function(data){
+        if (data && data.ok) cache[key] = data;
         if (mine === seq) render(data, q);
       }).catch(function(){
         if (mine === seq) hint('No connection. Check your signal or Wi-Fi and try again.');
       }).then(function(){
         if (mine === seq) form.classList.remove('busy');
       });
-    }, 350);
+    }, 160);
   }
 
   input.addEventListener('input', search);
