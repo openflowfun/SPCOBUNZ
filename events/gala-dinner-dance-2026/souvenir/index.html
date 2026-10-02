@@ -791,7 +791,9 @@ body{
     if (cornerCurl) cornerCurl.style.display = 'none';
   }
 
+  var trackedOpen = false;
   function openBookAt(visual){
+    if (!trackedOpen && window.obuTrack){ trackedOpen = true; obuTrack('souvenir_open', {}); }
     if (window.__svLibFailed) return;
     dismissCornerCurl();
     if (!pageFlipReady){
@@ -1028,6 +1030,18 @@ body{
     goToVisual(v);
   }
   zoomBtn.addEventListener('click', openZoom);
+
+  /* ---------- Analytics (counts only) ---------- */
+  (function(){
+    if (!window.obuTrack) return;
+    var pg = function(){ return { page_number: Math.max(0, currentVisual - 1) }; };
+    zoomBtn.addEventListener('click', function(){ obuTrack('souvenir_zoom', pg()); });
+    shareBtn.addEventListener('click', function(){ obuTrack('souvenir_share', {}); });
+    fsBtn.addEventListener('click', function(){ obuTrack('souvenir_fullscreen', {}); });
+    thumbsBtn.addEventListener('click', function(){ obuTrack('souvenir_thumbnails', {}); });
+    var dl = document.getElementById('svDownloadBtn');
+    if (dl) dl.addEventListener('click', function(){ obuTrack('souvenir_pdf_download', {}); });
+  })();
   zoomClose.addEventListener('click', closeZoom);
   zoomOverlay.addEventListener('click', function(e){ if (e.target === zoomOverlay) closeZoom(); });
   zoomPrev.addEventListener('click', function(){ stepZoom(-1); });
