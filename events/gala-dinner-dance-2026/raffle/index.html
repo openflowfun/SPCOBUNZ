@@ -288,8 +288,45 @@ body{
 .ld-spin{width:100%;justify-content:center;margin-top:22px}
 .ld-win-table{font-family:'Cinzel',var(--serif);font-weight:700;font-size:clamp(64px,12vw,120px);line-height:1;color:var(--gold-light);margin-top:10px;text-shadow:0 8px 30px rgba(201,162,39,.35)}
 #ldConfetti{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+/* ===== Souvenir Draw: full-screen projector stage ===== */
+.rv-view[data-view="tables"]{max-width:none}
+.rv-view[data-view="tables"].is-active .sd-stage{position:fixed;inset:0;z-index:150;display:grid;grid-template-rows:auto minmax(0,1fr);gap:1.6vh;padding:2.2vh 2.4vw 2.4vh;
+  background:radial-gradient(ellipse at 38% 45%,#10264A 0%,#081426 55%,#050D1A 100%);overflow:hidden}
+html.sd-on,html.sd-on body{overflow:hidden}
+.sd-top{display:flex;align-items:center;justify-content:space-between;gap:2vw}
+.sd-title h2{font-family:'Cinzel',var(--serif);font-size:clamp(24px,3.2vh,40px);color:var(--gold-light);letter-spacing:.03em;line-height:1.1;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.sd-title p{margin-top:4px;font-size:clamp(12px,1.5vh,16px);color:rgba(248,246,241,.65)}
+.sd-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.sd-btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;border:1px solid rgba(248,246,241,.25);background:rgba(255,255,255,.04);color:#fff;font:700 13px var(--sans);cursor:pointer}
+.sd-btn:hover{border-color:var(--gold-light);color:var(--gold-light)}
+.sd-btn svg{width:16px;height:16px}
+.sd-main{display:grid;grid-template-columns:minmax(0,1fr) clamp(280px,23vw,420px);grid-template-rows:minmax(0,1fr);gap:2.4vw;min-height:0;height:100%}
+.sd-wheel-area{position:relative;min-width:0;min-height:0;height:100%;display:flex;align-items:center;justify-content:center;padding-top:2.2vh}
+.sd-wheel-area .ld-wheel{margin:0;width:var(--wheel,600px);height:var(--wheel,600px);max-width:none;aspect-ratio:auto}
+.sd-wheel-area .ld-wheel canvas{width:100%;height:100%}
+.sd-wheel-area .rv-wheel-pointer{top:-2.2%;border-left-width:clamp(16px,2.4%,30px);border-right-width:clamp(16px,2.4%,30px);border-top-width:clamp(26px,4%,48px)}
+.ld-hub{width:19%;height:19%;cursor:default}
+.ld-hub img{transition:opacity .25s}
+.ld-stop{position:absolute;inset:6%;border-radius:50%;border:none;cursor:pointer;display:none;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 35% 30%,#F1DDAA,#C9A227 70%);color:#0A1930;font:800 clamp(16px,2.6vh,30px) var(--sans);letter-spacing:.12em;
+  box-shadow:0 0 0 4px rgba(10,25,48,.6),0 0 30px rgba(201,162,39,.6);animation:sd-pulse 1.1s ease-in-out infinite}
+.ld-stop:hover{filter:brightness(1.08)}
+.ld-hub.is-spinning img{opacity:0}
+.ld-hub.is-spinning .ld-stop{display:flex}
+.ld-hub.is-stopping .ld-stop{animation:none;opacity:.55;cursor:default}
+@keyframes sd-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.sd-side{display:flex;flex-direction:column;gap:1.6vh;min-height:0;overflow:auto;padding-bottom:4.5vh}
+.sd-side .ld-spin{margin-top:auto;width:100%;justify-content:center;height:clamp(54px,7vh,76px);font-size:clamp(16px,2vh,21px)}
+.sd-credit{position:absolute;right:2.4vw;bottom:1.8vh;display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.04em;color:rgba(248,246,241,.5);text-decoration:none;transition:color .2s}
+.sd-credit img{height:20px;width:auto;opacity:.85}
+.sd-credit:hover{color:#fff}
+.rv-winner-overlay{z-index:400}
+@media (max-width:900px){.sd-main{grid-template-columns:1fr}.sd-side{display:none}}
 .ld-round{display:inline-block;vertical-align:middle;margin-left:10px;padding:5px 12px;border-radius:999px;background:rgba(201,162,39,.15);border:1px solid rgba(201,162,39,.4);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--gold-light)}
-.ld-win-name{font-family:'Cinzel',var(--serif);font-weight:700;font-size:clamp(40px,7vw,78px);line-height:1.1;color:var(--gold-light);margin-top:14px;text-shadow:0 8px 30px rgba(201,162,39,.35);overflow-wrap:anywhere}
+.ld-win-name{font-family:'Cinzel',var(--serif);font-weight:700;font-size:clamp(36px,min(6vw,10vh),112px);line-height:1.08;color:var(--gold-light);margin-top:14px;text-shadow:0 8px 30px rgba(201,162,39,.35);overflow-wrap:normal;word-break:normal;hyphens:none}
+#ldWinnerOverlay .rv-winner-card{width:min(92vw,1200px);max-width:none;padding:clamp(28px,5vh,56px) clamp(24px,4vw,64px)}
+#ldWinnerOverlay .rv-winner-prize-name{font-size:clamp(16px,2.4vh,24px)}
 .ld-winners{list-style:none;margin-top:12px;display:grid;gap:8px}
 .ld-winners li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:rgba(201,162,39,.12);border:1px solid rgba(201,162,39,.45)}
 .ld-winners li b{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-light)}
@@ -478,50 +515,62 @@ html.rv-locked #rvLock{display:flex}
 
   <!-- ================= LUCKY TABLE DRAW ================= -->
   <section class="rv-view" data-view="tables">
-    <div class="ld-top">
-      <div>
-        <h2>Souvenir Draw <span class="ld-round" id="ldRound">Draw 1 of 2</span></h2>
-        <p>Each winner receives 1 bottle of Johnnie Walker Double Black</p>
-      </div>
-      <div class="ld-top-actions">
-        <span class="ld-status" id="ldStatus"><i></i><span id="ldStatusText">Loading entries…</span></span>
-        <button type="button" class="rv-cta ghost ld-small" id="ldRefreshBtn">Refresh entries</button>
-        <button type="button" class="rv-cta ghost ld-small" id="ldBackBtn">Back</button>
-      </div>
-    </div>
-
-    <div class="ld-grid">
-      <div class="rv-stage ld-stage">
-        <div class="ld-wheel">
-          <div class="rv-wheel-pointer"></div>
-          <canvas id="ldWheel" width="1200" height="1200"></canvas>
-          <div class="ld-hub"><img src="/public/images/lucky-draw/obu-nz-crest.webp" alt="" /></div>
-          <div class="ld-empty" id="ldEmpty">No entries yet. Names appear on the wheel as guests enter.</div>
+    <div class="sd-stage" id="sdStage">
+      <header class="sd-top">
+        <div class="sd-title">
+          <h2>Souvenir Draw <span class="ld-round" id="ldRound">Draw 1 of 2</span></h2>
+          <p>Each winner receives 1 bottle of Johnnie Walker Double Black</p>
         </div>
-        <button type="button" class="rv-cta ld-spin" id="ldSpinBtn">
-          <span id="ldSpinLabel">Spin for Draw 1</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg>
-        </button>
-      </div>
+        <div class="sd-actions">
+          <span class="ld-status" id="ldStatus"><i></i><span id="ldStatusText">Loading entries…</span></span>
+          <button type="button" class="sd-btn" id="ldRefreshBtn">Refresh entries</button>
+          <button type="button" class="sd-btn" id="sdFsBtn" aria-label="Full screen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span>
+          </button>
+          <button type="button" class="sd-btn" id="ldBackBtn">Back</button>
+        </div>
+      </header>
 
-      <aside class="ld-side">
-        <div class="ld-panel">
-          <h3>Entries</h3>
-          <div class="ld-totals">
-            <div><b id="ldTotal">0</b><span>entries</span></div>
-            <div><b id="ldOnWheel">0</b><span>on the wheel</span></div>
+      <div class="sd-main">
+        <div class="sd-wheel-area" id="sdWheelArea">
+          <div class="ld-wheel" id="ldWheelBox">
+            <div class="rv-wheel-pointer"></div>
+            <canvas id="ldWheel"></canvas>
+            <div class="ld-hub" id="ldHub">
+              <img src="/public/images/lucky-draw/obu-nz-crest.webp" alt="" />
+              <button type="button" class="ld-stop" id="ldStopBtn" aria-label="Stop the wheel">STOP</button>
+            </div>
+            <div class="ld-empty" id="ldEmpty">No entries yet. Names appear on the wheel as guests enter.</div>
           </div>
-          <p class="ld-note">Every entry goes into both draws. A Draw 1 winner comes off the wheel for Draw 2.</p>
         </div>
-        <div class="ld-panel">
-          <h3>Winners</h3>
-          <ol class="ld-winners" id="ldWinners">
-            <li class="is-empty"><b>Draw 1</b><span>Not drawn yet</span></li>
-            <li class="is-empty"><b>Draw 2</b><span>Not drawn yet</span></li>
-          </ol>
-          <button type="button" class="ld-reset" id="ldResetBtn">Reset both draws</button>
-        </div>
-      </aside>
+
+        <aside class="sd-side">
+          <div class="ld-panel">
+            <h3>Entries</h3>
+            <div class="ld-totals">
+              <div><b id="ldTotal">0</b><span>entries</span></div>
+              <div><b id="ldOnWheel">0</b><span>on the wheel</span></div>
+            </div>
+            <p class="ld-note">Every entry goes into both draws. A Draw 1 winner comes off the wheel for Draw 2.</p>
+          </div>
+          <div class="ld-panel">
+            <h3>Winners</h3>
+            <ol class="ld-winners" id="ldWinners">
+              <li class="is-empty"><b>Draw 1</b><span>Not drawn yet</span></li>
+              <li class="is-empty"><b>Draw 2</b><span>Not drawn yet</span></li>
+            </ol>
+            <button type="button" class="ld-reset" id="ldResetBtn">Reset both draws</button>
+          </div>
+          <button type="button" class="rv-cta ld-spin" id="ldSpinBtn">
+            <span id="ldSpinLabel">Spin for Draw 1</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg>
+          </button>
+        </aside>
+      </div>
+
+      <a class="sd-credit" href="https://openflow.fun" target="_blank" rel="noopener noreferrer">
+        Digitally powered by <img src="/public/images/openflow-wordmark.png" alt="Openflow" />
+      </a>
     </div>
   </section>
 

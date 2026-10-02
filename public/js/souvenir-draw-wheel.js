@@ -25,6 +25,28 @@
   }
 
   var canvas = $('ldWheel'), ctx = canvas.getContext('2d');
+  var hub = $('ldHub'), stopBtn = $('ldStopBtn');
+
+  /* Size the wheel to the largest circle that fits the stage, and draw it at
+     the screen's real pixel density so names stay sharp on a projector. */
+  function fitWheel(){
+    var area = $('sdWheelArea');
+    if (!area || !area.clientWidth) return;
+    var size = Math.floor(Math.min(area.clientWidth, area.clientHeight) * 0.97);
+    if (size < 200) size = 200;
+    document.getElementById('ldWheelBox').style.setProperty('--wheel', size + 'px');
+    var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    var px = Math.round(size * dpr);
+    if (canvas.width !== px){ canvas.width = px; canvas.height = px; }
+    drawWheel();
+  }
+  window.addEventListener('resize', function(){ if (active) fitWheel(); });
+  /* Re-fit whenever the stage actually changes size (first show, full screen,
+     window resize) — more reliable than timers. */
+  if (window.ResizeObserver){
+    new ResizeObserver(function(){ if (active) fitWheel(); }).observe(document.getElementById('sdWheelArea'));
+  }
+  document.addEventListener('fullscreenchange', function(){ if (active) setTimeout(fitWheel, 60); });
   var spinBtn = $('ldSpinBtn'), spinLabel = $('ldSpinLabel');
   var overlay = $('ldWinnerOverlay');
 
@@ -99,19 +121,28 @@
       ctx.fillStyle = fill; ctx.fill();
       ctx.strokeStyle = 'rgba(241,221,170,.5)'; ctx.lineWidth = list.length > 80 ? 1 : 2.5; ctx.stroke();
 
-      /* Names fit while slices are wide enough; past that the winner card does the talking. */
-      var arc = size * R * 0.72;
-      if (arc >= 14){
-        var fs = Math.max(13, Math.min(44, arc * 0.62));
-        ctx.save();
-        ctx.rotate(i * size + size / 2);
-        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-        ctx.fillStyle = LIGHT[fill] ? '#0C1633' : '#F1DDAA';
+      /* Full names, never shortened: sized so each fits inside its slice
+         and between the rim and the crest. */
+      var rimGap = R * 0.075, hubR = R * 0.205, avail = R - rimGap - hubR;
+      ctx.save();
+      ctx.rotate(i * size + size / 2);
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = LIGHT[fill] ? '#0C1633' : '#F1DDAA';
+      /* Start from the slice width near the rim, then make sure the name also
+         fits the (narrower) slice where it ends, and the space to the crest. */
+      var fs = Math.min(R * 0.07, size * (R - rimGap) * 0.7), tw = 0;
+      for (var k = 0; k < 6; k++){
         ctx.font = '600 ' + fs + 'px Inter, system-ui, sans-serif';
-        var max = Math.max(8, Math.floor((R * 0.66) / (fs * 0.55)));
-        ctx.fillText(shortName(e.name, max), R - 30, 0);
-        ctx.restore();
+        tw = ctx.measureText(e.name).width;
+        var innerR = R - rimGap - Math.min(tw, avail);
+        var maxByArc = size * innerR * 0.74;
+        var next = Math.min(fs, maxByArc, fs * Math.min(1, avail / tw));
+        if (next >= fs - 0.25) break;
+        fs = next;
       }
+      ctx.font = '600 ' + fs + 'px Inter, system-ui, sans-serif';
+      ctx.fillText(e.name, R - rimGap, 0);
+      ctx.restore();
     });
     ctx.restore();
     ctx.save(); ctx.translate(c, c);
@@ -151,18 +182,46 @@
   function easeOut(t){ return 1 - Math.pow(1 - t, 4); }
   function norm(a){ a %= Math.PI * 2; return a < 0 ? a + Math.PI * 2 : a; }
 
+  /* Spin: speeds up, keeps turning until STOP is pressed (or 12 seconds
+     pass), then glides to a stop on a winner chosen at random. */
+  var MAX_SPIN_MS = 12000, STOP_MS = 3200, SPEED = 0.0105; // rad per ms at full speed
+  var stopRequested = false, spinStart = 0;
   function spin(){
     if (spinning || allDone()) return;
     var list = onWheel();
     if (!list.length) return;
-    spinning = true; clearInterval(timer); renderPanel();
+    spinning = true; stopRequested = false; clearInterval(timer); renderPanel();
+    hub.classList.add('is-spinning'); hub.classList.remove('is-stopping');
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    spinStart = performance.now();
+    var last = spinStart;
+    (function run(now){
+      var t = now - spinStart, dt = now - last; last = now;
+      var v = SPEED * Math.min(1, t / 700);          // ease up to full speed
+      rotation += v * dt;
+      drawWheel();
+      if (reduce || stopRequested || t >= MAX_SPIN_MS){ glideToWinner(list, v, now); return; }
+      requestAnimationFrame(run);
+    })(spinStart);
+  }
+  function requestStop(){
+    if (!spinning || stopRequested) return;
+    if (performance.now() - spinStart < 600) return;  // ignore an accidental double-tap
+    stopRequested = true;
+  }
+  function glideToWinner(list, v, t0){
+    hub.classList.add('is-stopping');
     var idx = Math.floor(rnd() * list.length);
     var size = Math.PI * 2 / list.length;
     var inside = idx * size + size * (0.2 + 0.6 * rnd());
     var from = rotation;
-    var delta = norm(-Math.PI / 2 - inside - from) + (6 + Math.floor(rnd() * 3)) * Math.PI * 2;
-    var t0 = performance.now();
-    var dur = (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) ? 600 : SPIN_MS;
+    var base = norm(-Math.PI / 2 - inside - from);
+    /* Pick the number of extra turns that best matches the current speed, so
+       the slow-down feels continuous (ease-out quartic starts at 4x average). */
+    var want = Math.max(v, 0.002) * STOP_MS / 4;
+    var turns = Math.max(0, Math.round((want - base) / (Math.PI * 2)));
+    var delta = base + turns * Math.PI * 2;
+    var dur = Math.max(1200, Math.min(STOP_MS * 1.4, (delta * 4) / Math.max(v, 0.002)));
     (function frame(now){
       var p = Math.min(1, (now - t0) / dur);
       rotation = from + delta * easeOut(p);
@@ -170,7 +229,9 @@
       if (p < 1){ requestAnimationFrame(frame); return; }
       rotation = norm(rotation);
       spinning = false;
+      hub.classList.remove('is-spinning', 'is-stopping');
       pending = list[idx];
+      renderPanel();
       announce(pending);
     })(t0);
   }
@@ -178,7 +239,13 @@
   function announce(w){
     var d = winners.length + 1;
     $('ldWinRound').textContent = 'Souvenir Draw \u00b7 Draw ' + d + ' of ' + DRAWS;
-    $('ldWinName').textContent = w.name;
+    var nameEl = $('ldWinName');
+    nameEl.textContent = w.name; nameEl.style.fontSize = '';
+    /* Keep whole words: shrink the name until its longest word fits the card. */
+    requestAnimationFrame(function(){
+      var fs = parseFloat(getComputedStyle(nameEl).fontSize), guard = 0;
+      while (nameEl.scrollWidth > nameEl.clientWidth + 1 && fs > 28 && guard++ < 40){ fs -= 3; nameEl.style.fontSize = fs + 'px'; }
+    });
     $('ldDoneLabel').textContent = d < DRAWS ? 'Confirm & go to Draw ' + (d + 1) : 'Confirm winner';
     overlay.classList.add('is-open');
     confetti();
@@ -213,14 +280,23 @@
   /* ---------- Wiring ---------- */
   function startPolling(){ clearInterval(timer); timer = setInterval(function(){ if (active && !spinning) load(); }, REFRESH_MS); }
   function open(){
-    active = true; showView('tables');
-    if (document.fonts && document.fonts.load) document.fonts.load('600 30px Inter').then(drawWheel, function(){});
+    active = true; showView('tables'); document.documentElement.classList.add('sd-on'); setTimeout(fitWheel, 30);
+    if (document.fonts && document.fonts.load) document.fonts.load('600 30px Inter').then(fitWheel, function(){});
     load(); startPolling();
   }
   $('ldOpenBtn').addEventListener('click', open);
-  $('ldBackBtn').addEventListener('click', function(){ if (spinning) return; active = false; clearInterval(timer); showView('welcome'); });
+  $('ldBackBtn').addEventListener('click', function(){
+    if (spinning) return; active = false; clearInterval(timer);
+    document.documentElement.classList.remove('sd-on'); showView('welcome');
+  });
+  $('sdFsBtn').addEventListener('click', function(){
+    var d = document;
+    if (d.fullscreenElement){ d.exitFullscreen && d.exitFullscreen(); }
+    else { var el = d.documentElement; (el.requestFullscreen || el.webkitRequestFullscreen || function(){}).call(el); }
+  });
   $('ldRefreshBtn').addEventListener('click', function(){ load(); });
   spinBtn.addEventListener('click', spin);
+  stopBtn.addEventListener('click', requestStop);
   $('ldRespinBtn').addEventListener('click', function(){ pending = null; overlay.classList.remove('is-open'); spin(); });
   $('ldDoneBtn').addEventListener('click', confirmWinner);
   $('ldResetBtn').addEventListener('click', function(){
@@ -234,7 +310,7 @@
       if (e.key === 'Escape' || e.key === 'Enter'){ e.preventDefault(); confirmWinner(); }
       return;
     }
-    if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); e.stopImmediatePropagation(); spin(); }
+    if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); e.stopImmediatePropagation(); if (spinning) requestStop(); else spin(); }
   }, true);
 
   if (location.hash === '#souvenir-draw' || location.hash === '#lucky-table') open();
