@@ -283,14 +283,15 @@
     $('ldTotal').textContent = entrants.length;
     $('ldOnWheel').textContent = list.length;
     $('ldEmpty').classList.toggle('show', list.length === 0);
-    $('ldRound').textContent = allDone() ? 'Both draws complete' : 'Draw ' + currentDraw() + ' of ' + DRAWS;
+    $('ldRound').textContent = allDone() ? 'Both draws completed' : 'Draw ' + currentDraw() + ' of ' + DRAWS;
     if (spinning){
       spinLabel.textContent = stopRequested ? 'Stopping\u2026' : 'STOP the wheel';
       spinBtn.classList.add('is-stop');
       spinBtn.disabled = stopRequested;
     } else {
-      spinLabel.textContent = allDone() ? 'Both draws complete' : 'Spin for Draw ' + currentDraw();
+      spinLabel.textContent = allDone() ? 'Both draws completed' : 'Spin for Draw ' + currentDraw();
       spinBtn.classList.remove('is-stop');
+      spinBtn.classList.toggle('is-done', allDone());
       spinBtn.disabled = allDone() || list.length === 0;
     }
     var ol = $('ldWinners'); ol.innerHTML = '';
