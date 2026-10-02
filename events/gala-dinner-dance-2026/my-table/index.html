@@ -108,6 +108,30 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
 .draw svg{width:16px;height:16px}
 .foot{margin-top:26px;font-family:var(--display);font-size:12px;letter-spacing:.14em;color:rgba(255,255,255,.5);text-align:center}
 
+
+/* Phones: everything fits one screen (sizes follow the visible height) */
+@media (max-width:899px){
+  .page{min-height:100dvh;height:100dvh}
+  .wrap{min-height:100dvh;height:100dvh;padding:calc(env(safe-area-inset-top,0px) + clamp(40px,7dvh,64px)) 18px calc(env(safe-area-inset-bottom,0px) + clamp(62px,10dvh,92px));overflow:hidden}
+  .crest{width:auto;height:clamp(64px,11.5dvh,118px)}
+  .lockup{margin-top:clamp(6px,1.2dvh,12px)}
+  .lockup .l1{font-size:clamp(11px,1.6dvh,14px)}
+  .lockup .l2{font-size:clamp(28px,4.8dvh,40px)}
+  .lockup .l3{font-size:clamp(17px,2.8dvh,23px)}
+  .lockup .l4{margin-top:clamp(4px,.9dvh,9px);font-size:clamp(12px,1.8dvh,15px)}
+  h1{margin-top:clamp(12px,2.6dvh,28px);font-size:clamp(26px,4.4dvh,38px)}
+  .sub{margin-top:clamp(4px,.8dvh,8px);font-size:clamp(13px,1.8dvh,15px)}
+  .search{margin-top:clamp(12px,2.2dvh,22px)}
+  .search input{height:clamp(50px,7dvh,60px)}
+  .results{margin-top:clamp(10px,1.6dvh,18px);flex:1 1 auto;min-height:0;overflow-y:auto;align-content:start;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+  .card.single{padding:clamp(14px,2.4dvh,24px) 20px}
+  .card.single .tbl{margin-top:clamp(8px,1.4dvh,14px);padding:clamp(6px,1.2dvh,12px) 18px}
+  .card.single .tbl b{font-size:clamp(40px,7dvh,64px)}
+  .credit{margin-top:clamp(8px,1.6dvh,16px);padding-top:0;flex:0 0 auto}
+  .mt-brand{flex:0 0 auto}
+  .mt-main{flex:1 1 auto;min-height:0}
+  .mt-main .search{flex:0 0 auto}
+}
 /* Desktop: brand on the left, search on the right, filling the screen */
 .mt-brand,.mt-main{width:100%;display:flex;flex-direction:column;align-items:center}
 @media (min-width:900px){
