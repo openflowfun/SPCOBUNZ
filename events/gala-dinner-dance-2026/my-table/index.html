@@ -107,6 +107,29 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
 .draw:hover{border-color:var(--gold-bright);color:#fff}
 .draw svg{width:16px;height:16px}
 .foot{margin-top:26px;font-family:var(--display);font-size:12px;letter-spacing:.14em;color:rgba(255,255,255,.5);text-align:center}
+
+/* Desktop: brand on the left, search on the right, filling the screen */
+.mt-brand,.mt-main{width:100%;display:flex;flex-direction:column;align-items:center}
+@media (min-width:900px){
+  .wrap{max-width:1240px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:1fr auto;column-gap:clamp(48px,6vw,110px);align-items:center;
+    padding:calc(env(safe-area-inset-top,0px) + 96px) 48px 72px}
+  .mt-brand{grid-column:1;grid-row:1;padding-right:clamp(24px,3vw,56px);border-right:1px solid rgba(217,180,106,.25)}
+  .mt-brand .crest{width:clamp(170px,17vw,230px)}
+  .mt-brand .lockup{margin-top:26px}
+  .mt-brand .lockup .l1{font-size:clamp(20px,1.7vw,26px)}
+  .mt-brand .lockup .l2{font-size:clamp(64px,6vw,92px)}
+  .mt-brand .lockup .l3{font-size:clamp(36px,3.2vw,50px)}
+  .mt-brand .lockup .l4{font-size:clamp(22px,1.9vw,28px);margin-top:16px}
+  .mt-brand .lockup .l4 i{width:90px}
+  .mt-main{grid-column:2;grid-row:1;align-items:stretch;text-align:left}
+  .mt-main h1{margin-top:0;text-align:left;font-size:clamp(40px,3.6vw,56px)}
+  .mt-main .sub{text-align:left;font-size:17px;margin-top:12px}
+  .mt-main .search{margin-top:28px}
+  .mt-main .search input{height:66px;font-size:19px}
+  .mt-main .results{min-height:260px;align-content:start}
+  .mt-main .hint{text-align:left;padding:4px 2px}
+  .credit{grid-column:1 / -1;grid-row:2;justify-self:center;margin-top:36px}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
@@ -128,6 +151,7 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
   </svg>
 
   <main class="wrap">
+    <div class="mt-brand">
     <img class="crest" src="/public/images/lucky-draw/obu-nz-crest.webp" width="480" height="508" alt="St. Peter's College Old Boys Union New Zealand" />
     <div class="lockup" role="img" aria-label="SPC OBU NZ Gala Dinner Dance 2026">
       <span class="l1">SPC OBU NZ</span>
@@ -136,6 +160,9 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
       <span class="l4"><i></i>2026<i></i></span>
     </div>
 
+    </div>
+
+    <div class="mt-main">
     <h1>What's my table?</h1>
     <p class="sub">Type your first name or surname (at least 3 letters) to find your table and host.</p>
 
@@ -148,6 +175,7 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
 
     <div class="results" id="results" aria-live="polite">
       <p class="hint">At least 3 letters of your first name or surname.</p>
+    </div>
     </div>
 
     <a class="credit" href="https://openflow.fun" target="_blank" rel="noopener noreferrer">Digitally powered by <img src="/public/images/openflow-wordmark.png" alt="Openflow" /></a>
