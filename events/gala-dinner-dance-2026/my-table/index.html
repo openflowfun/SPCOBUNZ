@@ -112,7 +112,7 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
 /* Phones: everything fits one screen (sizes follow the visible height) */
 @media (max-width:899px){
   .page{min-height:100dvh;height:100dvh}
-  .wrap{min-height:100dvh;height:100dvh;padding:calc(env(safe-area-inset-top,0px) + clamp(40px,7dvh,64px)) 18px calc(env(safe-area-inset-bottom,0px) + clamp(62px,10dvh,92px));overflow:hidden}
+  .wrap{min-height:100dvh;height:100dvh;padding:calc(env(safe-area-inset-top,0px) + clamp(40px,7dvh,64px)) 18px calc(env(safe-area-inset-bottom,0px) + clamp(84px,14dvh,128px));overflow:hidden}
   .crest{width:auto;height:clamp(64px,11.5dvh,118px)}
   .lockup{margin-top:clamp(6px,1.2dvh,12px)}
   .lockup .l1{font-size:clamp(11px,1.6dvh,14px)}
@@ -127,8 +127,13 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
   .card.single{padding:clamp(14px,2.4dvh,24px) 20px}
   .card.single .tbl{margin-top:clamp(8px,1.4dvh,14px);padding:clamp(6px,1.2dvh,12px) 18px}
   .card.single .tbl b{font-size:clamp(40px,7dvh,64px)}
-  .credit{margin-top:clamp(8px,1.6dvh,16px);padding-top:0;flex:0 0 auto}
-  .mt-brand{flex:0 0 auto}
+  .credit{margin-top:clamp(12px,2.4dvh,24px);padding-top:0;flex:0 0 auto;font-size:12px}
+  .credit img{height:18px}
+  .mt-brand{flex:0 0 auto;transition:opacity .2s}
+  body.has-results .mt-brand .lockup{display:none}
+  body.has-results .mt-brand .crest{height:clamp(46px,7dvh,64px)}
+  body.has-results h1{margin-top:clamp(8px,1.4dvh,14px);font-size:clamp(22px,3.6dvh,32px)}
+  body.has-results .sub{display:none}
   .mt-main{flex:1 1 auto;min-height:0}
   .mt-main .search{flex:0 0 auto}
 }
@@ -216,7 +221,7 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
   var timer = null, seq = 0;
 
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-  function hint(html){ results.innerHTML = '<p class="hint">' + html + '</p>'; }
+  function hint(html){ results.innerHTML = '<p class="hint">' + html + '</p>'; document.body.classList.remove('has-results'); }
 
   function render(data, q){
     var list = (data && data.results) || [];
@@ -239,6 +244,7 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
     }).join('');
     if (data.more) html += '<p class="hint">More guests match \u2014 type your full name to narrow it down.</p>';
     results.innerHTML = html;
+    document.body.classList.add('has-results');
   }
 
   function search(){
