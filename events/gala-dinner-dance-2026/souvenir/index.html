@@ -256,6 +256,10 @@ body{
 .sv-thumb .num{position:absolute;bottom:2px;right:3px;font-size:8px;color:#fff;background:rgba(0,0,0,.6);padding:1px 3px;border-radius:3px}
 
 /* Controls */
+.sv-credit{position:relative;z-index:2;flex:0 0 auto;align-self:center;display:inline-flex;align-items:center;gap:7px;margin-top:8px;font-size:10.5px;letter-spacing:.05em;color:rgba(248,246,241,.45);text-decoration:none;transition:color .2s}
+.sv-credit img{height:13px;width:auto;opacity:.7;transition:opacity .2s}
+.sv-credit:hover{color:rgba(248,246,241,.85)}
+.sv-credit:hover img{opacity:1}
 .sv-controls{position:relative;z-index:2;flex:0 0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
 .sv-controls-nav{display:flex;align-items:center;gap:10px;flex:1;min-width:200px}
 .sv-nav-btn{
@@ -411,6 +415,7 @@ body{
         Download PDF
       </a>
     </div>
+    <a class="sv-credit" href="https://openflow.fun" target="_blank" rel="noopener noreferrer">Digitally powered by <img src="/public/images/openflow-wordmark.png" alt="Openflow" width="64" height="14" /></a>
 
     <noscript>
       <div style="text-align:center;padding:40px 10px;color:#fff">
