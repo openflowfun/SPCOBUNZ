@@ -377,6 +377,20 @@ body{
 .rv-welcome-credit{position:fixed;right:2.4vw;bottom:1.8vh;display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.04em;color:rgba(248,246,241,.5);text-decoration:none;z-index:5}
 .rv-welcome-credit img{height:20px;width:auto;opacity:.85}
 html.sd-on .rv-welcome-credit{display:none}
+
+/* ===== Landing on phones: stacked eyebrow, one-line title, credit under the button ===== */
+.rv-eyebrow .ey-short{display:none}
+@media (max-width:700px){
+  .rv-view[data-view="welcome"].is-active{min-height:0;justify-content:flex-start;padding-top:1vh}
+  .rv-view[data-view="welcome"] .rv-eyebrow{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:12px;letter-spacing:.3em;line-height:1.3}
+  .rv-eyebrow .ey-full,.rv-eyebrow .ey-sep{display:none}
+  .rv-eyebrow .ey-short{display:block}
+  .rv-view[data-view="welcome"] .rv-hero-title{white-space:nowrap;font-size:min(calc((100vw - 44px) / 11),44px);margin-top:18px;line-height:1.1}
+  .rv-view[data-view="welcome"] .rv-hero-sub{font-size:15px;margin-top:10px}
+  .rv-view[data-view="welcome"] .ld-entry{margin-top:26px}
+  .rv-welcome-credit{position:static;align-self:center;margin:22px auto 8px;font-size:11.5px}
+  .rv-welcome-credit img{height:17px}
+}
 /* ===== Souvenir Draw: full-screen projector stage ===== */
 .rv-view[data-view="tables"]{max-width:none}
 .rv-view[data-view="tables"].is-active .sd-stage{position:fixed;inset:0;z-index:150;display:grid;grid-template-rows:auto minmax(0,1fr);gap:1.6vh;padding:2.2vh 2.4vw 2.4vh;
@@ -501,7 +515,7 @@ html.rv-locked #rvLock{display:flex}
   <!-- ================= WELCOME ================= -->
   <section class="rv-view is-active" data-view="welcome">
     <img class="rv-crest" src="/public/images/crest-spc-cutout.png" alt="St. Peter's College crest" />
-    <p class="eyebrow rv-center">SPC OBU New Zealand · Gala Dinner Dance 2026</p>
+    <p class="eyebrow rv-center rv-eyebrow"><span class="ey-full">SPC OBU New Zealand</span><span class="ey-short">SPC OBU NZ</span><span class="ey-sep"> · </span><span class="ey-b">Gala Dinner Dance 2026</span></p>
     <h1 class="rv-hero-title">The Digital <span class="gold-text">Raffle Draw</span></h1>
     <p class="rv-hero-sub">Good luck to everyone in the room tonight.</p>
 
