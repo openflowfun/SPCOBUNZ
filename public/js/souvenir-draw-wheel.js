@@ -66,6 +66,116 @@
     return entrants.filter(function(e){ return !won[e.id]; });
   }
 
+  /* ---------- Sound (Web Audio, generated live: no files to load) ---------- */
+  var SOUND_KEY = 'spcobunz-draw-sound';
+  var soundOn = true;
+  try { soundOn = localStorage.getItem(SOUND_KEY) !== 'off'; } catch(e){}
+  var AC = null, master = null, whir = null, whirGain = null, lastTick = 0;
+  function audio(){
+    if (!soundOn) return null;
+    if (!AC){
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      AC = new Ctx();
+      master = AC.createGain(); master.gain.value = 0.9;
+      var comp = AC.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 4;
+      master.connect(comp); comp.connect(AC.destination);
+    }
+    if (AC.state === 'suspended') AC.resume();
+    return AC;
+  }
+  function noiseBuffer(sec){
+    var b = AC.createBuffer(1, Math.floor(AC.sampleRate * sec), AC.sampleRate), d = b.getChannelData(0);
+    for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    return b;
+  }
+  /* A wooden "clack" as each peg passes the pointer. */
+  function tick(speed){
+    var a = audio(); if (!a) return;
+    var now = performance.now();
+    if (now - lastTick < 34) return;               // never a buzz, always distinct clicks
+    lastTick = now;
+    var t = a.currentTime, o = a.createOscillator(), g = a.createGain(), f = a.createBiquadFilter();
+    o.type = 'square'; o.frequency.setValueAtTime(1500 + Math.random() * 300, t); o.frequency.exponentialRampToValueAtTime(420, t + 0.03);
+    f.type = 'bandpass'; f.frequency.value = 2200; f.Q.value = 1.4;
+    var vol = Math.min(0.32, 0.12 + speed * 18);
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.045);
+    o.connect(f); f.connect(g); g.connect(master); o.start(t); o.stop(t + 0.05);
+  }
+  /* Airy whoosh that follows the wheel's speed. */
+  function whirStart(){
+    var a = audio(); if (!a || whir) return;
+    whir = a.createBufferSource(); whir.buffer = noiseBuffer(2); whir.loop = true;
+    var f = a.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 650; f.Q.value = 0.7;
+    whirGain = a.createGain(); whirGain.gain.value = 0;
+    whir.connect(f); f.connect(whirGain); whirGain.connect(master); whir.start();
+    whir._f = f;
+  }
+  function whirSet(speed){
+    if (!whir || !AC) return;
+    var t = AC.currentTime;
+    whirGain.gain.setTargetAtTime(Math.min(0.16, speed * 14), t, 0.08);
+    whir._f.frequency.setTargetAtTime(380 + speed * 60000, t, 0.1);
+  }
+  function whirStop(){
+    if (!whir) return;
+    try { whirGain.gain.setTargetAtTime(0, AC.currentTime, 0.15); var w = whir; setTimeout(function(){ try { w.stop(); } catch(e){} }, 800); } catch(e){}
+    whir = null;
+  }
+  /* Party-popper bang: a crack of noise plus a low thump. */
+  function pop(delay, pan){
+    var a = audio(); if (!a) return;
+    var t = a.currentTime + (delay || 0);
+    var n = a.createBufferSource(); n.buffer = noiseBuffer(0.4);
+    var hp = a.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 900;
+    var g = a.createGain(); g.gain.setValueAtTime(0.9, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+    var p = a.createStereoPanner ? a.createStereoPanner() : null;
+    n.connect(hp); hp.connect(g);
+    if (p){ p.pan.value = pan || 0; g.connect(p); p.connect(master); } else g.connect(master);
+    n.start(t); n.stop(t + 0.4);
+    var o = a.createOscillator(), og = a.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(180, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.18);
+    og.gain.setValueAtTime(0.7, t); og.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+    o.connect(og); og.connect(master); o.start(t); o.stop(t + 0.25);
+  }
+  /* Bright brass-style fanfare and sparkling chimes. */
+  function fanfare(){
+    var a = audio(); if (!a) return;
+    var t0 = a.currentTime + 0.25;
+    var notes = [[523.25,0,.16],[659.25,.16,.16],[783.99,.32,.16],[1046.5,.48,.62],[783.99,1.1,.14],[1046.5,1.24,1.1]];
+    notes.forEach(function(n){
+      [0, 3].forEach(function(det, k){
+        var o = a.createOscillator(), g = a.createGain(), f = a.createBiquadFilter();
+        o.type = k ? 'triangle' : 'sawtooth'; o.frequency.value = n[0]; o.detune.value = det;
+        f.type = 'lowpass'; f.frequency.value = 2600;
+        var t = t0 + n[1], d = n[2];
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(k ? 0.12 : 0.07, t + 0.03);
+        g.gain.setValueAtTime(k ? 0.12 : 0.07, t + d * 0.7); g.gain.exponentialRampToValueAtTime(0.0001, t + d + 0.25);
+        o.connect(f); f.connect(g); g.connect(master); o.start(t); o.stop(t + d + 0.3);
+      });
+    });
+    // final chord
+    [523.25, 659.25, 783.99, 1046.5].forEach(function(fq){
+      var o = a.createOscillator(), g = a.createGain(); o.type = 'triangle'; o.frequency.value = fq;
+      var t = t0 + 1.24; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.06, t + 0.05); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + 2.5);
+    });
+    // sparkles
+    for (var i = 0; i < 14; i++){
+      var o = a.createOscillator(), g = a.createGain(), t = t0 + 1.3 + i * 0.09 + Math.random() * 0.05;
+      o.type = 'sine'; o.frequency.value = 1800 + Math.random() * 2200;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.05, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.4);
+    }
+  }
+  function setSound(on){
+    soundOn = on;
+    try { localStorage.setItem(SOUND_KEY, on ? 'on' : 'off'); } catch(e){}
+    var b = $('sdSoundBtn');
+    if (b){ b.classList.toggle('is-off', !on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.querySelector('span').textContent = on ? 'Sound on' : 'Sound off'; }
+    if (!on) whirStop();
+  }
+
   /* ---------- Data ---------- */
   var DEMO_NAMES = ['Amal Perera','Nimal De Silva','Kasun Fernando','Shehan Jayasinghe','Ruwan Wickramasinghe','Dinesh Silva',
     'Chamara Rodrigo','Thilina Gunawardena','Lahiru Manawadu','Pradeep De Silva','Kanishka Perera','Ulyssess David',
@@ -160,8 +270,15 @@
     $('ldOnWheel').textContent = list.length;
     $('ldEmpty').classList.toggle('show', list.length === 0);
     $('ldRound').textContent = allDone() ? 'Both draws complete' : 'Draw ' + currentDraw() + ' of ' + DRAWS;
-    spinLabel.textContent = allDone() ? 'Both draws complete' : 'Spin for Draw ' + currentDraw();
-    spinBtn.disabled = spinning || allDone() || list.length === 0;
+    if (spinning){
+      spinLabel.textContent = stopRequested ? 'Stopping\u2026' : 'STOP the wheel';
+      spinBtn.classList.add('is-stop');
+      spinBtn.disabled = stopRequested;
+    } else {
+      spinLabel.textContent = allDone() ? 'Both draws complete' : 'Spin for Draw ' + currentDraw();
+      spinBtn.classList.remove('is-stop');
+      spinBtn.disabled = allDone() || list.length === 0;
+    }
     var ol = $('ldWinners'); ol.innerHTML = '';
     for (var d = 1; d <= DRAWS; d++){
       var w = winners[d - 1];
@@ -182,32 +299,40 @@
   function easeOut(t){ return 1 - Math.pow(1 - t, 4); }
   function norm(a){ a %= Math.PI * 2; return a < 0 ? a + Math.PI * 2 : a; }
 
-  /* Spin: speeds up, keeps turning until STOP is pressed (or 12 seconds
-     pass), then glides to a stop on a winner chosen at random. */
-  var MAX_SPIN_MS = 12000, STOP_MS = 3200, SPEED = 0.0105; // rad per ms at full speed
-  var stopRequested = false, spinStart = 0;
+  /* Spin: speeds up and keeps turning until STOP is pressed (no auto-stop),
+     then glides to a stop on a winner chosen at random. */
+  var STOP_MS = 3800, SPEED = 0.0105;   // rad per ms at full speed
+  var stopRequested = false, spinStart = 0, lastSlice = -1;
+  function passTicks(list, v){
+    var size = Math.PI * 2 / list.length;
+    var at = Math.floor(norm(-Math.PI / 2 - rotation) / size);  // slice under the pointer
+    if (at !== lastSlice){ lastSlice = at; tick(v); }
+    whirSet(v);
+  }
   function spin(){
     if (spinning || allDone()) return;
     var list = onWheel();
     if (!list.length) return;
-    spinning = true; stopRequested = false; clearInterval(timer); renderPanel();
+    spinning = true; stopRequested = false; clearInterval(timer);
     hub.classList.add('is-spinning'); hub.classList.remove('is-stopping');
-    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    renderPanel();
+    audio(); whirStart();
     spinStart = performance.now();
     var last = spinStart;
     (function run(now){
-      var t = now - spinStart, dt = now - last; last = now;
-      var v = SPEED * Math.min(1, t / 700);          // ease up to full speed
+      var t = now - spinStart, dt = Math.min(50, now - last); last = now;
+      var v = SPEED * Math.min(1, t / 900);           // ease up to full speed
       rotation += v * dt;
-      drawWheel();
-      if (reduce || stopRequested || t >= MAX_SPIN_MS){ glideToWinner(list, v, now); return; }
+      drawWheel(); passTicks(list, v);
+      if (stopRequested){ glideToWinner(list, v, now); return; }
       requestAnimationFrame(run);
     })(spinStart);
   }
   function requestStop(){
     if (!spinning || stopRequested) return;
-    if (performance.now() - spinStart < 600) return;  // ignore an accidental double-tap
+    if (performance.now() - spinStart < 700) return;  // ignore an accidental double-tap
     stopRequested = true;
+    renderPanel();
   }
   function glideToWinner(list, v, t0){
     hub.classList.add('is-stopping');
@@ -216,23 +341,24 @@
     var inside = idx * size + size * (0.2 + 0.6 * rnd());
     var from = rotation;
     var base = norm(-Math.PI / 2 - inside - from);
-    /* Pick the number of extra turns that best matches the current speed, so
-       the slow-down feels continuous (ease-out quartic starts at 4x average). */
-    var want = Math.max(v, 0.002) * STOP_MS / 4;
+    var want = Math.max(v, 0.002) * STOP_MS / 4;     // ease-out quartic starts at 4x average speed
     var turns = Math.max(0, Math.round((want - base) / (Math.PI * 2)));
     var delta = base + turns * Math.PI * 2;
-    var dur = Math.max(1200, Math.min(STOP_MS * 1.4, (delta * 4) / Math.max(v, 0.002)));
+    var dur = Math.max(1600, Math.min(STOP_MS * 1.5, (delta * 4) / Math.max(v, 0.002)));
+    var prev = t0, prevRot = from;
     (function frame(now){
       var p = Math.min(1, (now - t0) / dur);
       rotation = from + delta * easeOut(p);
-      drawWheel();
+      var sp = (rotation - prevRot) / Math.max(1, now - prev); prev = now; prevRot = rotation;
+      drawWheel(); passTicks(list, sp);
       if (p < 1){ requestAnimationFrame(frame); return; }
       rotation = norm(rotation);
-      spinning = false;
+      spinning = false; stopRequested = false;
+      whirStop();
       hub.classList.remove('is-spinning', 'is-stopping');
       pending = list[idx];
       renderPanel();
-      announce(pending);
+      setTimeout(function(){ announce(pending); }, 450);   // a beat of suspense
     })(t0);
   }
 
@@ -240,40 +366,81 @@
     var d = winners.length + 1;
     $('ldWinRound').textContent = 'Souvenir Draw \u00b7 Draw ' + d + ' of ' + DRAWS;
     var nameEl = $('ldWinName');
-    nameEl.textContent = w.name; nameEl.style.fontSize = '';
-    /* Keep whole words: shrink the name until its longest word fits the card. */
-    requestAnimationFrame(function(){
-      var fs = parseFloat(getComputedStyle(nameEl).fontSize), guard = 0;
-      while (nameEl.scrollWidth > nameEl.clientWidth + 1 && fs > 28 && guard++ < 40){ fs -= 3; nameEl.style.fontSize = fs + 'px'; }
+    nameEl.innerHTML = ''; nameEl.style.fontSize = ''; nameEl.classList.remove('is-glinting');
+    w.name.split(/\s+/).forEach(function(word){
+      var sp = document.createElement('span'); sp.className = 'w'; sp.textContent = word; nameEl.appendChild(sp);
+      nameEl.appendChild(document.createTextNode(' '));
     });
     $('ldDoneLabel').textContent = d < DRAWS ? 'Confirm & go to Draw ' + (d + 1) : 'Confirm winner';
+    /* Restart the CSS entrance animations. */
+    overlay.classList.remove('is-open'); void overlay.offsetWidth;
     overlay.classList.add('is-open');
+    /* As big as the screen allows, without ever splitting a word. */
+    requestAnimationFrame(function(){
+      var fs = parseFloat(getComputedStyle(nameEl).fontSize), guard = 0, maxW = window.innerWidth * 0.94;
+      var widest = function(){ return Math.max.apply(null, [].map.call(nameEl.querySelectorAll('.w'), function(x){ return x.offsetWidth; })); };
+      while ((widest() > maxW || nameEl.offsetHeight > window.innerHeight * 0.42) && fs > 32 && guard++ < 60){ fs -= 4; nameEl.style.fontSize = fs + 'px'; }
+    });
+    pop(0, -0.7); pop(0.12, 0.7); fanfare();
+    setTimeout(function(){ pop(0, -0.4); pop(0.09, 0.5); }, 1050);   // second burst as the name lands
     confetti();
   }
   function confirmWinner(){
+    cancelAnimationFrame(raf);
     if (pending){ winners.push(pending); saveWinners(); pending = null; }
     overlay.classList.remove('is-open');
     render(); startPolling();
   }
 
-  /* ---------- Confetti ---------- */
+  /* ---------- Confetti: two party poppers, a second burst, then gold rain ---------- */
   var raf = null;
   function confetti(){
     var cv = $('ldConfetti'), c2 = cv.getContext('2d');
-    cv.width = innerWidth; cv.height = innerHeight;
-    var colors = ['#E3C566', '#C9A227', '#F8F6F1', '#A5841C', '#FFFFFF'], parts = [];
-    for (var i = 0; i < 180; i++){
-      parts.push({ x: cv.width / 2 + (rnd() - 0.5) * 300, y: cv.height * 0.3, vx: (rnd() - 0.5) * 16, vy: -rnd() * 16 - 4,
-        s: 5 + rnd() * 7, r: rnd() * 6, vr: (rnd() - 0.5) * 0.3, c: colors[i % colors.length] });
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = innerWidth, H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; c2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var colors = ['#FFF3C9', '#E3C566', '#C9A227', '#A5841C', '#FFFFFF', '#5B7BD5', '#F1DDAA'];
+    var parts = [], k = Math.max(W, H) / 1000;
+    function cannon(x, y, angle, n, power){
+      for (var i = 0; i < n; i++){
+        var a = angle + (rnd() - 0.5) * 0.9, sp = (9 + rnd() * 15) * power * k;
+        parts.push({ x: x, y: y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, kind: rnd() < 0.22 ? 'ribbon' : (rnd() < 0.3 ? 'dot' : 'rect'),
+          s: (6 + rnd() * 9) * k, r: rnd() * 6, vr: (rnd() - 0.5) * 0.35, wob: rnd() * 6, c: colors[(rnd() * colors.length) | 0], life: 1 });
+      }
     }
+    function rain(n){
+      for (var i = 0; i < n; i++){
+        parts.push({ x: rnd() * W, y: -20 - rnd() * H * 0.4, vx: (rnd() - 0.5) * 2, vy: 2 + rnd() * 3, kind: rnd() < 0.3 ? 'ribbon' : 'rect',
+          s: (6 + rnd() * 8) * k, r: rnd() * 6, vr: (rnd() - 0.5) * 0.25, wob: rnd() * 6, c: colors[(rnd() * colors.length) | 0], life: 1 });
+      }
+    }
+    cannon(0, H, -Math.PI / 3.1, 170, 1.15);          // bottom-left popper
+    cannon(W, H, -Math.PI + Math.PI / 3.1, 170, 1.15);// bottom-right popper
+    setTimeout(function(){ cannon(W * 0.5, H * 0.62, -Math.PI / 2, 140, 1.0); }, 1050);  // burst behind the name
+    var rainUntil = performance.now() + 9000, lastRain = 0;
     var start = performance.now(); cancelAnimationFrame(raf);
     (function step(now){
-      c2.clearRect(0, 0, cv.width, cv.height);
-      parts.forEach(function(p){
-        p.vy += 0.35; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.vx *= 0.99;
-        c2.save(); c2.translate(p.x, p.y); c2.rotate(p.r); c2.fillStyle = p.c; c2.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); c2.restore();
-      });
-      if (now - start < 4000) raf = requestAnimationFrame(step); else c2.clearRect(0, 0, cv.width, cv.height);
+      c2.clearRect(0, 0, W, H);
+      if (now < rainUntil && now - lastRain > 140){ lastRain = now; rain(6); }
+      for (var i = parts.length - 1; i >= 0; i--){
+        var p = parts[i];
+        p.vy += 0.28 * k; p.vx *= 0.985; p.vy *= 0.985;
+        if (p.vy > 4.5 * k) p.vy = 4.5 * k;              // flutter down rather than drop
+        p.wob += 0.12; p.x += p.vx + Math.sin(p.wob) * 0.8; p.y += p.vy; p.r += p.vr;
+        if (p.y > H + 40){ parts.splice(i, 1); continue; }
+        c2.save(); c2.translate(p.x, p.y); c2.rotate(p.r); c2.fillStyle = p.c;
+        if (p.kind === 'dot'){ c2.beginPath(); c2.arc(0, 0, p.s * 0.35, 0, Math.PI * 2); c2.fill(); }
+        else if (p.kind === 'ribbon'){
+          c2.strokeStyle = p.c; c2.lineWidth = p.s * 0.28; c2.beginPath();
+          c2.moveTo(-p.s, 0); c2.quadraticCurveTo(-p.s * 0.3, Math.sin(p.wob) * p.s, 0, 0); c2.quadraticCurveTo(p.s * 0.3, -Math.sin(p.wob) * p.s, p.s, 0); c2.stroke();
+        } else {
+          c2.scale(1, Math.cos(p.wob));                   // tumbling paper
+          c2.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
+        }
+        c2.restore();
+      }
+      if (overlay.classList.contains('is-open') && (parts.length || now < rainUntil)) raf = requestAnimationFrame(step);
+      else c2.clearRect(0, 0, W, H);
     })(start);
   }
 
@@ -295,7 +462,8 @@
     else { var el = d.documentElement; (el.requestFullscreen || el.webkitRequestFullscreen || function(){}).call(el); }
   });
   $('ldRefreshBtn').addEventListener('click', function(){ load(); });
-  spinBtn.addEventListener('click', spin);
+  spinBtn.addEventListener('click', function(){ if (spinning) requestStop(); else spin(); });
+  if ($('sdSoundBtn')){ $('sdSoundBtn').addEventListener('click', function(){ setSound(!soundOn); }); setSound(soundOn); }
   stopBtn.addEventListener('click', requestStop);
   $('ldRespinBtn').addEventListener('click', function(){ pending = null; overlay.classList.remove('is-open'); spin(); });
   $('ldDoneBtn').addEventListener('click', confirmWinner);
