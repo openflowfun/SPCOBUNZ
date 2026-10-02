@@ -227,19 +227,12 @@
     g.clearRect(0, 0, W, W);
     var size = Math.PI * 2 / list.length;
     g.save(); g.translate(c, c);
-    list.forEach(function(e, i){
-      var fill = FILLS[i % FILLS.length];
-      if (list.length > 1 && i === list.length - 1 && list.length % FILLS.length === 1) fill = FILLS[2];
-      g.beginPath(); g.moveTo(0, 0); g.arc(0, 0, R, i * size, (i + 1) * size); g.closePath();
-      g.fillStyle = fill; g.fill();
-      g.strokeStyle = 'rgba(241,221,170,.5)'; g.lineWidth = list.length > 80 ? 1 : 2.5; g.stroke();
-      /* Full names, never shortened: each sized to fit inside its slice along
-         its whole length, and between the rim and the crest. */
-      var rimGap = R * 0.075, hubR = R * 0.205, avail = R - rimGap - hubR;
-      g.save();
-      g.rotate(i * size + size / 2);
-      g.textAlign = 'right'; g.textBaseline = 'middle';
-      g.fillStyle = LIGHT[fill] ? '#0C1633' : '#F1DDAA';
+    /* One shared font size for every name: work out the size each name can
+       take on its own, then use the smallest so the longest name still fits
+       and all labels look identical. */
+    var rimGap = R * 0.075, hubR = R * 0.205, avail = R - rimGap - hubR;
+    var uniformFs = Infinity;
+    list.forEach(function(e){
       var fs = Math.min(R * 0.07, size * (R - rimGap) * 0.7), tw = 0;
       for (var k = 0; k < 6; k++){
         g.font = '600 ' + fs + 'px Inter, system-ui, sans-serif';
@@ -249,7 +242,19 @@
         if (next >= fs - 0.25) break;
         fs = next;
       }
-      g.font = '600 ' + fs + 'px Inter, system-ui, sans-serif';
+      if (fs < uniformFs) uniformFs = fs;
+    });
+    list.forEach(function(e, i){
+      var fill = FILLS[i % FILLS.length];
+      if (list.length > 1 && i === list.length - 1 && list.length % FILLS.length === 1) fill = FILLS[2];
+      g.beginPath(); g.moveTo(0, 0); g.arc(0, 0, R, i * size, (i + 1) * size); g.closePath();
+      g.fillStyle = fill; g.fill();
+      g.strokeStyle = 'rgba(241,221,170,.5)'; g.lineWidth = list.length > 80 ? 1 : 2.5; g.stroke();
+      g.save();
+      g.rotate(i * size + size / 2);
+      g.textAlign = 'right'; g.textBaseline = 'middle';
+      g.fillStyle = LIGHT[fill] ? '#0C1633' : '#F1DDAA';
+      g.font = '600 ' + uniformFs + 'px Inter, system-ui, sans-serif';
       g.fillText(e.name, R - rimGap, 0);
       g.restore();
     });
