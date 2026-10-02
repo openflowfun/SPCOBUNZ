@@ -394,7 +394,7 @@ body{
         <button type="button" class="sv-nav-btn" id="svNextBtn" aria-label="Next page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
-        <span class="sv-page-label" id="svPageLabel">1 / 51</span>
+        <span class="sv-page-label" id="svPageLabel">Cover</span>
       </div>
       <a href="/public/souvenir/Gala%20Dinner%20Dance%202026%20-%20Souvenir%20Booklet.pdf" class="sv-download" id="svDownloadBtn" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
@@ -658,14 +658,14 @@ body{
         btn.type = 'button';
         btn.className = 'sv-thumb';
         btn.setAttribute('data-page', pageNum);
-        btn.setAttribute('aria-label', 'Go to page ' + pageNum);
+        btn.setAttribute('aria-label', pageNum === 1 ? 'Go to the cover' : 'Go to page ' + (pageNum - 1));
         var img = document.createElement('img');
         img.src = THUMB_PATH + pad(pageNum) + '.jpg';
-        img.alt = 'Page ' + pageNum + ' thumbnail';
+        img.alt = (pageNum === 1 ? 'Cover' : 'Page ' + (pageNum - 1)) + ' thumbnail';
         img.loading = 'lazy';
         var num = document.createElement('span');
         num.className = 'num';
-        num.textContent = pageNum;
+        num.textContent = pageNum === 1 ? 'Cover' : pageNum - 1;
         btn.appendChild(img);
         btn.appendChild(num);
         btn.addEventListener('click', function(){ goToVisual(pageNum); });
@@ -686,11 +686,26 @@ body{
     }
   }
 
+  /* ---------- Printed page numbers ----------
+     The cover isn't numbered: flipbook position 2 is printed page 1, so the
+     label always matches the number printed at the bottom of each page. */
+  var PRINTED_TOTAL = TOTAL_PAGES - 1;
+  function printedNum(visual){ return visual - 1; }
+  function pageLabelFor(visual){
+    if (visual <= 1) return 'Cover';
+    var landscape = false;
+    try { landscape = !!pageFlip && pageFlip.getOrientation() !== 'portrait'; } catch(e){}
+    if (landscape && visual < TOTAL_PAGES){
+      return printedNum(visual) + '\u2013' + printedNum(visual + 1) + ' / ' + PRINTED_TOTAL;
+    }
+    return printedNum(visual) + ' / ' + PRINTED_TOTAL;
+  }
+
   /* ---------- Shared UI state ---------- */
   function updateUI(visual){
     currentVisual = visual;
     loadAround(visual);
-    pageLabel.textContent = visual + ' / ' + TOTAL_PAGES;
+    pageLabel.textContent = pageLabelFor(visual);
     slider.value = visual - 1;
     prevBtn.disabled = visual <= 1;
     /* Next stays live on the last page: pressing it closes the booklet
@@ -884,7 +899,7 @@ body{
       /* Pages already fetched before a resize/fullscreen rebuild come
          straight from cache, so re-attach them immediately. */
       if (requested[i]) img.src = pageUrl(i);
-      img.alt = 'Page ' + i;
+      img.alt = 'Page ' + (i - 1);
       img.decoding = 'async';
       pageImgs[i] = img;
       pageDiv.appendChild(img);
@@ -1077,11 +1092,10 @@ body{
     }
   }
 
-  /* Arriving from the Events page's souvenir cover (#open): go straight
-     into the booklet instead of showing the same cover a second time. */
+  /* Always start on the cover. (Older links ending in #open used to jump
+     straight in; tidy that off the address bar.) */
   if (location.hash === '#open'){
     try { history.replaceState(null, '', location.pathname + location.search); } catch(e){}
-    setTimeout(function(){ openBookAt(2); }, 60);
   }
 
   if (document.readyState === 'complete' || document.readyState === 'interactive'){
