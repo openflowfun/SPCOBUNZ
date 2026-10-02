@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<!-- Google Analytics (same property as the main site) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9KJWYKCJ69"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9KJWYKCJ69');
+  /* Event helper. Never send names, phone numbers or what guests type. */
+  window.obuTrack = function(name, params){ try { gtag('event', name, params || {}); } catch(e){} };
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Souvenir Draw — SPC OBU NZ Gala Dinner Dance 2026</title>
 <meta name="description" content="Enter the Souvenir Draw at the SPC OBU NZ Gala Dinner Dance 2026. 2 bottles of Johnnie Walker Double Black to be won. Entries close 8:00pm, Saturday 3 October." />
@@ -432,12 +442,14 @@ fieldset.bad .err{display:block}
       website: form.website.value
     }).then(function(res){
       if (res && res.ok){
+        if (window.obuTrack) obuTrack('draw_entry_submitted', { embed: document.body.classList.contains('is-embed') && /embed=1/.test(location.search) ? 'souvenir_popup' : 'direct' });
         var entry = { first: v.first };
         showDone(entry);
         ticket.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
       var err = res && res.error;
+      if (window.obuTrack) obuTrack('draw_entry_problem', { reason: err || 'unknown' });
       if (err === 'duplicate'){
         fail('That mobile number has already been entered. Each guest can enter once.');
       } else if (err === 'closed'){

@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<!-- Google Analytics (same property as the main site) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9KJWYKCJ69"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9KJWYKCJ69');
+  /* Event helper. Never send names, phone numbers or what guests type. */
+  window.obuTrack = function(name, params){ try { gtag('event', name, params || {}); } catch(e){} };
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>What's my table? — SPC OBU NZ Gala Dinner Dance 2026</title>
 <meta name="description" content="Find your table at the SPC OBU NZ Gala Dinner Dance 2026." />
@@ -153,6 +163,10 @@ h1{margin-top:30px;font-family:var(--display);font-weight:700;font-size:clamp(30
 
   function render(data, q){
     var list = (data && data.results) || [];
+    if (window.obuTrack && !(data && data.tooShort)){
+      /* Counts only: never the name that was typed. */
+      obuTrack(list.length ? 'table_found' : 'table_not_found', { results: list.length });
+    }
     if (data && data.tooShort){ hint('Keep typing \u2014 at least 3 letters of your first name or surname.'); return; }
     if (!list.length){
       hint('We couldn\u2019t find <b>' + esc(q) + '</b>. Check the spelling of your first name or surname, or ask at the check-in desk.');

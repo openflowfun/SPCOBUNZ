@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<!-- Google Analytics (same property as the main site) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9KJWYKCJ69"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9KJWYKCJ69');
+  /* Event helper. Never send names, phone numbers or what guests type. */
+  window.obuTrack = function(name, params){ try { gtag('event', name, params || {}); } catch(e){} };
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Souvenir Booklet — SPC OBU NZ Gala Dinner Dance 2026</title>
 <meta name="robots" content="noindex, nofollow, noarchive" />
@@ -457,9 +467,10 @@ body{
   var drawModal = document.getElementById('svDrawModal');
   var drawBox = drawModal.querySelector('.sv-draw-box');
   function openDrawForm(){
+    if (window.obuTrack) obuTrack('souvenir_draw_button', {});
     if (!drawBox.querySelector('iframe')){
       var fr = document.createElement('iframe');
-      fr.src = DRAW_URL + '?embed=1';
+      fr.src = DRAW_URL + '?embed=1&utm_source=souvenir&utm_medium=flipbook&utm_campaign=gala2026';
       fr.title = 'Souvenir Draw entry form';
       drawBox.appendChild(fr);
     }
@@ -702,8 +713,16 @@ body{
   }
 
   /* ---------- Shared UI state ---------- */
+  var trackedPages = {}, trackedEnd = false;
+  function trackPage(visual){
+    if (!window.obuTrack || visual <= 1 || trackedPages[visual]) return;
+    trackedPages[visual] = 1;
+    obuTrack('souvenir_page_view', { page_number: visual - 1 });
+    if (visual >= TOTAL_PAGES - 1 && !trackedEnd){ trackedEnd = true; obuTrack('souvenir_finished', {}); }
+  }
   function updateUI(visual){
     currentVisual = visual;
+    if (!showingCover) trackPage(visual);
     loadAround(visual);
     pageLabel.textContent = pageLabelFor(visual);
     slider.value = visual - 1;
