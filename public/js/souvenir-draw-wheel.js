@@ -25,7 +25,7 @@
   }
 
   var canvas = $('ldWheel'), ctx = canvas.getContext('2d');
-  var hub = $('ldHub'), stopBtn = $('ldStopBtn');
+  var hub = $('ldHub');
 
   /* Size the wheel to the largest circle that fits the stage, and draw it at
      the screen's real pixel density so names stay sharp on a projector. */
@@ -141,7 +141,7 @@
   /* Bright brass-style fanfare and sparkling chimes. */
   function fanfare(){
     var a = audio(); if (!a) return;
-    var t0 = a.currentTime + 0.25;
+    var t0 = a.currentTime + 0.05;
     var notes = [[523.25,0,.16],[659.25,.16,.16],[783.99,.32,.16],[1046.5,.48,.62],[783.99,1.1,.14],[1046.5,1.24,1.1]];
     notes.forEach(function(n){
       [0, 3].forEach(function(det, k){
@@ -214,55 +214,69 @@
     var s = parts[0] + (parts.length > 1 ? ' ' + parts[parts.length - 1].charAt(0) + '.' : '');
     return s.length <= max ? s : s.slice(0, max - 1) + '\u2026';
   }
+  /* The slices and names are painted once into an off-screen image (only
+     redrawn when the entrant list or the screen size changes). Each animation
+     frame then just rotates that image, which keeps the spin smooth even on a
+     modest laptop driving a projector. */
+  var face = null, faceKey = '';
+  function paintFace(list, W){
+    var R = W / 2 - 6, c = W / 2;
+    var cv = face || document.createElement('canvas');
+    cv.width = W; cv.height = W;
+    var g = cv.getContext('2d');
+    g.clearRect(0, 0, W, W);
+    var size = Math.PI * 2 / list.length;
+    g.save(); g.translate(c, c);
+    list.forEach(function(e, i){
+      var fill = FILLS[i % FILLS.length];
+      if (list.length > 1 && i === list.length - 1 && list.length % FILLS.length === 1) fill = FILLS[2];
+      g.beginPath(); g.moveTo(0, 0); g.arc(0, 0, R, i * size, (i + 1) * size); g.closePath();
+      g.fillStyle = fill; g.fill();
+      g.strokeStyle = 'rgba(241,221,170,.5)'; g.lineWidth = list.length > 80 ? 1 : 2.5; g.stroke();
+      /* Full names, never shortened: each sized to fit inside its slice along
+         its whole length, and between the rim and the crest. */
+      var rimGap = R * 0.075, hubR = R * 0.205, avail = R - rimGap - hubR;
+      g.save();
+      g.rotate(i * size + size / 2);
+      g.textAlign = 'right'; g.textBaseline = 'middle';
+      g.fillStyle = LIGHT[fill] ? '#0C1633' : '#F1DDAA';
+      var fs = Math.min(R * 0.07, size * (R - rimGap) * 0.7), tw = 0;
+      for (var k = 0; k < 6; k++){
+        g.font = '600 ' + fs + 'px Inter, system-ui, sans-serif';
+        tw = g.measureText(e.name).width;
+        var innerR = R - rimGap - Math.min(tw, avail);
+        var next = Math.min(fs, size * innerR * 0.74, fs * Math.min(1, avail / tw));
+        if (next >= fs - 0.25) break;
+        fs = next;
+      }
+      g.font = '600 ' + fs + 'px Inter, system-ui, sans-serif';
+      g.fillText(e.name, R - rimGap, 0);
+      g.restore();
+    });
+    for (var d = 0; d < 48; d++){
+      var a = d / 48 * Math.PI * 2;
+      g.beginPath(); g.arc(Math.cos(a) * (R - 12), Math.sin(a) * (R - 12), 4, 0, Math.PI * 2);
+      g.fillStyle = 'rgba(241,221,170,.8)'; g.fill();
+    }
+    g.restore();
+    face = cv;
+  }
   function drawWheel(){
     var W = canvas.width, R = W / 2 - 6, c = W / 2;
     var list = onWheel();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, W, W);
     if (!list.length){
       ctx.fillStyle = '#0F1B40'; ctx.beginPath(); ctx.arc(c, c, R, 0, Math.PI * 2); ctx.fill();
       return;
     }
-    var size = Math.PI * 2 / list.length;
-    ctx.save(); ctx.translate(c, c); ctx.rotate(rotation);
-    list.forEach(function(e, i){
-      var fill = FILLS[i % FILLS.length];
-      if (list.length > 1 && i === list.length - 1 && list.length % FILLS.length === 1) fill = FILLS[2];
-      ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, R, i * size, (i + 1) * size); ctx.closePath();
-      ctx.fillStyle = fill; ctx.fill();
-      ctx.strokeStyle = 'rgba(241,221,170,.5)'; ctx.lineWidth = list.length > 80 ? 1 : 2.5; ctx.stroke();
-
-      /* Full names, never shortened: sized so each fits inside its slice
-         and between the rim and the crest. */
-      var rimGap = R * 0.075, hubR = R * 0.205, avail = R - rimGap - hubR;
-      ctx.save();
-      ctx.rotate(i * size + size / 2);
-      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-      ctx.fillStyle = LIGHT[fill] ? '#0C1633' : '#F1DDAA';
-      /* Start from the slice width near the rim, then make sure the name also
-         fits the (narrower) slice where it ends, and the space to the crest. */
-      var fs = Math.min(R * 0.07, size * (R - rimGap) * 0.7), tw = 0;
-      for (var k = 0; k < 6; k++){
-        ctx.font = '600 ' + fs + 'px Inter, system-ui, sans-serif';
-        tw = ctx.measureText(e.name).width;
-        var innerR = R - rimGap - Math.min(tw, avail);
-        var maxByArc = size * innerR * 0.74;
-        var next = Math.min(fs, maxByArc, fs * Math.min(1, avail / tw));
-        if (next >= fs - 0.25) break;
-        fs = next;
-      }
-      ctx.font = '600 ' + fs + 'px Inter, system-ui, sans-serif';
-      ctx.fillText(e.name, R - rimGap, 0);
-      ctx.restore();
-    });
-    ctx.restore();
-    ctx.save(); ctx.translate(c, c);
-    for (var d = 0; d < 48; d++){
-      var a = d / 48 * Math.PI * 2;
-      ctx.beginPath(); ctx.arc(Math.cos(a) * (R - 12), Math.sin(a) * (R - 12), 4, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(241,221,170,.8)'; ctx.fill();
-    }
-    ctx.restore();
+    var key = W + '|' + list.map(function(e){ return e.id + ':' + e.name; }).join(',');
+    if (key !== faceKey){ paintFace(list, W); faceKey = key; }
+    ctx.translate(c, c); ctx.rotate(rotation); ctx.translate(-c, -c);
+    ctx.drawImage(face, 0, 0);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
+
 
   function renderPanel(){
     var list = onWheel();
@@ -358,7 +372,7 @@
       hub.classList.remove('is-spinning', 'is-stopping');
       pending = list[idx];
       renderPanel();
-      setTimeout(function(){ announce(pending); }, 450);   // a beat of suspense
+      announce(pending);
     })(t0);
   }
 
@@ -375,14 +389,15 @@
     /* Restart the CSS entrance animations. */
     overlay.classList.remove('is-open'); void overlay.offsetWidth;
     overlay.classList.add('is-open');
-    /* As big as the screen allows, without ever splitting a word. */
-    requestAnimationFrame(function(){
-      var fs = parseFloat(getComputedStyle(nameEl).fontSize), guard = 0, maxW = window.innerWidth * 0.94;
-      var widest = function(){ return Math.max.apply(null, [].map.call(nameEl.querySelectorAll('.w'), function(x){ return x.offsetWidth; })); };
-      while ((widest() > maxW || nameEl.offsetHeight > window.innerHeight * 0.42) && fs > 32 && guard++ < 60){ fs -= 4; nameEl.style.fontSize = fs + 'px'; }
-    });
+    /* As big as the screen allows without splitting a word: measured once and
+       scaled in one step (no repeated re-layout, so the reveal starts instantly). */
+    var fs0 = parseFloat(getComputedStyle(nameEl).fontSize);
+    var words = nameEl.querySelectorAll('.w'), widest = 0;
+    for (var q = 0; q < words.length; q++) widest = Math.max(widest, words[q].offsetWidth);
+    var scale = Math.min(1, (window.innerWidth * 0.94) / Math.max(1, widest), (window.innerHeight * 0.42) / Math.max(1, nameEl.offsetHeight));
+    if (scale < 1) nameEl.style.fontSize = Math.max(32, Math.floor(fs0 * scale)) + 'px';
     pop(0, -0.7); pop(0.12, 0.7); fanfare();
-    setTimeout(function(){ pop(0, -0.4); pop(0.09, 0.5); }, 1050);   // second burst as the name lands
+    setTimeout(function(){ pop(0, -0.4); pop(0.09, 0.5); }, 450);    // second burst as the name lands
     confetti();
   }
   function confirmWinner(){
@@ -396,7 +411,7 @@
   var raf = null;
   function confetti(){
     var cv = $('ldConfetti'), c2 = cv.getContext('2d');
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.25);
     var W = innerWidth, H = innerHeight;
     cv.width = W * dpr; cv.height = H * dpr; c2.setTransform(dpr, 0, 0, dpr, 0, 0);
     var colors = ['#FFF3C9', '#E3C566', '#C9A227', '#A5841C', '#FFFFFF', '#5B7BD5', '#F1DDAA'];
@@ -414,30 +429,26 @@
           s: (6 + rnd() * 8) * k, r: rnd() * 6, vr: (rnd() - 0.5) * 0.25, wob: rnd() * 6, c: colors[(rnd() * colors.length) | 0], life: 1 });
       }
     }
-    cannon(0, H, -Math.PI / 3.1, 170, 1.15);          // bottom-left popper
-    cannon(W, H, -Math.PI + Math.PI / 3.1, 170, 1.15);// bottom-right popper
-    setTimeout(function(){ cannon(W * 0.5, H * 0.62, -Math.PI / 2, 140, 1.0); }, 1050);  // burst behind the name
+    cannon(0, H, -Math.PI / 3.1, 110, 1.15);          // bottom-left popper
+    cannon(W, H, -Math.PI + Math.PI / 3.1, 110, 1.15);// bottom-right popper
+    setTimeout(function(){ cannon(W * 0.5, H * 0.62, -Math.PI / 2, 80, 1.0); }, 450);   // burst behind the name
     var rainUntil = performance.now() + 9000, lastRain = 0;
     var start = performance.now(); cancelAnimationFrame(raf);
     (function step(now){
-      c2.clearRect(0, 0, W, H);
-      if (now < rainUntil && now - lastRain > 140){ lastRain = now; rain(6); }
+      c2.setTransform(dpr, 0, 0, dpr, 0, 0); c2.clearRect(0, 0, W, H);
+      if (now < rainUntil && now - lastRain > 180){ lastRain = now; rain(4); }
       for (var i = parts.length - 1; i >= 0; i--){
         var p = parts[i];
         p.vy += 0.28 * k; p.vx *= 0.985; p.vy *= 0.985;
         if (p.vy > 4.5 * k) p.vy = 4.5 * k;              // flutter down rather than drop
         p.wob += 0.12; p.x += p.vx + Math.sin(p.wob) * 0.8; p.y += p.vy; p.r += p.vr;
         if (p.y > H + 40){ parts.splice(i, 1); continue; }
-        c2.save(); c2.translate(p.x, p.y); c2.rotate(p.r); c2.fillStyle = p.c;
-        if (p.kind === 'dot'){ c2.beginPath(); c2.arc(0, 0, p.s * 0.35, 0, Math.PI * 2); c2.fill(); }
-        else if (p.kind === 'ribbon'){
-          c2.strokeStyle = p.c; c2.lineWidth = p.s * 0.28; c2.beginPath();
-          c2.moveTo(-p.s, 0); c2.quadraticCurveTo(-p.s * 0.3, Math.sin(p.wob) * p.s, 0, 0); c2.quadraticCurveTo(p.s * 0.3, -Math.sin(p.wob) * p.s, p.s, 0); c2.stroke();
-        } else {
-          c2.scale(1, Math.cos(p.wob));                   // tumbling paper
-          c2.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
-        }
-        c2.restore();
+        var cs = Math.cos(p.r), sn = Math.sin(p.r), fl = p.kind === 'rect' ? Math.cos(p.wob) : 1;
+        c2.setTransform(dpr * cs, dpr * sn, -dpr * sn * fl, dpr * cs * fl, dpr * p.x, dpr * p.y);   // rotate + tumble, one call
+        c2.fillStyle = p.c;
+        if (p.kind === 'dot') c2.fillRect(-p.s * 0.3, -p.s * 0.3, p.s * 0.6, p.s * 0.6);
+        else if (p.kind === 'ribbon') c2.fillRect(-p.s, -p.s * 0.1, p.s * 2, p.s * 0.2);
+        else c2.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
       }
       if (overlay.classList.contains('is-open') && (parts.length || now < rainUntil)) raf = requestAnimationFrame(step);
       else c2.clearRect(0, 0, W, H);
@@ -448,7 +459,7 @@
   function startPolling(){ clearInterval(timer); timer = setInterval(function(){ if (active && !spinning) load(); }, REFRESH_MS); }
   function open(){
     active = true; showView('tables'); document.documentElement.classList.add('sd-on'); setTimeout(fitWheel, 30);
-    if (document.fonts && document.fonts.load) document.fonts.load('600 30px Inter').then(fitWheel, function(){});
+    if (document.fonts && document.fonts.load) document.fonts.load('600 30px Inter').then(function(){ faceKey = ''; fitWheel(); }, function(){});
     load(); startPolling();
   }
   $('ldOpenBtn').addEventListener('click', open);
@@ -464,7 +475,6 @@
   $('ldRefreshBtn').addEventListener('click', function(){ load(); });
   spinBtn.addEventListener('click', function(){ if (spinning) requestStop(); else spin(); });
   if ($('sdSoundBtn')){ $('sdSoundBtn').addEventListener('click', function(){ setSound(!soundOn); }); setSound(soundOn); }
-  stopBtn.addEventListener('click', requestStop);
   $('ldRespinBtn').addEventListener('click', function(){ pending = null; overlay.classList.remove('is-open'); spin(); });
   $('ldDoneBtn').addEventListener('click', confirmWinner);
   $('ldResetBtn').addEventListener('click', function(){

@@ -293,51 +293,52 @@ body{
 
 /* ===== Winner celebration: whole projector screen ===== */
 .sd-win{padding:0;background:radial-gradient(ellipse at 50% 42%,#173466 0%,#0A1930 52%,#03070F 100%);backdrop-filter:none;overflow:hidden}
-.sd-win.is-open{display:flex;animation:sd-win-in .5s ease-out both}
+.sd-win.is-open{display:flex;animation:sd-win-in .2s ease-out both}
 @keyframes sd-win-in{from{opacity:0}to{opacity:1}}
 .sd-win-bg{position:absolute;inset:0;pointer-events:none}
-.sd-rays{position:absolute;left:50%;top:44%;width:240vmax;height:240vmax;transform:translate(-50%,-50%);
+.sd-rays{position:absolute;left:50%;top:44%;width:170vmax;height:170vmax;transform:translate(-50%,-50%);
   background:repeating-conic-gradient(from 0deg,rgba(227,197,102,.10) 0deg 6deg,transparent 6deg 18deg);
   -webkit-mask:radial-gradient(circle,#000 0%,rgba(0,0,0,.6) 25%,transparent 55%);mask:radial-gradient(circle,#000 0%,rgba(0,0,0,.6) 25%,transparent 55%);
-  animation:sd-rays 40s linear infinite}
+  will-change:transform;animation:sd-rays 40s linear infinite}
 @keyframes sd-rays{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.sd-glow{position:absolute;left:50%;top:46%;width:70vw;height:40vh;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(227,197,102,.28),transparent 65%);filter:blur(20px);animation:sd-breathe 3s ease-in-out infinite}
+.sd-glow{position:absolute;left:50%;top:46%;width:80vw;height:50vh;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(227,197,102,.30),transparent 68%);will-change:opacity;animation:sd-breathe 3s ease-in-out infinite}
 @keyframes sd-breathe{0%,100%{opacity:.7}50%{opacity:1}}
 #ldConfetti{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
 .sd-win-inner{position:relative;z-index:3;width:94vw;text-align:center;display:flex;flex-direction:column;align-items:center}
-.sd-win-round{font-size:clamp(14px,2.2vh,26px);font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:rgba(241,221,170,.75);opacity:0;animation:sd-fade .6s .1s ease-out forwards}
-.sd-congrats{margin-top:1.5vh;font-family:'Cinzel',var(--serif);font-weight:700;font-size:clamp(44px,10vh,140px);line-height:1;letter-spacing:.04em;white-space:nowrap}
+.sd-win-round{font-size:clamp(14px,2.2vh,26px);font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:rgba(241,221,170,.75);opacity:0;animation:sd-fade .3s ease-out forwards}
+.sd-congrats{margin-top:1.5vh;font-family:'Cinzel',var(--serif);font-weight:700;font-size:clamp(44px,10vh,140px);line-height:1;letter-spacing:.04em;white-space:nowrap;filter:drop-shadow(0 6px 24px rgba(227,197,102,.4))}
 .sd-congrats span{display:inline-block;background:linear-gradient(180deg,#FFF3C9 0%,#E3C566 45%,#B8882A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 6px 24px rgba(227,197,102,.45));opacity:0;transform:translateY(-60%) scale(.6) rotate(-8deg);animation:sd-letter .7s cubic-bezier(.2,1.6,.4,1) forwards}
-.sd-win.is-open .sd-congrats span:nth-child(1){animation-delay:.25s}.sd-win.is-open .sd-congrats span:nth-child(2){animation-delay:.29s}
-.sd-win.is-open .sd-congrats span:nth-child(3){animation-delay:.33s}.sd-win.is-open .sd-congrats span:nth-child(4){animation-delay:.37s}
-.sd-win.is-open .sd-congrats span:nth-child(5){animation-delay:.41s}.sd-win.is-open .sd-congrats span:nth-child(6){animation-delay:.45s}
-.sd-win.is-open .sd-congrats span:nth-child(7){animation-delay:.49s}.sd-win.is-open .sd-congrats span:nth-child(8){animation-delay:.53s}
-.sd-win.is-open .sd-congrats span:nth-child(9){animation-delay:.57s}.sd-win.is-open .sd-congrats span:nth-child(10){animation-delay:.61s}
-.sd-win.is-open .sd-congrats span:nth-child(11){animation-delay:.65s}.sd-win.is-open .sd-congrats span:nth-child(12){animation-delay:.69s}
-.sd-win.is-open .sd-congrats span:nth-child(13){animation-delay:.73s}.sd-win.is-open .sd-congrats span:nth-child(14){animation-delay:.77s}
-.sd-win.is-open .sd-congrats span:nth-child(15){animation-delay:.81s}.sd-win.is-open .sd-congrats span:nth-child(16){animation-delay:.85s}
+  opacity:0;transform:translateY(-60%) scale(.6) rotate(-8deg);will-change:transform,opacity;animation:sd-letter .45s cubic-bezier(.2,1.6,.4,1) forwards}
+.sd-win.is-open .sd-congrats span:nth-child(1){animation-delay:0.00s}.sd-win.is-open .sd-congrats span:nth-child(2){animation-delay:0.02s}
+.sd-win.is-open .sd-congrats span:nth-child(3){animation-delay:0.04s}.sd-win.is-open .sd-congrats span:nth-child(4){animation-delay:0.06s}
+.sd-win.is-open .sd-congrats span:nth-child(5){animation-delay:0.08s}.sd-win.is-open .sd-congrats span:nth-child(6){animation-delay:0.10s}
+.sd-win.is-open .sd-congrats span:nth-child(7){animation-delay:0.12s}.sd-win.is-open .sd-congrats span:nth-child(8){animation-delay:0.14s}
+.sd-win.is-open .sd-congrats span:nth-child(9){animation-delay:0.16s}.sd-win.is-open .sd-congrats span:nth-child(10){animation-delay:0.18s}
+.sd-win.is-open .sd-congrats span:nth-child(11){animation-delay:0.20s}.sd-win.is-open .sd-congrats span:nth-child(12){animation-delay:0.22s}
+.sd-win.is-open .sd-congrats span:nth-child(13){animation-delay:0.24s}.sd-win.is-open .sd-congrats span:nth-child(14){animation-delay:0.26s}
+.sd-win.is-open .sd-congrats span:nth-child(15){animation-delay:0.28s}.sd-win.is-open .sd-congrats span:nth-child(16){animation-delay:0.30s}
 @keyframes sd-letter{to{opacity:1;transform:none}}
 .sd-win-name{margin-top:3.2vh;font-family:'Cinzel',var(--serif);font-weight:700;font-size:clamp(56px,17vh,240px);line-height:1.02;color:#fff;
-  text-shadow:0 0 40px rgba(227,197,102,.55),0 0 90px rgba(227,197,102,.3),0 10px 30px rgba(0,0,0,.6);max-width:94vw;
-  opacity:0;transform:scale(.4);animation:sd-name 1s 1.05s cubic-bezier(.16,1.5,.3,1) forwards}
+  text-shadow:0 0 28px rgba(227,197,102,.5),0 6px 16px rgba(0,0,0,.55);max-width:94vw;
+  opacity:0;transform:scale(.4);will-change:transform,opacity;animation:sd-name .6s .12s cubic-bezier(.16,1.5,.3,1) forwards}
 .sd-win-name .w{display:inline-block;white-space:nowrap;margin:0 .14em}
 @keyframes sd-name{60%{opacity:1;transform:scale(1.08)}to{opacity:1;transform:scale(1)}}
-.sd-win.is-open .sd-win-name{animation:sd-name 1s 1.05s cubic-bezier(.16,1.5,.3,1) forwards,sd-namepulse 2.6s 2.2s ease-in-out infinite}
+.sd-win.is-open .sd-win-name{animation:sd-name .6s .12s cubic-bezier(.16,1.5,.3,1) forwards}
 @keyframes sd-namepulse{0%,100%{text-shadow:0 0 40px rgba(227,197,102,.55),0 0 90px rgba(227,197,102,.3),0 10px 30px rgba(0,0,0,.6)}50%{text-shadow:0 0 60px rgba(227,197,102,.85),0 0 140px rgba(227,197,102,.45),0 10px 30px rgba(0,0,0,.6)}}
 .sd-win-name.is-glinting{background:linear-gradient(100deg,#fff 0%,#fff 40%,#FFF3C9 48%,#E3C566 50%,#FFF3C9 52%,#fff 60%,#fff 100%);background-size:250% 100%;
   -webkit-background-clip:text;background-clip:text;color:transparent;animation:sd-name 1s 1.05s cubic-bezier(.16,1.5,.3,1) forwards,sd-glint 3.2s 2.2s ease-in-out infinite}
 @keyframes sd-glint{0%{background-position:120% 0}60%,100%{background-position:-30% 0}}
-.sd-win-prize{margin-top:4vh;display:flex;align-items:center;justify-content:center;gap:2.4vw;opacity:0;transform:translateY(30px);animation:sd-rise .8s 1.9s ease-out forwards}
+.sd-win-prize{margin-top:4vh;display:flex;align-items:center;justify-content:center;gap:2.4vw;opacity:0;transform:translateY(30px);will-change:transform,opacity;animation:sd-rise .45s .55s ease-out forwards}
 .sd-win-prize img{height:clamp(80px,15vh,200px);width:auto;filter:drop-shadow(0 16px 30px rgba(0,0,0,.6))}
 .sd-win-prize p{font-size:clamp(24px,5vh,64px);color:rgba(248,246,241,.92);line-height:1.15;text-align:left}
 .sd-win-prize p b{display:block;font-family:'Playfair Display',Georgia,serif;color:var(--gold-light);font-weight:700}
 @keyframes sd-rise{to{opacity:1;transform:none}}
 @keyframes sd-fade{to{opacity:1}}
-.sd-win-actions{position:absolute;right:2.4vw;bottom:2.6vh;z-index:4;display:flex;align-items:center;gap:12px;opacity:0;animation:sd-fade .5s 2.6s forwards}
+.sd-win-actions{position:absolute;right:2.4vw;bottom:2.6vh;z-index:4;display:flex;align-items:center;gap:12px;opacity:0;animation:sd-fade .3s 1s forwards}
 .sd-win-actions .rv-cta{margin:0;height:44px;padding:0 22px;font-size:14px}
 .sd-win-actions .sd-btn{height:44px}
-.sd-side .ld-spin.is-stop{background:linear-gradient(135deg,#F1DDAA,#C9A227);animation:sd-pulse 1.1s ease-in-out infinite}
+.sd-side .ld-spin.is-stop{background:linear-gradient(135deg,#F1DDAA,#C9A227)}
+.sd-side .ld-spin,.sd-side .ld-spin:hover,.sd-side .ld-spin:active{transform:none!important;transition:background .2s,filter .2s}
 .sd-sound.is-off{opacity:.55}
 @media (prefers-reduced-motion:reduce){.sd-rays,.sd-glow,.sd-win-name.is-glinting{animation:none}}
 /* ===== Landing (projector): fill the screen, everything centred ===== */
@@ -378,11 +379,8 @@ html.sd-on,html.sd-on body{overflow:hidden}
   background:radial-gradient(circle at 35% 30%,#F1DDAA,#C9A227 70%);color:#0A1930;font:800 clamp(16px,2.6vh,30px) var(--sans);letter-spacing:.12em;
   box-shadow:0 0 0 4px rgba(10,25,48,.6),0 0 30px rgba(201,162,39,.6);animation:sd-pulse 1.1s ease-in-out infinite}
 .ld-stop:hover{filter:brightness(1.08)}
-.ld-hub.is-spinning img{opacity:0}
-.ld-hub.is-spinning .ld-stop{display:flex}
-.ld-hub.is-stopping .ld-stop{animation:none;opacity:.55;cursor:default}
 @keyframes sd-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.sd-side{display:flex;flex-direction:column;gap:1.6vh;min-height:0;overflow:auto;padding-bottom:4.5vh}
+.sd-side{display:flex;flex-direction:column;gap:1.6vh;min-height:0;overflow:auto;padding-bottom:6.5vh}
 .sd-side .ld-spin{margin-top:auto;width:100%;justify-content:center;height:clamp(54px,7vh,76px);font-size:clamp(16px,2vh,21px)}
 .sd-credit{position:absolute;right:2.4vw;bottom:1.8vh;display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.04em;color:rgba(248,246,241,.5);text-decoration:none;transition:color .2s}
 .sd-credit img{height:20px;width:auto;opacity:.85}
@@ -606,7 +604,6 @@ html.rv-locked #rvLock{display:flex}
             <canvas id="ldWheel"></canvas>
             <div class="ld-hub" id="ldHub">
               <img src="/public/images/lucky-draw/obu-nz-crest.webp" alt="" />
-              <button type="button" class="ld-stop" id="ldStopBtn" aria-label="Stop the wheel">STOP</button>
             </div>
             <div class="ld-empty" id="ldEmpty">No entries yet. Names appear on the wheel as guests enter.</div>
           </div>
