@@ -2545,16 +2545,20 @@ function observeReveals(){
 })();
 
 /* ========== Countdown ========== */
-const target = new Date(document.querySelector("[data-countdown]").dataset.countdown).getTime();
-function tick(){
-  const d = Math.max(0, target - Date.now());
-  const v = [Math.floor(d/864e5), Math.floor(d/36e5)%24, Math.floor(d/6e4)%60, Math.floor(d/1e3)%60];
-  const labels = ["Days","Hours","Minutes","Seconds"];
-  document.querySelectorAll("[data-countdown]").forEach(c=>{
-    c.innerHTML = v.map((n,i)=>`<div class="cd-unit dark"><b>${String(n).padStart(2,"0")}</b><small>${labels[i]}</small></div>`).join("");
-  });
-}
-tick(); setInterval(tick,1000);
+(function(){
+  const el = document.querySelector("[data-countdown]");
+  if(!el) return;
+  const target = new Date(el.dataset.countdown).getTime();
+  function tick(){
+    const d = Math.max(0, target - Date.now());
+    const v = [Math.floor(d/864e5), Math.floor(d/36e5)%24, Math.floor(d/6e4)%60, Math.floor(d/1e3)%60];
+    const labels = ["Days","Hours","Minutes","Seconds"];
+    document.querySelectorAll("[data-countdown]").forEach(c=>{
+      c.innerHTML = v.map((n,i)=>`<div class="cd-unit dark"><b>${String(n).padStart(2,"0")}</b><small>${labels[i]}</small></div>`).join("");
+    });
+  }
+  tick(); setInterval(tick,1000);
+})();
 
 /* ========== Committee ========== */
 function initials(n){
